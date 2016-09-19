@@ -50,9 +50,9 @@ public class User {
     }
 
     public String toString() {
-        return "Name: " + name + "/n" +
-                "Username: " + username + "/n" +
-                "Email address: " + emailAddress + "/n" +
+        return "Name: " + name + "\n" +
+                "Username: " + username + "\n" +
+                "Email address: " + emailAddress + "\n" +
                 "Authorization level: " + level;
     }
 }
