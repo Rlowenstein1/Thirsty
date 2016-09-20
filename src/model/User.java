@@ -13,16 +13,19 @@ public class User {
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty username = new SimpleStringProperty();
     private final StringProperty emailAddress = new SimpleStringProperty();
-    private final ObjectProperty<UserLevel> level = new SimpleObjectProperty();
+    private final ObjectProperty<UserLevel> level = new SimpleObjectProperty<>();
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.
-     * This constructor only for GUI use in edit/new student dialog
+     * This constructor only for GUI use
      */
     public User() {
+        this("Username");
+        /*
         name.set("Name");
         username.set("Username");
         emailAddress.set("sample.gmail.com");
+        */
     }
 
     /**
@@ -32,7 +35,7 @@ public class User {
      * @param username the username of the User when they first register
      */
     public User(String username) {
-        this(username, "Name", "sample.gmail.com", UserLevel.USER);
+        this(username, "Name", "sample@example.com", UserLevel.USER);
     }
 
     /**
