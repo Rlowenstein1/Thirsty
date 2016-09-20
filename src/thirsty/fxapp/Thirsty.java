@@ -10,7 +10,7 @@ public class Thirsty extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/SplashScreen.fxml"));
         
         Scene scene = new Scene(root);
         
