@@ -50,13 +50,16 @@ public final class Authenticator {
      * @param password of the user attempting to be authenticated
      * @return boolean value whether the attempt was successful
      */
-    public static boolean authenticate(User user, String username, String password) {
+    public static boolean authenticate(User user, String username,
+                                       String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
         if (authenticator.credentialTable.containsKey(username)
-                && authenticator.credentialTable.get(username).equals(password.hashCode())
-                && authenticator.userHashTable.get(user.getUsername()).equals(user)) {
+                && authenticator.credentialTable.get(username).
+                equals(password.hashCode())
+                && authenticator.userHashTable.get(user.getUsername()).
+                equals(user)) {
             authenticator.authenticatedUsers.add(user);
             return true;
         }
@@ -84,13 +87,15 @@ public final class Authenticator {
     /**
      * registers a user's username and password and stores the credentials
      * a user session is created if successful
+     * @param user User object to register
      * @param username of the new user
      * @param password of the new user
      * @return boolean representing if the user was saved
      *         if the username is already in use the user is not saved
      *         to prevent a user overriding another's password
      */
-    public static boolean register(User user, String username, String password) {
+    public static boolean register(User user, String username,
+                                   String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
