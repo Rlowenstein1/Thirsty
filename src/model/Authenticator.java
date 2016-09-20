@@ -10,7 +10,7 @@ public final class Authenticator {
     /**
      * singleton instance.
      */
-    private static Authenticator authenticator = null;
+    private static Authenticator authenticator = new Authenticator();
 
     /**
      * hash table with the users username and password hashes.
@@ -23,15 +23,6 @@ public final class Authenticator {
      * set of authenticated users to handle sessions.
      */
     private HashSet<model.User> authenticatedUsers;
-
-    /**
-     * initializes the singleton instance.
-     */
-    public static void init() {
-        if (authenticator == null) {
-            authenticator = new Authenticator();
-        }
-    }
 
     /**
      * private constructor for class.
