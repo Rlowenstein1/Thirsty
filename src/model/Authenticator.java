@@ -36,25 +36,23 @@ public final class Authenticator {
     /**
      * attempts to authenticate a user with a given username
      * and password.
-     * @param user the User object of user attempting to log in
      * @param username of the user attempting to be authenticated
      * @param password of the user attempting to be authenticated
      * @return boolean value whether the attempt was successful
      */
-    public static boolean authenticate(User user, String username,
+    public static User authenticate(String username,
                                        String password) {
         if (username == null || password == null) {
-            throw new IllegalArgumentException("arguments cannot be null");
+            throw (new IllegalArgumentException("arguments cannot be null"));
         }
-        if (authenticator.credentialTable.containsKey(username)
+        User potential = authenticator.userHashTable.getOrDefault(username, null);
+        if (potential != null
+                && authenticator.credentialTable.containsKey(username)
                 && authenticator.credentialTable.get(username).
-                equals(password.hashCode())
-                && authenticator.userHashTable.get(user.getUsername()).
-                equals(user)) {
-            authenticator.authenticatedUsers.add(user);
-            return true;
+                equals(password.hashCode())) {
+            authenticator.authenticatedUsers.add(potential);
         }
-        return false;
+        return (potential);
     }
 
     /**
