@@ -34,8 +34,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="mainScreenLoginButton" mnemonicParsing="false" text="Login" GridPane.halignment="CENTER" />
-            <Button fx:id="mainScreenRegButton" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" text="Register" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="mainScreenLoginButton" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" GridPane.halignment="CENTER" />
+            <Button fx:id="mainScreenRegButton" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleRegisterButtonAction" text="Register" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
    </children>
