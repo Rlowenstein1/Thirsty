@@ -18,4 +18,7 @@
          </children>
       </VBox>
    </top>
+   <bottom>
+      <Label text="Too bad, you can only logout for now!" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
