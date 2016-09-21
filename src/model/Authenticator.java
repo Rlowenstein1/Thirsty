@@ -98,4 +98,9 @@ public final class Authenticator {
         }
         return (user);
     }
+
+    public static boolean userExists(String username) {
+        User potential = authenticator.userHashTable.getOrDefault(username, null);
+        return (potential != null);
+    }
 }
