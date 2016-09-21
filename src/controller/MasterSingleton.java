@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lib.Debug;
@@ -60,7 +61,7 @@ public class MasterSingleton {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
-            AnchorPane page = loader.load();
+            BorderPane page = loader.load();
 
             // Create the dialog Stage.
             Scene scene = new Scene(page);
@@ -87,7 +88,7 @@ public class MasterSingleton {
             mainStage.setScene(scene);
 
             // Set the person into the controller.
-            MainScreenController controller = loader.getController();
+            SplashScreenController controller = loader.getController();
             controller.setStage(mainStage);
 
         } catch (IOException e) {
