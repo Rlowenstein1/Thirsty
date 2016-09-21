@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -25,6 +26,24 @@ public class RegistrationScreenController implements Initializable {
     private User newReg = null;
 
     @FXML
+    private Label fullnameRegErrorLabel;
+
+    @FXML
+    private Label usernameRegErrorLabel;
+
+    @FXML
+    private Label emailRegErrorLabel;
+
+    @FXML
+    private Label accountTypeRegErrorLabel;
+
+    @FXML
+    private Label pwRegErrorLabel;
+
+    @FXML
+    private Label pwConfRegErrorLabel;
+
+    @FXML
     private TextField usernameRegField;
     
     @FXML
@@ -41,9 +60,19 @@ public class RegistrationScreenController implements Initializable {
     
     @FXML
     private ChoiceBox<UserLevel> accountTypeRegBox;
+
+    private void resetErrors() {
+        fullnameRegErrorLabel.setText("");
+        usernameRegErrorLabel.setText("");
+        emailRegErrorLabel.setText("");
+        accountTypeRegErrorLabel.setText("");
+        pwRegErrorLabel.setText("");
+        pwConfRegErrorLabel.setText("");
+    }
     
     @FXML
     private void handleRegisterButtonAction(ActionEvent event) {
+        resetErrors();
         String fullname = fullnameRegField.getText();
         String username = usernameRegField.getText();
         String email = emailRegField.getText();
@@ -53,19 +82,26 @@ public class RegistrationScreenController implements Initializable {
         Debug.debug("Attempting to register user: username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", username, fullname, email, password, passwordConf, userLevel.toString());
         if (fullname.length() == 0) {
             Debug.debug("Fullname field cannot be left blank!");
+            fullnameRegErrorLabel.setText("Fullname cannot be left blank!");
         } else if (username.length() == 0) {
             Debug.debug("Username field cannot be left blank!");
+            usernameRegErrorLabel.setText("Username cannot be left blank!");
         } else if (email.length() == 0) {
             Debug.debug("email field cannot be left blank!");
+            emailRegErrorLabel.setText("Email cannot be left blank!");
         } else if (password.length() == 0) {
             Debug.debug("Password field cannot be left blank!");
+            pwRegErrorLabel.setText("Password cannot be left blank!");
         } else if (passwordConf.length() == 0) {
             Debug.debug("Password confirmation field cannot be left blank!");
+            pwConfRegErrorLabel.setText("Password confirmation cannot be left blank!");
         } else {
             if (Authenticator.getUser(username) != null) {
                 Debug.debug("Username already taken!");
+                usernameRegErrorLabel.setText("Username already taken!");
             } else if (!password.equals(passwordConf)) {
                 Debug.debug("Password and password confirmation do not match!");
+                pwConfRegErrorLabel.setText("Passwords do not match!");
             } else {
                 Debug.debug("User registration successful!");
                 newReg = Authenticator.register(username, fullname, email, password, userLevel);
