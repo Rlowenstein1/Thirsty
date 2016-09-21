@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import lib.Debug;
 
 /**
  *
  * @author tybrown
  */
 public class MainScreenController {
+
+
+    @FXML
+    private void handleLogoutButtonAction(ActionEvent event) {
+    }
     
 }
