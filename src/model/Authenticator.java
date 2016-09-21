@@ -87,20 +87,17 @@ public final class Authenticator {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
-        User user;
+        User user = null;
         if (!authenticator.credentialTable.contains(username)) {
             authenticator.credentialTable.put(username, password.hashCode());
             user = new User(username, fullname, email, userlevel);
             authenticator.userHashTable.put(username, user);
-            //authenticator.authenticatedUsers.add(user); //i believe most sites still require you to login even after you register
-        } else {
-            user = authenticator.userHashTable.getOrDefault(username, null);
+            authenticator.authenticatedUsers.add(user);
         }
         return (user);
     }
 
-    public static boolean userExists(String username) {
-        User potential = authenticator.userHashTable.getOrDefault(username, null);
-        return (potential != null);
+    public static User getUser(String username) {
+        return (authenticator.userHashTable.getOrDefault(username, null));
     }
 }
