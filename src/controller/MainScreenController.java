@@ -26,7 +26,11 @@ public class MainScreenController implements Initializable {
     }
 
     public void greetUser(User activeUser) {
-        welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(), activeUser.getUserLevel().toString()));
+        if (activeUser != null) {
+            welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(), activeUser.getUserLevel().toString()));
+        } else {
+            welcomeLabel.setText("Welcome, hacker! How did you get here, anyway?");
+        }
     }
 
     @FXML
