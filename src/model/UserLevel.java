@@ -40,4 +40,20 @@ public enum UserLevel {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        switch (level) {
+            case 1:
+                return ("user");
+            case 2:
+                return ("worker");
+            case 3:
+                return ("manager");
+            case 4:
+                return ("administrator");
+            default:
+                return ("hacker");
+        }
+    }
 }
