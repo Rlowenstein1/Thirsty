@@ -20,15 +20,10 @@ import thirsty.fxapp.Thirsty;
  */
 public class MasterSingleton {
 
-    private MasterSingleton master = new MasterSingleton();
-
-    private static Stage mainScreen;
-
-    private MasterSingleton () {
-    }
+    private static Stage mainStage;
 
     public static void setMainScreen(Stage mainScreen) {
-        MasterSingleton.mainScreen = mainScreen;
+        MasterSingleton.mainStage = mainScreen;
     }
     
     public static boolean showLoginScreen() {
@@ -41,7 +36,7 @@ public class MasterSingleton {
             // Create the dialog Stage.
             Stage stage = new Stage();
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(mainScreen);
+            stage.initOwner(mainStage);
             Scene scene = new Scene(page);
             stage.setScene(scene);
 
@@ -57,6 +52,46 @@ public class MasterSingleton {
         } catch (IOException e) {
             Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
             return (false);
+        }
+    }
+
+    public static void showMainScreen() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
+            AnchorPane page = loader.load();
+
+            // Create the dialog Stage.
+            Scene scene = new Scene(page);
+            mainStage.setScene(scene);
+
+            // Set the person into the controller.
+            MainScreenController controller = loader.getController();
+            controller.setStage(mainStage);
+
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing main screen! Reason: %s", e.toString());
+        }
+    }
+
+    public static void showSplashScreen() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/SplashScreen.fxml"));
+            AnchorPane page = loader.load();
+
+            // Create the dialog Stage.
+            Scene scene = new Scene(page);
+            mainStage.setScene(scene);
+
+            // Set the person into the controller.
+            MainScreenController controller = loader.getController();
+            controller.setStage(mainStage);
+
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing splash screen! Reason: %s", e.toString());
         }
     }
 }
