@@ -33,6 +33,7 @@ public class LoginScreenController implements Initializable {
         if (authenticated != null) {
             Debug.debug("User authentication successful!");
             authed = true;
+            MasterSingleton.setActiveUser(authenticated);
             stage.close();
         } else {
             Debug.debug("User authentication failed!");
