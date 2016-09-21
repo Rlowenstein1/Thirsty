@@ -5,8 +5,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import lib.Debug;
+import model.User;
 
 /**
  *
@@ -16,8 +18,15 @@ public class MainScreenController implements Initializable {
 
     private Stage stage;
 
+    @FXML
+    Label welcomeLabel;
+
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void greetUser(User activeUser) {
+        welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(), activeUser.getUserLevel().toString()));
     }
 
     @FXML
