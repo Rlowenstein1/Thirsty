@@ -1,20 +1,20 @@
 package thirsty.fxapp;
 
+import controller.MasterSingleton;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Authenticator;
+import model.UserLevel;
 
 public class Thirsty extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/SplashScreen.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
+        MasterSingleton.setMainScreen(stage);
+        MasterSingleton.showSplashScreen();
+
+        Authenticator.register("asdf", "A Silent Death Fart", "a@b.c", "qwerty", UserLevel.ADMINISTRATOR);
+
         stage.show();
     }
 
@@ -24,5 +24,5 @@ public class Thirsty extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
