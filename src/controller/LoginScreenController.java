@@ -17,6 +17,7 @@ public class LoginScreenController implements Initializable {
 
     private Stage stage;
     private boolean authed = false;
+    private User loggedUser = null;
 
     @FXML
     private TextField usernameField;
@@ -29,11 +30,10 @@ public class LoginScreenController implements Initializable {
         String username = usernameField.getText();
         String password = pwField.getText();
         Debug.debug("Verifying user credentials: \"%s\":\"%s\"", username, password);
-        User authenticated = Authenticator.authenticate(username, password);
-        if (authenticated != null) {
+        loggedUser = Authenticator.authenticate(username, password);
+        if (loggedUser != null) {
             Debug.debug("User authentication successful!");
             authed = true;
-            MasterSingleton.setActiveUser(authenticated);
             stage.close();
         } else {
             Debug.debug("User authentication failed!");
@@ -46,6 +46,10 @@ public class LoginScreenController implements Initializable {
 
     public boolean loginSuccessful() {
         return (authed);
+    }
+
+    public User getLoggedUser() {
+        return (loggedUser);
     }
 
     @Override
