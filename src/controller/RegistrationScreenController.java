@@ -1,14 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.stage.Stage;
+import lib.Debug;
 
 /**
  *
  * @author tybrown
  */
-public class RegistrationScreenController {
+public class RegistrationScreenController implements Initializable {
+
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+    }
     
 }
