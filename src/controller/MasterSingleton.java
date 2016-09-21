@@ -45,12 +45,15 @@ public class MasterSingleton {
             loader.setLocation(Thirsty.class.getResource("/view/LoginScreen.fxml"));
             AnchorPane page = loader.load();
 
+
             // Create the dialog Stage.
             Stage stage = new Stage();
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(mainStage);
             Scene scene = new Scene(page);
             stage.setScene(scene);
+
+            stage.setTitle("Thirsty? Login");
 
             // Set the person into the controller.
             LoginScreenController controller = loader.getController();
@@ -75,6 +78,8 @@ public class MasterSingleton {
             loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
             BorderPane page = loader.load();
 
+            mainStage.setTitle("Thirsty?");
+
             // Create the dialog Stage.
             Scene scene = new Scene(page);
             mainStage.setScene(scene);
@@ -96,6 +101,8 @@ public class MasterSingleton {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/SplashScreen.fxml"));
             AnchorPane page = loader.load();
+
+            mainStage.setTitle("Thirsty?");
 
             // Create the dialog Stage.
             Scene scene = new Scene(page);
@@ -124,6 +131,8 @@ public class MasterSingleton {
             stage.initOwner(mainStage);
             Scene scene = new Scene(page);
             stage.setScene(scene);
+
+            stage.setTitle("Thirsty? Register an account");
 
             // Set the person into the controller.
             RegistrationScreenController controller = loader.getController();
