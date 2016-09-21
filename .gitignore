@@ -13,3 +13,10 @@ hs_err_pid*
 
 #IntelliJ project
 .idea/
+
+build.xml
+build/
+dist/
+manifest.mf
+nbproject/
+
