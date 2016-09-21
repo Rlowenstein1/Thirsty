@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lib.Debug;
+import model.User;
 import thirsty.fxapp.Thirsty;
 
 /**
@@ -23,8 +24,18 @@ public class MasterSingleton {
 
     private static Stage mainStage;
 
+    private static User activeUser;
+
+    private MasterSingleton() {
+
+    }
+
     public static void setMainScreen(Stage mainScreen) {
         MasterSingleton.mainStage = mainScreen;
+    }
+
+    public static void setActiveUser(User activeUser) {
+        MasterSingleton.activeUser = activeUser;
     }
     
     public static boolean showLoginScreen() {
@@ -70,6 +81,8 @@ public class MasterSingleton {
             // Set the person into the controller.
             MainScreenController controller = loader.getController();
             controller.setStage(mainStage);
+
+            controller.greetUser(activeUser);
 
         } catch (IOException e) {
             Debug.error("Exception while creating/showing main screen! Reason: %s", e.toString());
