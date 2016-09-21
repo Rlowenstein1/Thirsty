@@ -1,5 +1,10 @@
 package model;
 
+import java.util.Arrays;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  * An enum that represents the four different authority levels of Users
  */
@@ -55,5 +60,9 @@ public enum UserLevel {
             default:
                 return ("hacker");
         }
+    }
+
+    public static ObservableList<UserLevel> getAllObservableList() {
+        return (FXCollections.observableList(Arrays.asList(values())));
     }
 }
