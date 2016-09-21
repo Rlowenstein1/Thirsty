@@ -34,6 +34,14 @@ public class SplashScreenController implements Initializable {
     @FXML
     public void handleRegisterButtonAction() {
         Debug.debug("Registration button pressed");
+        boolean loggedIn = MasterSingleton.showRegistrationScreen();
+        if (loggedIn) {
+            Debug.debug("User registered!");
+            MasterSingleton.showMainScreen();
+        } else {
+            Debug.debug("User cancelled registration");
+        }
+
     }
 
     @Override
