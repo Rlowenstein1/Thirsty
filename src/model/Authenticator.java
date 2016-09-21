@@ -76,24 +76,26 @@ public final class Authenticator {
     /**
      * registers a user's username and password and stores the credentials
      * a user session is created if successful
-     * @param user User object to register
      * @param username of the new user
      * @param password of the new user
      * @return boolean representing if the user was saved
      *         if the username is already in use the user is not saved
      *         to prevent a user overriding another's password
      */
-    public static boolean register(User user, String username,
-                                   String password) {
+    public static User register(String username, String fullname, String email,
+                                   String password, UserLevel userlevel) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
+        User user;
         if (!authenticator.credentialTable.contains(username)) {
             authenticator.credentialTable.put(username, password.hashCode());
-            authenticator.userHashTable.put(user.getUsername(), user);
-            authenticator.authenticatedUsers.add(user);
-            return true;
+            user = new User(username, fullname, email, userlevel);
+            authenticator.userHashTable.put(username, user);
+            //authenticator.authenticatedUsers.add(user); //i believe most sites still require you to login even after you register
+        } else {
+            user = authenticator.userHashTable.getOrDefault(username, null);
         }
-        return false;
+        return (user);
     }
 }
