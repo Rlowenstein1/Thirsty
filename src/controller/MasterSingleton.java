@@ -24,7 +24,7 @@ public class MasterSingleton {
 
     private static Stage mainStage;
 
-    private static User activeUser;
+    private static User activeUser = null;
 
     private MasterSingleton() {
 
@@ -58,6 +58,7 @@ public class MasterSingleton {
 
             // Show the dialog and wait until the user closes it
             stage.showAndWait();
+            setActiveUser(controller.getLoggedUser());
 
             return (controller.loginSuccessful());
 
@@ -107,5 +108,36 @@ public class MasterSingleton {
         } catch (IOException e) {
             Debug.error("Exception while creating/showing splash screen! Reason: %s", e.toString());
         }
+    }
+
+    
+    public static boolean showRegistrationScreen() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/RegistrationScreen.fxml"));
+            AnchorPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mainStage);
+            Scene scene = new Scene(page);
+            stage.setScene(scene);
+
+            // Set the person into the controller.
+            RegistrationScreenController controller = loader.getController();
+            controller.setStage(stage);
+
+            // Show the dialog and wait until the user closes it
+            stage.showAndWait();
+            setActiveUser(controller.getNewUser());
+
+            return (controller.registrationSuccessful());
+
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
+        }
+        return (false);
     }
 }
