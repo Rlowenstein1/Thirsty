@@ -12,6 +12,13 @@ import lib.Debug;
  * @author tybrown
  */
 public class SplashScreenController implements Initializable {
+
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     @FXML
     public void handleLoginButtonAction() {
         Debug.debug("Login button pressed");
