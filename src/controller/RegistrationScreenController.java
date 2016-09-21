@@ -2,12 +2,10 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -45,7 +43,7 @@ public class RegistrationScreenController implements Initializable {
     private ChoiceBox<UserLevel> accountTypeRegBox;
     
     @FXML
-    private void handleLoginButtonAction(ActionEvent event) {
+    private void handleRegisterButtonAction(ActionEvent event) {
         String fullname = fullnameRegField.getText();
         String username = usernameRegField.getText();
         String email = emailRegField.getText();
@@ -73,6 +71,7 @@ public class RegistrationScreenController implements Initializable {
                 newReg = Authenticator.register(username, fullname, email, password, userLevel);
                 registered = true;
                 stage.close();
+                return;
             }
         }
         Debug.debug("User registration failed!");
@@ -93,6 +92,7 @@ public class RegistrationScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         accountTypeRegBox.setItems(UserLevel.getAllObservableList());
+        accountTypeRegBox.setValue(UserLevel.USER);
     }    
     
 }
