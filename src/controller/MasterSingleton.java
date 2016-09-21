@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lib.Debug;
 import thirsty.fxapp.Thirsty;
 
 /**
@@ -19,13 +20,18 @@ import thirsty.fxapp.Thirsty;
  */
 public class MasterSingleton {
 
-    private Stage mainScreen;
+    private MasterSingleton master = new MasterSingleton();
 
-    public MasterSingleton (Stage mainScreen) {
-        this.mainScreen = mainScreen;
+    private static Stage mainScreen;
+
+    private MasterSingleton () {
+    }
+
+    public static void setMainScreen(Stage mainScreen) {
+        MasterSingleton.mainScreen = mainScreen;
     }
     
-    public boolean showLoginScreen() {
+    public static boolean showLoginScreen() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -46,11 +52,11 @@ public class MasterSingleton {
             // Show the dialog and wait until the user closes it
             stage.showAndWait();
 
-            return controller.loginSuccessful();
+            return (controller.loginSuccessful());
 
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
+            return (false);
         }
     }
 }
