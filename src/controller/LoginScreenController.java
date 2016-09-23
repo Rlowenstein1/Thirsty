@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -24,7 +23,11 @@ public class LoginScreenController implements Initializable {
     
     @FXML
     private PasswordField pwField;
-    
+
+    /**
+     * Checks if user is valid, and if so, sends them to the Main Screen
+     * @param event Button push that triggers the code
+     */
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
         String username = usernameField.getText();
@@ -39,15 +42,27 @@ public class LoginScreenController implements Initializable {
             Debug.debug("User authentication failed!");
         }
     }
-    
+
+    /**
+     * Sets the stage for the Login Screen Controller
+     * @param stage Stage that is being set
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Returns whether the login is successful
+     * @return Boolean value of the login state
+     */
     public boolean loginSuccessful() {
         return (authed);
     }
 
+    /**
+     * Returns the User that is logged in
+     * @return User that is logged in
+     */
     public User getLoggedUser() {
         return (loggedUser);
     }

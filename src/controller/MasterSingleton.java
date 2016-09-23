@@ -30,14 +30,26 @@ public class MasterSingleton {
 
     }
 
+    /**
+     * Sets the Main Screen
+     * @param mainScreen Stage being set to the Main Screen
+     */
     public static void setMainScreen(Stage mainScreen) {
         MasterSingleton.mainStage = mainScreen;
     }
 
+    /**
+     * Sets the user that is accessing the application
+     * @param activeUser The User that is using the application
+     */
     public static void setActiveUser(User activeUser) {
         MasterSingleton.activeUser = activeUser;
     }
-    
+
+    /**
+     * Displays the login screen
+     * @return Boolean stating whether or not the login screen was properly shown
+     */
     public static boolean showLoginScreen() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -71,6 +83,9 @@ public class MasterSingleton {
         }
     }
 
+    /**
+     * Displays the main screen
+     */
     public static void showMainScreen() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -95,6 +110,9 @@ public class MasterSingleton {
         }
     }
 
+    /**
+     * Display the splash screen
+     */
     public static void showSplashScreen() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
@@ -117,7 +135,10 @@ public class MasterSingleton {
         }
     }
 
-    
+    /**
+     * Shows the registration screen for the application
+     * @return Boolean value of whether the registration screen was properly shown
+     */
     public static boolean showRegistrationScreen() {
         try {
             // Load the fxml file and create a new stage for the popup dialog.

@@ -61,6 +61,9 @@ public class RegistrationScreenController implements Initializable {
     @FXML
     private ChoiceBox<UserLevel> accountTypeRegBox;
 
+    /**
+     * Resets error fields
+     */
     private void resetErrors() {
         fullnameRegErrorLabel.setText("");
         usernameRegErrorLabel.setText("");
@@ -69,7 +72,11 @@ public class RegistrationScreenController implements Initializable {
         pwRegErrorLabel.setText("");
         pwConfRegErrorLabel.setText("");
     }
-    
+
+    /**
+     * Registers a user
+     * @param event Button push that triggers the code
+     */
     @FXML
     private void handleRegisterButtonAction(ActionEvent event) {
         resetErrors();
@@ -112,15 +119,27 @@ public class RegistrationScreenController implements Initializable {
         }
         Debug.debug("User registration failed!");
     }
-    
+
+    /**
+     * Set the stage for the Registration Screen Controller
+     * @param stage The stage being set
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Returns whether the User Registration was successful
+     * @return Boolean of whether a new user was registered
+     */
     public boolean registrationSuccessful() {
         return (registered);
     }
 
+    /**
+     * Returns the newly registered user
+     * @return A User
+     */
     public User getNewUser() {
         return (newReg);
     }
