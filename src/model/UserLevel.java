@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Arrays;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -49,19 +48,23 @@ public enum UserLevel {
     @Override
     public String toString() {
         switch (level) {
-            case 1:
-                return ("user");
-            case 2:
-                return ("worker");
-            case 3:
-                return ("manager");
-            case 4:
-                return ("administrator");
-            default:
-                return ("hacker");
+        case 1:
+            return ("user");
+        case 2:
+            return ("worker");
+        case 3:
+            return ("manager");
+        case 4:
+            return ("administrator");
+        default:
+            return ("hacker");
         }
     }
 
+    /**
+     * Getter for all observable lists
+     * @return ObservableList of UserLevel
+     */
     public static ObservableList<UserLevel> getAllObservableList() {
         return (FXCollections.observableList(Arrays.asList(values())));
     }

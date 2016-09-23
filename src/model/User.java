@@ -131,9 +131,9 @@ public class User {
      * @return the String representation
      */
     public String toString() {
-        return "Name: " + name.get() + "\n" +
-                "Username: " + username.get() + "\n" +
-                "Email address: " + emailAddress.get() + "\n" +
-                "Authorization level: " + level.get();
+        return "Name: " + name.get() + "\n"
+                + "Username: " + username.get() + "\n"
+                + "Email address: " + emailAddress.get() + "\n"
+                + "Authorization level: " + level.get();
     }
 }

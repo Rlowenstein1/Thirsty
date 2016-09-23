@@ -76,8 +76,23 @@ public final class Authenticator {
     /**
      * registers a user's username and password and stores the credentials
      * a user session is created if successful
+     * THIS IS SUBJECT TO CHANGE SOON
      * @param username of the new user
      * @param password of the new user
+     * @return boolean representing if the user was saved
+     *         if the username is already in use the user is not saved
+     *         to prevent a user overriding another's password
+     */
+
+    /**
+     * registers a user's username and password and stores the credentials
+     * a user session is created if successful
+     * THIS IS SUBJECT TO CHANGE SOON
+     * @param username of the new user
+     * @param fullname of new user
+     * @param email of new user
+     * @param password of new user
+     * @param userlevel of new user
      * @return boolean representing if the user was saved
      *         if the username is already in use the user is not saved
      *         to prevent a user overriding another's password
@@ -97,6 +112,11 @@ public final class Authenticator {
         return (user);
     }
 
+    /**
+     * Getter for User objects by username
+     * @param username to find User object
+     * @return User object
+     */
     public static User getUser(String username) {
         return (authenticator.userHashTable.getOrDefault(username, null));
     }

@@ -26,6 +26,9 @@ public class MasterSingleton {
 
     private static User activeUser = null;
 
+    /**
+     * Constructor
+     */
     private MasterSingleton() {
 
     }
