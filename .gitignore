@@ -20,3 +20,5 @@ dist/
 manifest.mf
 nbproject/
 
+# storage on macs
+.DS_STORE
