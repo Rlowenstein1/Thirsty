@@ -13,7 +13,8 @@ public class Thirsty extends Application {
         MasterSingleton.setMainScreen(stage);
         MasterSingleton.showSplashScreen();
 
-        Authenticator.register("asdf", "A Silent Death Fart", "a@b.c", "qwerty", UserLevel.ADMINISTRATOR);
+        Authenticator.register("asdf", "A Silently Deadly Ferret", "a@b.c", "qwerty", UserLevel.ADMINISTRATOR);
+        Authenticator.register("qwerty", "Queen With Evil Rats There Yonder", "a@b.c", "asdf", UserLevel.USER);
 
         stage.show();
     }
