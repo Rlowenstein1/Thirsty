@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import lib.Debug;
 import model.Authenticator;
 import model.User;
+import model.UserManager;
 
 public class LoginScreenController implements Initializable {
 
@@ -33,7 +34,7 @@ public class LoginScreenController implements Initializable {
         String username = usernameField.getText();
         String password = pwField.getText();
         Debug.debug("Verifying user credentials: \"%s\":\"%s\"", username, password);
-        loggedUser = Authenticator.authenticate(username, password);
+        loggedUser = UserManager.login(username, password);
         if (loggedUser != null) {
             Debug.debug("User authentication successful!");
             authed = true;
