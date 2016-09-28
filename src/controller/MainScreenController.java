@@ -15,8 +15,6 @@ import model.User;
  */
 public class MainScreenController implements Initializable {
 
-    private Stage stage;
-
     @FXML
     private Label welcomeLabel;
 
@@ -25,7 +23,6 @@ public class MainScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
