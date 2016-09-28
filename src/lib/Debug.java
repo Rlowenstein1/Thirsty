@@ -23,7 +23,7 @@ public class Debug {
 
 
     //these two functions taken from
-    // stackoverflow.com/questions/11306811/how-to-get-the-caller-class-in-java
+    //stackoverflow.com/questions/11306811/how-to-get-the-caller-class-in-java
 
     /**
      *

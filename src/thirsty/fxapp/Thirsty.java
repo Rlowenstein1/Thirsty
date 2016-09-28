@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Authenticator;
 import model.UserLevel;
+import model.UserManager;
 
 public class Thirsty extends Application {
 
@@ -13,8 +14,8 @@ public class Thirsty extends Application {
         MasterSingleton.setMainScreen(stage);
         MasterSingleton.showSplashScreen();
 
-        Authenticator.register("asdf", "A Silently Deadly Ferret", "a@b.c", "qwerty", UserLevel.ADMINISTRATOR);
-        Authenticator.register("qwerty", "Queen With Evil Rats There Yonder", "a@b.c", "asdf", UserLevel.USER);
+        UserManager.register("asdf", "qwerty", "A Silently Deadly Ferret", "a@b.c", UserLevel.ADMINISTRATOR);
+        UserManager.register("qwerty", "asdf", "Queen With Evil Rats There Yonder", "a@b.c", UserLevel.USER);
 
         stage.show();
     }
