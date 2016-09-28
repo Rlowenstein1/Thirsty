@@ -1,7 +1,8 @@
 package model;
 
 import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.HashMap;
+import lib.Debug;
 
 /**
  * Authenticator class is used to authenticate and register users.
@@ -10,49 +11,47 @@ public final class Authenticator {
     /**
      * singleton instance.
      */
-    private static Authenticator authenticator = new Authenticator();
+    public static Authenticator authenticator = new Authenticator();
 
     /**
      * hash table with the users username and password hashes.
      */
-    private Hashtable<String, Integer> credentialTable;
-
-    private Hashtable<String, User> userHashTable;
+    private HashMap<String, Integer> credentials;
 
     /**
      * set of authenticated users to handle sessions.
      */
     private HashSet<model.User> authenticatedUsers;
 
+
     /**
      * private constructor for class.
      */
     private Authenticator() {
-        credentialTable = new Hashtable<>();
+        credentials = new HashMap<>();
         authenticatedUsers = new HashSet<>();
-        userHashTable = new Hashtable<>();
     }
 
     /**
      * attempts to authenticate a user with a given username
      * and password.
+     * @param user the User object of user attempting to log in
      * @param username of the user attempting to be authenticated
      * @param password of the user attempting to be authenticated
      * @return boolean value whether the attempt was successful
      */
-    public static User authenticate(String username,
+    public static boolean authenticate(User user, String username,
                                        String password) {
         if (username == null || password == null) {
-            throw (new IllegalArgumentException("arguments cannot be null"));
+            throw new IllegalArgumentException("arguments cannot be null");
         }
-        User potential = authenticator.userHashTable.getOrDefault(username, null);
-        if (potential != null
-                && authenticator.credentialTable.containsKey(username)
-                && authenticator.credentialTable.get(username).
-                equals(password.hashCode())) {
-            authenticator.authenticatedUsers.add(potential);
+        Integer credential = authenticator.credentials.get(username);
+        Debug.debug("password = \"%s\"[%d] == credentials = \"%d\"", password, password.hashCode(), credential);
+        if (password.hashCode() == credential) {
+            authenticator.authenticatedUsers.add(user);
+            return true;
         }
-        return (potential);
+        return false;
     }
 
     /**
@@ -60,7 +59,7 @@ public final class Authenticator {
      * @param user User object to check status of user
      * @return boolean value, true if logged in
      */
-    public static boolean isAuthenticated(User user) {
+    public boolean isAuthenticated(User user) {
         return authenticator.authenticatedUsers.contains(user);
     }
 
@@ -69,55 +68,32 @@ public final class Authenticator {
      * @param user User object of the user requesting to logout
      * @return boolean status of if the procedure was successful
      */
-    public static boolean logout(User user) {
+    public boolean logout(User user) {
         return authenticator.authenticatedUsers.remove(user);
     }
 
     /**
      * registers a user's username and password and stores the credentials
      * a user session is created if successful
-     * THIS IS SUBJECT TO CHANGE SOON
      * @param username of the new user
      * @param password of the new user
      * @return boolean representing if the user was saved
      *         if the username is already in use the user is not saved
      *         to prevent a user overriding another's password
      */
-
-    /**
-     * registers a user's username and password and stores the credentials
-     * a user session is created if successful
-     * THIS IS SUBJECT TO CHANGE SOON
-     * @param username of the new user
-     * @param fullname of new user
-     * @param email of new user
-     * @param password of new user
-     * @param userlevel of new user
-     * @return boolean representing if the user was saved
-     *         if the username is already in use the user is not saved
-     *         to prevent a user overriding another's password
-     */
-    public static User register(String username, String fullname, String email,
-                                   String password, UserLevel userlevel) {
+    public static boolean register(String username,
+                                   String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
-        User user = null;
-        if (!authenticator.credentialTable.contains(username)) {
-            authenticator.credentialTable.put(username, password.hashCode());
-            user = new User(username, fullname, email, userlevel);
-            authenticator.userHashTable.put(username, user);
-            authenticator.authenticatedUsers.add(user);
+        Debug.debug("Registering a user: \"%s\" with password \"%s\"", username, password);
+        if (!authenticator.credentials.containsKey(username)) {
+            Debug.debug("Successfully registered!");
+            authenticator.credentials.put(username, password.hashCode());
+            return true;
+        } else {
+            Debug.debug("Failed to register user! User already registered!");
         }
-        return (user);
-    }
-
-    /**
-     * Getter for User objects by username
-     * @param username to find User object
-     * @return User object
-     */
-    public static User getUser(String username) {
-        return (authenticator.userHashTable.getOrDefault(username, null));
+        return false;
     }
 }
