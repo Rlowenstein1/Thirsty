@@ -110,12 +110,12 @@ public class RegistrationScreenController implements Initializable {
                 Debug.debug("User registration successful!");
                 newReg = UserManager.register(username, fullname, email, password, userLevel);
                 if (newReg != null) {
-                    Debug.debug("Username already taken!");
-                    usernameRegErrorLabel.setText("Username already taken!");
                     registered = true;
                     stage.close();
                     return;
                 }
+                Debug.debug("Username already taken!");
+                usernameRegErrorLabel.setText("Username already taken!");
             }
         }
         Debug.debug("User registration failed!");
