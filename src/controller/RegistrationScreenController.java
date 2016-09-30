@@ -11,9 +11,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lib.Debug;
-import model.Authenticator;
 import model.User;
 import model.UserLevel;
+import model.UserManager;
 
 /**
  *
@@ -103,18 +103,19 @@ public class RegistrationScreenController implements Initializable {
             Debug.debug("Password confirmation field cannot be left blank!");
             pwConfRegErrorLabel.setText("Password confirmation cannot be left blank!");
         } else {
-            if (Authenticator.getUser(username) != null) {
-                Debug.debug("Username already taken!");
-                usernameRegErrorLabel.setText("Username already taken!");
-            } else if (!password.equals(passwordConf)) {
+            if (!password.equals(passwordConf)) {
                 Debug.debug("Password and password confirmation do not match!");
                 pwConfRegErrorLabel.setText("Passwords do not match!");
             } else {
                 Debug.debug("User registration successful!");
-                newReg = Authenticator.register(username, fullname, email, password, userLevel);
-                registered = true;
-                stage.close();
-                return;
+                newReg = UserManager.register(username, password, fullname, email, userLevel);
+                if (newReg != null) {
+                    registered = true;
+                    stage.close();
+                    return;
+                }
+                Debug.debug("Username already taken!");
+                usernameRegErrorLabel.setText("Username already taken!");
             }
         }
         Debug.debug("User registration failed!");
