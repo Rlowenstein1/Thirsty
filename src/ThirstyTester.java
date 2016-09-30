@@ -22,6 +22,9 @@ public class ThirstyTester {
     @Test(timeout = TIMEOUT)
     public void testAuthenticatorRegisterSuccess() {
         assertTrue(Authenticator.register("newUser", "123"));
+        assertTrue(Authenticator.register("a", "a"));
+        assertTrue(Authenticator.register("b", "a"));
+        assertTrue(Authenticator.register("c", "a"));
     }
 
     @Test(timeout = TIMEOUT)
@@ -47,7 +50,7 @@ public class ThirstyTester {
         User test = UserManager.login("newUser3", "newPass");
         assertTrue(test != null);
     }
-    /* Possibly Irrelevant
+    /* Declared Irrelevant as user never has access
     @Test(timeout = TIMEOUT)
     public void testUserLoginTrue2() {
         Authenticator.register("newUser4", "newPass2");
@@ -58,7 +61,22 @@ public class ThirstyTester {
     @Test(timeout = TIMEOUT)
     public void testUserLoginFalse() {
         UserManager.register("newUser5", "newPass3", "Name", "Email", UserLevel.USER);
+        User test0 = UserManager.login("newUser5", "newPass3");
+        assertTrue(test0 != null);
         User test = UserManager.login("newUser5", "newPass300000");
         assertTrue(test == null);
+        UserManager.register("newUser5", "newPass4", "Name", "Email", UserLevel.USER);
+        User test2 = UserManager.login("newUser5", "newPass4");
+        assertTrue(test2 == null);
+        //Checks to see if a username or password can be left empty on login
+        /* Covered by button press handler in RegistrationScreenController
+        UserManager.register("", "newPass3", "Name", "Email", UserLevel.USER);
+        User test3 = UserManager.login("", "newPass3");
+        assertTrue(test3 == null);
+        UserManager.register("z", "", "Name", "Email", UserLevel.USER);
+        User test4 = UserManager.login("z", "");
+        assertTrue(test4 == null);
+        */
+
     }
 }
