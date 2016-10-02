@@ -20,7 +20,7 @@ build/
 dist/
 manifest.mf
 nbproject/
-.iml
+*.iml
 
 # storage on macs
 .DS_STORE
