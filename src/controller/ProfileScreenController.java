@@ -5,6 +5,8 @@
  */
 package controller;
 
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,12 +17,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import lib.Debug;
 import model.Authenticator;
 import model.User;
 import model.UserLevel;
 import model.UserManager;
+import thirsty.fxapp.Thirsty;
 
 /**
  *
@@ -31,6 +36,9 @@ public class ProfileScreenController implements Initializable {
     private boolean editing = false;
 
     private User activeUser = null;
+
+    @FXML
+    private Label titleProfileErrorLabel;
 
     @FXML
     private Label fullnameProfileErrorLabel;
@@ -63,6 +71,9 @@ public class ProfileScreenController implements Initializable {
     private TextField emailProfileField;
     
     @FXML
+    private TextField titleProfileField;
+    
+    @FXML
     private TextField fullnameProfileField;
     
     @FXML
@@ -71,10 +82,16 @@ public class ProfileScreenController implements Initializable {
     @FXML
     private Button editButton;
 
+    @FXML
+    private ImageView profileImageView;
+
+    private Image userProfileImage;
+
     /**
      * Resets error fields
      */
     private void resetErrors() {
+        titleProfileErrorLabel.setText("");
         fullnameProfileErrorLabel.setText("");
         usernameProfileErrorLabel.setText("");
         emailProfileErrorLabel.setText("");
@@ -101,12 +118,25 @@ public class ProfileScreenController implements Initializable {
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
 
+        titleProfileField.setText(activeUser.getTitle());
         fullnameProfileField.setText(activeUser.getName());
         usernameProfileField.setText(activeUser.getUsername());
         emailProfileField.setText(activeUser.getEmailAddress());
         accountTypeProfileBox.setValue(activeUser.getUserLevel());
         pwProfileField.setText("");
         pwConfProfileField.setText("");
+        userProfileImage = activeUser.getProfilePicture();
+        if (userProfileImage == null) {
+            try {
+                InputStream profileImageIS = this.getClass().getResourceAsStream("/resources/img/defaultProfilePicture.png");
+                userProfileImage = new Image(profileImageIS);
+                activeUser.setProfilePicture(userProfileImage);
+            } catch (Exception e) {
+                Debug.error("Error while loading river image! Reason: %s", e.toString());
+            }
+
+        }
+        profileImageView.setImage(userProfileImage);
     }
 
     @Override
@@ -115,6 +145,7 @@ public class ProfileScreenController implements Initializable {
     }    
 
     private void setFields(boolean enabled) {
+        titleProfileField.setDisable(enabled);
         fullnameProfileField.setDisable(enabled);
         //usernameProfileField.setDisable(enabled); //can't change your username
         emailProfileField.setDisable(enabled);
@@ -131,13 +162,14 @@ public class ProfileScreenController implements Initializable {
     private void handleEditButtonAction(ActionEvent event) {
         if (editing) {
             resetErrors();
+            String title = titleProfileField.getText();
             String fullname = fullnameProfileField.getText();
             String username = usernameProfileField.getText();
             String email = emailProfileField.getText();
             UserLevel userLevel = accountTypeProfileBox.getValue();
             String password = pwProfileField.getText();
             String passwordConf = pwConfProfileField.getText();
-            Debug.debug("Attempting to modify user: username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", username, fullname, email, password, passwordConf, userLevel.toString());
+            Debug.debug("Attempting to modify user: title: \"%s\"; username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", title, username, fullname, email, password, passwordConf, userLevel.toString());
             if (fullname.length() == 0) {
                 Debug.debug("Fullname field cannot be left blank!");
                 fullnameProfileErrorLabel.setText("Fullname cannot be left blank!");
@@ -163,6 +195,7 @@ public class ProfileScreenController implements Initializable {
                         editing = false;
                         editButton.setText("Edit profile");
                         setFields(true);
+                        activeUser.setTitle(title);
                         activeUser.setName(fullname);
                         activeUser.setEmailAddress(email);
                         activeUser.setUserLevel(userLevel);
