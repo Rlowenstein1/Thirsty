@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileScreenController">
    <children>
       <GridPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -32,46 +32,46 @@
             <Label layoutX="10.0" layoutY="103.0" text="Full name:" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
-                  <Label fx:id="fullnameRegErrorLabel" />
-                  <TextField fx:id="fullnameRegField" />
+                  <Label fx:id="fullnameProfileErrorLabel" />
+                  <TextField fx:id="fullnameProfileField" disable="true" />
                </children>
             </VBox>
             <Label text="Username:" GridPane.rowIndex="1" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label fx:id="usernameRegErrorLabel" />
-                  <TextField fx:id="usernameRegField" />
+                  <Label fx:id="usernameProfileErrorLabel" />
+                  <TextField fx:id="usernameProfileField" disable="true" />
                </children>
             </VBox>
             <Label text="Email address:" GridPane.rowIndex="2" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Label fx:id="emailRegErrorLabel" />
-                  <TextField fx:id="emailRegField" />
+                  <Label fx:id="emailProfileErrorLabel" />
+                  <TextField fx:id="emailProfileField" disable="true" />
                </children>
             </VBox>
             <Label layoutX="10.0" layoutY="42.0" text="Account Type:" GridPane.rowIndex="3" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label fx:id="accountTypeRegErrorLabel" />
-                  <ChoiceBox fx:id="accountTypeRegBox" maxWidth="1.7976931348623157E308" />
+                  <Label fx:id="accountTypeProfileErrorLabel" />
+                  <ChoiceBox fx:id="accountTypeProfileBox" disable="true" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
             <Label layoutX="10.0" layoutY="122.0" text="Password:" GridPane.rowIndex="4" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <Label fx:id="pwRegErrorLabel" />
-                  <PasswordField fx:id="pwRegField" />
+                  <Label fx:id="pwProfileErrorLabel" />
+                  <PasswordField fx:id="pwProfileField" disable="true" />
                </children>
             </VBox>
             <Label layoutX="10.0" layoutY="202.0" text="Password Confirmation:" GridPane.rowIndex="5" />
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <Label fx:id="pwConfRegErrorLabel" />
-                  <PasswordField fx:id="pwConfRegField" />
+                  <Label fx:id="pwConfProfileErrorLabel" />
+                  <PasswordField fx:id="pwConfProfileField" disable="true" />
                </children>
             </VBox>
-            <Button fx:id="registerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterButtonAction" text="Register" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Button fx:id="editButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEditButtonAction" text="Edit profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
          </children>
          <padding>
             <Insets left="4.0" right="12.0" />

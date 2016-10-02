@@ -51,7 +51,7 @@ public class MasterSingleton {
 
     /**
      * Displays the login screen
-     * @return Boolean stating whether or not the login screen was properly shown
+     * @return Boolean stating whether or not the user was logged in successfully
      */
     public static boolean showLoginScreen() {
         try {
@@ -140,7 +140,7 @@ public class MasterSingleton {
 
     /**
      * Shows the registration screen for the application
-     * @return Boolean value of whether the registration screen was properly shown
+     * @return Boolean value of whether the user was registered
      */
     public static boolean showRegistrationScreen() {
         try {
@@ -172,5 +172,41 @@ public class MasterSingleton {
             Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
         }
         return (false);
+    }
+
+
+    /**
+     * Shows the profile screen
+     */
+    public static void showProfileScreen() {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/profileScreen.fxml"));
+            AnchorPane page = loader.load();
+
+            // Create the dialog Stage.
+            Stage stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mainStage);
+            Scene scene = new Scene(page);
+            stage.setScene(scene);
+
+            stage.setTitle("Thirsty? Profile");
+
+            // Set the person into the controller.
+            ProfileScreenController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setActiveUser(activeUser);
+
+            // Show the dialog and wait until the user closes it
+            stage.showAndWait();
+
+            return;
+
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
+        }
+        return;
     }
 }
