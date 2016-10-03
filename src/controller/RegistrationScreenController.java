@@ -99,9 +99,11 @@ public class RegistrationScreenController implements Initializable {
         } else if (password.length() == 0) {
             Debug.debug("Password field cannot be left blank!");
             pwRegErrorLabel.setText("Password cannot be left blank!");
+        /*
         } else if (passwordConf.length() == 0) {
             Debug.debug("Password confirmation field cannot be left blank!");
             pwConfRegErrorLabel.setText("Password confirmation cannot be left blank!");
+        */
         } else {
             if (!password.equals(passwordConf)) {
                 Debug.debug("Password and password confirmation do not match!");

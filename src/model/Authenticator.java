@@ -32,6 +32,31 @@ public final class Authenticator {
         authenticatedUsers = new HashSet<>();
     }
 
+    public static boolean isValidPassword(String password) {
+        //do any password length/complexity checks here
+        if (password == null || password.length() < 1) { 
+            return (false);
+        }
+        return (true);
+    }
+
+    /**
+     * Updates credentials, only if user exists and password is valid
+     * @param username Username of user to update password 
+     * @param password New password
+     * @return true if password is valid and user exists
+     */
+    public static boolean updateCredential(String username, String password) {
+        if (username == null || password == null) {
+            throw new IllegalArgumentException("arguments cannot be null");
+        }
+        if (isValidPassword(password) && userExists(username)) {
+            authenticator.credentials.put(username, password.hashCode());
+            return (true);
+        }
+        return (false);
+    }
+
     /**
      * attempts to authenticate a user with a given username
      * and password.
@@ -73,6 +98,15 @@ public final class Authenticator {
     }
 
     /**
+     * 
+     * @param username username to check existence of 
+     * @return boolean, true if user exists, false otherwise
+     */
+    public static boolean userExists(String username) {
+        return (authenticator.credentials.containsKey(username));
+    }
+
+    /**
      * registers a user's username and password and stores the credentials
      * a user session is created if successful
      * @param username of the new user
@@ -87,7 +121,7 @@ public final class Authenticator {
             throw new IllegalArgumentException("arguments cannot be null");
         }
         Debug.debug("Registering a user: \"%s\" with password \"%s\"", username, password);
-        if (!authenticator.credentials.containsKey(username)) {
+        if (!userExists(username)) {
             Debug.debug("Successfully registered!");
             authenticator.credentials.put(username, password.hashCode());
             return true;
