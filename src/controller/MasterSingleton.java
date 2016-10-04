@@ -9,7 +9,6 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lib.Debug;
@@ -94,7 +93,7 @@ public class MasterSingleton {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
-            BorderPane page = loader.load();
+            AnchorPane page = loader.load();
 
             mainStage.setTitle("Thirsty?");
 
@@ -182,7 +181,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/profileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.
