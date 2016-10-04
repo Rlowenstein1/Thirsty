@@ -11,7 +11,7 @@ public final class Authenticator {
     /**
      * singleton instance.
      */
-    public static Authenticator authenticator = new Authenticator();
+    private static Authenticator authenticator = new Authenticator();
 
     /**
      * hash table with the users username and password hashes.
