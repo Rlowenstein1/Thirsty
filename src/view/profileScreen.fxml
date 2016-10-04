@@ -91,7 +91,7 @@
                   <PasswordField fx:id="pwConfProfileField" disable="true" />
                </children>
             </VBox>
-            <Button fx:id="editButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@../css/stylesheet.css" text="Edit profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+            <Button fx:id="editButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@../css/stylesheet.css" text="Edit profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
             <Label layoutX="14.0" layoutY="107.0" text="Profile picture:" />
             <Label layoutX="14.0" layoutY="107.0" text="Title:" GridPane.rowIndex="1" />
          </children>
