@@ -39,7 +39,7 @@
                <GridPane.margin>
                   <Insets right="12.0" />
                </GridPane.margin></PasswordField>
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="35.0" prefWidth="283.0" styleClass="but" stylesheets="@../css/stylesheet.css" text="Login" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="35.0" prefWidth="283.0" styleClass="but" stylesheets="@../css/stylesheet.css" text="Login" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="12.0" />
                </GridPane.margin></Button>

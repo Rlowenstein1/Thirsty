@@ -31,7 +31,7 @@
             <TextField fx:id="titleEdit" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
             <TextField fx:id="emailEdit" layoutX="414.0" layoutY="118.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="290.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
             <ComboBox fx:id="authLevelBox" prefWidth="150.0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <Button fx:id="submitButton" mnemonicParsing="false" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Button fx:id="submitButton" defaultButton="true" mnemonicParsing="false" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>

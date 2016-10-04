@@ -71,7 +71,7 @@
                   <PasswordField fx:id="pwConfRegField" />
                </children>
             </VBox>
-            <Button fx:id="registerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterButtonAction" styleClass="but" stylesheets="@../css/stylesheet.css" text="Register" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Button fx:id="registerButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterButtonAction" styleClass="but" stylesheets="@../css/stylesheet.css" text="Register" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
          </children>
          <padding>
             <Insets left="4.0" right="12.0" />
