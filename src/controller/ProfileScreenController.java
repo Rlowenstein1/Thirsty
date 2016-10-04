@@ -179,29 +179,30 @@ public class ProfileScreenController implements Initializable {
             } else if (email.length() == 0) {
                 Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
-            } else if (password.length() == 0) {
-                Debug.debug("Password field cannot be left blank!");
-                pwProfileErrorLabel.setText("Password cannot be left blank!");
+            } else if (password.length() != 0 && !Authenticator.isValidPassword(password)) {
+                Debug.debug("Invalid password!");
+                pwProfileErrorLabel.setText("Invalid Password!");
+
             } else {
                 if (!password.equals(passwordConf)) {
                     Debug.debug("Password and password confirmation do not match!");
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
-                } else if (!Authenticator.isValidPassword(password)) {
-                    Debug.debug("Password is invalid!");
-                    pwProfileErrorLabel.setText("Password is invalid!");
                 } else {
-                    if (UserManager.updateLogin(username, password)) {
-                        Debug.debug("No errors during profile update check!");
-                        editing = false;
-                        editButton.setText("Edit profile");
-                        setFields(true);
-                        activeUser.setTitle(title);
-                        activeUser.setName(fullname);
-                        activeUser.setEmailAddress(email);
-                        activeUser.setUserLevel(userLevel);
-                    } else {
-                        Debug.debug("Failed to update password! Likely cause: username \"%s\" does not exist!", username);
+                    if (password.length() != 0) {
+                        if (!UserManager.updateLogin(username, password)) {
+                            Debug.debug("Failed to update password! Likely cause: username \"%s\" does not exist!", username);
+                            return;
+                        }
                     }
+                    Debug.debug("No errors during profile update check!");
+                    editing = false;
+                    editButton.setText("Edit profile");
+                    setFields(true);
+                    activeUser.setTitle(title);
+                    activeUser.setName(fullname);
+                    activeUser.setEmailAddress(email);
+                    activeUser.setUserLevel(userLevel);
+                    return;
 
                     /*
                     newProfile = UserManager.register(username, password, fullname, email, userLevel);
