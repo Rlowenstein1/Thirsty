@@ -95,7 +95,7 @@ public class MasterSingleton {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
-            BorderPane page = loader.load();
+            AnchorPane page = loader.load();
 
             mainStage.setTitle("Thirsty?");
 
