@@ -71,4 +71,14 @@ public class UserManager {
         }
         return null;
     }
+
+    /**
+     * Updates login credentials, only if user exists and password is valid
+     * @param username Username of user to update password 
+     * @param password New password
+     * @return true if password is valid and user exists
+     */
+    public static boolean updateLogin(String username, String password) {
+        return (Authenticator.updateCredential(username, password));
+    }
 }

@@ -15,6 +15,9 @@ import model.User;
  */
 public class MainScreenController implements Initializable {
 
+
+    private Stage stage;
+    private User activeUser;
     @FXML
     private Label welcomeLabel;
 
@@ -33,6 +36,7 @@ public class MainScreenController implements Initializable {
         if (activeUser != null) {
             welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(),
                     activeUser.getUserLevel().toString()));
+            this.activeUser = activeUser;
         } else {
             welcomeLabel.setText("Welcome, hacker! How did you get here?");
         }
@@ -45,6 +49,16 @@ public class MainScreenController implements Initializable {
     @FXML
     private void handleLogoutButtonAction(ActionEvent event) {
         MasterSingleton.showSplashScreen();
+    }
+
+    /**
+     * Returns user to the Splash Screen
+     * @param event Button push that triggers the code
+     */
+    @FXML
+    private void handleProfileButtonAction(ActionEvent event) {
+        MasterSingleton.showProfileScreen();
+        greetUser(activeUser);
     }
 
     @Override
