@@ -11,7 +11,7 @@ public final class Authenticator {
     /**
      * singleton instance.
      */
-    public static Authenticator authenticator = new Authenticator();
+    private static Authenticator authenticator = new Authenticator();
 
     /**
      * hash table with the users username and password hashes.
@@ -32,6 +32,11 @@ public final class Authenticator {
         authenticatedUsers = new HashSet<>();
     }
 
+    /**
+     * Checks if password is valid
+     * @param password to be validated
+     * @return boolean represeting the validity
+     */
     public static boolean isValidPassword(String password) {
         //do any password length/complexity checks here
         if (password == null || password.length() < 1) { 

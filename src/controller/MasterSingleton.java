@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
-import sun.plugin.javascript.navig.Anchor;
 import thirsty.fxapp.Thirsty;
 
 /**
@@ -183,7 +182,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/profileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.
