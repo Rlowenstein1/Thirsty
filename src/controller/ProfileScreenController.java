@@ -5,11 +5,9 @@
  */
 package controller;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -32,7 +30,6 @@ import model.Authenticator;
 import model.User;
 import model.UserLevel;
 import model.UserManager;
-import thirsty.fxapp.Thirsty;
 
 /**
  *
@@ -165,8 +162,12 @@ public class ProfileScreenController implements Initializable {
         accountTypeProfileBox.setItems(UserLevel.getAllObservableList());
         fileChooser.getExtensionFilters().add(imageFilter);
         fileChooser.getExtensionFilters().add(allFilter);
-    }    
+    }
 
+    /**
+     * Allows the user to edit profile information
+     * @param enabled Whether edit profile button has been pressed
+     */
     private void setFields(boolean enabled) {
         titleProfileField.setDisable(enabled);
         fullnameProfileField.setDisable(enabled);
@@ -251,7 +252,10 @@ public class ProfileScreenController implements Initializable {
         */
     }
 
-
+    /**
+     * Handles Change Image button press, opens file browser for user
+     * @param event Button Press
+     */
     @FXML
     private void handleProfileImageChangeButtonAction(ActionEvent event) {
         resetErrors();
@@ -265,7 +269,7 @@ public class ProfileScreenController implements Initializable {
 
         try {
             Debug.debug("Attempting to change profile image to \"%s\"", newProfileImage.getCanonicalPath());
-        } catch (IOException e){
+        } catch (IOException e) {
             Debug.debug("IOException while attempting to get path of selected file! Reason: %s", e.toString());
             imageProfileErrorLabel.setText("Failed to get file path!");
             return;

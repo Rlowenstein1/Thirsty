@@ -35,11 +35,11 @@ public class MainScreenController implements Initializable {
      */
     public void greetUser(User activeUser) {
         //if (activeUser != null) {
-          //  welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(),
-            //        activeUser.getUserLevel().toString()));
-            this.activeUser = activeUser;
+        //  welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(),
+        //        activeUser.getUserLevel().toString()));
+        this.activeUser = activeUser;
         //} else {
-          //  welcomeLabel.setText("Welcome, hacker! How did you get here?");
+        //  welcomeLabel.setText("Welcome, hacker! How did you get here?");
         //}
     }
 
