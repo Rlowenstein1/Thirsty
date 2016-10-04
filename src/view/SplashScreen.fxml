@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplashScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="splashbg2" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplashScreenController">
    <children>
-      <GridPane prefHeight="151.0" prefWidth="600.0">
+      <GridPane prefHeight="283.0" prefWidth="600.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="295.0" />
         </columnConstraints>
@@ -22,27 +21,25 @@
          <children>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="riverImageView" fitHeight="100.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thirsty?" textAlignment="CENTER" wrappingWidth="600.60009765625">
-                     <font>
-                        <Font size="75.0" />
-                     </font>
-                  </Text>
+                  <ImageView fx:id="riverImageView" fitHeight="286.0" fitWidth="335.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/img/thirstyNewLogo.png" />
+                     </image></ImageView>
                </children>
             </StackPane>
          </children>
       </GridPane>
       <GridPane layoutY="206.0" prefHeight="194.0" prefWidth="600.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="0.0" prefWidth="305.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="295.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="0.0" prefWidth="302.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="mainScreenLoginButton" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" GridPane.halignment="CENTER" />
-            <Button fx:id="mainScreenRegButton" layoutX="10.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleRegisterButtonAction" text="Register" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Button fx:id="mainScreenLoginButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleLoginButtonAction" styleClass="but" stylesheets="@../css/stylesheet.css" text="Login" GridPane.halignment="CENTER" />
+            <Button fx:id="mainScreenRegButton" mnemonicParsing="false" onAction="#handleRegisterButtonAction" styleClass="but" stylesheets="@../css/stylesheet.css" text="Register" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

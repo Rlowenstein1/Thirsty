@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
+import sun.plugin.javascript.navig.Anchor;
 import thirsty.fxapp.Thirsty;
 
 /**
