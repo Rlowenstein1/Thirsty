@@ -1,0 +1,38 @@
+// adding javafx plugin
+buildscript {
+    //apply from: 'version.gradle'
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: "8.7.1-SNAPSHOT"
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+
+    }
+}
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'javafx-gradle-plugin'
+
+// set the resources and java directory and get all files
+sourceSets {
+  main {
+    java {
+        srcDirs = ["src"]
+    }
+    resources {
+        srcDirs = ["resources/view/", "resources/css/", "resources/img"]
+        includes = ["*"]
+    }
+  }
+}
+
+// main tool and setting the main class
+jfx {
+    mainClass = 'thirsty.fxapp.Thirsty'
+}

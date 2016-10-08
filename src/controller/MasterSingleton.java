@@ -56,7 +56,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/LoginScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/LoginScreen.fxml"));
             AnchorPane page = loader.load();
 
 
@@ -92,7 +92,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/MainScreen.fxml"));
             AnchorPane page = loader.load();
 
             mainStage.setTitle("Thirsty?");
@@ -119,7 +119,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/SplashScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/SplashScreen.fxml"));
             AnchorPane page = loader.load();
 
             mainStage.setTitle("Thirsty?");
@@ -145,7 +145,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/RegistrationScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/RegistrationScreen.fxml"));
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.
@@ -181,7 +181,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/ProfileScreen.fxml"));
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.

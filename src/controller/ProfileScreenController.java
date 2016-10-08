@@ -145,7 +145,7 @@ public class ProfileScreenController implements Initializable {
         userProfileImage = activeUser.getProfilePicture();
         if (userProfileImage == null) {
             try {
-                InputStream profileImageIS = this.getClass().getResourceAsStream("/resources/img/defaultProfilePicture.png");
+                InputStream profileImageIS = this.getClass().getResourceAsStream("/defaultProfilePicture.png");
                 userProfileImage = new Image(profileImageIS);
                 activeUser.setProfilePicture(userProfileImage);
             } catch (Exception e) {

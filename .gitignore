@@ -13,7 +13,10 @@ hs_err_pid*
 
 #IntelliJ project
 .idea/
+# production and compilation
 out/
+build/
+.gradle/
 
 build.xml
 build/
@@ -21,6 +24,7 @@ dist/
 manifest.mf
 nbproject/
 *.iml
+*.swp
 
 # storage on macs
 .DS_STORE
