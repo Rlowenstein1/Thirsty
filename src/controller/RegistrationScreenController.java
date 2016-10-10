@@ -2,6 +2,8 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,7 +61,7 @@ public class RegistrationScreenController implements Initializable {
     private TextField fullnameRegField;
     
     @FXML
-    private ChoiceBox<UserLevel> accountTypeRegBox;
+    private JFXComboBox<UserLevel> accountTypeBox;
 
     /**
      * Resets error fields
@@ -83,7 +85,7 @@ public class RegistrationScreenController implements Initializable {
         String fullname = fullnameRegField.getText();
         String username = usernameRegField.getText();
         String email = emailRegField.getText();
-        UserLevel userLevel = accountTypeRegBox.getValue();
+        UserLevel userLevel = accountTypeBox.getValue();
         String password = pwRegField.getText();
         String passwordConf = pwConfRegField.getText();
         Debug.debug("Attempting to register user: username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", username, fullname, email, password, passwordConf, userLevel.toString());
@@ -149,8 +151,8 @@ public class RegistrationScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        accountTypeRegBox.setItems(UserLevel.getAllObservableList());
-        accountTypeRegBox.setValue(UserLevel.USER);
+        accountTypeBox.setItems(UserLevel.getAllObservableList());
+        accountTypeBox.setValue(UserLevel.USER);
     }    
     
 }
