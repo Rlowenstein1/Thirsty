@@ -190,7 +190,7 @@ public class ProfileScreenController implements Initializable {
             String title = titleProfileField.getText();
             String fullname = fullnameProfileField.getText();
             String username = usernameProfileField.getText();
-            String email = emailProfileField.getText();
+            String email = emailProfileField.getText(); 
             UserLevel userLevel = accountTypeProfileBox.getValue();
             String password = pwProfileField.getText();
             String passwordConf = pwConfProfileField.getText();

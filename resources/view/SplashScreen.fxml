@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,8 +38,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-             <Button fx:id="mainScreenLoginButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleLoginButtonAction" styleClass="but" stylesheets="@/stylesheet.css" text="Login" GridPane.halignment="CENTER" />
-            <Button fx:id="mainScreenRegButton" mnemonicParsing="false" onAction="#handleRegisterButtonAction" styleClass="but" stylesheets="@/stylesheet.css" text="Register" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <JFXButton fx:id="mainScreenLoginButton" buttonType="RAISED" onAction="#handleLoginButtonAction" ripplerFill="#211d9a" styleClass="but" stylesheets="@/stylesheet.css" text="Login" textFill="WHITE" GridPane.halignment="CENTER" />
+            <JFXButton fx:id="mainScreenRegButton" buttonType="RAISED" layoutX="10.0" layoutY="46.0" onAction="#handleRegisterButtonAction" ripplerFill="#211d9a" styleClass="but" stylesheets="@/stylesheet.css" text="Register" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
