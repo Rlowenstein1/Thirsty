@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="160.0" prefWidth="329.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="controller.HomeScreenController">
+    <stylesheets>
+        <URL value="@/css/stylesheet.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="46.0" layoutY="72.0" text="Your name:" />
+      <Label fx:id="homeName" layoutX="129.0" layoutY="72.0" />
+   </children>
+</AnchorPane>

@@ -128,6 +128,10 @@ public class ProfileScreenController implements Initializable {
         this.stage = stage;
     }
 
+    public String getTabText() {
+        return ("Profile");
+    }
+
     /**
      * Sets the user that is accessing the application
      * @param activeUser The User that is using the application
