@@ -38,7 +38,7 @@ public class SplashScreenController implements Initializable {
         boolean loggedIn = MasterSingleton.showLoginScreen();
         if (loggedIn) {
             Debug.debug("User logged in!");
-            MasterSingleton.showMainScreen();
+            MasterSingleton.showMainTabbedScreen();
         } else {
             Debug.debug("User cancelled login");
         }

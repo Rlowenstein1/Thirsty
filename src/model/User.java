@@ -71,6 +71,16 @@ public class User {
     }
 
     /**
+     * Gets the name property of the User
+     *
+     * @return the name of the User
+     */
+    public StringProperty getNameProperty() {
+        return name;
+    }
+
+
+    /**
      * Gets the name of the User
      *
      * @return the name of the User

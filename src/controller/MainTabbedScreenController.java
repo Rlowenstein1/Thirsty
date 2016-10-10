@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -15,7 +16,7 @@ import model.User;
  *
  * @author tybrown
  */
-public class MainScreenController implements Initializable {
+public class MainTabbedScreenController implements Initializable {
 
     private Stage stage;
     private User activeUser;
@@ -26,8 +27,11 @@ public class MainScreenController implements Initializable {
     @FXML
     private StackPane mainPane;
 
+    @FXML
+    private TabPane tabPane;
+
     /**
-     * Set the stage for th Main Screen Controller
+     * Set the stage for the Main Screen Controller
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
@@ -35,17 +39,11 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Greets the user with a welcome message
+     * Sets the currently logged in user
      * @param activeUser The user who is being greeted
      */
-    public void greetUser(User activeUser) {
-        //if (activeUser != null) {
-        //  welcomeLabel.setText(String.format("Welcome, %s! Your access level is: %s", activeUser.getName(),
-        //        activeUser.getUserLevel().toString()));
+    public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
-        //} else {
-        //  welcomeLabel.setText("Welcome, hacker! How did you get here?");
-        //}
     }
 
     /**
@@ -58,28 +56,12 @@ public class MainScreenController implements Initializable {
         MasterSingleton.fixMainScreenBounds();
     }
 
-    /**
-     * Changes to the home screen
-     * @param event Button push that triggers the code
-     */
-    @FXML
-    private void handleHomeButtonAction(ActionEvent event) {
-        MasterSingleton.showHomeScreen();
-        MasterSingleton.fixMainScreenBounds();
-    }
-
-    /**
-     * Changes to the profile screen
-     * @param event Button push that triggers the code
-     */
-    @FXML
-    private void handleProfileButtonAction(ActionEvent event) {
-        MasterSingleton.showProfileScreen();
-        MasterSingleton.fixMainScreenBounds();
-    }
-
     public StackPane getMainPane() {
         return (mainPane);
+    }
+
+    public TabPane getTabPane() {
+        return (tabPane);
     }
 
     @Override
