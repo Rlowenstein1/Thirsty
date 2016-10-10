@@ -13,7 +13,7 @@
 
 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="236.0" prefWidth="520.0" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterSourceReportScreenController">
     <stylesheets>
-        <URL value="@/css/stylesheet.css" />
+        <URL value="@/stylesheet.css" />
     </stylesheets>
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50" />

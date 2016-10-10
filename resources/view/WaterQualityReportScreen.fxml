@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="236.0" prefWidth="520.0" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterSourceReportScreenController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="236.0" prefWidth="520.0" styleClass="splashbg3" stylesheets="@/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterSourceReportScreenController">
     <stylesheets>
-        <URL value="@/css/stylesheet.css" />
+        <URL value="@/stylesheet.css" />
     </stylesheets>
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50" />
@@ -61,8 +61,8 @@
             <ChoiceBox fx:id="conditionChoiceBox" maxWidth="1.7976931348623157E308" />
             </children>
         </VBox>
-        <Button fx:id="submitButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSubmitButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@../css/stylesheet.css" text="Submit report" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Button fx:id="resetButton" defaultButton="true" layoutX="266.0" layoutY="220.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleResetButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@../css/stylesheet.css" text="Reset all fields" GridPane.rowIndex="3" />
+        <Button fx:id="submitButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSubmitButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@/stylesheet.css" text="Submit report" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button fx:id="resetButton" defaultButton="true" layoutX="266.0" layoutY="220.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleResetButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@/stylesheet.css" text="Reset all fields" GridPane.rowIndex="3" />
     </children>
     <padding>
         <Insets left="4.0" right="12.0" />

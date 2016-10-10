@@ -118,14 +118,9 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-<<<<<<< HEAD
             loader.setLocation(Thirsty.class.getResource("/MainScreen.fxml"));
-=======
-
-            loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
             //load the master page with toolbar
             // -- inside is a StackPane which will hold the other pages
->>>>>>> d57d8f95c3040e042605ac5d49adb0d713faa151
             AnchorPane page = loader.load();
             MainScreenController controller = loader.getController();
             mainStage.setTitle("Thirsty?");
@@ -135,13 +130,13 @@ public class MasterSingleton {
             mainPane = controller.getMainPane();
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/ProfileScreen.fxml"));
             profilePane = loader.load();
             profileController = loader.getController();
 
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/HomeScreen.fxml"));
             homePane = loader.load();
             homeController = loader.getController();
 
@@ -165,7 +160,7 @@ public class MasterSingleton {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(Thirsty.class.getResource("/view/MainTabbedScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/MainTabbedScreen.fxml"));
             //load the master page with toolbar
             // -- inside is a StackPane which will hold the other pages
             AnchorPane page = loader.load();
@@ -179,7 +174,7 @@ public class MasterSingleton {
             ObservableList<Tab> tabList = tabPane.getTabs();
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/HomeScreen.fxml"));
             homePane = loader.load();
             homeController = loader.getController();
             homeController.setActiveUser(activeUser);
@@ -191,7 +186,7 @@ public class MasterSingleton {
             tabList.add(homeTab);
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/ProfileScreen.fxml"));
             profilePane = loader.load();
             profileController = loader.getController();
             profileController.setActiveUser(activeUser);
@@ -203,7 +198,7 @@ public class MasterSingleton {
             tabList.add(profileTab);
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/WaterSourceReportScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/WaterSourceReportScreen.fxml"));
             GridPane waterSourceReportPane = loader.load();
             WaterSourceReportScreenController waterSourceReportController = loader.getController();
             waterSourceReportController.setActiveUser(activeUser);
