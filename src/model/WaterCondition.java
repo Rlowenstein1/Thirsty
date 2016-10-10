@@ -2,7 +2,6 @@ package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.Arrays;
 
 /**
@@ -31,7 +30,7 @@ public enum WaterCondition {
 
     /**
      * Getter for all observable lists
-     * @return ObservableList of UserLevel
+     * @return ObservableList of WaterCondition
      */
     public static ObservableList<WaterCondition> getAllObservableList() {
         return (FXCollections.observableList(Arrays.asList(values())));

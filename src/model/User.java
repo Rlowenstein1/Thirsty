@@ -175,6 +175,7 @@ public class User {
     public ObjectProperty<Image> getImageProperty() {
         return profilePicture;
     }
+    
     /**
      * Gets the email address of the User
      *
@@ -227,6 +228,7 @@ public class User {
     public ObjectProperty<UserLevel>  getUserLevelProperty() {
         return level;
     }
+
     /**
      * Returns a String representation of a User object
      *
