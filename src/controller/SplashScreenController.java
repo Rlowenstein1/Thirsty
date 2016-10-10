@@ -64,7 +64,7 @@ public class SplashScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             //File riverFile = new File(Thirsty.class.getResource("/resources/img/river.png").toURI());
-            InputStream riverIS = this.getClass().getResourceAsStream("/resources/img/river.png");
+            InputStream riverIS = this.getClass().getResourceAsStream("/resources/img/thirstyNewLogo.png");
             //Debug.debug("Exists: %b", riverFile.exists());
             Image riverImage = new Image(riverIS);
             riverImageView.setImage(riverImage);

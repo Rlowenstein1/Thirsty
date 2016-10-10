@@ -6,6 +6,9 @@
 package controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,13 +22,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import lib.Debug;
 import model.Authenticator;
 import model.User;
 import model.UserLevel;
 import model.UserManager;
-import thirsty.fxapp.Thirsty;
 
 /**
  *
@@ -59,6 +63,9 @@ public class ProfileScreenController implements Initializable {
     private Label pwConfProfileErrorLabel;
 
     @FXML
+    private Label imageProfileErrorLabel;
+
+    @FXML
     private TextField usernameProfileField;
     
     @FXML
@@ -85,7 +92,16 @@ public class ProfileScreenController implements Initializable {
     @FXML
     private ImageView profileImageView;
 
+    @FXML
+    private Button profileImageChangeButton;
+
     private Image userProfileImage;
+
+    private FileChooser fileChooser = new FileChooser();
+
+    private ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)", "*.bmp", "*.gif", "*.jpeg", "*.jpg", "*.png");
+
+    private ExtensionFilter allFilter = new ExtensionFilter("All files (*.*)", "*.*");
 
     /**
      * Resets error fields
@@ -98,6 +114,7 @@ public class ProfileScreenController implements Initializable {
         accountTypeProfileErrorLabel.setText("");
         pwProfileErrorLabel.setText("");
         pwConfProfileErrorLabel.setText("");
+        imageProfileErrorLabel.setText("");
     }
 
    
@@ -133,6 +150,7 @@ public class ProfileScreenController implements Initializable {
                 activeUser.setProfilePicture(userProfileImage);
             } catch (Exception e) {
                 Debug.error("Error while loading river image! Reason: %s", e.toString());
+                return;
             }
 
         }
@@ -142,8 +160,14 @@ public class ProfileScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         accountTypeProfileBox.setItems(UserLevel.getAllObservableList());
-    }    
+        fileChooser.getExtensionFilters().add(imageFilter);
+        fileChooser.getExtensionFilters().add(allFilter);
+    }
 
+    /**
+     * Allows the user to edit profile information
+     * @param enabled Whether edit profile button has been pressed
+     */
     private void setFields(boolean enabled) {
         titleProfileField.setDisable(enabled);
         fullnameProfileField.setDisable(enabled);
@@ -152,6 +176,7 @@ public class ProfileScreenController implements Initializable {
         accountTypeProfileBox.setDisable(enabled);
         pwProfileField.setDisable(enabled);
         pwConfProfileField.setDisable(enabled);
+        profileImageChangeButton.setDisable(enabled);
     }
  
     /**
@@ -179,29 +204,30 @@ public class ProfileScreenController implements Initializable {
             } else if (email.length() == 0) {
                 Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
-            } else if (password.length() == 0) {
-                Debug.debug("Password field cannot be left blank!");
-                pwProfileErrorLabel.setText("Password cannot be left blank!");
+            } else if (password.length() != 0 && !Authenticator.isValidPassword(password)) {
+                Debug.debug("Invalid password!");
+                pwProfileErrorLabel.setText("Invalid Password!");
+
             } else {
                 if (!password.equals(passwordConf)) {
                     Debug.debug("Password and password confirmation do not match!");
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
-                } else if (!Authenticator.isValidPassword(password)) {
-                    Debug.debug("Password is invalid!");
-                    pwProfileErrorLabel.setText("Password is invalid!");
                 } else {
-                    if (UserManager.updateLogin(username, password)) {
-                        Debug.debug("No errors during profile update check!");
-                        editing = false;
-                        editButton.setText("Edit profile");
-                        setFields(true);
-                        activeUser.setTitle(title);
-                        activeUser.setName(fullname);
-                        activeUser.setEmailAddress(email);
-                        activeUser.setUserLevel(userLevel);
-                    } else {
-                        Debug.debug("Failed to update password! Likely cause: username \"%s\" does not exist!", username);
+                    if (password.length() != 0) {
+                        if (!UserManager.updateLogin(username, password)) {
+                            Debug.debug("Failed to update password! Likely cause: username \"%s\" does not exist!", username);
+                            return;
+                        }
                     }
+                    Debug.debug("No errors during profile update check!");
+                    editing = false;
+                    editButton.setText("Edit profile");
+                    setFields(true);
+                    activeUser.setTitle(title);
+                    activeUser.setName(fullname);
+                    activeUser.setEmailAddress(email);
+                    activeUser.setUserLevel(userLevel);
+                    return;
 
                     /*
                     newProfile = UserManager.register(username, password, fullname, email, userLevel);
@@ -226,5 +252,46 @@ public class ProfileScreenController implements Initializable {
         */
     }
 
+    /**
+     * Handles Change Image button press, opens file browser for user
+     * @param event Button Press
+     */
+    @FXML
+    private void handleProfileImageChangeButtonAction(ActionEvent event) {
+        resetErrors();
+        fileChooser.setTitle("Choose a new profile image");
+        fileChooser.setSelectedExtensionFilter(imageFilter);
+        File newProfileImage = fileChooser.showOpenDialog(stage);
+        if (newProfileImage == null) {
+            Debug.debug("No image selected!");
+            return;
+        }
+
+        try {
+            Debug.debug("Attempting to change profile image to \"%s\"", newProfileImage.getCanonicalPath());
+        } catch (IOException e) {
+            Debug.debug("IOException while attempting to get path of selected file! Reason: %s", e.toString());
+            imageProfileErrorLabel.setText("Failed to get file path!");
+            return;
+        }
+
+        InputStream profileImageIS;
+        try {
+            profileImageIS = new FileInputStream(newProfileImage);
+        } catch (FileNotFoundException e) {
+            Debug.debug("File not found! Reason: %s", e.toString());
+            imageProfileErrorLabel.setText("File not found!");
+            return;
+        }
+        Image newUserProfileImage = new Image(profileImageIS);
+        if (newUserProfileImage.isError()) {
+            Debug.debug("Error while loading image! Reason: %s", newUserProfileImage.getException().toString());
+            imageProfileErrorLabel.setText("Failed to create image from file!");
+            return;
+        }
+        userProfileImage = newUserProfileImage;
+        activeUser.setProfilePicture(newUserProfileImage);
+        profileImageView.setImage(newUserProfileImage);
+    }
 
 }
