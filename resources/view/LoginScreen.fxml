@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -39,10 +39,7 @@
                <GridPane.margin>
                   <Insets right="12.0" />
                </GridPane.margin></PasswordField>
-               <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="35.0" prefWidth="283.0" styleClass="but" stylesheets="@/stylesheet.css" text="Login" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets right="12.0" />
-               </GridPane.margin></Button>
+            <JFXButton fx:id="loginButton" buttonType="RAISED" defaultButton="true" onAction="#handleLoginButtonAction" prefHeight="26.0" prefWidth="208.0" ripplerFill="#222fbc" styleClass="but" stylesheets="@/stylesheet.css" text="Login" textFill="WHITE" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

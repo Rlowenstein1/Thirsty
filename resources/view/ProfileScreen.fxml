@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -45,7 +45,7 @@
                            </image></ImageView>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="profileImageChangeButton" alignment="CENTER" disable="true" layoutY="49.0" mnemonicParsing="false" onAction="#handleProfileImageChangeButtonAction" prefHeight="26.0" prefWidth="71.0" text="Change" wrapText="true" />
+                              <JFXButton fx:id="profileImageChangeButton" buttonType="RAISED" disable="true" layoutY="49.0" onAction="#handleProfileImageChangeButtonAction" prefHeight="26.0" prefWidth="102.0" ripplerFill="#20188a" styleClass="but" stylesheets="@/stylesheet.css" text="Change" textFill="WHITE" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -100,9 +100,9 @@
                   <PasswordField fx:id="pwConfProfileField" disable="true" />
                </children>
             </VBox>
-            <Button fx:id="editButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="0.0" prefWidth="252.0" stylesheets="@/stylesheet.css" text="Edit profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
             <Label layoutX="14.0" layoutY="107.0" text="Profile picture:" />
             <Label layoutX="14.0" layoutY="107.0" text="Title:" GridPane.rowIndex="1" />
+            <JFXButton fx:id="editButton" buttonType="RAISED" defaultButton="true" onAction="#handleEditButtonAction" prefHeight="26.0" prefWidth="314.0" ripplerFill="#241ea4" styleClass="but" stylesheets="@/stylesheet.css" text="Edit" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
          <padding>
             <Insets left="4.0" right="12.0" />
