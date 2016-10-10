@@ -71,16 +71,6 @@ public class User {
     }
 
     /**
-     * Gets the name property of the User
-     *
-     * @return the name of the User
-     */
-    public StringProperty getNameProperty() {
-        return name;
-    }
-
-
-    /**
      * Gets the name of the User
      *
      * @return the name of the User
@@ -96,6 +86,14 @@ public class User {
      */
     public void setName(String n) {
         name.set(n);
+    }
+
+    /**
+     * Gets the name property for this User
+     * @return the name
+     */
+    public StringProperty getNameProperty() {
+        return name;
     }
 
     /**
@@ -117,6 +115,14 @@ public class User {
     }
 
     /**
+     * Gets the username property for this User
+     *
+     * @return the username property
+     */
+    public StringProperty getUsernameProperty() {
+        return username;
+    }
+    /**
      * Gets the User's title
      *
      * @return the title
@@ -135,6 +141,14 @@ public class User {
     }
 
     /**
+     * Gets the title property for this User
+     *
+     * @return the title property
+     */
+    public StringProperty getTitleProperty() {
+        return title;
+    }
+    /**
      * Gets the User's current profile picture
      *
      * @return the User's profile picture
@@ -151,6 +165,15 @@ public class User {
      */
     public void setProfilePicture(Image i) {
         profilePicture.set(i);
+    }
+
+    /**
+     * Gets the image property for this User
+     *
+     * @return the image property
+     */
+    public ObjectProperty<Image> getImageProperty() {
+        return profilePicture;
     }
 
     /**
@@ -172,6 +195,14 @@ public class User {
     }
 
     /**
+     * Gets the email address property for this User
+     * @return the email address property
+     */
+    public StringProperty getEmailAddressProperty() {
+        return emailAddress;
+    }
+
+    /**
      * Gets the authority level of the User
      *
      * @return the User's level
@@ -187,6 +218,15 @@ public class User {
      */
     public void setUserLevel(UserLevel l) {
         level.set(l);
+    }
+
+    /**
+     * Gets the level property for this User
+     *
+     * @return the level property
+     */
+    public ObjectProperty<UserLevel>  getUserLevelProperty() {
+        return level;
     }
 
     /**
