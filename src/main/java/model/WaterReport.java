@@ -9,28 +9,31 @@ import java.time.Month;
 /**
  * Represents a water source report.
  */
-public class WaterReport {
+public class WaterReport implements Comparable<WaterReport> {
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Point2D.Double> location = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
-    private static int reportNumCounter = 1;
+    private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
 
     /**
      * Constructor for a new water source report.
-     * The report number, date, and time are automatically generated.
+     * The date and time are automatically generated.
+     * @param reportNum the number of the report
      * @param location the location (long, lat) of the water source
      * @param type the type of water
      * @param condition the condition of water
+     * @param author the author of the report
      */
-    public WaterReport(Point2D.Double location, WaterType type, WaterCondition condition) {
-        this.reportNum.set(reportNumCounter);
+    public WaterReport(int reportNum, Point2D.Double location, WaterType type,
+                WaterCondition condition, User author) {
+        this.reportNum.set(reportNum);
         this.dateTime.set(LocalDateTime.now());
         this.location.set(location);
         this.type.set(type);
         this.condition.set(condition);
-        reportNumCounter++;
+        this.author.set(author);
     }
 
     /**
@@ -41,21 +44,12 @@ public class WaterReport {
      * @param location the location of the water source
      * @param type the type of water
      * @param condition the condition of water
+     * @param author the author of the report
      */
     public WaterReport(int reportNum, LocalDateTime dateTime, Point2D.Double location,
-                       WaterType type, WaterCondition condition) {
-        this(location, type, condition);
-        this.reportNum.set(reportNum);
+                       WaterType type, WaterCondition condition, User author) {
+        this(reportNum, location, type, condition, author);
         this.dateTime.set(dateTime);
-        reportNumCounter++;
-    }
-
-    /**
-     * Returns total number of water reports
-     * @return the number
-     */
-    public static int getCount() {
-        return reportNumCounter;
     }
 
     /**
@@ -204,11 +198,35 @@ public class WaterReport {
     }
 
     /**
-     * Gets thus water report's water condition property
+     * Gets the water report's water condition property
      * @return the water condition property
      */
     public ObjectProperty<WaterCondition> getWaterConditionProperty() {
         return condition;
+    }
+    
+    /**
+     * Gets the water report's author
+     * @return the author
+     */
+    public User getAuthor() {
+        return author.get();
+    }
+
+    /**
+     * Sets the author
+     * @param user the user of the report
+     */
+    public void setAuthor(User user) {
+        author.set(user);
+    }
+
+    /**
+     * Gets the water report's author property
+     * @return the author property
+     */
+    public ObjectProperty<User> getAuthorProperty() {
+        return author;
     }
 
     @Override
@@ -218,5 +236,10 @@ public class WaterReport {
                 + "Location of water source: " + location.get() + "\n"
                 + "Type of water: " + type.get() + "\n"
                 + "Condition of water: " + condition.get();
+    }
+
+    @Override
+    public int compareTo(WaterReport report) {
+        return this.dateTime.get().compareTo(report.getDateTimeProperty().get());
     }
 }

@@ -7,19 +7,7 @@ import lib.Debug;
  * Manager for the user objects of app
  */
 public class UserManager {
-    /**
-     * singleton instance
-     */
-    private static UserManager manager = new UserManager();
-
-    private HashMap<String, User> usernameMap;
-
-    /**
-     *
-     */
-    private UserManager() {
-        usernameMap = new HashMap<>();
-    }
+    private static HashMap<String, User> usernameMap = new HashMap<>();
 
     /**
      * registers a new user
@@ -34,7 +22,7 @@ public class UserManager {
     public static User register(String username, String password, String fullname,
                                 String emailAddress, UserLevel userLevel) {
         Debug.debug("registering new user:\n  username: %s\n  password: %s\n  fullname: %s\n  emailAddress: %s\n  userLevel: %s\n", username, password, fullname, emailAddress, userLevel);
-        if (manager.usernameMap.containsKey(username)) {
+        if (usernameMap.containsKey(username)) {
             Debug.debug("User already exists!");
             return null;
         }
@@ -42,7 +30,7 @@ public class UserManager {
         if (Authenticator.register(username, password)
                 && Authenticator.authenticate(newUser, username, password)) {
             Debug.debug("Successfully registered!");
-            manager.usernameMap.put(username, newUser);
+            usernameMap.put(username, newUser);
             return newUser;
         } else {
             Debug.debug("Failed to register user!");
@@ -57,7 +45,7 @@ public class UserManager {
      * @return user object if successful or null if not
      */
     public static User login(String username, String password) {
-        User user = manager.usernameMap.get(username);
+        User user = usernameMap.get(username);
         if (user != null) {
             Debug.debug("User exists in usernameMap");
             if (Authenticator.authenticate(user, username, password)) {
