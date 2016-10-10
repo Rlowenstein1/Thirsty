@@ -1,5 +1,10 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.Arrays;
+
 /**
  * Enum that represents the four different water conditions.
  */
@@ -22,5 +27,13 @@ public enum WaterCondition {
      */
     public String getValue() {
         return condition;
+    }
+
+    /**
+     * Getter for all observable lists
+     * @return ObservableList of UserLevel
+     */
+    public static ObservableList<WaterCondition> getAllObservableList() {
+        return (FXCollections.observableList(Arrays.asList(values())));
     }
 }

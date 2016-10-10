@@ -1,5 +1,10 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.Arrays;
+
 /**
  * Enum that represents the six different water types
  */
@@ -22,5 +27,13 @@ public enum WaterType {
      */
     public String getValue() {
         return type;
+    }
+
+    /**
+     * Getter for all observable lists
+     * @return ObservableList of UserLevel
+     */
+    public static ObservableList<WaterType> getAllObservableList() {
+        return (FXCollections.observableList(Arrays.asList(values())));
     }
 }

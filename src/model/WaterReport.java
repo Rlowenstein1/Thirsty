@@ -1,4 +1,5 @@
 package model;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import java.awt.geom.Point2D;
@@ -74,6 +75,14 @@ public class WaterReport {
     }
 
     /**
+     * Gets this water report's number property
+     * @return the number property
+     */
+    public SimpleIntegerProperty getReportNumProperty() {
+        return reportNum;
+    }
+
+    /**
      * Gets the point containing the longitude and latitude
      * of the water source.
      * @return
@@ -89,6 +98,14 @@ public class WaterReport {
      */
     public void setLocation(Point2D.Double p) {
         location.set(p);
+    }
+
+    /**
+     * Gets this water report's location property
+     * @return the location property
+     */
+    public ObjectProperty<Point2D.Double> getLocationProperty() {
+        return location;
     }
 
     /**
@@ -137,6 +154,15 @@ public class WaterReport {
     public int getYear() {
         return dateTime.get().getYear();
     }
+
+    /**
+     * Gets this water report's dateTime property
+     * @return the dateTime property
+     */
+    public ObjectProperty<LocalDateTime> getDateTimeProperty() {
+        return dateTime;
+    }
+
     /**
      * Gets the type of the water
      * @return the type
@@ -154,6 +180,14 @@ public class WaterReport {
     }
 
     /**
+     * Gets this water report's water source type
+     * @return the water type property
+     */
+    public ObjectProperty<WaterType> getWaterTypeProperty() {
+        return type;
+    }
+
+    /**
      * Gets the water condition
      * @return the condition
      */
@@ -167,6 +201,14 @@ public class WaterReport {
      */
     public void setWaterCondtion(WaterCondition c) {
         condition.set(c);
+    }
+
+    /**
+     * Gets thus water report's water condition property
+     * @return the water condition property
+     */
+    public ObjectProperty<WaterCondition> getWaterConditionProperty() {
+        return condition;
     }
 
     @Override

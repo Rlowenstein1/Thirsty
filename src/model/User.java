@@ -89,6 +89,14 @@ public class User {
     }
 
     /**
+     * Gets the name property for this User
+     * @return the name
+     */
+    public StringProperty getNameProperty() {
+        return name;
+    }
+
+    /**
      * Gets the User's username
      *
      * @return the username
@@ -107,6 +115,14 @@ public class User {
     }
 
     /**
+     * Gets the username property for this User
+     *
+     * @return the username property
+     */
+    public StringProperty getUsernameProperty() {
+        return username;
+    }
+    /**
      * Gets the User's title
      *
      * @return the title
@@ -124,6 +140,14 @@ public class User {
         title.set(t);
     }
 
+    /**
+     * Gets the title property for this User
+     *
+     * @return the title property
+     */
+    public StringProperty getTitleProperty() {
+        return title;
+    }
     /**
      * Gets the User's current profile picture
      *
@@ -144,6 +168,14 @@ public class User {
     }
 
     /**
+     * Gets the image property for this User
+     *
+     * @return the image property
+     */
+    public ObjectProperty<Image> getImageProperty() {
+        return profilePicture;
+    }
+    /**
      * Gets the email address of the User
      *
      * @return the email address
@@ -159,6 +191,14 @@ public class User {
      */
     public void setEmailAddress(String n) {
         emailAddress.set(n);
+    }
+
+    /**
+     * Gets the email address property for this User
+     * @return the email address property
+     */
+    public StringProperty getEmailAddressProperty() {
+        return emailAddress;
     }
 
     /**
@@ -179,6 +219,14 @@ public class User {
         level.set(l);
     }
 
+    /**
+     * Gets the level property for this User
+     *
+     * @return the level property
+     */
+    public ObjectProperty<UserLevel>  getUserLevelProperty() {
+        return level;
+    }
     /**
      * Returns a String representation of a User object
      *
