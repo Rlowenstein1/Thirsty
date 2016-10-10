@@ -175,7 +175,7 @@ public class User {
     public ObjectProperty<Image> getImageProperty() {
         return profilePicture;
     }
-    
+
     /**
      * Gets the email address of the User
      *
