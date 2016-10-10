@@ -3,15 +3,28 @@ apply plugin: 'javafx-gradle-plugin'
 apply plugin: 'checkstyle'
 
 
+dependencies {
+  compile 'com.jfoenix:jfoenix:0.0.0-SNAPSHOT'
+}
+
+repositories {
+  maven {
+    url "https://oss.sonatype.org/content/groups/public"
+  }
+}
+
+
 // adding javafx plugin
 buildscript {
   dependencies {
-      classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: "8.7.1-SNAPSHOT"
+    classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: "8.7.1-SNAPSHOT"
   }
   repositories {
-      mavenLocal()
-      mavenCentral()
-      maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    mavenLocal()
+    mavenCentral()
+    maven {
+      url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
   }
 }
 
@@ -20,11 +33,11 @@ buildscript {
 sourceSets {
   main {
     java {
-        srcDirs = ["src"]
+      srcDirs = ["src"]
     }
     resources {
-        srcDirs = ["resources/view/", "resources/css/", "resources/img"]
-        includes = ["*"]
+      srcDirs = ["resources/view/", "resources/css/", "resources/img"]
+      includes = ["*"]
     }
   }
 }
@@ -32,7 +45,7 @@ sourceSets {
 
 // javafx plugin configuration
 jfx {
-    mainClass = 'thirsty.fxapp.Thirsty'
+  mainClass = 'thirsty.fxapp.Thirsty'
 }
 
 
@@ -42,8 +55,8 @@ checkstyle {
   toolVersion = "6.13"
   
   repositories {
-      mavenLocal()
-      mavenCentral()
+    mavenLocal()
+    mavenCentral()
   }
   ignoreFailures = false
   showViolations = false
