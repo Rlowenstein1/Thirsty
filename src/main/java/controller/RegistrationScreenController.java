@@ -3,11 +3,10 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -61,7 +60,7 @@ public class RegistrationScreenController implements Initializable {
     private TextField fullnameRegField;
     
     @FXML
-    private JFXComboBox<UserLevel> accountTypeBox;
+    private ComboBox<UserLevel> accountTypeBox;
 
     /**
      * Resets error fields

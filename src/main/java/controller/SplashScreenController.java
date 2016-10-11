@@ -53,7 +53,7 @@ public class SplashScreenController implements Initializable {
         boolean loggedIn = MasterSingleton.showRegistrationScreen();
         if (loggedIn) {
             Debug.debug("User registered!");
-            MasterSingleton.showMainScreen();
+            MasterSingleton.showMainTabbedScreen();
         } else {
             Debug.debug("User cancelled registration");
         }

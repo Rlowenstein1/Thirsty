@@ -38,12 +38,18 @@ public class HomeScreenController implements Initializable {
         homeName.textProperty().bind(activeUser.getNameProperty());
     }
 
+    /**
+     * Returns the text to put on the tab containing this screen
+     * @return The String text to put on the tab
+     */
     public String getTabText() {
         return ("Home");
     }
 
     /**
-     * Initializes the controller class.
+     * Initializes the controller
+     * @param url the url
+     * @param rb the resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

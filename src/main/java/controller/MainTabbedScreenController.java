@@ -5,10 +5,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.User;
 
@@ -20,12 +17,6 @@ public class MainTabbedScreenController implements Initializable {
 
     private Stage stage;
     private User activeUser;
-
-    @FXML
-    private Label welcomeLabel;
-
-    @FXML
-    private StackPane mainPane;
 
     @FXML
     private TabPane tabPane;
@@ -56,10 +47,10 @@ public class MainTabbedScreenController implements Initializable {
         MasterSingleton.fixMainScreenBounds();
     }
 
-    public StackPane getMainPane() {
-        return (mainPane);
-    }
-
+    /**
+     * Returns the tab pane to add tabs to
+     * @return the tab pane to add tabs to
+     */
     public TabPane getTabPane() {
         return (tabPane);
     }

@@ -1,9 +1,8 @@
-package thirsty.fxapp;
+package fxapp;
 
 import controller.MasterSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.Authenticator;
 import model.UserLevel;
 import model.UserManager;
 

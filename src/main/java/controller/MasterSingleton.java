@@ -1,34 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
-import java.util.Collection;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
-import thirsty.fxapp.Thirsty;
+import fxapp.Thirsty;
 
 /**
  *
  * @author tybrown
  */
 public class MasterSingleton {
-
+   
     private static Stage mainStage;
 
     private static StackPane mainPane;
@@ -76,7 +68,9 @@ public class MasterSingleton {
 
     /**
      * Displays the login screen
-     * @return Boolean stating whether or not the user was logged in successfully
+     *
+     * @return Boolean stating whether or not the user was logged in
+     * successfully
      */
     public static boolean showLoginScreen() {
         try {
@@ -84,7 +78,6 @@ public class MasterSingleton {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/LoginScreen.fxml"));
             AnchorPane page = loader.load();
-
 
             // Create the dialog Stage.
             Stage stage = new Stage();
@@ -108,47 +101,6 @@ public class MasterSingleton {
         } catch (IOException e) {
             Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
             return (false);
-        }
-    }
-
-    /**
-     * Displays the main screen
-     */
-    public static void showMainScreen() {
-        try {
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
-            //load the master page with toolbar
-            // -- inside is a StackPane which will hold the other pages
-            AnchorPane page = loader.load();
-            MainScreenController controller = loader.getController();
-            mainStage.setTitle("Thirsty?");
-            controller.setStage(mainStage);
-            controller.greetUser(activeUser);
-
-            mainPane = controller.getMainPane();
-
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
-            profilePane = loader.load();
-            profileController = loader.getController();
-
-
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
-            homePane = loader.load();
-            homeController = loader.getController();
-
-            showHomeScreen();
-
-            Scene scene = new Scene(page);
-            mainStage.setScene(scene);
-
-            fixMainScreenBounds();
-
-        } catch (IOException e) {
-            Debug.error("Exception while creating/showing main screen! Reason: %s", e.toString());
         }
     }
 
@@ -208,7 +160,6 @@ public class MasterSingleton {
             waterSourceReportTab.setText(waterSourceReportController.getTabText());
             waterSourceReportTab.setContent(waterSourceReportPane);
             tabList.add(waterSourceReportTab);
-
 
             Scene scene = new Scene(page);
             mainStage.setScene(scene);
@@ -279,67 +230,5 @@ public class MasterSingleton {
             Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
         }
         return (false);
-    }
-
-
-    /**
-     * Shows the profile screen
-     */
-    public static void showHomeScreen() {
-        //mainPane.getChildren().remove(homePane);
-        //mainPane.getChildren().add(homePane);
-        mainPane.getChildren().setAll(homePane);
-        mainStage.setTitle("Thirsty?");
-    }
-
-
-    /**
-     * Shows the profile screen
-     */
-    public static void showProfileScreen() {
-        //mainPane.getChildren().remove(profilePane);
-        //mainPane.getChildren().add(profilePane);
-        mainPane.getChildren().setAll(profilePane);
-        mainStage.setTitle("Thirsty? Profile");
-        profileController.setStage(mainStage);
-        profileController.setActiveUser(activeUser);
-
-
-        /*
-        try {
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-<<<<<<< HEAD
-            loader.setLocation(Thirsty.class.getResource("/ProfileScreen.fxml"));
-=======
-            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
-            //page.getChildren().setAll((Node)loader.load());
->>>>>>> d57d8f95c3040e042605ac5d49adb0d713faa151
-            AnchorPane page = loader.load();
-
-            // Create the dialog Stage.
-            Stage stage = new Stage();
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(mainStage);
-            Scene scene = new Scene(page);
-            stage.setScene(scene);
-
-            stage.setTitle("Thirsty? Profile");
-
-            // Set the person into the controller.
-            ProfileScreenController controller = loader.getController();
-            controller.setStage(mainStage);
-            controller.setActiveUser(activeUser);
-
-            // Show the dialog and wait until the user closes it
-            stage.showAndWait();
-
-            return;
-
-        } catch (IOException e) {
-            Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
-        }
-        return;
-*/
     }
 }

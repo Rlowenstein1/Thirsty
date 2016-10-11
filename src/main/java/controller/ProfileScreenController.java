@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.File;
@@ -128,6 +123,10 @@ public class ProfileScreenController implements Initializable {
         this.stage = stage;
     }
 
+    /**
+     * Returns the text to put on the tab containing this screen
+     * @return The String text to put on the tab
+     */
     public String getTabText() {
         return ("Profile");
     }
