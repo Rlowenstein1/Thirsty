@@ -42,7 +42,7 @@ public class WaterReportScreenController implements Initializable {
      * @return The String text to put on the tab
      */
     public String getTabText() {
-        return ("Submit Water Report");
+        return ("View Water Reports");
     }
     /**
      * Initializes the controller class.
