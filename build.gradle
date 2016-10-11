@@ -32,9 +32,9 @@ buildscript {
 // set the resources and java directory and get all files
 sourceSets {
   main {
-    java {
-      srcDirs = ["src"]
-    }
+//    java {
+//      srcDirs = ["src"]
+//    }
 //    resources {
 //      srcDirs = ["resources/view/", "resources/css/", "resources/img"]
 //      includes = ["*"]
