@@ -10,7 +10,7 @@
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
-            <ToolBar styleClass="splashbg3" stylesheets="@/stylesheet.css" BorderPane.alignment="CENTER">
+            <ToolBar styleClass="splashbg3" stylesheets="@/css/stylesheet.css" BorderPane.alignment="CENTER">
                <items>
                   <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="26.0" prefWidth="89.0" text="Logout" />
                </items>

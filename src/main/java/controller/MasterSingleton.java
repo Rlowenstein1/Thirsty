@@ -82,7 +82,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/LoginScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/LoginScreen.fxml"));
             AnchorPane page = loader.load();
 
 
@@ -118,7 +118,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/MainScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/MainScreen.fxml"));
             //load the master page with toolbar
             // -- inside is a StackPane which will hold the other pages
             AnchorPane page = loader.load();
@@ -130,13 +130,13 @@ public class MasterSingleton {
             mainPane = controller.getMainPane();
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/ProfileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
             profilePane = loader.load();
             profileController = loader.getController();
 
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/HomeScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
             homePane = loader.load();
             homeController = loader.getController();
 
@@ -160,7 +160,7 @@ public class MasterSingleton {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(Thirsty.class.getResource("/MainTabbedScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/MainTabbedScreen.fxml"));
             //load the master page with toolbar
             // -- inside is a StackPane which will hold the other pages
             AnchorPane page = loader.load();
@@ -174,7 +174,7 @@ public class MasterSingleton {
             ObservableList<Tab> tabList = tabPane.getTabs();
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/HomeScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
             homePane = loader.load();
             homeController = loader.getController();
             homeController.setActiveUser(activeUser);
@@ -186,7 +186,7 @@ public class MasterSingleton {
             tabList.add(homeTab);
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/ProfileScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
             profilePane = loader.load();
             profileController = loader.getController();
             profileController.setActiveUser(activeUser);
@@ -198,7 +198,7 @@ public class MasterSingleton {
             tabList.add(profileTab);
 
             loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/WaterSourceReportScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/WaterSourceReportScreen.fxml"));
             GridPane waterSourceReportPane = loader.load();
             WaterSourceReportScreenController waterSourceReportController = loader.getController();
             waterSourceReportController.setActiveUser(activeUser);
@@ -227,7 +227,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/SplashScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/SplashScreen.fxml"));
             AnchorPane page = loader.load();
 
             mainStage.setTitle("Thirsty?");
@@ -253,7 +253,7 @@ public class MasterSingleton {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/RegistrationScreen.fxml"));
+            loader.setLocation(Thirsty.class.getResource("/view/RegistrationScreen.fxml"));
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.

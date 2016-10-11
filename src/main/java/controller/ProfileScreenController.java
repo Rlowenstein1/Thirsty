@@ -149,11 +149,11 @@ public class ProfileScreenController implements Initializable {
         userProfileImage = activeUser.getProfilePicture();
         if (userProfileImage == null) {
             try {
-                InputStream profileImageIS = this.getClass().getResourceAsStream("/defaultProfilePicture.png");
+                InputStream profileImageIS = this.getClass().getResourceAsStream("/img/defaultProfilePicture.png");
                 userProfileImage = new Image(profileImageIS);
                 activeUser.setProfilePicture(userProfileImage);
             } catch (Exception e) {
-                Debug.error("Error while loading river image! Reason: %s", e.toString());
+                Debug.error("Error while loading default profile image! Reason: %s", e.toString());
                 return;
             }
 

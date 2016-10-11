@@ -35,10 +35,10 @@ sourceSets {
     java {
       srcDirs = ["src"]
     }
-    resources {
-      srcDirs = ["resources/view/", "resources/css/", "resources/img"]
-      includes = ["*"]
-    }
+//    resources {
+//      srcDirs = ["resources/view/", "resources/css/", "resources/img"]
+//      includes = ["*"]
+//    }
   }
 }
 
