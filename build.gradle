@@ -45,20 +45,6 @@ buildscript {
 }
 
 
-// set the resources and java directory and get all files
-sourceSets {
-  main {
-    java {
-      srcDirs = ["src/main/java"]
-    }
-//    resources {
-//      srcDirs = ["resources/view/", "resources/css/", "resources/img"]
-//      includes = ["*"]
-//    }
-  }
-}
-
-
 // javafx plugin configuration
 jfx {
   mainClass = 'fxapp.Thirsty'
