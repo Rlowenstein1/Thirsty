@@ -6,17 +6,17 @@
 
 <AnchorPane id="AnchorPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
    <children>
-      <JFXTreeTableView fx:id="reportTreeTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" accessibleRole="PARENT" styleClass="splashbg3" stylesheets="@../css/stylesheet.css">
-         <columns>
-            <TreeTableColumn editable="false" prefWidth="75.0" text="Number" />
-            <TreeTableColumn editable="false" prefWidth="89.0" text="Date/Time" />
-            <TreeTableColumn editable="false" prefWidth="81.0" text="Reporter" />
-            <TreeTableColumn editable="false" prefWidth="71.0" text="Type" />
-            <TreeTableColumn editable="false" prefWidth="84.0" text="Condition" />
-            <TreeTableColumn editable="false" prefWidth="60.0" text="Safety" />
-            <TreeTableColumn editable="false" prefWidth="62.0" text="V PPM" />
-            <TreeTableColumn editable="false" prefWidth="64.0" text="C PPM" />
-         </columns>
-      </JFXTreeTableView>
+      <TreeTableView fx:id="reportTreeTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="606.0" showRoot="false" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-18.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="75.0" text="Number" />
+          <TreeTableColumn fx:id="reportDateColumn" editable="false" prefWidth="89.0" text="Date/Time" />
+            <TreeTableColumn fx:id="reportReporterColumn" editable="false" prefWidth="81.0" text="Reporter" />
+            <TreeTableColumn fx:id="reportTypeColumn" editable="false" prefWidth="71.0" text="Type" />
+            <TreeTableColumn fx:id="reportConditionColumn" editable="false" prefWidth="84.0" text="Condition" />
+            <TreeTableColumn fx:id="reportSafetyColumn" editable="false" prefWidth="60.0" text="Safety" />
+            <TreeTableColumn fx:id="reportVPPMColumn" editable="false" prefWidth="62.0" text="V PPM" />
+            <TreeTableColumn fx:id="reportCPPMColumn" editable="false" prefWidth="64.0" text="C PPM" />
+        </columns>
+      </TreeTableView>
    </children>
 </AnchorPane>
