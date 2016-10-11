@@ -161,6 +161,18 @@ public class MasterSingleton {
             waterSourceReportTab.setContent(waterSourceReportPane);
             tabList.add(waterSourceReportTab);
 
+            loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/WaterReportScreen.fxml"));
+            AnchorPane waterReportPane = loader.load();
+            WaterReportScreenController waterReportController = loader.getController();
+            waterReportController.setActiveUser(activeUser);
+            waterReportController.setStage(mainStage);
+
+            Tab waterReportTab = new Tab();
+            waterReportTab.setText(waterReportController.getTabText());
+            waterReportTab.setContent(waterReportPane);
+            tabList.add(waterReportTab);
+
             Scene scene = new Scene(page);
             mainStage.setScene(scene);
 
