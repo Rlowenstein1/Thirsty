@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'javafx-gradle-plugin'
 apply plugin: 'checkstyle'
 
@@ -6,6 +7,21 @@ apply plugin: 'checkstyle'
 dependencies {
   compile 'com.jfoenix:jfoenix:0.0.0-SNAPSHOT'
 }
+
+sourceCompatibility = 1.8 
+
+version = '1.0.1'
+mainClassName = 'fxapp.Thirsty'
+
+//create a single Jar with all dependencies
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Thirsty',
+            'Implementation-Version': version,
+            'Main-Class': mainClassName
+    }   
+}
+
 
 repositories {
   maven {
@@ -32,9 +48,9 @@ buildscript {
 // set the resources and java directory and get all files
 sourceSets {
   main {
-//    java {
-//      srcDirs = ["src"]
-//    }
+    java {
+      srcDirs = ["src/main/java"]
+    }
 //    resources {
 //      srcDirs = ["resources/view/", "resources/css/", "resources/img"]
 //      includes = ["*"]
@@ -45,13 +61,13 @@ sourceSets {
 
 // javafx plugin configuration
 jfx {
-  mainClass = 'thirsty.fxapp.Thirsty'
+  mainClass = 'fxapp.Thirsty'
 }
 
 
 // cehckstyle plugin configuration
 checkstyle {
-  configFile = rootProject.file('resources/checkstyle/CS1332checkstyle.xml')
+  configFile = rootProject.file('src/main/resources/checkstyle/CS1332checkstyle.xml')
   toolVersion = "6.13"
   
   repositories {

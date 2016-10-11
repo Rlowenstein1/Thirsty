@@ -28,3 +28,5 @@ nbproject/
 
 # storage on macs
 .DS_STORE
+/.nb-gradle/
+/old/
