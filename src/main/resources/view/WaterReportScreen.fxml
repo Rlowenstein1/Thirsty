@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
-    <stylesheets>
-        <URL value="@/css/stylesheet.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
    <children>
-      <TreeTableView fx:id="reportTreeTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columns>
-          <TreeTableColumn editable="false" prefWidth="75.0" text="Number" />
-          <TreeTableColumn editable="false" prefWidth="89.0" text="Date/Time" />
+      <JFXTreeTableView fx:id="reportTreeTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" accessibleRole="PARENT" styleClass="splashbg3" stylesheets="@../css/stylesheet.css">
+         <columns>
+            <TreeTableColumn editable="false" prefWidth="75.0" text="Number" />
+            <TreeTableColumn editable="false" prefWidth="89.0" text="Date/Time" />
             <TreeTableColumn editable="false" prefWidth="81.0" text="Reporter" />
             <TreeTableColumn editable="false" prefWidth="71.0" text="Type" />
             <TreeTableColumn editable="false" prefWidth="84.0" text="Condition" />
             <TreeTableColumn editable="false" prefWidth="60.0" text="Safety" />
             <TreeTableColumn editable="false" prefWidth="62.0" text="V PPM" />
             <TreeTableColumn editable="false" prefWidth="64.0" text="C PPM" />
-        </columns>
-      </TreeTableView>
+         </columns>
+      </JFXTreeTableView>
    </children>
 </AnchorPane>
