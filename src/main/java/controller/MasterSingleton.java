@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
 import fxapp.Thirsty;
+import java.util.List;
+import javafx.scene.control.TreeItem;
+import model.ReportManager;
+import model.WaterReport;
 
 /**
  *
@@ -31,6 +35,8 @@ public class MasterSingleton {
 
     private static AnchorPane homePane;
     private static HomeScreenController homeController;
+
+    private static WaterReportScreenController waterReportController;
 
     private static User activeUser = null;
 
@@ -164,9 +170,10 @@ public class MasterSingleton {
             loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/WaterReportScreen.fxml"));
             AnchorPane waterReportPane = loader.load();
-            WaterReportScreenController waterReportController = loader.getController();
+            waterReportController = loader.getController();
             waterReportController.setActiveUser(activeUser);
             waterReportController.setStage(mainStage);
+            updateReportScreen();
 
             Tab waterReportTab = new Tab();
             waterReportTab.setText(waterReportController.getTabText());
@@ -242,5 +249,17 @@ public class MasterSingleton {
             Debug.error("Exception while creating/showing login screen! Reason: %s", e.toString());
         }
         return (false);
+    }
+
+    /**
+     * Updates the reports screen
+     */
+    public static void updateReportScreen() {
+        TreeItem<WaterReport> root = waterReportController.getRoot();
+        root.getChildren().clear();
+        List<WaterReport> reportList = ReportManager.getWaterReportlist();
+        for (WaterReport rr : reportList) {
+            root.getChildren().add(new TreeItem<>(rr));
+        }
     }
 }

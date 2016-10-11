@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import java.time.LocalDateTime;
 import java.time.Month;
 import javafx.geometry.Point2D;
+import lib.Debug;
 
 /**
  * Represents a water source report.
@@ -73,6 +74,7 @@ public class WaterReport implements Comparable<WaterReport> {
      * @return the number property
      */
     public SimpleIntegerProperty getReportNumProperty() {
+        Debug.debug("Reportnum: %s", reportNum);
         return reportNum;
     }
 
