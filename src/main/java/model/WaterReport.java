@@ -2,9 +2,9 @@ package model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import java.awt.geom.Point2D;
 import java.time.LocalDateTime;
 import java.time.Month;
+import javafx.geometry.Point2D;
 
 /**
  * Represents a water source report.
@@ -12,7 +12,7 @@ import java.time.Month;
 public class WaterReport implements Comparable<WaterReport> {
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<Point2D.Double> location = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<Point2D> location = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
@@ -26,7 +26,7 @@ public class WaterReport implements Comparable<WaterReport> {
      * @param condition the condition of water
      * @param author the author of the report
      */
-    public WaterReport(int reportNum, Point2D.Double location, WaterType type,
+    public WaterReport(int reportNum, Point2D location, WaterType type,
                 WaterCondition condition, User author) {
         this.reportNum.set(reportNum);
         this.dateTime.set(LocalDateTime.now());
@@ -46,7 +46,7 @@ public class WaterReport implements Comparable<WaterReport> {
      * @param condition the condition of water
      * @param author the author of the report
      */
-    public WaterReport(int reportNum, LocalDateTime dateTime, Point2D.Double location,
+    public WaterReport(int reportNum, LocalDateTime dateTime, Point2D location,
                        WaterType type, WaterCondition condition, User author) {
         this(reportNum, location, type, condition, author);
         this.dateTime.set(dateTime);
@@ -79,9 +79,9 @@ public class WaterReport implements Comparable<WaterReport> {
     /**
      * Gets the point containing the longitude and latitude
      * of the water source.
-     * @return
+     * @return the location
      */
-    public Point2D.Double getLocation() {
+    public Point2D getLocation() {
         return location.get();
     }
 
@@ -90,7 +90,7 @@ public class WaterReport implements Comparable<WaterReport> {
      * Sets the point to the location of the new water source
      * @param p the point containing the location of new water source
      */
-    public void setLocation(Point2D.Double p) {
+    public void setLocation(Point2D p) {
         location.set(p);
     }
 
@@ -98,7 +98,7 @@ public class WaterReport implements Comparable<WaterReport> {
      * Gets this water report's location property
      * @return the location property
      */
-    public ObjectProperty<Point2D.Double> getLocationProperty() {
+    public ObjectProperty<Point2D> getLocationProperty() {
         return location;
     }
 
