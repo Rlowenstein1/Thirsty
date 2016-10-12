@@ -17,15 +17,16 @@ public class ReportManager {
 
     /**
      * Creates a water report
-     * @param location of the report
+     * @param latitude GPS latitude coordinate of the report
+     * @param longitude GPS longitude coordinate of the report
      * @param type of the report
      * @param condition of the report
      * @param author Author of the report
      * @return the status of the operation
      */
-    public static WaterReport createWaterReport(Point2D location, WaterType type,
+    public static WaterReport createWaterReport(double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(reportNumber++, location, type, condition, author);
+        WaterReport r = new WaterReport(reportNumber++, latitude, longitude, type, condition, author);
         if (waterReportList.add(r)) {
             return (r);
         } else {
@@ -37,15 +38,16 @@ public class ReportManager {
     /**
      * Creates a water report
      * @param dateTime of the report
-     * @param location of the report
+     * @param latitude GPS latitude coordinate of the report
+     * @param longitude GPS longitude coordinate of the report
      * @param type of the report
      * @param condition of the report
      * @param author Author of the report
      * @return The WaterReport added, or null if the report already exists
      */
-    public static WaterReport createWaterReport(LocalDateTime dateTime, Point2D location,
+    public static WaterReport createWaterReport(LocalDateTime dateTime, double latitude, double longitude,
                 WaterType type, WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(reportNumber++, dateTime, location, type, condition, author);
+        WaterReport r = new WaterReport(reportNumber++, dateTime, latitude, longitude, type, condition, author);
         if (waterReportList.add(r)) {
             return (r);
         } else {

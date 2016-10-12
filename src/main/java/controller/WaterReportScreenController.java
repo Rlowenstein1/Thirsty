@@ -29,6 +29,10 @@ public class WaterReportScreenController implements Initializable {
     @FXML
     private JFXTreeTableView<WaterReport> reportTreeTable;
     @FXML
+    private TreeTableColumn<WaterReport, Number> reportLattitudeColumn;
+    @FXML
+    private TreeTableColumn<WaterReport, Number> reportLongitudeColumn;
+    @FXML
     private TreeTableColumn<WaterReport, Number> reportNumberColumn;
     @FXML
     private TreeTableColumn<WaterReport, LocalDateTime> reportDateColumn;
@@ -92,6 +96,16 @@ public class WaterReportScreenController implements Initializable {
         reportTreeTable.setShowRoot(false);
         reportTreeTable.setRoot(root);
 
+        reportLattitudeColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<WaterReport, Number> param)
+                -> (param.getValue().getValue().getLatitudeProperty())
+        );
+ 
+        reportLongitudeColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<WaterReport, Number> param)
+                -> (param.getValue().getValue().getLongitudeProperty())
+        );
+ 
         reportNumberColumn.setCellValueFactory(
             (TreeTableColumn.CellDataFeatures<WaterReport, Number> param)
                 -> (param.getValue().getValue().getReportNumProperty())

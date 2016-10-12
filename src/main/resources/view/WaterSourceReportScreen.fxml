@@ -5,10 +5,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
@@ -33,17 +35,47 @@
             </rowConstraints>
             <children>
                 <Label fx:id="imageProfileErrorLabel" text="Lattitude: " />
-                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES">
                     <children>
                         <Label fx:id="latErrorLabel" />
-                        <TextField fx:id="latTextField" maxWidth="1.7976931348623157E308" promptText="40.748440" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                              <TextField fx:id="latTextField" maxWidth="1.7976931348623157E308" promptText="40.74844" HBox.hgrow="SOMETIMES">
+                           <HBox.margin>
+                              <Insets right="4.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="S" />
+                        <Slider fx:id="latSlider" blockIncrement="1.0" majorTickUnit="2.0" max="1.0" maxWidth="1.7976931348623157E308" minorTickCount="1" prefHeight="55.0" prefWidth="100.0" showTickMarks="true" snapToTicks="true" value="1.0">
+                           <HBox.margin>
+                              <Insets left="2.0" right="2.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Label text="N" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
                 <Label fx:id="imageProfileErrorLabel1" text="Longitude: " GridPane.rowIndex="1" />
-                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1">
                     <children>
                         <Label fx:id="longErrorLabel" />
-                        <TextField fx:id="longTextField" maxWidth="1.7976931348623157E308" promptText="-73.984559" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
+                     <children>
+                              <TextField fx:id="longTextField" maxWidth="1.7976931348623157E308" promptText="73.98456" HBox.hgrow="SOMETIMES">
+                           <HBox.margin>
+                              <Insets right="4.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="W" />
+                        <Slider fx:id="longSlider" blockIncrement="1.0" majorTickUnit="2.0" max="1.0" maxWidth="1.7976931348623157E308" minorTickCount="1" prefHeight="55.0" prefWidth="100.0" showTickMarks="true" snapToTicks="true">
+                           <HBox.margin>
+                              <Insets left="2.0" right="2.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Label text="E" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
             </children>

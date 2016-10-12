@@ -6,14 +6,16 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import javafx.geometry.Point2D;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * Represents a water source report.
  */
 public class WaterReport extends RecursiveTreeObject<WaterReport> implements Comparable<WaterReport> {
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
+    private final SimpleDoubleProperty latitude = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty longitude = new SimpleDoubleProperty();
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<Point2D> location = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
@@ -22,19 +24,15 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Constructor for a new water source report.
      * The date and time are automatically generated.
      * @param reportNum the number of the report
-     * @param location the location (long, lat) of the water source
+     * @param latitude Latitude coordinate
+     * @param longitude Longitude coordinate
      * @param type the type of water
      * @param condition the condition of water
      * @param author the author of the report
      */
-    public WaterReport(int reportNum, Point2D location, WaterType type,
+    public WaterReport(int reportNum, double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
-        this.reportNum.set(reportNum);
-        this.dateTime.set(LocalDateTime.now());
-        this.location.set(location);
-        this.type.set(type);
-        this.condition.set(condition);
-        this.author.set(author);
+        this(reportNum, LocalDateTime.now(), latitude, longitude, type, condition, author);
     }
 
     /**
@@ -42,15 +40,22 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * entered in manually.
      * @param reportNum the report number
      * @param dateTime the date and time of creation
-     * @param location the location of the water source
+     * @param latitude Latitude coordinate
+     * @param longitude Longitude coordinate
      * @param type the type of water
      * @param condition the condition of water
      * @param author the author of the report
      */
-    public WaterReport(int reportNum, LocalDateTime dateTime, Point2D location,
+    public WaterReport(int reportNum, LocalDateTime dateTime, double latitude, double longitude,
                        WaterType type, WaterCondition condition, User author) {
-        this(reportNum, location, type, condition, author);
         this.dateTime.set(dateTime);
+        this.reportNum.set(reportNum);
+        this.latitude.set(latitude);
+        this.longitude.set(longitude);
+        this.type.set(type);
+        this.condition.set(condition);
+        this.author.set(author);
+
     }
 
     /**
@@ -78,29 +83,51 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     }
 
     /**
-     * Gets the point containing the longitude and latitude
-     * of the water source.
-     * @return the location
+     * Gets this water report's longitude coordinate
+     * @return the longitude coordinate
      */
-    public Point2D getLocation() {
-        return location.get();
-    }
-
-
-    /**
-     * Sets the point to the location of the new water source
-     * @param p the point containing the location of new water source
-     */
-    public void setLocation(Point2D p) {
-        location.set(p);
+    public double getLongitude() {
+        return longitude.get();
     }
 
     /**
-     * Gets this water report's location property
-     * @return the location property
+     * Sets this water report's longitude
+     * @param l the new longitude to be set
      */
-    public ObjectProperty<Point2D> getLocationProperty() {
-        return location;
+    public void setLongitude(double l) {
+        longitude.set(l);
+    }
+
+    /**
+     * Gets this water report's longitude property
+     * @return the longitude coordinate property
+     */
+    public SimpleDoubleProperty getLongitudeProperty() {
+        return longitude;
+    }
+
+    /**
+     * Gets this water report's latitude coordinate
+     * @return the latitude coordinate
+     */
+    public double getLatitude() {
+        return latitude.get();
+    }
+
+    /**
+     * Sets this water report's latitude
+     * @param l the new latitude to be set
+     */
+    public void setLatitude(double l) {
+        latitude.set(l);
+    }
+
+    /**
+     * Gets this water report's latitude property
+     * @return the latitude coordinate property
+     */
+    public SimpleDoubleProperty getLatitudeProperty() {
+        return latitude;
     }
 
     /**
@@ -148,6 +175,14 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      */
     public int getYear() {
         return dateTime.get().getYear();
+    }
+
+    /**
+     * Get the report's creation time
+     * @return the LocalDateTime of the report's creation
+     */
+    public LocalDateTime getDateTime() {
+        return (dateTime.get());
     }
 
     /**
@@ -234,7 +269,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     public String toString() {
         return "Report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
-                + "Location of water source: " + location.get() + "\n"
+                + "Location of water source: " + String.format("(%.5f,%.5f)", getLatitude(), getLongitude()) + "\n"
                 + "Type of water: " + type.get() + "\n"
                 + "Condition of water: " + condition.get();
     }

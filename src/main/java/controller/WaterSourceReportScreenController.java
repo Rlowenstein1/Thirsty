@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lib.TextFormatterFactory;
@@ -35,6 +36,11 @@ public class WaterSourceReportScreenController implements Initializable {
     private TextField latTextField;
     @FXML
     private TextField longTextField;
+
+    @FXML
+    private Slider latSlider;
+    @FXML
+    private Slider longSlider;
 
     @FXML
     private ComboBox<WaterType> typeComboBox;
@@ -114,7 +120,7 @@ public class WaterSourceReportScreenController implements Initializable {
         String longS = longTextField.getText();
         
         if (!latS.isEmpty()) {
-            latD = Double.parseDouble(latS);
+            latD = Double.parseDouble(latS) * (latSlider.getValue() * 2 - 1);
             if (Math.abs(latD) > 90) {
                 latErrorLabel.setText("Invalid lattitude!");
                 return;
@@ -124,7 +130,7 @@ public class WaterSourceReportScreenController implements Initializable {
             return;
         }
         if (!longS.isEmpty()) {
-            longD = Double.parseDouble(longS);
+            longD = Double.parseDouble(longS) * (longSlider.getValue() * 2 - 1);
             if (Math.abs(longD) > 180) {
                 longErrorLabel.setText("Invalid longitude!");
                 return;
@@ -134,7 +140,7 @@ public class WaterSourceReportScreenController implements Initializable {
             return;
         }
 
-        WaterReport r = ReportManager.createWaterReport(new Point2D(latD, longD), typeComboBox.getValue(), conditionComboBox.getValue(), activeUser);
+        WaterReport r = ReportManager.createWaterReport(latD, longD, typeComboBox.getValue(), conditionComboBox.getValue(), activeUser);
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {
