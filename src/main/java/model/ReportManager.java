@@ -6,7 +6,6 @@ import java.util.ListIterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
-import javafx.geometry.Point2D;
 
 /**
  * Manager for the Report classes
