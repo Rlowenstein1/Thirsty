@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="splashbg2" stylesheets="@/css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplashScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="splashbg2" stylesheets="@/css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplashScreenController">
    <children>
       <GridPane prefHeight="283.0" prefWidth="600.0">
         <columnConstraints>
@@ -38,7 +38,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <JFXButton fx:id="mainScreenLoginButton" buttonType="RAISED" onAction="#handleLoginButtonAction" ripplerFill="#211d9a" styleClass="but" stylesheets="@/css/stylesheet.css" text="Login" textFill="WHITE" GridPane.halignment="CENTER" />
+            <JFXButton fx:id="mainScreenLoginButton" buttonType="RAISED" defaultButton="true" onAction="#handleLoginButtonAction" ripplerFill="#211d9a" styleClass="but" stylesheets="@/css/stylesheet.css" text="Login" textFill="WHITE" GridPane.halignment="CENTER" />
             <JFXButton fx:id="mainScreenRegButton" buttonType="RAISED" layoutX="10.0" layoutY="46.0" onAction="#handleRegisterButtonAction" ripplerFill="#211d9a" styleClass="but" stylesheets="@/css/stylesheet.css" text="Register" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
