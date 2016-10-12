@@ -131,6 +131,7 @@ public class MasterSingleton {
 
             ObservableList<Tab> tabList = tabPane.getTabs();
 
+            /*
             loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
             homePane = loader.load();
@@ -142,6 +143,7 @@ public class MasterSingleton {
             homeTab.setText(homeController.getTabText());
             homeTab.setContent(homePane);
             tabList.add(homeTab);
+            */
 
             loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
