@@ -5,12 +5,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import java.time.LocalDateTime;
 import java.time.Month;
 import javafx.geometry.Point2D;
-import lib.Debug;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 /**
  * Represents a water source report.
  */
-public class WaterReport implements Comparable<WaterReport> {
+public class WaterReport extends RecursiveTreeObject<WaterReport> implements Comparable<WaterReport> {
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Point2D> location = new SimpleObjectProperty<>();
@@ -74,7 +74,6 @@ public class WaterReport implements Comparable<WaterReport> {
      * @return the number property
      */
     public SimpleIntegerProperty getReportNumProperty() {
-        Debug.debug("Reportnum: %s", reportNum);
         return reportNum;
     }
 
