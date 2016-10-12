@@ -5,17 +5,15 @@
  */
 package controller;
 
+import com.jfoenix.controls.JFXTreeTableView;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
 import javafx.stage.Stage;
-import model.ReportManager;
 import model.User;
 import model.WaterCondition;
 import model.WaterReport;
@@ -29,7 +27,7 @@ import model.WaterType;
 public class WaterReportScreenController implements Initializable {
 
     @FXML
-    private TreeTableView<WaterReport> reportTreeTable;
+    private JFXTreeTableView<WaterReport> reportTreeTable;
     @FXML
     private TreeTableColumn<WaterReport, Number> reportNumberColumn;
     @FXML
