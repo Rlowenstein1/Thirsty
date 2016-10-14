@@ -38,6 +38,8 @@ public class MasterSingleton {
 
     private static WaterReportScreenController waterReportController;
 
+    private static MapScreenController mapController;
+
     private static User activeUser = null;
 
     /**
@@ -181,6 +183,18 @@ public class MasterSingleton {
             waterReportTab.setText(waterReportController.getTabText());
             waterReportTab.setContent(waterReportPane);
             tabList.add(waterReportTab);
+
+            loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/MapScreen.fxml"));
+            AnchorPane mapPane = loader.load();
+            mapController = loader.getController();
+            mapController.setActiveUser(activeUser);
+            mapController.setStage(mainStage);
+
+            Tab mapTab = new Tab();
+            mapTab.setText(mapController.getTabText());
+            mapTab.setContent(mapPane);
+            tabList.add(mapTab);
 
             Scene scene = new Scene(page);
             mainStage.setScene(scene);
