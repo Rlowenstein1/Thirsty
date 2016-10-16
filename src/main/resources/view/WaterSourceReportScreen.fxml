@@ -40,7 +40,7 @@
                         <Label fx:id="latErrorLabel" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                              <TextField fx:id="latTextField" maxWidth="1.7976931348623157E308" promptText="40.74844" HBox.hgrow="SOMETIMES">
+                              <TextField fx:id="latTextField" maxWidth="1.7976931348623157E308" promptText="33.7756" HBox.hgrow="SOMETIMES">
                            <HBox.margin>
                               <Insets right="4.0" />
                            </HBox.margin>
@@ -62,7 +62,7 @@
                         <Label fx:id="longErrorLabel" />
                   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
                      <children>
-                              <TextField fx:id="longTextField" maxWidth="1.7976931348623157E308" promptText="73.98456" HBox.hgrow="SOMETIMES">
+                              <TextField fx:id="longTextField" maxWidth="1.7976931348623157E308" promptText="84.3963" HBox.hgrow="SOMETIMES">
                            <HBox.margin>
                               <Insets right="4.0" />
                            </HBox.margin>

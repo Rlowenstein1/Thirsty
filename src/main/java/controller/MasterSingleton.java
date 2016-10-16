@@ -196,6 +196,12 @@ public class MasterSingleton {
             mapTab.setContent(mapPane);
             tabList.add(mapTab);
 
+            tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+                if (newTab.equals(mapTab)) {
+                    mapController.updateMap();
+                }
+            });
+
             Scene scene = new Scene(page);
             mainStage.setScene(scene);
 
