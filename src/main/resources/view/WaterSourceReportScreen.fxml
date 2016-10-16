@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="236.0" prefWidth="520.0" styleClass="splashbg3" stylesheets="@/css/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterSourceReportScreenController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="236.0" prefWidth="520.0" styleClass="splashbg3" stylesheets="@/css/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterSourceReportScreenController">
     <stylesheets>
         <URL value="@/css/stylesheet.css" />
     </stylesheets>
@@ -97,7 +97,7 @@
       <VBox prefHeight="48.0" prefWidth="252.0" GridPane.rowIndex="3">
          <children>
             <Label />
-            <JFXButton fx:id="resetButton" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleResetButtonAction" prefWidth="184.0" ripplerFill="#2e1fab" styleClass="but" stylesheets="@../css/stylesheet.css" text="Reset" textFill="WHITE">
+            <JFXButton fx:id="resetButton" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleResetButtonAction" prefWidth="184.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@../css/stylesheet.css" text="Reset" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="8.0" right="24.0" />
                </VBox.margin></JFXButton>
@@ -106,7 +106,7 @@
       <VBox prefHeight="49.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <children>
             <Label fx:id="submitErrorLabel" />
-            <JFXButton fx:id="submitButton" buttonType="RAISED" defaultButton="true" maxWidth="1.7976931348623157E308" onAction="#handleSubmitButtonAction" prefWidth="322.0" ripplerFill="#1f238d" styleClass="but" stylesheets="@../css/stylesheet.css" text="Submit" textFill="WHITE">
+            <JFXButton fx:id="submitButton" buttonType="RAISED" defaultButton="true" maxWidth="1.7976931348623157E308" onAction="#handleSubmitButtonAction" prefWidth="322.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@../css/stylesheet.css" text="Submit" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="8.0" />
                </VBox.margin></JFXButton>
