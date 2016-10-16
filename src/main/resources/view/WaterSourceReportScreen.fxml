@@ -46,7 +46,7 @@
                            </HBox.margin>
                         </TextField>
                         <Label text="S" />
-                        <JFXSlider fx:id="latSlider" blockIncrement="1.0" majorTickUnit="2.0" max="1.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" />
+                        <JFXSlider fx:id="latSlider" blockIncrement="1.0" indicatorPosition="RIGHT" majorTickUnit="2.0" max="1.0" minorTickCount="1" showTickMarks="true" snapToTicks="true" />
                         <Label text="N" />
                      </children>
                   </HBox>
