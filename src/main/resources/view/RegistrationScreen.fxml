@@ -71,7 +71,7 @@
                   <PasswordField fx:id="pwConfRegField" />
                </children>
             </VBox>
-            <JFXButton fx:id="registerButton" buttonType="RAISED" defaultButton="true" onAction="#handleRegisterButtonAction" prefHeight="26.0" prefWidth="208.0" ripplerFill="#222fbc" styleClass="but" stylesheets="@/css/stylesheet.css" text="Register" textFill="WHITE" GridPane.rowIndex="6" />
+            <JFXButton fx:id="registerButton" buttonType="RAISED" defaultButton="true" onAction="#handleRegisterButtonAction" prefHeight="26.0" prefWidth="208.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@/css/stylesheet.css" text="Register" textFill="WHITE" GridPane.rowIndex="6" />
          </children>
          <padding>
             <Insets left="4.0" right="12.0" />
