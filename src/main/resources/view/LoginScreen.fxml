@@ -39,7 +39,7 @@
                <GridPane.margin>
                   <Insets right="12.0" />
                </GridPane.margin></PasswordField>
-            <JFXButton fx:id="loginButton" buttonType="RAISED" defaultButton="true" onAction="#handleLoginButtonAction" prefHeight="26.0" prefWidth="208.0" ripplerFill="#222fbc" styleClass="but" stylesheets="@/css/stylesheet.css" text="Login" textFill="WHITE" GridPane.rowIndex="2" />
+            <JFXButton fx:id="loginButton" buttonType="RAISED" defaultButton="true" onAction="#handleLoginButtonAction" prefHeight="26.0" prefWidth="208.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@/css/stylesheet.css" text="Login" textFill="WHITE" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>
