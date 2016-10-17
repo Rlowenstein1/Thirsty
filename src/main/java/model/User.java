@@ -1,5 +1,6 @@
 package model;
 
+import com.lynden.gmapsfx.javascript.object.LatLong;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +18,8 @@ public class User {
     private final StringProperty title = new SimpleStringProperty();
     private final ObjectProperty<UserLevel> level = new SimpleObjectProperty<>();
     private final ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
+    private double lastCoordsLat;
+    private double lastCoordsLng;
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.
@@ -33,9 +36,7 @@ public class User {
      * @param username the username of the User when they first register
      */
     public User(String username) {
-        this(username, "Name", "Sample Title",
-                "sample@example.com", UserLevel.USER,
-                new Image("file:defaultProfilePicture.png"));
+        this(username, "Name", "sample@example.com", UserLevel.USER);
     }
 
     /**
@@ -47,10 +48,7 @@ public class User {
      * @param level the authority level of the User
      */
     public User(String username, String name, String emailAddress, UserLevel level) {
-        this.username.set(username);
-        this.name.set(name);
-        this.emailAddress.set(emailAddress);
-        this.level.set(level);
+        this(username, name, "Sample Title", emailAddress, level, new Image("file:defaultProfilePicture.png"));
     }
 
     /**
@@ -65,9 +63,13 @@ public class User {
      * @param profilePicture the User's profile picture
      */
     public User(String username, String name, String title, String emailAddress, UserLevel level, Image profilePicture) {
-        this(username, name, emailAddress, level);
-        this.title.set(title);
-        this.profilePicture.set(profilePicture);
+        setUsername(username);
+        setName(name);
+        setEmailAddress(emailAddress);
+        setUserLevel(level);
+        setTitle(title);
+        setProfilePicture(profilePicture);
+        setLastCoords(33.7756, -84.3963);
     }
 
     /**
@@ -229,6 +231,40 @@ public class User {
      */
     public ObjectProperty<UserLevel>  getUserLevelProperty() {
         return level;
+    }
+
+    /**
+     * Gets the last viewed latitude coordinate
+     * @return Latitude
+     */
+    public double getLastCoordsLat() {
+        return (lastCoordsLat);
+    }
+
+    /**
+     * Gets the last viewed longitude coordinate
+     * @return Longitude
+     */
+    public double getLastCoordsLng() {
+        return (lastCoordsLng);
+    }
+
+    /**
+     * Set the last viewed coordinates
+     * @param newCoords the new coordinates
+     */
+    public void setLastCoords(LatLong newCoords) {
+        setLastCoords(newCoords.getLatitude(), newCoords.getLongitude());
+    }
+
+    /**
+     * Set the last viewed coordinates
+     * @param lat Latitude
+     * @param lng Longitude
+     */
+    public void setLastCoords(double lat, double lng) {
+        lastCoordsLat = lat;
+        lastCoordsLng = lng;
     }
 
     /**

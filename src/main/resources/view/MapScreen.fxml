@@ -2,13 +2,28 @@
 
 <?import com.lynden.gmapsfx.GoogleMapView?>
 <?import java.net.URL?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="controller.MapScreenController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapScreenController">
     <stylesheets>
         <URL value="@/css/stylesheet.css" />
     </stylesheets>
    <children>
-      <GoogleMapView fx:id="mapView" layoutX="-124.0" layoutY="-106.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <GoogleMapView fx:id="mapView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <HBox maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+               <children>
+                  <ToggleButton fx:id="addAReportButton" mnemonicParsing="false" onAction="#handleAddAReportButtonAction" text="Report water availability" />
+                  <ToggleButton fx:id="addQReportButton" mnemonicParsing="false" onAction="#handleAddQReportButtonAction" text="Add quality report to availability report" visible="false" />
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
    </children>
 </AnchorPane>

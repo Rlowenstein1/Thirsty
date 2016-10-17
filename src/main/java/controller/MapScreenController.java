@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import model.User;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.event.MapStateEventType;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.InfoWindow;
@@ -19,9 +20,16 @@ import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ToggleButton;
 import lib.Debug;
 import model.ReportManager;
+import model.UserLevel;
 import model.WaterReport;
 import netscape.javascript.JSObject;
 
@@ -35,6 +43,14 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
     @FXML
     private GoogleMapView mapView;
+
+    @FXML
+    private ToggleButton addAReportButton;
+    @FXML
+    private ToggleButton addQReportButton;
+
+    private boolean addingAReport;
+    private boolean addingQReport;
 
     private GoogleMap map;
 
@@ -56,6 +72,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      */
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
+        addQReportButton.setVisible(activeUser.getUserLevel().compareTo(UserLevel.WORKER) >= 0);
     }
 
     /**
@@ -88,7 +105,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         MapOptions options = new MapOptions();
 
         //set up the center location for the map
-        LatLong center = new LatLong(33.7756, -84.3963);
+        LatLong center = new LatLong(activeUser.getLastCoordsLat(), activeUser.getLastCoordsLng());
 
         options.center(center)
                 .zoom(16)
@@ -101,6 +118,52 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                 .mapType(MapTypeIdEnum.HYBRID);
 
         map = mapView.createMap(options);
+        map.addStateEventHandler(MapStateEventType.center_changed, () -> {
+            activeUser.setLastCoords(map.getCenter());
+        });
+        map.addUIEventHandler(UIEventType.click, (JSObject e) -> {
+            if (addingAReport) {
+                JSObject clicked = (JSObject) e.getMember("latLng");
+                Double clickedLat = (Double) clicked.call("lat");
+                Double clickedLng = (Double) clicked.call("lng");
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                LatLong loc = new LatLong(clickedLat, clickedLng);
+
+                markerOptions.position(loc)
+                        .visible(Boolean.TRUE)
+                        .title(String.format("%f,%f", clickedLat, clickedLng));
+
+                Marker marker = new Marker(markerOptions);
+
+                map.addMarker(marker);
+                markerList.add(marker);
+
+                InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
+                infoWindowOptions.content(String.format(
+                        "<h1>Create new water availability report at<br />%.5f, %.5f?</h1>",
+                        clickedLat, clickedLng
+                ));
+                
+                InfoWindow window = new InfoWindow(infoWindowOptions);
+                window.open(map, marker);
+
+                map.panTo(new LatLong(clickedLat, clickedLng));
+
+                Alert alert = new Alert(AlertType.CONFIRMATION, String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng), ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
+                alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
+                alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
+                alert.showAndWait();
+                
+                if (alert.getResult() == ButtonType.YES) {
+                    MasterSingleton.populateNewAReport(clickedLat, clickedLng);
+                } else {
+                    updateMap();
+                }
+
+            }
+        });
         /*
         map.addUIEventHandler(UIEventType.click, (JSObject e) -> {
             Debug.debug("you clicked");
@@ -177,23 +240,27 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             map.addUIEventHandler(marker,
                 UIEventType.click,
                 (JSObject obj) -> {
-                    InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-                    infoWindowOptions.content(String.format("<h1>%.5f, %.5f</h1>"
-                            + "<h3>Water type: %s<br />"
-                            + "Water condition: %s</h3>"
-                            + "Report number: %d<br />"
-                            + "Reported by: %s<br />"
-                            + "Reported at: %s<br />",
-                            lat, lng,
-                            rr.getWaterType().toString(),
-                            rr.getWaterCondition().toString(),
-                            rr.getReportNum(),
-                            rr.getAuthor().getUsername(),
-                            rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
-                    ));
+                    if (addingQReport) {
+                        Debug.debug("You want to add a quality report to %.5f, %.5f?", rr.getLatitude(), rr.getLongitude());
+                    } else {
+                        InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
+                        infoWindowOptions.content(String.format("<h1>%.5f, %.5f</h1>"
+                                + "<h3>Water type: %s<br />"
+                                + "Water condition: %s</h3>"
+                                + "Report number: %d<br />"
+                                + "Reported by: %s<br />"
+                                + "Reported at: %s<br />",
+                                lat, lng,
+                                rr.getWaterType().toString(),
+                                rr.getWaterCondition().toString(),
+                                rr.getReportNum(),
+                                rr.getAuthor().getUsername(),
+                                rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
+                        ));
 
-                    InfoWindow window = new InfoWindow(infoWindowOptions);
-                    window.open(map, marker);
+                        InfoWindow window = new InfoWindow(infoWindowOptions);
+                        window.open(map, marker);
+                    }
                 }
             );
             map.addMarker(marker);
@@ -202,6 +269,23 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
     }
 
+    @FXML
+    private void handleAddAReportButtonAction(ActionEvent event) {
+        addingAReport = addAReportButton.isSelected();
+        addingQReport = false;
+        if (addQReportButton.isSelected()) {
+            addQReportButton.setSelected(false);
+        }
+    }
+
+    @FXML
+    private void handleAddQReportButtonAction(ActionEvent event) {
+        addingAReport = false;
+        addingQReport = addQReportButton.isSelected();
+        if (addAReportButton.isSelected()) {
+            addAReportButton.setSelected(false);
+        }
+    }
 
 
 }
