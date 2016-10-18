@@ -269,6 +269,10 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
     }
 
+    /**
+     * Toggles adding availability report functionality when clicking on map
+     * @param event the ActionEvent of the click
+     */
     @FXML
     private void handleAddAReportButtonAction(ActionEvent event) {
         addingAReport = addAReportButton.isSelected();
@@ -278,6 +282,10 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         }
     }
 
+    /**
+     * Toggles adding quality report functionality when clicking on map
+     * @param event the ActionEvent of the click
+     */
     @FXML
     private void handleAddQReportButtonAction(ActionEvent event) {
         addingAReport = false;
@@ -286,6 +294,4 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             addAReportButton.setSelected(false);
         }
     }
-
-
 }
