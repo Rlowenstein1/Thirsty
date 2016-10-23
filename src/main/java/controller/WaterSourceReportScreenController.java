@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -95,6 +94,19 @@ public class WaterSourceReportScreenController implements Initializable {
         longTextField.setText("");
         typeComboBox.setValue(WATER_TYPE_DEFAULT);
         conditionComboBox.setValue(WATER_CONDITION_DEFAULT);
+        latSlider.setValue(0.0);
+        longSlider.setValue(0.0);
+    }
+
+    /**
+     * Sets up the fields with data from elsewhere
+     * @param lat The Latitude to stick into the box
+     * @param lng The Longitude to stick into the box
+     */
+    public void populateReport(double lat, double lng) {
+        resetFields();
+        latTextField.setText(String.format("%.5f", lat));
+        longTextField.setText(String.format("%.5f", lng));
     }
 
     /**
@@ -120,7 +132,8 @@ public class WaterSourceReportScreenController implements Initializable {
         String longS = longTextField.getText();
         
         if (!latS.isEmpty()) {
-            latD = Double.parseDouble(latS) * (latSlider.getValue() * 2 - 1);
+            double mult = Double.compare(latSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
+            latD = Double.parseDouble(latS) * mult;
             if (Math.abs(latD) > 90) {
                 latErrorLabel.setText("Invalid lattitude!");
                 return;
@@ -130,7 +143,8 @@ public class WaterSourceReportScreenController implements Initializable {
             return;
         }
         if (!longS.isEmpty()) {
-            longD = Double.parseDouble(longS) * (longSlider.getValue() * 2 - 1);
+            double mult = Double.compare(longSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
+            longD = Double.parseDouble(longS) * mult;
             if (Math.abs(longD) > 180) {
                 longErrorLabel.setText("Invalid longitude!");
                 return;

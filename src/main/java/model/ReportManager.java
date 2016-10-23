@@ -6,7 +6,6 @@ import java.util.ListIterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
-import javafx.geometry.Point2D;
 
 /**
  * Manager for the Report classes
@@ -102,6 +101,22 @@ public class ReportManager {
             }
         }
         return list;
+    }
+
+    /**
+     * Filters the report list by the report number
+     * @param num the number of the report
+     * @return either the report, or null if not found
+     */
+    public static WaterReport filterWaterReportByNumber(int num) {
+        if (num > 0 && num < reportNumber) {
+            for (WaterReport report: waterReportList) {
+                if (report.getReportNum() == num) {
+                    return (report);
+                }
+            }
+        }
+        return null;
     }
 
     /**

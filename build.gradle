@@ -1,11 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'javafx-gradle-plugin'
 apply plugin: 'checkstyle'
 
 
 dependencies {
-  compile 'com.jfoenix:jfoenix:0.0.0-SNAPSHOT'
+    compile 'com.jfoenix:jfoenix:0.0.0-SNAPSHOT'
+    // https://mvnrepository.com/artifact/com.lynden/GMapsFX
+    compile group: 'com.lynden', name: 'GMapsFX', version: '2.0.9'
 }
 
 sourceCompatibility = 1.8 
@@ -24,42 +25,21 @@ jar {
 
 
 repositories {
-  maven {
-    url "https://oss.sonatype.org/content/groups/public"
-  }
-}
-
-
-// adding javafx plugin
-buildscript {
-  dependencies {
-    classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: "8.7.1-SNAPSHOT"
-  }
-  repositories {
-    mavenLocal()
-    mavenCentral()
     maven {
-      url "https://oss.sonatype.org/content/repositories/snapshots"
+        url "https://oss.sonatype.org/content/groups/public"
     }
-  }
-}
-
-
-// javafx plugin configuration
-jfx {
-  mainClass = 'fxapp.Thirsty'
 }
 
 
 // cehckstyle plugin configuration
 checkstyle {
-  configFile = rootProject.file('src/main/resources/checkstyle/CS1332checkstyle.xml')
-  toolVersion = "6.13"
-  
-  repositories {
-    mavenLocal()
-    mavenCentral()
-  }
-  ignoreFailures = false
-  showViolations = false
+    configFile = rootProject.file('src/main/resources/checkstyle/CS1332checkstyle.xml')
+    toolVersion = "6.13"
+    
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    ignoreFailures = false
+    showViolations = false
 }

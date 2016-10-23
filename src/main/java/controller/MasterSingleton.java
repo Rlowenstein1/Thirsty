@@ -17,6 +17,7 @@ import fxapp.Thirsty;
 import java.util.List;
 import javafx.scene.control.TreeItem;
 import model.ReportManager;
+import model.UserLevel;
 import model.WaterReport;
 
 /**
@@ -36,7 +37,15 @@ public class MasterSingleton {
     private static AnchorPane homePane;
     private static HomeScreenController homeController;
 
+    private static WaterSourceReportScreenController waterSourceReportController;
+    private static Tab waterSourceReportTab;
+
+    private static WaterQualityReportScreenController waterQualityReportController;
+    private static Tab waterQualityReportTab;
+
     private static WaterReportScreenController waterReportController;
+
+    private static MapScreenController mapController;
 
     private static User activeUser = null;
 
@@ -160,14 +169,28 @@ public class MasterSingleton {
             loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/WaterSourceReportScreen.fxml"));
             GridPane waterSourceReportPane = loader.load();
-            WaterSourceReportScreenController waterSourceReportController = loader.getController();
+            waterSourceReportController = loader.getController();
             waterSourceReportController.setActiveUser(activeUser);
             waterSourceReportController.setStage(mainStage);
 
-            Tab waterSourceReportTab = new Tab();
+            waterSourceReportTab = new Tab();
             waterSourceReportTab.setText(waterSourceReportController.getTabText());
             waterSourceReportTab.setContent(waterSourceReportPane);
             tabList.add(waterSourceReportTab);
+
+            if (activeUser.getUserLevel().compareTo(UserLevel.USER) > 0) {
+                loader = new FXMLLoader();
+                loader.setLocation(Thirsty.class.getResource("/view/WaterQualityReportScreen.fxml"));
+                GridPane waterQualityReportPane = loader.load();
+                waterQualityReportController = loader.getController();
+                waterQualityReportController.setActiveUser(activeUser);
+                waterQualityReportController.setStage(mainStage);
+
+                waterQualityReportTab = new Tab();
+                waterQualityReportTab.setText(waterQualityReportController.getTabText());
+                waterQualityReportTab.setContent(waterQualityReportPane);
+                tabList.add(waterQualityReportTab);
+            }
 
             loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/WaterReportScreen.fxml"));
@@ -182,6 +205,24 @@ public class MasterSingleton {
             waterReportTab.setContent(waterReportPane);
             tabList.add(waterReportTab);
 
+            loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/MapScreen.fxml"));
+            AnchorPane mapPane = loader.load();
+            mapController = loader.getController();
+            mapController.setActiveUser(activeUser);
+            mapController.setStage(mainStage);
+
+            Tab mapTab = new Tab();
+            mapTab.setText(mapController.getTabText());
+            mapTab.setContent(mapPane);
+            tabList.add(mapTab);
+
+            tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+                if (newTab.equals(mapTab)) {
+                    mapController.updateMap();
+                }
+            });
+
             Scene scene = new Scene(page);
             mainStage.setScene(scene);
 
@@ -190,6 +231,25 @@ public class MasterSingleton {
         } catch (IOException e) {
             Debug.error("Exception while creating/showing main screen! Reason: %s", e.toString());
         }
+    }
+
+    /**
+     * Pre-populates a report and jumps to the tab
+     * @param lat The latitude coordinate to pre-populate
+     * @param lng The longitude coordinate to pre-populate
+     */
+    public static void populateNewAReport(double lat, double lng) {
+        waterSourceReportController.populateReport(lat, lng);
+        tabPane.getSelectionModel().select(waterSourceReportTab);
+    }
+
+    /**
+     * Pre-populates a report and jumps to the tab
+     * @param num The number of the report
+     */
+    public static void populateNewQReport(int num) {
+        waterQualityReportController.populateReport(num);
+        tabPane.getSelectionModel().select(waterQualityReportTab);
     }
 
     /**
