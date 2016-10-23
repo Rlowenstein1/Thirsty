@@ -11,23 +11,26 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-#IntelliJ project
+#IntelliJ
 .idea/
+*.iml
+
 # production and compilation
 out/
 build/
 .gradle/
 
-build.xml
-build/
-dist/
-manifest.mf
-nbproject/
-*.iml
+#vim
 *.swp
 
 # storage on macs
 .DS_STORE
+
+#netbeans stuff
 /.nb-gradle/
-/old/
 /private/
+/build.xml
+/dist/
+/manifest.mf
+/nbproject/
+settings.gradle
