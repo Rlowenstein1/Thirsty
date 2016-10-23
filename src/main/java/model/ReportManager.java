@@ -104,6 +104,22 @@ public class ReportManager {
     }
 
     /**
+     * Filters the report list by the report number
+     * @param num the number of the report
+     * @return either the report, or null if not found
+     */
+    public static WaterReport filterWaterReportByNumber(int num) {
+        if (num > 0 && num < reportNumber) {
+            for (WaterReport report: waterReportList) {
+                if (report.getReportNum() == num) {
+                    return (report);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Sorts the water reports by alphabetical order of the name of the author
      * @return the sorted report list
      */

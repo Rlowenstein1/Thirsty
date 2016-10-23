@@ -240,26 +240,38 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             map.addUIEventHandler(marker,
                 UIEventType.click,
                 (JSObject obj) -> {
-                    if (addingQReport) {
-                        Debug.debug("You want to add a quality report to %.5f, %.5f?", rr.getLatitude(), rr.getLongitude());
-                    } else {
-                        InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-                        infoWindowOptions.content(String.format("<h1>%.5f, %.5f</h1>"
-                                + "<h3>Water type: %s<br />"
-                                + "Water condition: %s</h3>"
-                                + "Report number: %d<br />"
-                                + "Reported by: %s<br />"
-                                + "Reported at: %s<br />",
-                                lat, lng,
-                                rr.getWaterType().toString(),
-                                rr.getWaterCondition().toString(),
-                                rr.getReportNum(),
-                                rr.getAuthor().getUsername(),
-                                rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
-                        ));
+                    InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
+                    infoWindowOptions.content(String.format("<h1>%.5f, %.5f</h1>"
+                            + "<h3>Water type: %s<br />"
+                            + "Water condition: %s</h3>"
+                            + "Report number: %d<br />"
+                            + "Reported by: %s<br />"
+                            + "Reported at: %s<br />",
+                            lat, lng,
+                            rr.getWaterType().toString(),
+                            rr.getWaterCondition().toString(),
+                            rr.getReportNum(),
+                            rr.getAuthor().getUsername(),
+                            rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
+                    ));
 
-                        InfoWindow window = new InfoWindow(infoWindowOptions);
-                        window.open(map, marker);
+                    InfoWindow window = new InfoWindow(infoWindowOptions);
+                    window.open(map, marker);
+
+                    if (addingQReport) {
+                        map.panTo(new LatLong(lat, lng));
+                        
+                        Alert alert = new Alert(AlertType.CONFIRMATION, String.format("Create new water Quality report at\n%.5f, %.5f?", lat, lng), ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                        Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
+                        alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
+                        alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
+                        alert.showAndWait();
+                        
+                        if (alert.getResult() == ButtonType.YES) {
+                            MasterSingleton.populateNewQReport(rr.getReportNum());
+                        } else {
+                            updateMap();
+                        }
                     }
                 }
             );
