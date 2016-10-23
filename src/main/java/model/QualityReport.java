@@ -1,60 +1,64 @@
 package model;
+
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import java.time.LocalDateTime;
 import java.time.Month;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- * Represents a water source report.
+ * Represents a water quality report.
  */
-public class WaterReport extends RecursiveTreeObject<WaterReport> implements Comparable<WaterReport> {
+public class QualityReport extends RecursiveTreeObject<QualityReport> implements Comparable<QualityReport> {
+    private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
+    private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
     private final SimpleDoubleProperty latitude = new SimpleDoubleProperty();
     private final SimpleDoubleProperty longitude = new SimpleDoubleProperty();
-    private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<WaterSafety> condition = new SimpleObjectProperty<>();
+    private final SimpleDoubleProperty virusPPM = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty contaminantPPM = new SimpleDoubleProperty();
 
     /**
      * Constructor for a new water source report.
      * The date and time are automatically generated.
-     * @param reportNum the number of the report
+     * @param reportNum the report number
+     * @param author the author
      * @param latitude Latitude coordinate
      * @param longitude Longitude coordinate
-     * @param type the type of water
-     * @param condition the condition of water
-     * @param author the author of the report
+     * @param condition overall condition of water
+     * @param virusPPM the virus PPM
+     * @param contaminantPPM the contaminant PPM
      */
-    public WaterReport(int reportNum, double latitude, double longitude, WaterType type,
-                WaterCondition condition, User author) {
-        this(reportNum, LocalDateTime.now(), latitude, longitude, type, condition, author);
+    public QualityReport(int reportNum, User author, double latitude, double longitude,
+                         WaterSafety condition, double virusPPM, double contaminantPPM) {
+        this(LocalDateTime.now(), reportNum, author, latitude, longitude, condition, virusPPM, contaminantPPM);
     }
 
     /**
-     * Constructor for a new water source with all fields
+     * Constructor for a new water quality report with all fields
      * entered in manually.
-     * @param reportNum the report number
      * @param dateTime the date and time of creation
+     * @param reportNum the report number
+     * @param author the author
      * @param latitude Latitude coordinate
      * @param longitude Longitude coordinate
-     * @param type the type of water
-     * @param condition the condition of water
-     * @param author the author of the report
+     * @param condition overall condition of water
+     * @param virusPPM the virus PPM
+     * @param contaminantPPM the contaminant PPM
      */
-    public WaterReport(int reportNum, LocalDateTime dateTime, double latitude, double longitude,
-                       WaterType type, WaterCondition condition, User author) {
+    public QualityReport(LocalDateTime dateTime, int reportNum, User author, double latitude,
+                         double longitude, WaterSafety condition, double virusPPM, double contaminantPPM) {
         this.dateTime.set(dateTime);
         this.reportNum.set(reportNum);
+        this.author.set(author);
         this.latitude.set(latitude);
         this.longitude.set(longitude);
-        this.type.set(type);
         this.condition.set(condition);
-        this.author.set(author);
-
+        this.virusPPM.set(virusPPM);
+        this.contaminantPPM.set(contaminantPPM);
     }
 
     /**
@@ -193,53 +197,29 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     }
 
     /**
-     * Gets the type of the water
+     * Gets the water safety condition
      * @return the type
      */
-    public WaterType getWaterType() {
-        return type.get();
-    }
-
-    /**
-     * Sets the type of water
-     * @param t the new type of water
-     */
-    public void setWaterType(WaterType t) {
-        type.set(t);
-    }
-
-    /**
-     * Gets this water report's water source type
-     * @return the water type property
-     */
-    public ObjectProperty<WaterType> getWaterTypeProperty() {
-        return type;
-    }
-
-    /**
-     * Gets the water condition
-     * @return the condition
-     */
-    public WaterCondition getWaterCondition() {
+    public WaterSafety getWaterCondition() {
         return condition.get();
     }
 
     /**
-     * Sets the water condition
-     * @param c the condition
+     * Sets the condition of water
+     * @param t the new type of water
      */
-    public void setWaterCondtion(WaterCondition c) {
-        condition.set(c);
+    public void setWaterCondition(WaterSafety t) {
+        condition.set(t);
     }
 
     /**
-     * Gets the water report's water condition property
-     * @return the water condition property
+     * Gets this water report's water condition
+     * @return the water type property
      */
-    public ObjectProperty<WaterCondition> getWaterConditionProperty() {
+    public ObjectProperty<WaterSafety> getWaterConditionProperty() {
         return condition;
     }
-    
+
     /**
      * Gets the water report's author
      * @return the author
@@ -265,26 +245,76 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     }
 
     /**
-     * String representation for this water report
-     * @return a string representation of this water report object
+     * Gets the virus PPM for this water report
+     * @return the virus PPM
+     */
+    public double getVirusPPM() {
+        return virusPPM.get();
+    }
+
+    /**
+     * Sets the virus PPM for this water source
+     * @param virus the new virus PPM
+     */
+    public void setVirusPPM(double virus) {
+        virusPPM.set(virus);
+    }
+
+    /**
+     * Gets the virus PPM property for this water report
+     * @return the virus PPM property
+     */
+    public SimpleDoubleProperty getVirusProperty() {
+        return virusPPM;
+    }
+
+    /**
+     * Gets the contaminant PPM for this water report
+     * @return the contaminant PPM
+     */
+    public double getContaminantPPM() {
+        return contaminantPPM.get();
+    }
+
+    /**
+     * Sets the contaminant PPM for this water report
+     * @param contaminant the new contaminant PPM
+     */
+    public void setContaminantPPM(double contaminant) {
+        contaminantPPM.set(contaminant);
+    }
+
+    /**
+     * Gets the contaminant PPM property for this water report
+     * @return the contaminant PPM property
+     */
+    public SimpleDoubleProperty getContaminantProperty() {
+        return contaminantPPM;
+    }
+
+
+    /**
+     * String representation for this water quality report
+     * @return a string representation of this water quality report
      */
     @Override
     public String toString() {
         return "Report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
                 + "Location of water source: " + String.format("(%.5f,%.5f)", getLatitude(), getLongitude()) + "\n"
-                + "Type of water: " + type.get() + "\n"
-                + "Condition of water: " + condition.get();
+                + "Condition of water: " + condition.get()
+                + "Virus PPM: " + virusPPM.get() + "\n"
+                + "Contaminant PPM " + contaminantPPM.get();
     }
 
     /**
-     * Compare method for comparing water source reports based
+     * Compare method for comparing water quality reports based
      * on the time created
-     * @param report the water report to be compared
+     * @param report the water quality report to be compared
      * @return the integer value from comparison
      */
     @Override
-    public int compareTo(WaterReport report) {
+    public int compareTo(QualityReport report) {
         return this.dateTime.get().compareTo(report.getDateTimeProperty().get());
     }
 }
