@@ -48,7 +48,7 @@ public class User {
      * @param level the authority level of the User
      */
     public User(String username, String name, String emailAddress, UserLevel level) {
-        this(username, name, "Sample Title", emailAddress, level, new Image("file:defaultProfilePicture.png"));
+        this(username, name, "Sample Title", emailAddress, level, null);
     }
 
     /**
