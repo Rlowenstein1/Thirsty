@@ -73,16 +73,6 @@ public class User {
     }
 
     /**
-     * Gets the name property of the User
-     *
-     * @return the name of the User
-     */
-    public StringProperty getNameProperty() {
-        return name;
-    }
-
-
-    /**
      * Gets the name of the User
      *
      * @return the name of the User
@@ -98,6 +88,14 @@ public class User {
      */
     public void setName(String n) {
         name.set(n);
+    }
+
+    /**
+     * Gets the name property for this User
+     * @return the name
+     */
+    public StringProperty getNameProperty() {
+        return name;
     }
 
     /**

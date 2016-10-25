@@ -2,36 +2,35 @@ package model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import java.awt.geom.Point2D;
 import java.time.LocalDateTime;
 import java.time.Month;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * Represents a water source report.
  */
-public class WaterReport extends RecursiveTreeObject<WaterReport> implements Comparable<WaterReport> {
+public class WaterReport {
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
-    private final SimpleDoubleProperty latitude = new SimpleDoubleProperty();
-    private final SimpleDoubleProperty longitude = new SimpleDoubleProperty();
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<Point2D.Double> location = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
+    private static int reportNumCounter = 1;
 
     /**
      * Constructor for a new water source report.
-     * The date and time are automatically generated.
-     * @param reportNum the number of the report
-     * @param latitude Latitude coordinate
-     * @param longitude Longitude coordinate
+     * The report number, date, and time are automatically generated.
+     * @param location the location (long, lat) of the water source
      * @param type the type of water
      * @param condition the condition of water
-     * @param author the author of the report
      */
-    public WaterReport(int reportNum, double latitude, double longitude, WaterType type,
-                WaterCondition condition, User author) {
-        this(reportNum, LocalDateTime.now(), latitude, longitude, type, condition, author);
+    public WaterReport(Point2D.Double location, WaterType type, WaterCondition condition) {
+        this.reportNum.set(reportNumCounter);
+        this.dateTime.set(LocalDateTime.now());
+        this.location.set(location);
+        this.type.set(type);
+        this.condition.set(condition);
+        reportNumCounter++;
     }
 
     /**
@@ -39,22 +38,24 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * entered in manually.
      * @param reportNum the report number
      * @param dateTime the date and time of creation
-     * @param latitude Latitude coordinate
-     * @param longitude Longitude coordinate
+     * @param location the location of the water source
      * @param type the type of water
      * @param condition the condition of water
-     * @param author the author of the report
      */
-    public WaterReport(int reportNum, LocalDateTime dateTime, double latitude, double longitude,
-                       WaterType type, WaterCondition condition, User author) {
-        this.dateTime.set(dateTime);
+    public WaterReport(int reportNum, LocalDateTime dateTime, Point2D.Double location,
+                       WaterType type, WaterCondition condition) {
+        this(location, type, condition);
         this.reportNum.set(reportNum);
-        this.latitude.set(latitude);
-        this.longitude.set(longitude);
-        this.type.set(type);
-        this.condition.set(condition);
-        this.author.set(author);
+        this.dateTime.set(dateTime);
+        reportNumCounter++;
+    }
 
+    /**
+     * Returns total number of water reports
+     * @return the number
+     */
+    public static int getCount() {
+        return reportNumCounter;
     }
 
     /**
@@ -82,51 +83,29 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     }
 
     /**
-     * Gets this water report's longitude coordinate
-     * @return the longitude coordinate
+     * Gets the point containing the longitude and latitude
+     * of the water source.
+     * @return
      */
-    public double getLongitude() {
-        return longitude.get();
+    public Point2D.Double getLocation() {
+        return location.get();
+    }
+
+
+    /**
+     * Sets the point to the location of the new water source
+     * @param p the point containing the location of new water source
+     */
+    public void setLocation(Point2D.Double p) {
+        location.set(p);
     }
 
     /**
-     * Sets this water report's longitude
-     * @param l the new longitude to be set
+     * Gets this water report's location property
+     * @return the location property
      */
-    public void setLongitude(double l) {
-        longitude.set(l);
-    }
-
-    /**
-     * Gets this water report's longitude property
-     * @return the longitude coordinate property
-     */
-    public SimpleDoubleProperty getLongitudeProperty() {
-        return longitude;
-    }
-
-    /**
-     * Gets this water report's latitude coordinate
-     * @return the latitude coordinate
-     */
-    public double getLatitude() {
-        return latitude.get();
-    }
-
-    /**
-     * Sets this water report's latitude
-     * @param l the new latitude to be set
-     */
-    public void setLatitude(double l) {
-        latitude.set(l);
-    }
-
-    /**
-     * Gets this water report's latitude property
-     * @return the latitude coordinate property
-     */
-    public SimpleDoubleProperty getLatitudeProperty() {
-        return latitude;
+    public ObjectProperty<Point2D.Double> getLocationProperty() {
+        return location;
     }
 
     /**
@@ -174,14 +153,6 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      */
     public int getYear() {
         return dateTime.get().getYear();
-    }
-
-    /**
-     * Get the report's creation time
-     * @return the LocalDateTime of the report's creation
-     */
-    public LocalDateTime getDateTime() {
-        return (dateTime.get());
     }
 
     /**
@@ -233,58 +204,19 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     }
 
     /**
-     * Gets the water report's water condition property
+     * Gets thus water report's water condition property
      * @return the water condition property
      */
     public ObjectProperty<WaterCondition> getWaterConditionProperty() {
         return condition;
     }
-    
-    /**
-     * Gets the water report's author
-     * @return the author
-     */
-    public User getAuthor() {
-        return author.get();
-    }
 
-    /**
-     * Sets the author
-     * @param user the user of the report
-     */
-    public void setAuthor(User user) {
-        author.set(user);
-    }
-
-    /**
-     * Gets the water report's author property
-     * @return the author property
-     */
-    public ObjectProperty<User> getAuthorProperty() {
-        return author;
-    }
-
-    /**
-     * String representation for this water report
-     * @return a string representation of this water report object
-     */
     @Override
     public String toString() {
         return "Report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
-                + "Location of water source: " + String.format("(%.5f,%.5f)", getLatitude(), getLongitude()) + "\n"
+                + "Location of water source: " + location.get() + "\n"
                 + "Type of water: " + type.get() + "\n"
                 + "Condition of water: " + condition.get();
-    }
-
-    /**
-     * Compare method for comparing water source reports based
-     * on the time created
-     * @param report the water report to be compared
-     * @return the integer value from comparison
-     */
-    @Override
-    public int compareTo(WaterReport report) {
-        return this.dateTime.get().compareTo(report.getDateTimeProperty().get());
     }
 }
