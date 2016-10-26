@@ -29,6 +29,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * @param condition overall condition of water
      * @param virusPPM the virus PPM
      * @param contaminantPPM the contaminant PPM
+     * @param waterReport the availability report to add the quality report to
      */
     public QualityReport(int reportNum, User author, WaterSafety condition, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this(LocalDateTime.now(), reportNum, author, condition, virusPPM, contaminantPPM, waterReport);
@@ -43,6 +44,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * @param condition overall condition of water
      * @param virusPPM the virus PPM
      * @param contaminantPPM the contaminant PPM
+     * @param waterReport the availability report to add the quality report to
      */
     public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety condition, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.dateTime.set(dateTime);

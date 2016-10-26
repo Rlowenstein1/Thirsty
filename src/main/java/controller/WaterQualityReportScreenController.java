@@ -1,7 +1,6 @@
 package controller;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +13,7 @@ import lib.TextFormatterFactory;
 import model.ReportManager;
 import model.User;
 import model.WaterReport;
+import model.QualityReport;
 import model.WaterSafety;
 
 /**
@@ -166,9 +166,7 @@ public class WaterQualityReportScreenController implements Initializable {
             return;
         }
 
-        /*
-        //TODO: create quality report
-        WaterReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(), vppm, cppm, activeUser);
+        QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(), vppm, cppm, activeUser);
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {
@@ -176,7 +174,6 @@ public class WaterQualityReportScreenController implements Initializable {
             resetFields();
             submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!", r.getReportNum(), report.getReportNum()));
         }
-        */
     }
 
     /**
