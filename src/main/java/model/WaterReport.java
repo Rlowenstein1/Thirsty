@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-import java.util.ArrayList;
+import javafx.beans.property.SimpleListProperty;
 import lib.Debug;
 
 /**
@@ -23,7 +23,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
-    private List<SimpleObjectProperty<QualityReport>> qualityReports;
+    private final SimpleListProperty<QualityReport> qualityReports = new SimpleListProperty<>();
 
     /**
      * Constructor for a new water source report.
@@ -38,7 +38,6 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     public WaterReport(int reportNum, double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
         this(reportNum, LocalDateTime.now(), latitude, longitude, type, condition, author);
-        this.qualityReports = new ArrayList<>();
     }
 
     /**
@@ -61,7 +60,6 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
         this.type.set(type);
         this.condition.set(condition);
         this.author.set(author);
-        this.qualityReports = new ArrayList<>();
     }
 
     /**
@@ -276,10 +274,41 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * water source.
      * @param qualityReport the quality report to be added to the list
      */
-    public void addQualityReport(SimpleObjectProperty<QualityReport> qualityReport) {
+    public void addQualityReport(QualityReport qualityReport) {
         try {
             qualityReports.add(qualityReport);
-        } catch (Exception e) {
+        } catch (Exception e) { //pretty sure that's going to throw up some red flags on code review day
+            Debug.error("Error adding to list. Reason: %s", e.toString());
+        }
+    }
+
+    /**
+     * Removes a quality report from the list of quality reports for this
+     * water source.
+     * @param qualityReport the quality report to be removed from the list
+     */
+    public void removeQualityReport(QualityReport qualityReport) {
+        try {
+            qualityReports.remove(qualityReport);
+        } catch (Exception e) { //pretty sure that's going to throw up some red flags on code review day
+            Debug.error("Error adding to list. Reason: %s", e.toString());
+        }
+    }
+
+    /**
+     * Removes a quality report from the list of quality reports for this
+     * water source.
+     * @param reportNum the number of the report to remove
+     */
+    public void removeQualityReport(int reportNum) {
+        try {
+            for (QualityReport q : qualityReports) {
+                if (q.getReportNum() == reportNum) {
+                    qualityReports.remove(q);
+                    return;
+                }
+            }
+        } catch (Exception e) { //pretty sure that's going to throw up some red flags on code review day
             Debug.error("Error adding to list. Reason: %s", e.toString());
         }
     }
@@ -288,7 +317,16 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets the list of quality reports for this water source report.
      * @return the list of quality reports
      */
-    public List<SimpleObjectProperty<QualityReport>> getQualityReports() {
+    public List<QualityReport> getQualityReportList() {
+        return qualityReports;
+    }
+
+
+    /**
+     * Gets the property list of quality reports for this water source report.
+     * @return the property list of quality reports
+     */
+    public SimpleListProperty<QualityReport> getQualityReportPropertyList() {
         return qualityReports;
     }
 
