@@ -288,8 +288,12 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets the list of quality reports for this water source report.
      * @return the list of quality reports
      */
-    public List<SimpleObjectProperty<QualityReport>> getQualityReports() {
-        return qualityReports;
+    public List<QualityReport> getQualityReports() {
+        List<QualityReport> list = new ArrayList<>();
+        qualityReports.forEach((SimpleObjectProperty<QualityReport> report) -> {
+            list.add(report.get());
+        });
+        return list;
     }
 
     /**
