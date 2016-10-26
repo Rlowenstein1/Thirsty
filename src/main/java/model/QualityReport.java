@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 
@@ -15,26 +16,23 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
-    private final SimpleDoubleProperty latitude = new SimpleDoubleProperty();
-    private final SimpleDoubleProperty longitude = new SimpleDoubleProperty();
     private final SimpleObjectProperty<WaterSafety> condition = new SimpleObjectProperty<>();
     private final SimpleDoubleProperty virusPPM = new SimpleDoubleProperty();
     private final SimpleDoubleProperty contaminantPPM = new SimpleDoubleProperty();
+    private final SimpleObjectProperty<WaterReport> waterReport = new SimpleObjectProperty<>();
 
     /**
      * Constructor for a new water source report.
      * The date and time are automatically generated.
      * @param reportNum the report number
      * @param author the author
-     * @param latitude Latitude coordinate
-     * @param longitude Longitude coordinate
      * @param condition overall condition of water
      * @param virusPPM the virus PPM
      * @param contaminantPPM the contaminant PPM
+     * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(int reportNum, User author, double latitude, double longitude,
-                         WaterSafety condition, double virusPPM, double contaminantPPM) {
-        this(LocalDateTime.now(), reportNum, author, latitude, longitude, condition, virusPPM, contaminantPPM);
+    public QualityReport(int reportNum, User author, WaterSafety condition, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+        this(LocalDateTime.now(), reportNum, author, condition, virusPPM, contaminantPPM, waterReport);
     }
 
     /**
@@ -43,22 +41,19 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * @param dateTime the date and time of creation
      * @param reportNum the report number
      * @param author the author
-     * @param latitude Latitude coordinate
-     * @param longitude Longitude coordinate
      * @param condition overall condition of water
      * @param virusPPM the virus PPM
      * @param contaminantPPM the contaminant PPM
+     * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(LocalDateTime dateTime, int reportNum, User author, double latitude,
-                         double longitude, WaterSafety condition, double virusPPM, double contaminantPPM) {
+    public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety condition, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.dateTime.set(dateTime);
         this.reportNum.set(reportNum);
         this.author.set(author);
-        this.latitude.set(latitude);
-        this.longitude.set(longitude);
         this.condition.set(condition);
         this.virusPPM.set(virusPPM);
         this.contaminantPPM.set(contaminantPPM);
+        this.waterReport.set(waterReport);
     }
 
     /**
@@ -83,54 +78,6 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      */
     public SimpleIntegerProperty getReportNumProperty() {
         return reportNum;
-    }
-
-    /**
-     * Gets this water report's longitude coordinate
-     * @return the longitude coordinate
-     */
-    public double getLongitude() {
-        return longitude.get();
-    }
-
-    /**
-     * Sets this water report's longitude
-     * @param l the new longitude to be set
-     */
-    public void setLongitude(double l) {
-        longitude.set(l);
-    }
-
-    /**
-     * Gets this water report's longitude property
-     * @return the longitude coordinate property
-     */
-    public SimpleDoubleProperty getLongitudeProperty() {
-        return longitude;
-    }
-
-    /**
-     * Gets this water report's latitude coordinate
-     * @return the latitude coordinate
-     */
-    public double getLatitude() {
-        return latitude.get();
-    }
-
-    /**
-     * Sets this water report's latitude
-     * @param l the new latitude to be set
-     */
-    public void setLatitude(double l) {
-        latitude.set(l);
-    }
-
-    /**
-     * Gets this water report's latitude property
-     * @return the latitude coordinate property
-     */
-    public SimpleDoubleProperty getLatitudeProperty() {
-        return latitude;
     }
 
     /**
@@ -292,6 +239,29 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
         return contaminantPPM;
     }
 
+    /**
+     * Gets the water source report attached to this quality report
+     * @return the water source report
+     */
+    public WaterReport getWaterReport() {
+        return waterReport.get();
+    }
+
+    /**
+     * Sets the water source report to a new one
+     * @param wr the new water source report attached to this quality report
+     */
+    public void setWaterReport(WaterReport wr) {
+        waterReport.set(wr);
+    }
+
+    /**
+     * Gets the water source report property
+     * @return the water source report property
+     */
+    public SimpleObjectProperty<WaterReport> getWaterReportProperty() {
+        return  waterReport;
+    }
 
     /**
      * String representation for this water quality report
@@ -299,12 +269,12 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      */
     @Override
     public String toString() {
-        return "Report number: " + reportNum.get() + "\n"
+        return "Quality report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
-                + "Location of water source: " + String.format("(%.5f,%.5f)", getLatitude(), getLongitude()) + "\n"
                 + "Condition of water: " + condition.get()
                 + "Virus PPM: " + virusPPM.get() + "\n"
-                + "Contaminant PPM " + contaminantPPM.get();
+                + "Contaminant PPM " + contaminantPPM.get() + "\n"
+                + waterReport.get().toString();
     }
 
     /**

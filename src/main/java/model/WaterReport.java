@@ -1,11 +1,16 @@
 package model;
+
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 import java.time.LocalDateTime;
 import java.time.Month;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.SimpleDoubleProperty;
+import java.util.List;
+import java.util.ArrayList;
+import lib.Debug;
 
 /**
  * Represents a water source report.
@@ -18,6 +23,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
+    private List<SimpleObjectProperty<QualityReport>> qualityReports;
 
     /**
      * Constructor for a new water source report.
@@ -32,6 +38,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     public WaterReport(int reportNum, double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
         this(reportNum, LocalDateTime.now(), latitude, longitude, type, condition, author);
+        this.qualityReports = new ArrayList<>();
     }
 
     /**
@@ -54,7 +61,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
         this.type.set(type);
         this.condition.set(condition);
         this.author.set(author);
-
+        this.qualityReports = new ArrayList<>();
     }
 
     /**
@@ -228,7 +235,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Sets the water condition
      * @param c the condition
      */
-    public void setWaterCondtion(WaterCondition c) {
+    public void setWaterCondition(WaterCondition c) {
         condition.set(c);
     }
 
@@ -265,12 +272,33 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     }
 
     /**
+     * Adds a quality report to the list of quality reports for this
+     * water source.
+     * @param qualityReport the quality report to be added to the list
+     */
+    public void addQualityReport(SimpleObjectProperty<QualityReport> qualityReport) {
+        try {
+            qualityReports.add(qualityReport);
+        } catch (Exception e) {
+            Debug.error("Error adding to list. Reason: %s", e.toString());
+        }
+    }
+
+    /**
+     * Gets the list of quality reports for this water source report.
+     * @return the list of quality reports
+     */
+    public List<SimpleObjectProperty<QualityReport>> getQualityReports() {
+        return qualityReports;
+    }
+
+    /**
      * String representation for this water report
      * @return a string representation of this water report object
      */
     @Override
     public String toString() {
-        return "Report number: " + reportNum.get() + "\n"
+        return "Water report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
                 + "Location of water source: " + String.format("(%.5f,%.5f)", getLatitude(), getLongitude()) + "\n"
                 + "Type of water: " + type.get() + "\n"
