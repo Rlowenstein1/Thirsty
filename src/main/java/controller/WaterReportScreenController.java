@@ -102,9 +102,7 @@ public class WaterReportScreenController implements Initializable {
             children.add(rT);
             ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
             List<QualityReport> q = ReportManager.getQualityReportList(rr);
-            Debug.debug("report #%d has %d quality reports associated with it", rr.getReportNum(), q.size());
             for (QualityReport qq : q) {
-                Debug.debug("Also want to add: %s", qq);
                 rChildren.add(new TreeItem<>(qq));
             }
         }

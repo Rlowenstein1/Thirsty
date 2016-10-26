@@ -34,10 +34,8 @@ public class SplashScreenController implements Initializable {
      */
     @FXML
     public void handleLoginButtonAction() {
-        Debug.debug("Login button pressed");
         boolean loggedIn = MasterSingleton.showLoginScreen();
         if (loggedIn) {
-            Debug.debug("User logged in!");
             MasterSingleton.showMainTabbedScreen();
         } else {
             Debug.debug("User cancelled login");
@@ -49,10 +47,8 @@ public class SplashScreenController implements Initializable {
      */
     @FXML
     public void handleRegisterButtonAction() {
-        Debug.debug("Registration button pressed");
         boolean loggedIn = MasterSingleton.showRegistrationScreen();
         if (loggedIn) {
-            Debug.debug("User registered!");
             MasterSingleton.showMainTabbedScreen();
         } else {
             Debug.debug("User cancelled registration");

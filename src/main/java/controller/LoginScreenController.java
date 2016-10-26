@@ -32,10 +32,8 @@ public class LoginScreenController implements Initializable {
     private void handleLoginButtonAction(ActionEvent event) {
         String username = usernameField.getText();
         String password = pwField.getText();
-        Debug.debug("Verifying user credentials: \"%s\":\"%s\"", username, password);
         loggedUser = UserManager.login(username, password);
         if (loggedUser != null) {
-            Debug.debug("User authentication successful!");
             authed = true;
             stage.close();
         } else {

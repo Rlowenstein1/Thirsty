@@ -21,15 +21,12 @@ public class UserManager {
      */
     public static User register(String username, String password, String fullname,
                                 String emailAddress, UserLevel userLevel) {
-        Debug.debug("registering new user:\n  username: %s\n  password: %s\n  fullname: %s\n  emailAddress: %s\n  userLevel: %s\n", username, password, fullname, emailAddress, userLevel);
         if (usernameMap.containsKey(username)) {
-            Debug.debug("User already exists!");
             return null;
         }
         User newUser = new User(username, fullname, emailAddress, userLevel);
         if (Authenticator.register(username, password)
                 && Authenticator.authenticate(newUser, username, password)) {
-            Debug.debug("Successfully registered!");
             usernameMap.put(username, newUser);
             return newUser;
         } else {
@@ -47,9 +44,7 @@ public class UserManager {
     public static User login(String username, String password) {
         User user = usernameMap.get(username);
         if (user != null) {
-            Debug.debug("User exists in usernameMap");
             if (Authenticator.authenticate(user, username, password)) {
-                Debug.debug("User successfully authenticated!");
                 return user;
             } else {
                 Debug.debug("User failed to authenticate ");
