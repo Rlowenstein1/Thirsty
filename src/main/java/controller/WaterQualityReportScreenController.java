@@ -188,6 +188,9 @@ public class WaterQualityReportScreenController implements Initializable {
 
         reportNumTextField.setTextFormatter(TextFormatterFactory.integerOnlyTextFormatter());
 
+        vppmTextField.setTextFormatter(TextFormatterFactory.decimalOnlyTextFormatter());
+        cppmTextField.setTextFormatter(TextFormatterFactory.integerOnlyTextFormatter());
+
         resetFields();
     }    
     
