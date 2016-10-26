@@ -30,6 +30,7 @@ import javafx.scene.control.ToggleButton;
 import lib.Debug;
 import model.ReportManager;
 import model.UserLevel;
+import model.UserManager;
 import model.WaterReport;
 import netscape.javascript.JSObject;
 
@@ -67,12 +68,19 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     }
 
     /**
+     * Sets the Quality Report button based on user's level
+     */
+    private void setQButtonVisibility() {
+        addQReportButton.setVisible(UserManager.isUserQualityReportAuthorized(activeUser));
+    }
+
+    /**
      * Greets the user with a welcome message
      * @param activeUser The user who is being greeted
      */
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
-        addQReportButton.setVisible(activeUser.getUserLevel().compareTo(UserLevel.WORKER) >= 0);
+        setQButtonVisibility();
     }
 
     /**
@@ -210,6 +218,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * Updates the map markers
      */
     public void updateMap() {
+        setQButtonVisibility();
         if (markerList != null) {
             for (Marker m: markerList) {
                 map.removeMarker(m);

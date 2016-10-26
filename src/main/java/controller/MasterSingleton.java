@@ -14,11 +14,8 @@ import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
 import fxapp.Thirsty;
-import java.util.List;
-import javafx.scene.control.TreeItem;
 import model.ReportManager;
-import model.UserLevel;
-import model.WaterReport;
+import model.UserManager;
 
 /**
  *
@@ -41,13 +38,15 @@ public class MasterSingleton {
     private static Tab waterSourceReportTab;
 
     private static WaterQualityReportScreenController waterQualityReportController;
-    private static Tab waterQualityReportTab;
+    private static Tab waterQualityReportTab = null;
 
     private static WaterReportScreenController waterReportController;
 
     private static MapScreenController mapController;
 
     private static User activeUser = null;
+
+    private static ObservableList<Tab> tabList;
 
     /**
      * Constructor
@@ -79,6 +78,27 @@ public class MasterSingleton {
      */
     public static void setActiveUser(User activeUser) {
         MasterSingleton.activeUser = activeUser;
+    }
+
+    /**
+     * Updates the menus the user is able to view
+     */
+    public static void updateUserPrivileges() {
+        Debug.debug("updating privs");
+        if (waterQualityReportTab != null) {
+            Debug.debug("not null");
+            if (UserManager.isUserQualityReportAuthorized(activeUser) && !tabList.contains(waterQualityReportTab)) {
+                tabList.add(2, waterQualityReportTab);
+            } else {
+                if (!UserManager.isUserQualityReportAuthorized(activeUser) && tabList.contains(waterQualityReportTab)) {
+                    tabList.remove(waterQualityReportTab);
+                }
+            }
+            /*
+            waterQualityReportTab.setDisable(!UserManager.isUserQualityReportAuthorized(activeUser));
+            Debug.debug("%b", UserManager.isUserQualityReportAuthorized(activeUser));
+            */
+        }
     }
 
     /**
@@ -138,7 +158,7 @@ public class MasterSingleton {
 
             tabPane = controller.getTabPane();
 
-            ObservableList<Tab> tabList = tabPane.getTabs();
+            tabList = tabPane.getTabs();
 
             /*
             loader = new FXMLLoader();
@@ -178,19 +198,17 @@ public class MasterSingleton {
             waterSourceReportTab.setContent(waterSourceReportPane);
             tabList.add(waterSourceReportTab);
 
-            if (activeUser.getUserLevel().compareTo(UserLevel.USER) > 0) {
-                loader = new FXMLLoader();
-                loader.setLocation(Thirsty.class.getResource("/view/WaterQualityReportScreen.fxml"));
-                GridPane waterQualityReportPane = loader.load();
-                waterQualityReportController = loader.getController();
-                waterQualityReportController.setActiveUser(activeUser);
-                waterQualityReportController.setStage(mainStage);
+            loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/WaterQualityReportScreen.fxml"));
+            GridPane waterQualityReportPane = loader.load();
+            waterQualityReportController = loader.getController();
+            waterQualityReportController.setActiveUser(activeUser);
+            waterQualityReportController.setStage(mainStage);
 
-                waterQualityReportTab = new Tab();
-                waterQualityReportTab.setText(waterQualityReportController.getTabText());
-                waterQualityReportTab.setContent(waterQualityReportPane);
-                tabList.add(waterQualityReportTab);
-            }
+            waterQualityReportTab = new Tab();
+            waterQualityReportTab.setText(waterQualityReportController.getTabText());
+            waterQualityReportTab.setContent(waterQualityReportPane);
+            //add the tab in updateUserPrivileges()
 
             loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/WaterReportScreen.fxml"));
@@ -222,6 +240,8 @@ public class MasterSingleton {
                     mapController.updateMap();
                 }
             });
+
+            updateUserPrivileges();
 
             Scene scene = new Scene(page);
             mainStage.setScene(scene);

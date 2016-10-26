@@ -57,4 +57,13 @@ public class UserManager {
     public static boolean updateLogin(String username, String password) {
         return (Authenticator.updateCredential(username, password));
     }
+
+    /**
+     * Returns true if the given user is allowed to submit quality reports
+     * @param u the user to check
+     * @return True if the user is allowed to submit quality reports
+     */
+    public static boolean isUserQualityReportAuthorized(User u) {
+        return (u.getUserLevel().compareTo(UserLevel.WORKER) >= 0);
+    }
 }
