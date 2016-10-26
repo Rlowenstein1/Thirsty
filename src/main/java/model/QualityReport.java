@@ -19,7 +19,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
     private final SimpleObjectProperty<WaterSafety> condition = new SimpleObjectProperty<>();
     private final SimpleDoubleProperty virusPPM = new SimpleDoubleProperty();
     private final SimpleDoubleProperty contaminantPPM = new SimpleDoubleProperty();
-    private final SimpleObjectProperty<WaterReport> waterReport = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<WaterReport> parentReport = new SimpleObjectProperty<>();
 
     /**
      * Constructor for a new water source report.
@@ -53,7 +53,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
         this.condition.set(condition);
         this.virusPPM.set(virusPPM);
         this.contaminantPPM.set(contaminantPPM);
-        this.waterReport.set(waterReport);
+        this.parentReport.set(waterReport);
     }
 
     /**
@@ -243,24 +243,24 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * Gets the water source report attached to this quality report
      * @return the water source report
      */
-    public WaterReport getWaterReport() {
-        return waterReport.get();
+    public WaterReport getParentReport() {
+        return parentReport.get();
     }
 
     /**
      * Sets the water source report to a new one
      * @param wr the new water source report attached to this quality report
      */
-    public void setWaterReport(WaterReport wr) {
-        waterReport.set(wr);
+    public void setParentReport(WaterReport wr) {
+        parentReport.set(wr);
     }
 
     /**
      * Gets the water source report property
      * @return the water source report property
      */
-    public SimpleObjectProperty<WaterReport> getWaterReportProperty() {
-        return  waterReport;
+    public SimpleObjectProperty<WaterReport> getParentReportProperty() {
+        return parentReport;
     }
 
     /**
@@ -274,7 +274,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
                 + "Condition of water: " + condition.get() + "\n"
                 + "Virus PPM: " + virusPPM.get() + "\n"
                 + "Contaminant PPM " + contaminantPPM.get() + "\n"
-                + waterReport.get().toString();
+                + "Parent report #" + parentReport.get().getReportNum();
     }
 
     /**
