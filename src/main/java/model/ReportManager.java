@@ -149,15 +149,6 @@ public class ReportManager {
     }
 
     /**
-     * Returns the list of quality reports associated with the given water report
-     * @param waterReport for filtering quality reports
-     * @return list of quality reports filed on the given water report
-     */
-    public static List<QualityReport> getQualityReportList(WaterReport waterReport) {
-        return waterReport.getQualityReports();
-    }
-
-    /**
      * Sorts the list of water reports
      * @return sorted water report list by data (natural ordering)
      */
