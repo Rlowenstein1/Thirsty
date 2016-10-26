@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import lib.Debug;
 import lib.TextFormatterFactory;
 import model.ReportManager;
 import model.User;
@@ -145,7 +146,7 @@ public class WaterQualityReportScreenController implements Initializable {
         }
 
         if (!vppmS.isEmpty()) {
-            vppm = Double.valueOf(reportNumS);
+            vppm = Double.valueOf(vppmS);
             if (vppm.compareTo(0.0) < 0.0) {
                 vppmErrorLabel.setText("Invalid value!");
                 return;
@@ -156,7 +157,7 @@ public class WaterQualityReportScreenController implements Initializable {
         }
 
         if (!cppmS.isEmpty()) {
-            cppm = Double.valueOf(reportNumS);
+            cppm = Double.valueOf(cppmS);
             if (cppm.compareTo(0.0) < 0.0) {
                 cppmErrorLabel.setText("Invalid value!");
                 return;
@@ -173,6 +174,7 @@ public class WaterQualityReportScreenController implements Initializable {
             MasterSingleton.updateReportScreen();
             resetFields();
             submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!", r.getReportNum(), report.getReportNum()));
+            Debug.debug("%s", r);
         }
     }
 

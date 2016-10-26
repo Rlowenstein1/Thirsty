@@ -271,7 +271,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
     public String toString() {
         return "Quality report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
-                + "Condition of water: " + condition.get()
+                + "Condition of water: " + condition.get() + "\n"
                 + "Virus PPM: " + virusPPM.get() + "\n"
                 + "Contaminant PPM " + contaminantPPM.get() + "\n"
                 + waterReport.get().toString();
