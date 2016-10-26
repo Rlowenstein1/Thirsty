@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="459.0" styleClass="splashbg2" stylesheets="@/css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0" prefWidth="459.0" styleClass="splashbg2" stylesheets="@/css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginScreenController">
    <children>
       <GridPane layoutX="177.0" layoutY="211.0" prefHeight="400.0" prefWidth="481.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -31,15 +31,16 @@
                <GridPane.margin>
                   <Insets left="4.0" />
                </GridPane.margin></Label>
-            <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="329.0" GridPane.columnIndex="1">
+            <TextField fx:id="usernameField" onKeyPressed="#handleFieldKeyPressed" prefHeight="26.0" prefWidth="329.0" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="12.0" />
                </GridPane.margin></TextField>
-            <PasswordField fx:id="pwField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <PasswordField fx:id="pwField" onKeyPressed="#handleFieldKeyPressed" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="12.0" />
                </GridPane.margin></PasswordField>
             <JFXButton fx:id="loginButton" buttonType="RAISED" defaultButton="true" onAction="#handleLoginButtonAction" prefHeight="26.0" prefWidth="208.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@/css/stylesheet.css" text="Login" textFill="WHITE" GridPane.rowIndex="2" />
+            <Label fx:id="errorLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

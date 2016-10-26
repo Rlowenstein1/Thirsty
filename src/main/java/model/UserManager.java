@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashMap;
-import lib.Debug;
 
 /**
  * Manager for the user objects of app
@@ -29,8 +28,6 @@ public class UserManager {
                 && Authenticator.authenticate(newUser, username, password)) {
             usernameMap.put(username, newUser);
             return newUser;
-        } else {
-            Debug.debug("Failed to register user!");
         }
         return null;
     }
@@ -46,11 +43,7 @@ public class UserManager {
         if (user != null) {
             if (Authenticator.authenticate(user, username, password)) {
                 return user;
-            } else {
-                Debug.debug("User failed to authenticate ");
             }
-        } else {
-            Debug.debug("User does not exist in usernameMap");
         }
         return null;
     }
