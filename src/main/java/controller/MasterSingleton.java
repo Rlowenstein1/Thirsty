@@ -84,9 +84,7 @@ public class MasterSingleton {
      * Updates the menus the user is able to view
      */
     public static void updateUserPrivileges() {
-        Debug.debug("updating privs");
         if (waterQualityReportTab != null) {
-            Debug.debug("not null");
             if (UserManager.isUserQualityReportAuthorized(activeUser) && !tabList.contains(waterQualityReportTab)) {
                 tabList.add(2, waterQualityReportTab);
             } else {
@@ -94,10 +92,6 @@ public class MasterSingleton {
                     tabList.remove(waterQualityReportTab);
                 }
             }
-            /*
-            waterQualityReportTab.setDisable(!UserManager.isUserQualityReportAuthorized(activeUser));
-            Debug.debug("%b", UserManager.isUserQualityReportAuthorized(activeUser));
-            */
         }
     }
 

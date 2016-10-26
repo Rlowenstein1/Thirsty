@@ -17,6 +17,7 @@ import model.DisplayableReport;
 import model.QualityReport;
 import model.ReportManager;
 import model.User;
+import model.UserManager;
 import model.WaterCondition;
 import model.WaterReport;
 import model.WaterSafety;
@@ -93,17 +94,19 @@ public class WaterReportScreenController implements Initializable {
      */
     public void updateReports(List<WaterReport> reportList) {
         clearReports();
+        ObservableList<TreeItem<DisplayableReport>> children = root.getChildren();
         for (WaterReport rr : reportList) {
             if (rr == null) {
                 continue;
             }
-            ObservableList<TreeItem<DisplayableReport>> children = root.getChildren();
             TreeItem<DisplayableReport> rT = new TreeItem<>(rr);
             children.add(rT);
-            ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
-            List<QualityReport> q = ReportManager.getQualityReportList(rr);
-            for (QualityReport qq : q) {
-                rChildren.add(new TreeItem<>(qq));
+            if (UserManager.isUserQualityReportAuthorized(activeUser)) {
+                ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
+                List<QualityReport> q = ReportManager.getQualityReportList(rr);
+                for (QualityReport qq : q) {
+                    rChildren.add(new TreeItem<>(qq));
+                }
             }
         }
     }

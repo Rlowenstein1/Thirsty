@@ -359,6 +359,52 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         return qualityReports;
     }
 
+    public QualityReport getMostRecentQualityReport() {
+        if (qualityReports.getSize() < 1) {
+            return (null);
+        }
+        return (qualityReports.get(qualityReports.getSize() - 1));
+    }
+
+    /**
+     * Gets this water report's water safety
+     * @return the water type property
+     */
+    @Override
+    public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
+        QualityReport latestQR = getMostRecentQualityReport();
+        if (latestQR == null) {
+            return (super.getWaterSafetyProperty());
+        }
+        return (latestQR.getWaterSafetyProperty());
+    }
+
+    /**
+     * Gets the virus PPM property for the most recent quality report
+     * @return the virus PPM property
+     */
+    @Override
+    public DoubleProperty getVppmProperty() {
+        QualityReport latestQR = getMostRecentQualityReport();
+        if (latestQR == null) {
+            return (super.getVppmProperty());
+        }
+        return (latestQR.getVppmProperty());
+    }
+
+    /**
+     * Gets the contaminant PPM property for the most recent quality report
+     * @return the contaminant PPM property
+     */
+    @Override
+    public DoubleProperty getCppmProperty() {
+        QualityReport latestQR = getMostRecentQualityReport();
+        if (latestQR == null) {
+            return (super.getCppmProperty());
+        }
+        return (latestQR.getCppmProperty());
+    }
+
     /**
      * String representation for this water report
      * @return a string representation of this water report object
