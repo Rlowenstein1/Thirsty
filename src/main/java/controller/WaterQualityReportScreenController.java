@@ -9,7 +9,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lib.Debug;
 import lib.TextFormatterFactory;
 import model.ReportManager;
 import model.User;

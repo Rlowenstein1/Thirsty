@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 
 /**

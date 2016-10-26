@@ -1,6 +1,5 @@
 package controller;
 
-import com.jfoenix.controls.JFXTreeTableView;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +11,6 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.stage.Stage;
-import lib.Debug;
 import model.DisplayableReport;
 import model.QualityReport;
 import model.ReportManager;

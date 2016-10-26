@@ -29,7 +29,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
 import lib.Debug;
 import model.ReportManager;
-import model.UserLevel;
 import model.UserManager;
 import model.WaterReport;
 import netscape.javascript.JSObject;
