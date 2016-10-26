@@ -3,15 +3,23 @@ package controller;
 import com.jfoenix.controls.JFXTreeTableView;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.stage.Stage;
+import lib.Debug;
+import model.DisplayableReport;
+import model.QualityReport;
+import model.ReportManager;
 import model.User;
 import model.WaterCondition;
 import model.WaterReport;
+import model.WaterSafety;
 import model.WaterType;
 
 /**
@@ -22,31 +30,31 @@ import model.WaterType;
 public class WaterReportScreenController implements Initializable {
 
     @FXML
-    private JFXTreeTableView<WaterReport> reportTreeTable;
+    private TreeTableView<DisplayableReport> reportTreeTable;
     @FXML
-    private TreeTableColumn<WaterReport, Number> reportLattitudeColumn;
+    private TreeTableColumn<DisplayableReport, Number> reportLattitudeColumn;
     @FXML
-    private TreeTableColumn<WaterReport, Number> reportLongitudeColumn;
+    private TreeTableColumn<DisplayableReport, Number> reportLongitudeColumn;
     @FXML
-    private TreeTableColumn<WaterReport, Number> reportNumberColumn;
+    private TreeTableColumn<DisplayableReport, Number> reportNumberColumn;
     @FXML
-    private TreeTableColumn<WaterReport, LocalDateTime> reportDateColumn;
+    private TreeTableColumn<DisplayableReport, LocalDateTime> reportDateColumn;
     @FXML
-    private TreeTableColumn<WaterReport, String> reportReporterColumn;
+    private TreeTableColumn<DisplayableReport, String> reportReporterColumn;
     @FXML
-    private TreeTableColumn<WaterReport, WaterType> reportTypeColumn;
+    private TreeTableColumn<DisplayableReport, WaterType> reportTypeColumn;
     @FXML
-    private TreeTableColumn<WaterReport, WaterCondition> reportConditionColumn;
+    private TreeTableColumn<DisplayableReport, WaterCondition> reportConditionColumn;
     @FXML
-    private TreeTableColumn<WaterReport, String> reportSafetyColumn;
+    private TreeTableColumn<DisplayableReport, WaterSafety> reportSafetyColumn;
     @FXML
-    private TreeTableColumn<WaterReport, Number> reportVppmColumn;
+    private TreeTableColumn<DisplayableReport, Number> reportVppmColumn;
     @FXML
-    private TreeTableColumn<WaterReport, Number> reportCppmColumn;
+    private TreeTableColumn<DisplayableReport, Number> reportCppmColumn;
 
     private User activeUser;
     private Stage stage;
-    private TreeItem<WaterReport> root;
+    private TreeItem<DisplayableReport> root;
 
     /**
      * Set the stage for the Main Screen Controller
@@ -73,11 +81,33 @@ public class WaterReportScreenController implements Initializable {
     }
 
     /**
-     * Gets the root node of the TreeTableView
-     * @return the root node
+     * Clears the reports
      */
-    public TreeItem<WaterReport> getRoot() {
-        return (root);
+    public void clearReports() {
+        root.getChildren().clear();
+    }
+
+    /**
+     * Updates the reports with the given list of reports
+     * @param reportList the list of reports to display
+     */
+    public void updateReports(List<WaterReport> reportList) {
+        clearReports();
+        for (WaterReport rr : reportList) {
+            if (rr == null) {
+                continue;
+            }
+            ObservableList<TreeItem<DisplayableReport>> children = root.getChildren();
+            TreeItem<DisplayableReport> rT = new TreeItem<>(rr);
+            children.add(rT);
+            ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
+            List<QualityReport> q = ReportManager.getQualityReportList(rr);
+            Debug.debug("report #%d has %d quality reports associated with it", rr.getReportNum(), q.size());
+            for (QualityReport qq : q) {
+                Debug.debug("Also want to add: %s", qq);
+                rChildren.add(new TreeItem<>(qq));
+            }
+        }
     }
 
     /**
@@ -89,41 +119,57 @@ public class WaterReportScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         root = new TreeItem<>();
         reportTreeTable.setShowRoot(false);
-        reportTreeTable.setRoot(root);
-
-        reportLattitudeColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, Number> param)
-                -> (param.getValue().getValue().getLatitudeProperty())
-        );
- 
-        reportLongitudeColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, Number> param)
-                -> (param.getValue().getValue().getLongitudeProperty())
-        );
  
         reportNumberColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, Number> param)
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, Number> param)
                 -> (param.getValue().getValue().getReportNumProperty())
         );
         
         reportDateColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, LocalDateTime> param)
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, LocalDateTime> param)
                 -> (param.getValue().getValue().getDateTimeProperty())
         );
 
+        reportLattitudeColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, Number> param)
+                -> (param.getValue().getValue().getLatitudeProperty())
+        );
+ 
+        reportLongitudeColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, Number> param)
+                -> (param.getValue().getValue().getLongitudeProperty())
+        );
+
         reportReporterColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, String> param)
-                -> param.getValue().getValue().getAuthor().getUsernameProperty()
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, String> param)
+                -> param.getValue().getValue().getAuthorUsernameProperty()
         );
 
         reportTypeColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, WaterType> param)
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, WaterType> param)
                 -> (param.getValue().getValue().getWaterTypeProperty())
         );
 
         reportConditionColumn.setCellValueFactory(
-            (TreeTableColumn.CellDataFeatures<WaterReport, WaterCondition> param)
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, WaterCondition> param)
                 -> (param.getValue().getValue().getWaterConditionProperty())
         );
+
+        reportSafetyColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, WaterSafety> param)
+                -> (param.getValue().getValue().getWaterSafetyProperty())
+        );
+
+        reportVppmColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, Number> param)
+                -> (param.getValue().getValue().getVppmProperty())
+        );
+
+        reportCppmColumn.setCellValueFactory(
+            (TreeTableColumn.CellDataFeatures<DisplayableReport, Number> param)
+                -> (param.getValue().getValue().getCppmProperty())
+        );
+
+        reportTreeTable.setRoot(root);
     }    
 }

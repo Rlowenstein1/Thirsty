@@ -1,6 +1,5 @@
 package model;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -8,15 +7,17 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * Represents a water quality report.
  */
-public class QualityReport extends RecursiveTreeObject<QualityReport> implements Comparable<QualityReport> {
+public class QualityReport extends DisplayableReport implements Comparable<QualityReport> {
     private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<WaterSafety> condition = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<WaterSafety> safety = new SimpleObjectProperty<>();
     private final SimpleDoubleProperty virusPPM = new SimpleDoubleProperty();
     private final SimpleDoubleProperty contaminantPPM = new SimpleDoubleProperty();
     private final SimpleObjectProperty<WaterReport> parentReport = new SimpleObjectProperty<>();
@@ -26,13 +27,13 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * The date and time are automatically generated.
      * @param reportNum the report number
      * @param author the author
-     * @param condition overall condition of water
+     * @param safety overall safety of water
      * @param virusPPM the virus PPM
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(int reportNum, User author, WaterSafety condition, double virusPPM, double contaminantPPM, WaterReport waterReport) {
-        this(LocalDateTime.now(), reportNum, author, condition, virusPPM, contaminantPPM, waterReport);
+    public QualityReport(int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+        this(LocalDateTime.now(), reportNum, author, safety, virusPPM, contaminantPPM, waterReport);
     }
 
     /**
@@ -41,16 +42,16 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * @param dateTime the date and time of creation
      * @param reportNum the report number
      * @param author the author
-     * @param condition overall condition of water
+     * @param safety overall safety of water
      * @param virusPPM the virus PPM
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety condition, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+    public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.dateTime.set(dateTime);
         this.reportNum.set(reportNum);
         this.author.set(author);
-        this.condition.set(condition);
+        this.safety.set(safety);
         this.virusPPM.set(virusPPM);
         this.contaminantPPM.set(contaminantPPM);
         this.parentReport.set(waterReport);
@@ -76,9 +77,32 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * Gets this water report's number property
      * @return the number property
      */
+    @Override
     public SimpleIntegerProperty getReportNumProperty() {
         return reportNum;
     }
+
+    /*
+    /**
+     * Gets this water report's longitude property
+     * @return the latitude coordinate property
+     */
+    /*
+    @Override
+    public DoubleProperty getLongitudeProperty() {
+        return getParentReport().getLongitudeProperty();
+    }
+
+    /**
+     * Gets this water report's latitude property
+     * @return the latitude coordinate property
+     */
+    /*
+    @Override
+    public DoubleProperty getLatitudeProperty() {
+        return getParentReport().getLatitudeProperty();
+    }
+    */
 
     /**
      * Gets the second at which this report was created
@@ -139,32 +163,34 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * Gets this water report's dateTime property
      * @return the dateTime property
      */
+    @Override
     public ObjectProperty<LocalDateTime> getDateTimeProperty() {
         return dateTime;
     }
 
     /**
-     * Gets the water safety condition
+     * Gets the water safety safety
      * @return the type
      */
-    public WaterSafety getWaterCondition() {
-        return condition.get();
+    public WaterSafety getWaterSafety() {
+        return safety.get();
     }
 
     /**
-     * Sets the condition of water
+     * Sets the safety of water
      * @param t the new type of water
      */
-    public void setWaterCondition(WaterSafety t) {
-        condition.set(t);
+    public void setWaterSafety(WaterSafety t) {
+        safety.set(t);
     }
 
     /**
-     * Gets this water report's water condition
+     * Gets this water report's water safety
      * @return the water type property
      */
-    public ObjectProperty<WaterSafety> getWaterConditionProperty() {
-        return condition;
+    @Override
+    public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
+        return safety;
     }
 
     /**
@@ -192,6 +218,15 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
     }
 
     /**
+     * Gets the water report's author property
+     * @return the author property
+     */
+    @Override
+    public StringProperty getAuthorUsernameProperty() {
+        return author.get().getUsernameProperty();
+    }
+
+    /**
      * Gets the virus PPM for this water report
      * @return the virus PPM
      */
@@ -211,7 +246,8 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * Gets the virus PPM property for this water report
      * @return the virus PPM property
      */
-    public SimpleDoubleProperty getVirusProperty() {
+    @Override
+    public SimpleDoubleProperty getVppmProperty() {
         return virusPPM;
     }
 
@@ -235,7 +271,8 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
      * Gets the contaminant PPM property for this water report
      * @return the contaminant PPM property
      */
-    public SimpleDoubleProperty getContaminantProperty() {
+    @Override
+    public SimpleDoubleProperty getCppmProperty() {
         return contaminantPPM;
     }
 
@@ -271,7 +308,7 @@ public class QualityReport extends RecursiveTreeObject<QualityReport> implements
     public String toString() {
         return "Quality report number: " + reportNum.get() + "\n"
                 + "Date and time: " + dateTime.get() + "\n"
-                + "Condition of water: " + condition.get() + "\n"
+                + "Safety of water: " + safety.get() + "\n"
                 + "Virus PPM: " + virusPPM.get() + "\n"
                 + "Contaminant PPM " + contaminantPPM.get() + "\n"
                 + "Parent report #" + parentReport.get().getReportNum();

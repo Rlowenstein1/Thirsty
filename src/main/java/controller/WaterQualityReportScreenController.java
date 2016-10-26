@@ -174,7 +174,6 @@ public class WaterQualityReportScreenController implements Initializable {
             MasterSingleton.updateReportScreen();
             resetFields();
             submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!", r.getReportNum(), report.getReportNum()));
-            Debug.debug("%s", r);
         }
     }
 

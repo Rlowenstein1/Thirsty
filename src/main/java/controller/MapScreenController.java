@@ -215,7 +215,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                 map.removeMarker(m);
             }
         }
-        List<WaterReport> reportList = ReportManager.getWaterReportlist();
+        List<WaterReport> reportList = ReportManager.getWaterReportList();
         markerList = new ArrayList<>(reportList.size());
         markReports(reportList);
     }

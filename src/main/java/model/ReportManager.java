@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 /**
  * Manager for the Report classes
@@ -14,7 +15,7 @@ public class ReportManager {
     private static Set<WaterReport> waterReportSet = new HashSet<>(); 
     private static Set<QualityReport> qualityReportSet = new HashSet<>();
     private static int reportNumber = 1;
-    private static int qualityReportNumber = 1;
+    private static HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
 
     /**
      * Creates a water report
@@ -29,6 +30,7 @@ public class ReportManager {
                 WaterCondition condition, User author) {
         WaterReport r = new WaterReport(reportNumber++, latitude, longitude, type, condition, author);
         if (waterReportSet.add(r)) {
+            qualityReportNumberMap.put(r, 0);
             return (r);
         } else {
             return (null);
@@ -49,6 +51,7 @@ public class ReportManager {
                 WaterType type, WaterCondition condition, User author) {
         WaterReport r = new WaterReport(reportNumber++, dateTime, latitude, longitude, type, condition, author);
         if (waterReportSet.add(r)) {
+            qualityReportNumberMap.put(r, 0);
             return (r);
         } else {
             return (null);
@@ -60,14 +63,17 @@ public class ReportManager {
      * @param waterReport availability report to add quality report to
      * @param safety of the water source
      * @param vppm virus parts per million
-     * @param cppm contaminent parts per million
+     * @param cppm contaminant parts per million
      * @param author of the report
      * @return the quality report added, or null if the report already exists
      */
     public static QualityReport createWaterQualityReport(WaterReport waterReport, WaterSafety safety,
                 double vppm, double cppm, User author) {
-        QualityReport report = new QualityReport(qualityReportNumber++, author, safety, vppm, cppm, waterReport);
+        Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
+        qualityReportNumberMap.put(waterReport, qualityReportNum);
+        QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
         if (qualityReportSet.add(report)) {
+            waterReport.addQualityReport(report);
             return (report);
         } else {
             return (null);
@@ -80,14 +86,17 @@ public class ReportManager {
      * @param waterReport availability report to add quality report to
      * @param safety of the water source
      * @param vppm virus parts per million
-     * @param cppm contaminent parts per million
+     * @param cppm contaminant parts per million
      * @param author of the report
      * @return the quality report added, or null if the report already exists
      */
     public static QualityReport createWaterQualityReport(LocalDateTime dateTime, WaterReport waterReport, WaterSafety safety,
                 double vppm, double cppm, User author) {
-        QualityReport report = new QualityReport(dateTime, qualityReportNumber++, author, safety, vppm, cppm, waterReport);
+        Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
+        qualityReportNumberMap.put(waterReport, qualityReportNum);
+        QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
         if (qualityReportSet.add(report)) {
+            waterReport.addQualityReport(report);
             return (report);
         } else {
             return (null);
@@ -107,6 +116,10 @@ public class ReportManager {
      * @param report to be deleted
      */
     public static void deleteQualityReport(QualityReport report) {
+        WaterReport parent = report.getParentReport();
+        if (parent != null) {
+            parent.removeQualityReport(report);
+        }
         qualityReportSet.remove(report);
     }
 
@@ -114,16 +127,25 @@ public class ReportManager {
      * Returns the list of water reports in order they were created
      * @return water report list
      */
-    public static List<WaterReport> getWaterReportlist() {
+    public static List<WaterReport> getWaterReportList() {
         return new ArrayList<>(waterReportSet);
     }
 
     /**
-     * Returns the list of quality reports in order they were created
+     * Returns the list of all quality reports in order they were created
+     * @return a list of all quality reports
+     */
+    public static List<QualityReport> getAllQualityReports() {
+        return new ArrayList<>(qualityReportSet);
+    }
+
+    /**
+     * Returns the list of quality reports associated with a WaterReport in order they were created
+     * @param r the water report to get the list of quality reports from
      * @return quality report list
      */
-    public static List<QualityReport> getQualityReportList() {
-        return new ArrayList<>(qualityReportSet);
+    public static List<QualityReport> getQualityReportList(WaterReport r) {
+        return r.getQualityReportList();
     }
 
     /**
@@ -195,17 +217,11 @@ public class ReportManager {
     /**
      * Filters the quality report list by the report number
      * @param num the number of the report
+     * @param waterReport the parent WaterReport to search through
      * @return either the report, or null if not found
      */
-    public static QualityReport filterQualityReportByNumber(int num) {
-        if (num > 0 && num < qualityReportNumber) {
-            for (QualityReport report: qualityReportSet) {
-                if (report.getReportNum() == num) {
-                    return (report);
-                }
-            }
-        }
-        return null;
+    public static QualityReport filterQualityReportByNumber(WaterReport waterReport, int num) {
+        return (waterReport.getQualityReportByNumber(num));
     }
 
     /**

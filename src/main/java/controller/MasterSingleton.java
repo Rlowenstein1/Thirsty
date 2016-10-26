@@ -317,11 +317,6 @@ public class MasterSingleton {
      * Updates the reports screen
      */
     public static void updateReportScreen() {
-        TreeItem<WaterReport> root = waterReportController.getRoot();
-        root.getChildren().clear();
-        List<WaterReport> reportList = ReportManager.getWaterReportlist();
-        for (WaterReport rr : reportList) {
-            root.getChildren().add(new TreeItem<>(rr));
-        }
+        waterReportController.updateReports(ReportManager.getWaterReportList());
     }
 }

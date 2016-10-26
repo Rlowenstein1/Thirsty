@@ -1,6 +1,5 @@
 package model;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,13 +8,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import lib.Debug;
 
 /**
  * Represents a water source report.
  */
-public class WaterReport extends RecursiveTreeObject<WaterReport> implements Comparable<WaterReport> {
+public class WaterReport extends DisplayableReport implements Comparable<WaterReport> {
     private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
     private final SimpleDoubleProperty latitude = new SimpleDoubleProperty();
     private final SimpleDoubleProperty longitude = new SimpleDoubleProperty();
@@ -23,7 +25,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     private final SimpleObjectProperty<WaterType> type = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<WaterCondition> condition = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
-    private final SimpleListProperty<QualityReport> qualityReports = new SimpleListProperty<>();
+    private final SimpleListProperty<QualityReport> qualityReports = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     /**
      * Constructor for a new water source report.
@@ -82,6 +84,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets this water report's number property
      * @return the number property
      */
+    @Override
     public SimpleIntegerProperty getReportNumProperty() {
         return reportNum;
     }
@@ -106,6 +109,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets this water report's longitude property
      * @return the longitude coordinate property
      */
+    @Override
     public SimpleDoubleProperty getLongitudeProperty() {
         return longitude;
     }
@@ -130,7 +134,8 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets this water report's latitude property
      * @return the latitude coordinate property
      */
-    public SimpleDoubleProperty getLatitudeProperty() {
+    @Override
+    public DoubleProperty getLatitudeProperty() {
         return latitude;
     }
 
@@ -193,6 +198,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets this water report's dateTime property
      * @return the dateTime property
      */
+    @Override
     public ObjectProperty<LocalDateTime> getDateTimeProperty() {
         return dateTime;
     }
@@ -217,6 +223,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets this water report's water source type
      * @return the water type property
      */
+    @Override
     public ObjectProperty<WaterType> getWaterTypeProperty() {
         return type;
     }
@@ -241,6 +248,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets the water report's water condition property
      * @return the water condition property
      */
+    @Override
     public ObjectProperty<WaterCondition> getWaterConditionProperty() {
         return condition;
     }
@@ -265,6 +273,15 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      * Gets the water report's author property
      * @return the author property
      */
+    @Override
+    public StringProperty getAuthorUsernameProperty() {
+        return author.get().getUsernameProperty();
+    }
+
+    /**
+     * Gets the water report's author property
+     * @return the author property
+     */
     public ObjectProperty<User> getAuthorProperty() {
         return author;
     }
@@ -277,7 +294,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     public void addQualityReport(QualityReport qualityReport) {
         try {
             qualityReports.add(qualityReport);
-        } catch (Exception e) { //pretty sure that's going to throw up some red flags on code review day
+        } catch (Exception e) { //TODO: pretty sure that's going to throw up some red flags on code review day
             Debug.error("Error adding to list. Reason: %s", e.toString());
         }
     }
@@ -290,7 +307,7 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
     public void removeQualityReport(QualityReport qualityReport) {
         try {
             qualityReports.remove(qualityReport);
-        } catch (Exception e) { //pretty sure that's going to throw up some red flags on code review day
+        } catch (Exception e) { //TODO: pretty sure that's going to throw up some red flags on code review day
             Debug.error("Error adding to list. Reason: %s", e.toString());
         }
     }
@@ -302,15 +319,27 @@ public class WaterReport extends RecursiveTreeObject<WaterReport> implements Com
      */
     public void removeQualityReport(int reportNum) {
         try {
-            for (QualityReport q : qualityReports) {
-                if (q.getReportNum() == reportNum) {
-                    qualityReports.remove(q);
-                    return;
-                }
+            QualityReport q = getQualityReportByNumber(reportNum);
+            if (q != null) {
+                qualityReports.remove(q);
             }
-        } catch (Exception e) { //pretty sure that's going to throw up some red flags on code review day
+        } catch (Exception e) { //TODO: pretty sure that's going to throw up some red flags on code review day
             Debug.error("Error adding to list. Reason: %s", e.toString());
         }
+    }
+
+    /**
+     * Returns the QualityReport with the report number matching reportNum
+     * @param reportNum the number of the report to find
+     * @return returns the quality report if found, otherwise null
+     */
+    public QualityReport getQualityReportByNumber(int reportNum) {
+        for (QualityReport q : qualityReports) {
+            if (q.getReportNum() == reportNum) {
+                return (q);
+            }
+        }
+        return (null);
     }
 
     /**
