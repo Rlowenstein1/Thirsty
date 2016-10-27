@@ -93,6 +93,7 @@ public class MasterSingleton {
                 }
             }
         }
+        updateReportScreen();
     }
 
     /**
@@ -210,7 +211,6 @@ public class MasterSingleton {
             waterReportController = loader.getController();
             waterReportController.setActiveUser(activeUser);
             waterReportController.setStage(mainStage);
-            updateReportScreen();
 
             Tab waterReportTab = new Tab();
             waterReportTab.setText(waterReportController.getTabText());
