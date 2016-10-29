@@ -30,7 +30,6 @@ import javafx.scene.control.ToggleButton;
 import lib.Debug;
 import model.QualityReport;
 import model.ReportManager;
-import model.UserLevel;
 import model.UserManager;
 import model.WaterReport;
 import netscape.javascript.JSObject;

@@ -1,10 +1,7 @@
 package controller;
 
-import com.jfoenix.controls.JFXTreeTableView;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleListProperty;
@@ -13,12 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeSortMode;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.SortType;
 import javafx.scene.control.TreeTableView;
 import javafx.stage.Stage;
-import lib.Debug;
 import model.DisplayableReport;
 import model.QualityReport;
 import model.ReportManager;
@@ -100,10 +95,10 @@ public class WaterReportScreenController implements Initializable {
      */
     public synchronized void updateReports(List<WaterReport> reportList) {
         ObservableList<TreeTableColumn<DisplayableReport, ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
-//        if (reportTreeTable.getSortOrder().isEmpty()) {
-            reportNumberColumn.setSortType(SortType.DESCENDING);
-            sortColumns.add(reportNumberColumn);
-/*        
+        //if (reportTreeTable.getSortOrder().isEmpty()) {
+        reportNumberColumn.setSortType(SortType.DESCENDING);
+        sortColumns.add(reportNumberColumn);
+        /*        
         } else {
             for (TreeTableColumn<DisplayableReport, ?> c : reportTreeTable.getSortOrder()) {
                 sortColumns.add(c);
