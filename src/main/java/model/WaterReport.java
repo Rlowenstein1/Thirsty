@@ -12,7 +12,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import lib.Debug;
 
 /**
  * Represents a water source report.
@@ -290,42 +289,34 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Adds a quality report to the list of quality reports for this
      * water source.
      * @param qualityReport the quality report to be added to the list
+     * @return True if this element did not already exist
      */
-    public void addQualityReport(QualityReport qualityReport) {
-        try {
-            qualityReports.add(qualityReport);
-        } catch (Exception e) { //TODO: pretty sure that's going to throw up some red flags on code review day
-            Debug.error("Error adding to list. Reason: %s", e.toString());
-        }
+    public boolean addQualityReport(QualityReport qualityReport) {
+        return (qualityReports.add(qualityReport));
     }
 
     /**
      * Removes a quality report from the list of quality reports for this
      * water source.
      * @param qualityReport the quality report to be removed from the list
+     * @return True if an element was removed
      */
-    public void removeQualityReport(QualityReport qualityReport) {
-        try {
-            qualityReports.remove(qualityReport);
-        } catch (Exception e) { //TODO: pretty sure that's going to throw up some red flags on code review day
-            Debug.error("Error adding to list. Reason: %s", e.toString());
-        }
+    public boolean removeQualityReport(QualityReport qualityReport) {
+        return (qualityReports.remove(qualityReport));
     }
 
     /**
      * Removes a quality report from the list of quality reports for this
      * water source.
      * @param reportNum the number of the report to remove
+     * @return True if an element was removed
      */
-    public void removeQualityReport(int reportNum) {
-        try {
-            QualityReport q = getQualityReportByNumber(reportNum);
-            if (q != null) {
-                qualityReports.remove(q);
-            }
-        } catch (Exception e) { //TODO: pretty sure that's going to throw up some red flags on code review day
-            Debug.error("Error adding to list. Reason: %s", e.toString());
+    public boolean removeQualityReport(int reportNum) {
+        QualityReport q = getQualityReportByNumber(reportNum);
+        if (q != null) {
+            return (qualityReports.remove(q));
         }
+        return (false);
     }
 
     /**
@@ -357,6 +348,56 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      */
     public SimpleListProperty<QualityReport> getQualityReportPropertyList() {
         return qualityReports;
+    }
+
+    /**
+     * Gets the most recent (by report number) quality report in this water report
+     * @return The most recent QualityReport
+     */
+    public QualityReport getMostRecentQualityReport() {
+        if (qualityReports.getSize() < 1) {
+            return (null);
+        }
+        return (qualityReports.get(qualityReports.getSize() - 1));
+    }
+
+    /**
+     * Gets this water report's water safety
+     * @return the water type property
+     */
+    @Override
+    public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
+        QualityReport latestQR = getMostRecentQualityReport();
+        if (latestQR == null) {
+            return (super.getWaterSafetyProperty());
+        }
+        return (latestQR.getWaterSafetyProperty());
+    }
+
+    /**
+     * Gets the virus PPM property for the most recent quality report
+     * @return the virus PPM property
+     */
+    @Override
+    public DoubleProperty getVppmProperty() {
+        QualityReport latestQR = getMostRecentQualityReport();
+        if (latestQR == null) {
+            return (super.getVppmProperty());
+        }
+        return (latestQR.getVppmProperty());
+    }
+
+    /**
+     * Gets the contaminant PPM property for the most recent quality report
+     * @return the contaminant PPM property
+     */
+    @Override
+    public DoubleProperty getCppmProperty() {
+        QualityReport latestQR = getMostRecentQualityReport();
+        if (latestQR == null) {
+            return (super.getCppmProperty());
+        }
+        return (latestQR.getCppmProperty());
     }
 
     /**

@@ -4,17 +4,21 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableColumn.SortType;
 import javafx.scene.control.TreeTableView;
 import javafx.stage.Stage;
 import model.DisplayableReport;
 import model.QualityReport;
 import model.ReportManager;
 import model.User;
+import model.UserManager;
 import model.WaterCondition;
 import model.WaterReport;
 import model.WaterSafety;
@@ -89,21 +93,36 @@ public class WaterReportScreenController implements Initializable {
      * Updates the reports with the given list of reports
      * @param reportList the list of reports to display
      */
-    public void updateReports(List<WaterReport> reportList) {
+    public synchronized void updateReports(List<WaterReport> reportList) {
+        ObservableList<TreeTableColumn<DisplayableReport, ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
+        //if (reportTreeTable.getSortOrder().isEmpty()) {
+        reportNumberColumn.setSortType(SortType.DESCENDING);
+        sortColumns.add(reportNumberColumn);
+        /*        
+        } else {
+            for (TreeTableColumn<DisplayableReport, ?> c : reportTreeTable.getSortOrder()) {
+                sortColumns.add(c);
+            }
+        }
+        */
         clearReports();
+        ObservableList<TreeItem<DisplayableReport>> children = root.getChildren();
         for (WaterReport rr : reportList) {
             if (rr == null) {
                 continue;
             }
-            ObservableList<TreeItem<DisplayableReport>> children = root.getChildren();
             TreeItem<DisplayableReport> rT = new TreeItem<>(rr);
             children.add(rT);
-            ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
-            List<QualityReport> q = ReportManager.getQualityReportList(rr);
-            for (QualityReport qq : q) {
-                rChildren.add(new TreeItem<>(qq));
+            if (UserManager.isUserQualityReportAuthorized(activeUser)) {
+                ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
+                List<QualityReport> q = ReportManager.getQualityReportList(rr);
+                for (QualityReport qq : q) {
+                    rChildren.add(new TreeItem<>(qq));
+                }
             }
         }
+        reportTreeTable.getSortOrder().clear();
+        reportTreeTable.getSortOrder().addAll(sortColumns);
     }
 
     /**
@@ -115,7 +134,7 @@ public class WaterReportScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         root = new TreeItem<>();
         reportTreeTable.setShowRoot(false);
- 
+        
         reportNumberColumn.setCellValueFactory(
             (TreeTableColumn.CellDataFeatures<DisplayableReport, Number> param)
                 -> (param.getValue().getValue().getReportNumProperty())

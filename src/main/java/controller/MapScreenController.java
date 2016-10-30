@@ -28,6 +28,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
 import lib.Debug;
+import model.QualityReport;
 import model.ReportManager;
 import model.UserManager;
 import model.WaterReport;
@@ -249,19 +250,42 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                 UIEventType.click,
                 (JSObject obj) -> {
                     InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-                    infoWindowOptions.content(String.format("<h1>%.5f, %.5f</h1>"
+                    String content = String.format("<h1>%.5f, %.5f</h1>"
                             + "<h3>Water type: %s<br />"
                             + "Water condition: %s</h3>"
                             + "Report number: %d<br />"
                             + "Reported by: %s<br />"
-                            + "Reported at: %s<br />",
+                            + "Reported at: %s<br />"
+                            + "<br />"
+                            + "",
                             lat, lng,
                             rr.getWaterType().toString(),
                             rr.getWaterCondition().toString(),
                             rr.getReportNum(),
                             rr.getAuthor().getUsername(),
                             rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
-                    ));
+                    );
+
+                    QualityReport qr = rr.getMostRecentQualityReport();
+                    if (qr != null) {
+                        content += String.format("<br />"
+                            + "<h3>Latest quality report:</h3>"
+                            + "Water safety: %s<br/>"
+                            + "Virus PPM: %f</br>"
+                            + "Contaminant PPM: %f</br>"
+                            + "Report number: %d<br />"
+                            + "Reported by: %s<br />"
+                            + "Reported at: %s<br />",
+                            qr.getWaterSafety(),
+                            qr.getVirusPPM(),
+                            qr.getContaminantPPM(),
+                            qr.getReportNum(),
+                            qr.getAuthor().getUsername(),
+                            qr.getDateTime()
+                        );
+                    }
+
+                    infoWindowOptions.content(content);
 
                     InfoWindow window = new InfoWindow(infoWindowOptions);
                     window.open(map, marker);

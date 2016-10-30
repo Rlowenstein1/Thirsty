@@ -8,7 +8,7 @@
     <children>
         <TreeTableView fx:id="reportTreeTable" accessibleRole="PARENT" prefHeight="404.0" prefWidth="773.0" showRoot="false" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
-                <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="73.0" text="Number" />
+                <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="73.0" text="#" />
                 <TreeTableColumn fx:id="reportDateColumn" editable="false" prefWidth="118.0" text="Date/Time" />
                 <TreeTableColumn fx:id="reportReporterColumn" editable="false" prefWidth="87.0" text="Reporter" />
                 <TreeTableColumn fx:id="reportLattitudeColumn" editable="false" prefWidth="86.0" text="Lattitude" />

@@ -23,8 +23,9 @@ public class Thirsty extends Application {
         User a = UserManager.register("asdf", "qwerty", "A Silently Deadly Ferret", "a@b.c", UserLevel.ADMINISTRATOR);
         User q = UserManager.register("qwerty", "asdf", "Queen With Evil Rats There Yonder", "a@b.c", UserLevel.USER);
 
-        WaterReport r1 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(30), 33.77908, -84.39616, WaterType.LAKE, WaterCondition.CLEAR, a);
-        WaterReport r2 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(56), 33.77367, -84.39616, WaterType.BOTTLED, WaterCondition.MUDDY, q);
+        WaterReport r1 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(10), 33.77908, -84.39616, WaterType.LAKE, WaterCondition.CLEAR, a);
+        WaterReport r2 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(36), 33.77367, -84.39616, WaterType.BOTTLED, WaterCondition.MUDDY, q);
+        WaterReport r3 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(52), 33.77634, -84.39616, WaterType.WELL, WaterCondition.POTABLE, q);
 
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(1).plusSeconds(1), r1, WaterSafety.UNKNOWN, 0.003, 0.02, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(2).plusSeconds(2), r1, WaterSafety.SAFE, 0.003, 0.02, a);

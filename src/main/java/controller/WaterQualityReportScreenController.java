@@ -149,6 +149,9 @@ public class WaterQualityReportScreenController implements Initializable {
             if (vppm.compareTo(0.0) < 0.0) {
                 vppmErrorLabel.setText("Invalid value!");
                 return;
+            } else if (vppm.compareTo(1000000.0) >= 0.0) {
+                vppmErrorLabel.setText("Value too large!");
+                return;
             }
         } else {
             vppmErrorLabel.setText("Cannot be blank!");
@@ -160,12 +163,21 @@ public class WaterQualityReportScreenController implements Initializable {
             if (cppm.compareTo(0.0) < 0.0) {
                 cppmErrorLabel.setText("Invalid value!");
                 return;
+            } else if (cppm.compareTo(1000000.0) >= 0.0) {
+                cppmErrorLabel.setText("Value too large!");
+                return;
             }
+
         } else {
             cppmErrorLabel.setText("Cannot be blank!");
             return;
         }
 
+        if (Double.valueOf(cppm + vppm).compareTo(1000000.0) >= 0.0) {
+            cppmErrorLabel.setText("Combined value too large!");
+            return;
+        }
+        
         QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(), vppm, cppm, activeUser);
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
