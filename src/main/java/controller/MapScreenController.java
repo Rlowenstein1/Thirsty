@@ -1,10 +1,10 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
-import model.User;
+import main.java.model.User;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.MapStateEventType;
@@ -27,11 +27,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
-import lib.Debug;
-import model.QualityReport;
-import model.ReportManager;
-import model.UserManager;
-import model.WaterReport;
+import main.java.lib.Debug;
+import main.java.model.QualityReport;
+import main.java.model.ReportManager;
+import main.java.model.UserManager;
+import main.java.model.WaterReport;
 import netscape.javascript.JSObject;
 
 

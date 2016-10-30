@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import javafx.beans.property.ObjectProperty;
