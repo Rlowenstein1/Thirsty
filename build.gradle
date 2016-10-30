@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'checkstyle'
+
+
+dependencies {
+    compile 'com.jfoenix:jfoenix:0.0.0-SNAPSHOT'
+    // https://mvnrepository.com/artifact/com.lynden/GMapsFX
+    compile group: 'com.lynden', name: 'GMapsFX', version: '2.0.9'
+}
+
+sourceCompatibility = 1.8 
+
+version = '1.0.1'
+mainClassName = 'fxapp.Thirsty'
+
+//create a single Jar with all dependencies
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Thirsty',
+            'Implementation-Version': version,
+            'Main-Class': mainClassName
+    }   
+}
+
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/groups/public"
+    }
+}
+
+
+// cehckstyle plugin configuration
+checkstyle {
+    configFile = rootProject.file('src/main/resources/checkstyle/CS1332checkstyle.xml')
+    toolVersion = "6.13"
+    
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    ignoreFailures = false
+    showViolations = false
+}

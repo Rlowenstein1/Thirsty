@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" prefWidth="564.0" styleClass="splashbg3" stylesheets="@/css/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterQualityReportScreenController">
+    <stylesheets>
+        <URL value="@/css/stylesheet.css" />
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70" />
+    </columnConstraints>
+    <children>
+        <Label layoutX="14.0" layoutY="107.0" text="Report Number:" />
+      <VBox maxHeight="-Infinity" prefWidth="100.0" GridPane.columnIndex="1">
+         <children>
+            <Label fx:id="reportNumErrorLabel" />
+            <TextField fx:id="reportNumTextField" maxWidth="1.7976931348623157E308" promptText="42" HBox.hgrow="SOMETIMES" />
+         </children>
+      </VBox>
+        <Label layoutX="14.0" layoutY="107.0" text="Safety:" GridPane.rowIndex="1" />
+        <VBox layoutX="176.0" layoutY="351.0" maxHeight="-Infinity" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <Label fx:id="safetyErrorLabel" />
+                <ComboBox fx:id="safetyComboBox" maxWidth="1.7976931348623157E308" />
+            </children>
+        </VBox>
+        <Label layoutX="10.0" layoutY="103.0" text="Virus PPM:" GridPane.rowIndex="2" />
+        <VBox maxHeight="-Infinity" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+            <children>
+                <Label fx:id="vppmErrorLabel" />
+                <TextField fx:id="vppmTextField" maxWidth="1.7976931348623157E308" promptText="0.001" HBox.hgrow="SOMETIMES">
+                </TextField>
+            </children>
+        </VBox>
+        <VBox prefHeight="48.0" prefWidth="252.0" GridPane.rowIndex="4">
+            <children>
+                <Label />
+                <JFXButton fx:id="resetButton" buttonType="RAISED" maxWidth="1.7976931348623157E308" onAction="#handleResetButtonAction" prefWidth="184.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@../css/stylesheet.css" text="Reset" textFill="WHITE">
+                    <VBox.margin>
+                        <Insets bottom="8.0" right="24.0" />
+                    </VBox.margin>
+                </JFXButton>
+            </children>
+        </VBox>
+        <VBox layoutX="191.0" layoutY="143.0" maxHeight="-Infinity" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <children>
+                <Label fx:id="cppmErrorLabel" />
+                <TextField fx:id="cppmTextField" maxWidth="1.7976931348623157E308" promptText="0.001" HBox.hgrow="SOMETIMES">
+                </TextField>
+            </children>
+        </VBox>
+        <VBox prefHeight="49.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <children>
+                <Label fx:id="submitErrorLabel" />
+                <JFXButton fx:id="submitButton" buttonType="RAISED" defaultButton="true" maxWidth="1.7976931348623157E308" onAction="#handleSubmitButtonAction" prefWidth="322.0" ripplerFill="#0c92b5" styleClass="but" stylesheets="@../css/stylesheet.css" text="Submit" textFill="WHITE">
+                    <VBox.margin>
+                        <Insets bottom="8.0" />
+                    </VBox.margin>
+                </JFXButton>
+            </children>
+        </VBox>
+        <Label text="Contaminant PPM:" GridPane.rowIndex="3" />
+    </children>
+    <padding>
+        <Insets left="30.0" right="30.0" />
+    </padding>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints maxHeight="63.0" minHeight="48.0" prefHeight="59.0" />
+        <RowConstraints maxHeight="65.0" minHeight="50.0" prefHeight="54.0" />
+        <RowConstraints maxHeight="65.0" minHeight="50.0" prefHeight="54.0" />
+        <RowConstraints />
+    </rowConstraints>
+
+</GridPane>

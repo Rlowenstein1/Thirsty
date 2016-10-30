@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
+    <children>
+        <TreeTableView fx:id="reportTreeTable" accessibleRole="PARENT" prefHeight="404.0" prefWidth="773.0" showRoot="false" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="73.0" text="#" />
+                <TreeTableColumn fx:id="reportDateColumn" editable="false" prefWidth="118.0" text="Date/Time" />
+                <TreeTableColumn fx:id="reportReporterColumn" editable="false" prefWidth="87.0" text="Reporter" />
+                <TreeTableColumn fx:id="reportLattitudeColumn" editable="false" prefWidth="86.0" text="Lattitude" />
+                <TreeTableColumn fx:id="reportLongitudeColumn" editable="false" prefWidth="87.0" text="Longitude" />
+                <TreeTableColumn fx:id="reportTypeColumn" editable="false" prefWidth="69.0" text="Type" />
+                <TreeTableColumn fx:id="reportConditionColumn" editable="false" prefWidth="94.0" text="Condition" />
+                <TreeTableColumn fx:id="reportSafetyColumn" editable="false" prefWidth="97.0" text="Safety" />
+                <TreeTableColumn fx:id="reportVppmColumn" editable="false" prefWidth="81.0" text="V PPM" />
+                <TreeTableColumn fx:id="reportCppmColumn" editable="false" prefWidth="90.0" text="C PPM" />
+            </columns>
+        </TreeTableView>
+    </children>
+</AnchorPane>
