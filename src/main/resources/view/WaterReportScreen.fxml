@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
+<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
     <children>
-        <TreeTableView fx:id="reportTreeTable" accessibleRole="PARENT" prefHeight="404.0" prefWidth="773.0" showRoot="false" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <columns>
-                <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="73.0" text="#" />
-                <TreeTableColumn fx:id="reportDateColumn" editable="false" prefWidth="118.0" text="Date/Time" />
-                <TreeTableColumn fx:id="reportReporterColumn" editable="false" prefWidth="87.0" text="Reporter" />
-                <TreeTableColumn fx:id="reportLattitudeColumn" editable="false" prefWidth="86.0" text="Lattitude" />
-                <TreeTableColumn fx:id="reportLongitudeColumn" editable="false" prefWidth="87.0" text="Longitude" />
-                <TreeTableColumn fx:id="reportTypeColumn" editable="false" prefWidth="69.0" text="Type" />
-                <TreeTableColumn fx:id="reportConditionColumn" editable="false" prefWidth="94.0" text="Condition" />
-                <TreeTableColumn fx:id="reportSafetyColumn" editable="false" prefWidth="97.0" text="Safety" />
-                <TreeTableColumn fx:id="reportVppmColumn" editable="false" prefWidth="81.0" text="V PPM" />
-                <TreeTableColumn fx:id="reportCppmColumn" editable="false" prefWidth="90.0" text="C PPM" />
-            </columns>
-        </TreeTableView>
+      <GridPane prefHeight="403.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="265.0" minHeight="10.0" prefHeight="224.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="194.0" minHeight="10.0" prefHeight="179.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+              <TreeTableView fx:id="reportTreeTable" accessibleRole="PARENT" prefHeight="404.0" prefWidth="773.0" showRoot="false" styleClass="splashbg3" stylesheets="@../css/stylesheet.css">
+                  <columns>
+                      <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="73.0" text="#" />
+                      <TreeTableColumn fx:id="reportDateColumn" editable="false" prefWidth="118.0" text="Date/Time" />
+                      <TreeTableColumn fx:id="reportReporterColumn" editable="false" prefWidth="87.0" text="Reporter" />
+                      <TreeTableColumn fx:id="reportLattitudeColumn" editable="false" prefWidth="86.0" text="Lattitude" />
+                      <TreeTableColumn fx:id="reportLongitudeColumn" editable="false" prefWidth="87.0" text="Longitude" />
+                      <TreeTableColumn fx:id="reportTypeColumn" editable="false" prefWidth="69.0" text="Type" />
+                      <TreeTableColumn fx:id="reportConditionColumn" editable="false" prefWidth="94.0" text="Condition" />
+                      <TreeTableColumn fx:id="reportSafetyColumn" editable="false" prefWidth="97.0" text="Safety" />
+                      <TreeTableColumn fx:id="reportVppmColumn" editable="false" prefWidth="81.0" text="V PPM" />
+                      <TreeTableColumn fx:id="reportCppmColumn" editable="false" prefWidth="90.0" text="C PPM" />
+                  </columns>
+              </TreeTableView>
+            <LineChart fx:id="historyGraph" legendSide="LEFT" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" title="History Report" GridPane.rowIndex="1">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </GridPane>
     </children>
 </AnchorPane>
