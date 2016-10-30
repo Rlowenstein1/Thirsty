@@ -1,6 +1,8 @@
 package main.java.model;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Manager for the user objects of app
@@ -30,6 +32,14 @@ public class UserManager {
             return newUser;
         }
         return null;
+    }
+
+    /**
+     * Adds existing user to list
+     * @param user to be added
+     */
+    public static void addUser(User user) {
+        usernameMap.put(user.getUsername(), user);
     }
 
     /**
@@ -65,5 +75,13 @@ public class UserManager {
      */
     public static boolean isUserQualityReportAuthorized(User u) {
         return (u.getUserLevel().compareTo(UserLevel.WORKER) >= 0);
+    }
+
+    /**
+     * Gets the list of users registered
+     * @return list of users
+     */
+    public static List<User> getUserList() {
+        return new ArrayList<>(usernameMap.values());
     }
 }

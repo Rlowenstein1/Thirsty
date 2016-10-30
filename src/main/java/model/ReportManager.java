@@ -102,6 +102,21 @@ public class ReportManager {
     }
 
     /**
+     * Add existing water report to list
+     * @param report WaterReport object to add to list
+     */
+    public static void addWaterReport(WaterReport report) {
+        waterReportList.add(report);
+    }
+
+    /**
+     * Add existing quality report to list
+     */
+    public static void addQualityReport(QualityReport report) {
+        qualityReportList.add(report);
+    }
+
+    /**
      * Deletes specified report from the list
      * @param waterReport to be deleted
      */
@@ -133,7 +148,7 @@ public class ReportManager {
      * Returns the list of all quality reports in order they were created
      * @return a list of all quality reports
      */
-    public static List<QualityReport> getAllQualityReports() {
+    public static List<QualityReport> getQualityReportList() {
         return new ArrayList<>(qualityReportList);
     }
 
