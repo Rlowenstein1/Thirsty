@@ -77,6 +77,5 @@ public class ThirstyTester {
         User test4 = UserManager.login("z", "");
         assertTrue(test4 == null);
         */
-
     }
 }
