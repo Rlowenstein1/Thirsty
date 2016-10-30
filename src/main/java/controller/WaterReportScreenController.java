@@ -7,12 +7,16 @@ import java.util.ResourceBundle;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.SortType;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.DisplayableReport;
 import model.QualityReport;
@@ -53,6 +57,17 @@ public class WaterReportScreenController implements Initializable {
     private TreeTableColumn<DisplayableReport, Number> reportVppmColumn;
     @FXML
     private TreeTableColumn<DisplayableReport, Number> reportCppmColumn;
+    
+    @FXML
+    private LineChart<LocalDateTime, Double> historyGraph;
+    @FXML
+    private ComboBox<LocalDateTime> fromDate;
+    @FXML
+    private ComboBox<LocalDateTime> toDate;
+    @FXML
+    private ComboBox<LocalDateTime> dataType;
+    @FXML
+    private VBox historyGraphVbox;
 
     private User activeUser;
     private Stage stage;
@@ -123,6 +138,24 @@ public class WaterReportScreenController implements Initializable {
         }
         reportTreeTable.getSortOrder().clear();
         reportTreeTable.getSortOrder().addAll(sortColumns);
+        boolean authed = UserManager.isUserHistoryReportAuthorized(activeUser);
+        historyGraphVbox.setVisible(authed);
+        historyGraphVbox.setManaged(authed);
+    }
+
+    @FXML
+    public void handleFromDateAction(ActionEvent e) {
+
+    }
+
+    @FXML
+    public void handleToDateAction(ActionEvent e) {
+
+    }
+
+    @FXML
+    public void handleDataTypeAction(ActionEvent e) {
+
     }
 
     /**

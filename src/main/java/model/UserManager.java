@@ -66,4 +66,13 @@ public class UserManager {
     public static boolean isUserQualityReportAuthorized(User u) {
         return (u.getUserLevel().compareTo(UserLevel.WORKER) >= 0);
     }
+
+    /**
+     * Returns true if the given user is allowed to view history reports
+     * @param u the user to check
+     * @return True if the user is allowed to view history reports
+     */
+    public static boolean isUserHistoryReportAuthorized(User u) {
+        return (u.getUserLevel().compareTo(UserLevel.MANAGER) >= 0);
+    }
 }

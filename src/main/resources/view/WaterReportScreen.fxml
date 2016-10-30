@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="403.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
     <children>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-              <TreeTableView fx:id="reportTreeTable" accessibleRole="PARENT" prefHeight="404.0" prefWidth="773.0" showRoot="false" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" BorderPane.alignment="CENTER">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+              <TreeTableView fx:id="reportTreeTable" accessibleRole="PARENT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" showRoot="false" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" VBox.vgrow="SOMETIMES">
                   <columns>
                       <TreeTableColumn fx:id="reportNumberColumn" editable="false" prefWidth="73.0" text="#" />
                       <TreeTableColumn fx:id="reportDateColumn" editable="false" prefWidth="118.0" text="Date/Time" />
@@ -23,20 +27,47 @@
                       <TreeTableColumn fx:id="reportConditionColumn" editable="false" prefWidth="94.0" text="Condition" />
                       <TreeTableColumn fx:id="reportSafetyColumn" editable="false" prefWidth="97.0" text="Safety" />
                       <TreeTableColumn fx:id="reportVppmColumn" editable="false" prefWidth="81.0" text="V PPM" />
-                      <TreeTableColumn fx:id="reportCppmColumn" editable="false" prefWidth="90.0" text="C PPM" />
+                      <TreeTableColumn fx:id="reportCppmColumn" editable="false" prefWidth="89.0" text="C PPM" />
                   </columns>
               </TreeTableView>
-         </top>
-         <bottom>
-            <LineChart fx:id="historyGraph" legendSide="LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" title="History Report" BorderPane.alignment="CENTER">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </LineChart>
-         </bottom>
-      </BorderPane>
+            <VBox fx:id="historyGraphVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" VBox.vgrow="SOMETIMES">
+               <children>
+                  <LineChart fx:id="historyGraph" legendSide="LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" title="History Report">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <Label text="From: ">
+                           <HBox.margin>
+                              <Insets right="8.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="fromDate" onAction="#handleFromDateAction" prefWidth="150.0" />
+                        <Label text="To: ">
+                           <HBox.margin>
+                              <Insets left="32.0" right="8.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="toDate" onAction="#handleToDateAction" prefWidth="150.0" />
+                        <Label alignment="CENTER_RIGHT" prefWidth="250.0" text="Type: ">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="dataType" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleDataTypeAction" HBox.hgrow="SOMETIMES" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="4.0" left="32.0" right="32.0" top="4.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>
