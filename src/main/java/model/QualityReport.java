@@ -81,12 +81,10 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
         return reportNum;
     }
 
-    /*
     /**
      * Gets this water report's longitude property
      * @return the latitude coordinate property
      */
-    /*
     @Override
     public DoubleProperty getLongitudeProperty() {
         return getParentReport().getLongitudeProperty();
@@ -96,12 +94,10 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Gets this water report's latitude property
      * @return the latitude coordinate property
      */
-    /*
     @Override
     public DoubleProperty getLatitudeProperty() {
         return getParentReport().getLatitudeProperty();
     }
-    */
 
     /**
      * Gets the second at which this report was created
