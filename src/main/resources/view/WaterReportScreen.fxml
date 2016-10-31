@@ -12,7 +12,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="883.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
+<?import eu.hansolo.fx.DateAxis310?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WaterReportScreenController">
     <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -30,14 +32,17 @@
                       <TreeTableColumn fx:id="reportCppmColumn" editable="false" prefWidth="89.0" text="C PPM" />
                   </columns>
               </TreeTableView>
-            <VBox fx:id="historyGraphVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" VBox.vgrow="SOMETIMES">
+            <VBox fx:id="historyGraphVbox" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" VBox.vgrow="SOMETIMES">
                <children>
-                  <LineChart fx:id="historyGraph" legendSide="LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="splashbg3" stylesheets="@../css/stylesheet.css" title="History Report">
+                  <LineChart fx:id="historyGraph" legendSide="LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" title="History Report">
+                   <VBox.margin>
+                      <Insets right="16.0" />
+                   </VBox.margin>
                     <xAxis>
-                      <CategoryAxis side="BOTTOM" />
+                      <DateAxis310 side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis side="LEFT" />
+                      <NumberAxis fx:id="yAxis" side="LEFT" />
                     </yAxis>
                   </LineChart>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
@@ -47,14 +52,14 @@
                               <Insets right="8.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="fromDate" onAction="#handleFromDateAction" prefWidth="150.0" />
+                        <ComboBox fx:id="fromDateBox" onAction="#handleFromDateAction" prefWidth="240.0" />
                         <Label text="To: ">
                            <HBox.margin>
                               <Insets left="32.0" right="8.0" />
                            </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="toDate" onAction="#handleToDateAction" prefWidth="150.0" />
-                        <Label alignment="CENTER_RIGHT" prefWidth="250.0" text="Type: ">
+                        <ComboBox fx:id="toDateBox" onAction="#handleToDateAction" prefWidth="240.0" />
+                        <Label alignment="CENTER_RIGHT" prefWidth="50.0" text="Type: ">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

@@ -27,12 +27,32 @@ public class Thirsty extends Application {
         WaterReport r2 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(36), 33.77367, -84.39616, WaterType.BOTTLED, WaterCondition.MUDDY, q);
         WaterReport r3 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(52), 33.77634, -84.39616, WaterType.WELL, WaterCondition.POTABLE, q);
 
-        ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(1).plusSeconds(1), r1, WaterSafety.UNKNOWN, 0.003, 0.02, a);
-        ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(2).plusSeconds(2), r1, WaterSafety.SAFE, 0.003, 0.02, a);
-        ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(3).plusSeconds(3), r1, WaterSafety.TREATABLE, 0.03, 0.9, a);
+        int p = 0;
+        for (int i = 0; i < 40; i++) {
+            int r = ((int) (Math.random() * 3)) % 4;
+            WaterSafety safety;
+            switch (r) {
+            case 0:
+                safety = WaterSafety.SAFE;
+                break;
+            case 1:
+                safety = WaterSafety.TREATABLE;
+                break;
+            case 2:
+                safety = WaterSafety.UNSAFE;
+                break;
+            default:
+                safety = WaterSafety.UNKNOWN;
+                break;
+            }
+            ReportManager.createWaterQualityReport(LocalDateTime.now().plusDays(p).plusHours(p).plusMinutes(p).plusSeconds(p), r1, safety, 1000 + Math.random() * 3, Math.random() * 3, a);
+            p += 5 * Math.random();
+        }
 
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(2).plusSeconds(2), r2, WaterSafety.UNSAFE, 45, 73, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(4).plusSeconds(4), r2, WaterSafety.UNSAFE, 99, 42, a);
+        ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(5).plusSeconds(6), r2, WaterSafety.UNSAFE, 33, 35, a);
+        ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(39).plusSeconds(8), r2, WaterSafety.UNSAFE, 43, 29, a);
 
 
         stage.show();
