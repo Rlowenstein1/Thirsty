@@ -1,4 +1,4 @@
-package main.java.controller;
+package controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,11 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import main.java.lib.Debug;
-import main.java.model.Authenticator;
-import main.java.model.User;
-import main.java.model.UserLevel;
-import main.java.model.UserManager;
+import lib.Debug;
+import model.Authenticator;
+import model.User;
+import model.UserLevel;
+import model.UserManager;
 
 /**
  *

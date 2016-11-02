@@ -1,4 +1,4 @@
-package main.java.controller;
+package controller;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -14,15 +14,15 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.SortType;
 import javafx.scene.control.TreeTableView;
 import javafx.stage.Stage;
-import main.java.model.DisplayableReport;
-import main.java.model.QualityReport;
-import main.java.model.ReportManager;
-import main.java.model.User;
-import main.java.model.UserManager;
-import main.java.model.WaterCondition;
-import main.java.model.WaterReport;
-import main.java.model.WaterSafety;
-import main.java.model.WaterType;
+import model.DisplayableReport;
+import model.QualityReport;
+import model.ReportManager;
+import model.User;
+import model.UserManager;
+import model.WaterCondition;
+import model.WaterReport;
+import model.WaterSafety;
+import model.WaterType;
 
 /**
  * FXML Controller class

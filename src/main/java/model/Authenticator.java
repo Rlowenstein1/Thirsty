@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import java.util.HashSet;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public final class Authenticator {
     /**
      * set of authenticated users to handle sessions.
      */
-    private HashSet<User> authenticatedUsers;
+    private HashSet<model.User> authenticatedUsers;
 
 
     /**

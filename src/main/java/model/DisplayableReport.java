@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.time.LocalDateTime;

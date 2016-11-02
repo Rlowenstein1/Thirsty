@@ -1,17 +1,17 @@
-package main.java.fxapp;
+package fxapp;
 
-import main.java.controller.MasterSingleton;
+import controller.MasterSingleton;
 import java.time.LocalDateTime;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.java.model.ReportManager;
-import main.java.model.User;
-import main.java.model.UserLevel;
-import main.java.model.UserManager;
-import main.java.model.WaterCondition;
-import main.java.model.WaterReport;
-import main.java.model.WaterSafety;
-import main.java.model.WaterType;
+import model.ReportManager;
+import model.User;
+import model.UserLevel;
+import model.UserManager;
+import model.WaterCondition;
+import model.WaterReport;
+import model.WaterSafety;
+import model.WaterType;
 
 public class Thirsty extends Application {
 
