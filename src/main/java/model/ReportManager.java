@@ -129,11 +129,9 @@ public class ReportManager {
      * @param report to be deleted
      */
     public static void deleteQualityReport(QualityReport report) {
-        WaterReport parent = report.getParentReport();
-        if (parent != null) {
-            parent.removeQualityReport(report);
+        for (WaterReport waterReport : waterReportList) {
+            waterReport.removeQualityReport(report);
         }
-        qualityReportList.remove(report);
     }
 
     /**

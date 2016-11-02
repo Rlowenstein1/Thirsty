@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 /**
  * Authentication object for creating and storing user credentials for a session
