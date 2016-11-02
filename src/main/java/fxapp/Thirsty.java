@@ -12,6 +12,8 @@ import model.WaterCondition;
 import model.WaterReport;
 import model.WaterSafety;
 import model.WaterType;
+import db.PersistenceAbstractObject;
+import db.PersistenceFile;
 
 public class Thirsty extends Application {
 
@@ -34,6 +36,7 @@ public class Thirsty extends Application {
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(2).plusSeconds(2), r2, WaterSafety.UNSAFE, 45, 73, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(4).plusSeconds(4), r2, WaterSafety.UNSAFE, 99, 42, a);
 
+        PersistenceFile.getInstance().load();
 
         stage.show();
     }
@@ -45,4 +48,8 @@ public class Thirsty extends Application {
         launch(args);
     }
 
+    @Override
+    public void stop() {
+        PersistenceFile.getInstance().save();
+    }
 }

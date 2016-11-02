@@ -1,4 +1,4 @@
-package main.java.db;
+package db;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,35 +8,42 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import main.java.model.User;
-import main.java.model.UserManager;
-import main.java.model.QualityReport;
-import main.java.model.WaterReport;
-import main.java.model.ReportManager;
+import model.User;
+import model.UserManager;
+import model.QualityReport;
+import model.WaterReport;
+import model.ReportManager;
 
 /**
  * Class that implements persistence by saving and loading from a plain text JSON file
  * 
  */
-public class PersistenceFile implements PersistenceInterface {
-    private static String userFilename = "../../resources/db/user.json";
-    private static String qualityReportFilename = "../../resources/db/qualityReport.json";
-    private static String waterReportFilename = "../../resources/db/waterReport.json";
+public class PersistenceFile extends PersistenceAbstractObject {
+    private static PersistenceAbstractObject instance = new PersistenceFile();
+
+    private static String userFilename = "src/main/resources/db/user.json";
+    private static String qualityReportFilename = "src/main/resources/db/qualityReport.json";
+    private static String waterReportFilename = "src/main/resources/db/waterReport.json";
+
 
     /**
-     * Initializes the persistent entity - not needed for file persistence
-     * @return boolean status
+     * Gets the static instance - initializes if not initialized
+     * @return the static instance
      */
-    public static boolean initialize() {
-        // nothing needed to do here - all local persistence
+    public static PersistenceAbstractObject getInstance() {
+        if (!instance.isInitialized)
+            instance.isInitialized = instance.initialize();
+        return (instance.isInitialized) ? instance : null;
+    }
+
+    @Override
+    protected boolean initialize() {
+        // nothing to do here - all local persistence
         return true;
     }
 
-    /**
-     * Saves all objects in the manager classes to json files
-     * @return boolean status
-     */
-    public static boolean save() {
+    @Override
+    public boolean save() {
         Gson gson = new Gson();
         try (BufferedWriter wr = new BufferedWriter(new FileWriter(userFilename))) {
             List<User> userList = UserManager.getUserList();
@@ -45,7 +52,9 @@ public class PersistenceFile implements PersistenceInterface {
                 wr.write(gson.toJson(user));
                 wr.newLine();
             }
+            wr.close();
         } catch (Exception e) {
+            System.out.println("exception saving users: " + e.getMessage());
             // error serializing or writing to file
             return false;
         }
@@ -57,6 +66,7 @@ public class PersistenceFile implements PersistenceInterface {
                 wr.newLine();
             }
         } catch (Exception e) {
+            System.out.println("exception saving quality reports: " + e.getMessage());
             // error serializing or writing to file
             return false;
         }
@@ -68,17 +78,25 @@ public class PersistenceFile implements PersistenceInterface {
                 wr.newLine();
             }
         } catch (Exception e) {
+            System.out.println("exception saving water reports: " + e.getMessage());
             // error serializing or writing to file
             return false;
         }
         return true;
     }
 
-    /**
-     * Loads all objects in Json files to manager classes
-     * @return boolean status
-     */
-    public static boolean load() {
+    @Override
+    public boolean load() {
+        return loadUsers() && loadReports();
+    }
+
+    @Override
+    public boolean saveUser(User user) {
+        return false;
+    }
+
+    @Override
+    public boolean loadUsers() {
         Gson gson = new Gson();
         // load and read each file - desearialize - add to managers
         try (BufferedReader rd = new BufferedReader(new FileReader(userFilename))) {
@@ -88,9 +106,26 @@ public class PersistenceFile implements PersistenceInterface {
                 UserManager.addUser(user);
             }
         } catch (Exception e) {
+            System.out.println("exception loading users: " + e.getMessage());
             // error reading the file
             return false;
         }
+        return true;
+    }
+    @Override
+    public boolean saveReport(WaterReport report) {
+        return false;
+    }
+
+    @Override
+    public boolean saveReport(QualityReport report) {
+        return false;
+    }
+
+    @Override
+    public boolean loadReports() {
+        Gson gson = new Gson();
+        // load and read each file - deserialize - add to managers
         try (BufferedReader rd = new BufferedReader(new FileReader(qualityReportFilename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -98,6 +133,7 @@ public class PersistenceFile implements PersistenceInterface {
                 ReportManager.addQualityReport(report);
             }
         } catch (Exception e) {
+            System.out.println("exception loading quality reports: " + e.getMessage());
             // error reading the file
             return false;
         }
@@ -108,6 +144,7 @@ public class PersistenceFile implements PersistenceInterface {
                 ReportManager.addWaterReport(report);
             }
         } catch (Exception e) {
+            System.out.println("exception loading water reports: " + e.getMessage());
             // error reading the file
             return false;
         }
