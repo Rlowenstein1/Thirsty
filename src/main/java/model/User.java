@@ -12,14 +12,27 @@ import javafx.scene.image.Image;
  *
  */
 public class User {
-    private final StringProperty name = new SimpleStringProperty();
-    private final StringProperty username = new SimpleStringProperty();
-    private final StringProperty emailAddress = new SimpleStringProperty();
-    private final StringProperty title = new SimpleStringProperty();
-    private final ObjectProperty<UserLevel> level = new SimpleObjectProperty<>();
-    private final ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
+    /**
+     * Primative properties of the object
+     */
+    private String name;
+    private String username;
+    private String emailAddress;
+    private String title;
+    private UserLevel level;
+    private transient Image profilePicture;
     private double lastCoordsLat;
     private double lastCoordsLng;
+
+    /**
+     * Transient javafx properties - follow primitives
+     */
+    private final transient StringProperty nameProperty = new SimpleStringProperty();
+    private final transient StringProperty usernameProperty = new SimpleStringProperty();
+    private final transient StringProperty emailAddressProperty = new SimpleStringProperty();
+    private final transient StringProperty titleProperty = new SimpleStringProperty();
+    private final transient ObjectProperty<UserLevel> levelProperty = new SimpleObjectProperty<>();
+    private final transient ObjectProperty<Image> profilePictureProperty = new SimpleObjectProperty<>();
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.
@@ -78,7 +91,7 @@ public class User {
      * @return the name of the User
      */
     public String getName() {
-        return name.get();
+        return name;
     }
 
     /**
@@ -87,7 +100,8 @@ public class User {
      * @param n the new name
      */
     public void setName(String n) {
-        name.set(n);
+        name = n;
+        nameProperty.set(n);
     }
 
     /**
@@ -95,7 +109,7 @@ public class User {
      * @return the name
      */
     public StringProperty getNameProperty() {
-        return name;
+        return nameProperty;
     }
 
     /**
@@ -104,7 +118,7 @@ public class User {
      * @return the username
      */
     public String getUsername() {
-        return username.get();
+        return username;
     }
 
     /**
@@ -113,7 +127,8 @@ public class User {
      * @param n the new username
      */
     public void setUsername(String n) {
-        username.set(n);
+        username = n;
+        usernameProperty.set(n);
     }
 
     /**
@@ -122,7 +137,7 @@ public class User {
      * @return the username property
      */
     public StringProperty getUsernameProperty() {
-        return username;
+        return usernameProperty;
     }
     /**
      * Gets the User's title
@@ -130,7 +145,7 @@ public class User {
      * @return the title
      */
     public String getTitle() {
-        return title.get();
+        return title;
     }
 
     /**
@@ -139,7 +154,8 @@ public class User {
      * @param t the new title
      */
     public void setTitle(String t) {
-        title.set(t);
+        title = t;
+        titleProperty.set(t);
     }
 
     /**
@@ -148,7 +164,7 @@ public class User {
      * @return the title property
      */
     public StringProperty getTitleProperty() {
-        return title;
+        return titleProperty;
     }
     /**
      * Gets the User's current profile picture
@@ -156,7 +172,7 @@ public class User {
      * @return the User's profile picture
      */
     public Image getProfilePicture() {
-        return profilePicture.get();
+        return profilePicture;
     }
 
     /**
@@ -166,7 +182,8 @@ public class User {
      * @param i the new image
      */
     public void setProfilePicture(Image i) {
-        profilePicture.set(i);
+        profilePicture = i;
+        profilePictureProperty.set(i);
     }
 
     /**
@@ -175,7 +192,7 @@ public class User {
      * @return the image property
      */
     public ObjectProperty<Image> getImageProperty() {
-        return profilePicture;
+        return profilePictureProperty;
     }
 
     /**
@@ -184,7 +201,7 @@ public class User {
      * @return the email address
      */
     public String getEmailAddress() {
-        return emailAddress.get();
+        return emailAddress;
     }
 
     /**
@@ -193,7 +210,8 @@ public class User {
      * @param n the new email address
      */
     public void setEmailAddress(String n) {
-        emailAddress.set(n);
+        emailAddress = n;
+        emailAddressProperty.set(n);
     }
 
     /**
@@ -201,7 +219,7 @@ public class User {
      * @return the email address property
      */
     public StringProperty getEmailAddressProperty() {
-        return emailAddress;
+        return emailAddressProperty;
     }
 
     /**
@@ -210,7 +228,7 @@ public class User {
      * @return the User's level
      */
     public UserLevel getUserLevel() {
-        return level.get();
+        return level;
     }
 
     /**
@@ -219,7 +237,8 @@ public class User {
      * @param l the new level to be set
      */
     public void setUserLevel(UserLevel l) {
-        level.set(l);
+        level = l;
+        levelProperty.set(l);
     }
 
     /**
@@ -228,7 +247,7 @@ public class User {
      * @return the level property
      */
     public ObjectProperty<UserLevel>  getUserLevelProperty() {
-        return level;
+        return levelProperty;
     }
 
     /**
@@ -271,10 +290,10 @@ public class User {
      * @return the String representation
      */
     public String toString() {
-        return "Name: " + name.get() + "\n"
-                + "Username: " + username.get() + "\n"
-                + "Title: " + title.get() + "\n"
-                + "Email address: " + emailAddress.get() + "\n"
-                + "Authorization level: " + level.get();
+        return "Name: " + name + "\n"
+                + "Username: " + username + "\n"
+                + "Title: " + title + "\n"
+                + "Email address: " + emailAddress + "\n"
+                + "Authorization level: " + level;
     }
 }

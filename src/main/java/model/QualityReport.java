@@ -14,12 +14,25 @@ import javafx.beans.property.StringProperty;
  * Represents a water quality report.
  */
 public class QualityReport extends DisplayableReport implements Comparable<QualityReport> {
-    private final SimpleObjectProperty<LocalDateTime> dateTime = new SimpleObjectProperty<>();
-    private final SimpleIntegerProperty reportNum = new SimpleIntegerProperty();
-    private final SimpleObjectProperty<User> author = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<WaterSafety> safety = new SimpleObjectProperty<>();
-    private final SimpleDoubleProperty virusPPM = new SimpleDoubleProperty();
-    private final SimpleDoubleProperty contaminantPPM = new SimpleDoubleProperty();
+    /**
+     * Primitve properties of the object
+     */
+    private LocalDateTime dateTime;
+    private int reportNum;
+    private User author;
+    private WaterSafety safety;
+    private double virusPPM;
+    private double contaminantPPM;
+
+    /**
+     * JavaFX properties of the object - follows primitives
+     */
+    private final transient SimpleObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
+    private final transient SimpleIntegerProperty reportNumProperty = new SimpleIntegerProperty();
+    private final transient SimpleObjectProperty<User> authorProperty = new SimpleObjectProperty<>();
+    private final transient SimpleObjectProperty<WaterSafety> safetyProperty = new SimpleObjectProperty<>();
+    private final transient SimpleDoubleProperty virusPPMProperty = new SimpleDoubleProperty();
+    private final transient SimpleDoubleProperty contaminantPPMProperty = new SimpleDoubleProperty();
 
     /**
      * Constructor for a new water source report.
@@ -47,12 +60,12 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param waterReport the availability report to add the quality report to
      */
     public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
-        this.dateTime.set(dateTime);
-        this.reportNum.set(reportNum);
-        this.author.set(author);
-        this.safety.set(safety);
-        this.virusPPM.set(virusPPM);
-        this.contaminantPPM.set(contaminantPPM);
+        this.setDateTime(dateTime);
+        this.setReportNum(reportNum);
+        this.setAuthor(author);
+        this.setWaterSafety(safety);
+        this.setVirusPPM(virusPPM);
+        this.setContaminantPPM(contaminantPPM);
     }
 
     /**
@@ -60,7 +73,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the number
      */
     public int getReportNum() {
-        return reportNum.get();
+        return reportNum;
     }
 
     /**
@@ -68,7 +81,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param n the new number to be set
      */
     public void setReportNum(int n) {
-        reportNum.set(n);
+        reportNum = n;
+        reportNumProperty.set(n);
     }
 
     /**
@@ -77,7 +91,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public SimpleIntegerProperty getReportNumProperty() {
-        return reportNum;
+        return reportNumProperty;
     }
 
     /**
@@ -85,7 +99,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the second
      */
     public int getSecond() {
-        return dateTime.get().getSecond();
+        return dateTime.getSecond();
     }
 
     /**
@@ -93,7 +107,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the minute
      */
     public int getMinute() {
-        return dateTime.get().getMinute();
+        return dateTime.getMinute();
     }
 
     /**
@@ -101,14 +115,14 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the hour
      */
     public int getHour() {
-        return dateTime.get().getHour();
+        return dateTime.getHour();
     }
 
     /** Gets the day at which this report was created
      * @return the day
      */
     public int getDay() {
-        return dateTime.get().getDayOfMonth();
+        return dateTime.getDayOfMonth();
     }
 
     /**
@@ -116,7 +130,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the month
      */
     public Month getMonth() {
-        return dateTime.get().getMonth();
+        return dateTime.getMonth();
     }
 
     /**
@@ -124,7 +138,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the year
      */
     public int getYear() {
-        return dateTime.get().getYear();
+        return dateTime.getYear();
     }
 
     /**
@@ -132,7 +146,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the LocalDateTime of the report's creation
      */
     public LocalDateTime getDateTime() {
-        return (dateTime.get());
+        return dateTime;
     }
 
     /**
@@ -141,7 +155,16 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public ObjectProperty<LocalDateTime> getDateTimeProperty() {
-        return dateTime;
+        return dateTimeProperty;
+    }
+
+    /**
+     * Sets this report's dateTime property
+     * @param dt new date time
+     */
+    public void setDateTime(LocalDateTime dt) {
+        dateTime = dt;
+        dateTimeProperty.set(dt);
     }
 
     /**
@@ -149,7 +172,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the type
      */
     public WaterSafety getWaterSafety() {
-        return safety.get();
+        return safety;
     }
 
     /**
@@ -157,7 +180,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param t the new type of water
      */
     public void setWaterSafety(WaterSafety t) {
-        safety.set(t);
+        safety = t;
+        safetyProperty.set(t);
     }
 
     /**
@@ -166,7 +190,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
-        return safety;
+        return safetyProperty;
     }
 
     /**
@@ -174,7 +198,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the author
      */
     public User getAuthor() {
-        return author.get();
+        return author;
     }
 
     /**
@@ -182,7 +206,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param user the user of the report
      */
     public void setAuthor(User user) {
-        author.set(user);
+        author = user;
+        authorProperty.set(user);
     }
 
     /**
@@ -190,7 +215,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the author property
      */
     public ObjectProperty<User> getAuthorProperty() {
-        return author;
+        return authorProperty;
     }
 
     /**
@@ -199,7 +224,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public StringProperty getAuthorUsernameProperty() {
-        return author.get().getUsernameProperty();
+        return author.getUsernameProperty();
     }
 
     /**
@@ -207,7 +232,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the virus PPM
      */
     public double getVirusPPM() {
-        return virusPPM.get();
+        return virusPPM;
     }
 
     /**
@@ -215,7 +240,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param virus the new virus PPM
      */
     public void setVirusPPM(double virus) {
-        virusPPM.set(virus);
+        virusPPM = virus;
+        virusPPMProperty.set(virus);
     }
 
     /**
@@ -224,7 +250,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public SimpleDoubleProperty getVppmProperty() {
-        return virusPPM;
+        return virusPPMProperty;
     }
 
     /**
@@ -232,7 +258,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @return the contaminant PPM
      */
     public double getContaminantPPM() {
-        return contaminantPPM.get();
+        return contaminantPPM;
     }
 
     /**
@@ -240,7 +266,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param contaminant the new contaminant PPM
      */
     public void setContaminantPPM(double contaminant) {
-        contaminantPPM.set(contaminant);
+        contaminantPPM = contaminant;
+        contaminantPPMProperty.set(contaminant);
     }
 
     /**
@@ -249,7 +276,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public SimpleDoubleProperty getCppmProperty() {
-        return contaminantPPM;
+        return contaminantPPMProperty;
     }
 
     /**
@@ -258,11 +285,11 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public String toString() {
-        return "Quality report number: " + reportNum.get() + "\n"
-                + "Date and time: " + dateTime.get() + "\n"
-                + "Safety of water: " + safety.get() + "\n"
-                + "Virus PPM: " + virusPPM.get() + "\n"
-                + "Contaminant PPM " + contaminantPPM.get();
+        return "Quality report number: " + reportNum + "\n"
+                + "Date and time: " + dateTime + "\n"
+                + "Safety of water: " + safety + "\n"
+                + "Virus PPM: " + virusPPM + "\n"
+                + "Contaminant PPM " + contaminantPPM;
     }
 
     /**
@@ -273,6 +300,6 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     @Override
     public int compareTo(QualityReport report) {
-        return this.dateTime.get().compareTo(report.getDateTimeProperty().get());
+        return this.dateTime.compareTo(report.getDateTime());
     }
 }
