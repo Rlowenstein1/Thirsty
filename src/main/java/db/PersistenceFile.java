@@ -107,6 +107,7 @@ public class PersistenceFile extends PersistenceAbstractObject {
             }
         } catch (Exception e) {
             System.out.println("exception loading users: " + e.getMessage());
+            e.printStackTrace(System.out);
             // error reading the file
             return false;
         }
@@ -134,6 +135,7 @@ public class PersistenceFile extends PersistenceAbstractObject {
             }
         } catch (Exception e) {
             System.out.println("exception loading quality reports: " + e.getMessage());
+            e.printStackTrace(System.out);
             // error reading the file
             return false;
         }
@@ -145,6 +147,7 @@ public class PersistenceFile extends PersistenceAbstractObject {
             }
         } catch (Exception e) {
             System.out.println("exception loading water reports: " + e.getMessage());
+            e.printStackTrace(System.out);
             // error reading the file
             return false;
         }
