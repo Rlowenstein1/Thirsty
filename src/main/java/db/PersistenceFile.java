@@ -7,12 +7,17 @@ import java.io.FileWriter;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import model.User;
 import model.UserManager;
 import model.QualityReport;
 import model.WaterReport;
 import model.ReportManager;
+import model.DisplayableReport;
+
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
 
 /**
  * Class that implements persistence by saving and loading from a plain text JSON file
@@ -44,7 +49,11 @@ public class PersistenceFile extends PersistenceAbstractObject {
 
     @Override
     public boolean save() {
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
+        //ExclusionStrategy excludeSuperQualityReport = new SuperClassExclusionStrategy(QualityReport.class);
+        //ExclusionStrategy excludeSuperWaterReport = new SuperClassExclusionStrategy(WaterReport.class);
+        Gson gson = new GsonBuilder().setExclusionStrategies(new SuperClassExclusionStrategy(RecursiveTreeObject.class),
+                new SuperClassExclusionStrategy(RecursiveTreeObject.class)).create();
         try (BufferedWriter wr = new BufferedWriter(new FileWriter(userFilename))) {
             List<User> userList = UserManager.getUserList();
             for (User user : userList) {
@@ -125,7 +134,8 @@ public class PersistenceFile extends PersistenceAbstractObject {
 
     @Override
     public boolean loadReports() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new SuperClassExclusionStrategy(RecursiveTreeObject.class),
+                new SuperClassExclusionStrategy(DisplayableReport.class)).create();
         // load and read each file - deserialize - add to managers
         try (BufferedReader rd = new BufferedReader(new FileReader(qualityReportFilename))) {
             String line;
