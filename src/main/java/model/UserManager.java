@@ -84,4 +84,16 @@ public class UserManager {
     public static List<User> getUserList() {
         return new ArrayList<>(usernameMap.values());
     }
+
+    /**
+     * Returns true if the given user is allowed to view history reports
+     * TODO This is business logic - what each user is allowed to see should be
+     * controlled in the controller(?) where we do other business logic - this
+     * couples this class with pretty much everything...
+     * @param u the user to check
+     * @return True if the user is allowed to view history reports
+     */
+    public static boolean isUserHistoryReportAuthorized(User u) {
+        return (u.getUserLevel().compareTo(UserLevel.MANAGER) >= 0);
+    }
 }

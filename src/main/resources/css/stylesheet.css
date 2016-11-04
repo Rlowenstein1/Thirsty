@@ -30,3 +30,15 @@
     -fx-position: relative;
     -fx-top: 1px;
 }
+
+
+.seriesvppm {
+    -fx-fill: blue; 
+    -fx-stroke-width: 20px;
+    -fx-stroke: blue;
+}
+
+.seriescppm .chart-series-line {
+    -fx-fill: red; 
+    -fx-stroke: red;
+}
