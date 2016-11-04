@@ -3,10 +3,10 @@ package db;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
-public class SuperClassExclusionStrategy implements ExclusionStrategy {
+public class ClassExclusionStrategy implements ExclusionStrategy {
     private final Class<?> excludedClass;
 
-    public SuperClassExclusionStrategy(Class<?> excludedClass) {
+    public ClassExclusionStrategy(Class<?> excludedClass) {
         this.excludedClass = excludedClass;
     }
 
