@@ -221,7 +221,7 @@ public class WaterReportScreenController implements Initializable {
         }
         WaterReport wr;
         if (r instanceof QualityReport) {
-            wr = ((QualityReport) r).getParentReport();
+            wr = ReportManager.getWaterReport((QualityReport) r);
         } else if (r instanceof WaterReport) {
             wr = ((WaterReport) r);
         } else {

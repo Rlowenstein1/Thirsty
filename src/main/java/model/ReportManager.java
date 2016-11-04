@@ -135,6 +135,20 @@ public class ReportManager {
     }
 
     /**
+     * Gets the water report that a quality report is attached to
+     * @param report the quality report to search from
+     * @return the water report that has the specified quality report as a child
+     *         or null if there was an error searching
+     */
+    public static WaterReport getWaterReport(QualityReport report) {
+        for (WaterReport wr : waterReportList) {
+            if (wr.getQualityReportList().contains(wr))
+                return wr;
+        }
+        return null;
+    }
+
+    /**
      * Returns the list of water reports in order they were created
      * @return water report list
      */
