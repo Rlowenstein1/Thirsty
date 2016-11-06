@@ -36,6 +36,7 @@ public class Thirsty extends Application {
         WaterReport r1 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(10), 33.77908, -84.39616, WaterType.LAKE, WaterCondition.CLEAR, a);
         WaterReport r2 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(36), 33.77367, -84.39616, WaterType.BOTTLED, WaterCondition.MUDDY, q);
         WaterReport r3 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(52), 33.77634, -84.39616, WaterType.WELL, WaterCondition.POTABLE, q);
+        WaterReport r4 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(59), 33.77334, -84.39316, WaterType.WELL, WaterCondition.POTABLE, q);
 
         int p = 0;
         for (int i = 0; i < 40; i++) {
@@ -63,6 +64,8 @@ public class Thirsty extends Application {
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(4).plusSeconds(4), r2, WaterSafety.UNSAFE, 99, 42, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(5).plusSeconds(6), r2, WaterSafety.UNSAFE, 33, 35, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(39).plusSeconds(8), r2, WaterSafety.UNSAFE, 43, 29, a);
+
+        ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(20).plusSeconds(8), r3, WaterSafety.SAFE, 0.0001, 0.000004, a);
         */
 
         //PersistenceFile.getInstance().load();

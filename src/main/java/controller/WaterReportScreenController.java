@@ -6,7 +6,6 @@ import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -100,6 +99,7 @@ public class WaterReportScreenController implements Initializable {
     private Popup popup;
     private WaterReport currentReport = null;
     private HashMap<DisplayableReport, TreeItem<DisplayableReport>> itemMap = new HashMap<>();
+    private boolean graphUpdating = false;
 
     private Label hoverLabel = new Label("");
 
@@ -189,7 +189,6 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleFromDateAction(ActionEvent e) {
-        //redrawHistoryGraph();
     }
 
     /**
@@ -198,7 +197,6 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleToDateAction(ActionEvent e) {
-        //redrawHistoryGraph();
     }
 
     /**
@@ -207,7 +205,7 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleDataTypeAction(ActionEvent e) {
-        drawNewGraph();
+        redrawHistoryGraph();
     }
 
     /**
@@ -230,42 +228,140 @@ public class WaterReportScreenController implements Initializable {
         return (currentReport == null ? wr : (currentReport.equals(wr) ? null : wr));
     }
 
+    /**
+     * Event handler for when a report is clicked 
+     * @param r the report that was clicked
+     */
     private void reportSelected(DisplayableReport r) {
         WaterReport newReport = getNewReport(r);
         if (newReport != null) {
             currentReport = newReport;
-            drawNewGraph();
+            resetDateRange();
+            redrawHistoryGraph();
         }
     }
 
-    private void drawNewGraph() {
+    /**
+     * Resets the date range selectors
+     */
+    private void resetDateRange() {
+        ObservableList<LocalDateTime> fDItems = fromDateBox.getItems();
+        ObservableList<LocalDateTime> tDItems = toDateBox.getItems();
+        boolean oldGU = graphUpdating;
+        graphUpdating = true;
         fromDateBox.setValue(null);
         toDateBox.setValue(null);
-        redrawHistoryGraph();
+        fDItems.clear();
+        tDItems.clear();
+        graphUpdating = oldGU;
     }
 
+    /**
+     * Draws the series (lines) on the history graph
+     * @param vppm Should we draw the vppm
+     * @param cppm Should we draw the cppm
+     * @param qList The list of events to draw
+     * @param fromDate The starting date to filter the events
+     * @param toDate The ending date to filter the events
+     */
+    private void drawSeries(boolean vppm, boolean cppm, List<QualityReport> qList, LocalDateTime fromDate, LocalDateTime toDate) {
+        ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
+        LineChart.Series<LocalDateTime, Double> vPPMSeries = new LineChart.Series<>();
+        LineChart.Series<LocalDateTime, Double> cPPMSeries = new LineChart.Series<>();
+        ObservableList<LineChart.Data<LocalDateTime, Double>> dataV = vPPMSeries.getData();
+        ObservableList<LineChart.Data<LocalDateTime, Double>> dataC = cPPMSeries.getData();
+        if (vppm) {
+            vPPMSeries.setName("Virus PPM");
+            graphData.add(vPPMSeries);
+            Set<Node> lineNode = historyGraph.lookupAll(".series0");
+            for (final Node line : lineNode) {
+                line.setStyle("-fx-stroke: blue;");
+            }
+            applyDataPointMouseEvents(vPPMSeries, "Virus PPM");
+        }
+        if (cppm) {
+            cPPMSeries.setName("Contaminant PPM");
+            graphData.add(cPPMSeries);
+            Set<Node> lineNode = historyGraph.lookupAll(String.format(".series%s", vppm ? "1" : "0"));
+            for (final Node line : lineNode) {
+                line.setStyle("-fx-stroke: green;");
+            }
+            applyDataPointMouseEvents(cPPMSeries, "Contaminant PPM");
+        }
+        
+        historyGraphVbox.setDisable(false);
+        double maxY = 0;
+        double minY = Double.MAX_VALUE;
+        for (QualityReport q : qList) {
+            LocalDateTime qD = q.getDateTime();
+            if ((qD.isAfter(fromDate) || qD.isEqual(fromDate)) && (qD.isBefore(toDate) || qD.isEqual(toDate))) {
+                if (vppm) {
+                    double qV = q.getVirusPPM();
+                    LineChart.Data<LocalDateTime, Double> dataPoint = new LineChart.Data<>(qD, qV);
+                    dataV.add(dataPoint);
+                    dataPoint.getNode().setUserData(q);
+                    if (qV > maxY) {
+                        maxY = qV;
+                    }
+                    if (qV < minY) {
+                        minY = qV;
+                    }
+                }
+                if (cppm) {
+                    double qC = q.getContaminantPPM();
+                    LineChart.Data<LocalDateTime, Double> dataPoint = new LineChart.Data<>(qD, qC);
+                    dataC.add(dataPoint);
+                    dataPoint.getNode().setUserData(q);
+                    if (qC > maxY) {
+                        maxY = qC;
+                    }
+                    if (qC < minY) {
+                        minY = qC;
+                    }
+                }
+            }
+        }
+        xAxis.setAutoRanging(false);
+        long minuteFudge = ((long) ((toDate.toEpochSecond(ZoneOffset.UTC) - fromDate.toEpochSecond(ZoneOffset.UTC)) * 0.0005));
+        if (minuteFudge == 0) {
+            minuteFudge = 1;
+        }
+        xAxis.setLowerBound(fromDate.minusMinutes(minuteFudge)); //add a small margin to both sides of the axis
+        xAxis.setUpperBound(toDate.plusMinutes(minuteFudge));
+        
+        yAxis.setAutoRanging(false);
+        yAxis.setForceZeroInRange(false);
+        double yFudge = ((maxY - minY) * 0.05);
+        if (yFudge == 0) {
+            yFudge = (maxY != 0 ? maxY : minY) * 0.05;
+        }
+        yAxis.setLowerBound(minY - yFudge);
+        yAxis.setUpperBound(maxY + yFudge);
+        yAxis.setTickUnit((maxY - minY) * 0.1);
+        
+    }
+
+    /**
+     * Redraws the history graph
+     */
     public void redrawHistoryGraph() {
-        if (currentReport == null) {
+        if (currentReport == null || graphUpdating) {
             return;
         }
+        graphUpdating = true;
         ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
         graphData.clear();
         if (UserManager.isUserHistoryReportAuthorized(activeUser)) {
             List<QualityReport> qList = currentReport.getQualityReportList();
 
-            LocalDateTime fromDate = fromDateBox.getValue();
-            if (fromDate == null) {
-                fromDate = LocalDateTime.MIN;
-            }
-            LocalDateTime toDate = toDateBox.getValue();
-            if (toDate == null) {
-                toDate = LocalDateTime.MAX;
-            }
-            Debug.debug("%s", fromDate);
 
+            LocalDateTime fromDate = fromDateBox.getValue();
+            LocalDateTime toDate = toDateBox.getValue();
+            //if either of these are null, we want to set it to the min/max of the reports
+                
             ObservableList<LocalDateTime> fDItems = fromDateBox.getItems();
-            fDItems.clear();
             ObservableList<LocalDateTime> tDItems = toDateBox.getItems();
+            fDItems.clear();
             tDItems.clear();
 
             String dTV = dataType.getValue();
@@ -281,94 +377,48 @@ public class WaterReportScreenController implements Initializable {
             }
 
             if (qList.size() > 0) {
-                LineChart.Series<LocalDateTime, Double> vPPMSeries = new LineChart.Series<>();
-                LineChart.Series<LocalDateTime, Double> cPPMSeries = new LineChart.Series<>();
-                ObservableList<LineChart.Data<LocalDateTime, Double>> dataV = vPPMSeries.getData();
-                ObservableList<LineChart.Data<LocalDateTime, Double>> dataC = cPPMSeries.getData();
-                if (vppm) {
-                    vPPMSeries.setName("Virus PPM");
-                    graphData.add(vPPMSeries);
-                    Set<Node> lineNode = historyGraph.lookupAll(".series0");
-                    for (final Node line : lineNode) {
-                        line.setStyle("-fx-stroke: blue;");
-                    }
-                    applyDataPointMouseEvents(vPPMSeries, "Virus PPM");
-                }
-                if (cppm) {
-                    cPPMSeries.setName("Contaminant PPM");
-                    graphData.add(cPPMSeries);
-                    Set<Node> lineNode = historyGraph.lookupAll(String.format(".series%s", vppm ? "1" : "0"));
-                    for (final Node line : lineNode) {
-                        line.setStyle("-fx-stroke: green;");
-                    }
-                    applyDataPointMouseEvents(cPPMSeries, "Contaminant PPM");
-                }
-                
-                historyGraphVbox.setDisable(false);
+
                 LocalDateTime minD = LocalDateTime.MAX;
                 LocalDateTime maxD = LocalDateTime.MIN;
-                double maxY = 0;
-                double minY = Double.MAX_VALUE;
                 for (QualityReport q : qList) {
                     LocalDateTime qD = q.getDateTime();
-                    fDItems.add(qD);
-                    tDItems.add(qD);
-                    if ((qD.isAfter(fromDate) || qD.isEqual(fromDate)) && (qD.isBefore(toDate) || qD.isEqual(toDate))) {
-                        if (qD.compareTo(maxD) > 0) {
-                            maxD = qD;
-                        }
-                        if (qD.compareTo(minD) < 0) {
-                            minD = qD;
-                        }
-                        if (vppm) {
-                            double qV = q.getVirusPPM();
-                            LineChart.Data<LocalDateTime, Double> dataPoint = new LineChart.Data<>(qD, qV);
-                            dataV.add(dataPoint);
-                            dataPoint.getNode().setUserData(q);
-                            if (qV > maxY) {
-                                maxY = qV;
-                            }
-                            if (qV < minY) {
-                                minY = qV;
-                            }
-                        }
-                        if (cppm) {
-                            double qC = q.getContaminantPPM();
-                            LineChart.Data<LocalDateTime, Double> dataPoint = new LineChart.Data<>(qD, qC);
-                            dataC.add(dataPoint);
-                            dataPoint.getNode().setUserData(q);
-                            if (qC > maxY) {
-                                maxY = qC;
-                            }
-                            if (qC < minY) {
-                                minY = qC;
-                            }
-                        }
+                    if (toDate == null || !qD.isAfter(toDate)) {
+                        fDItems.add(qD);
+                    }
+                    
+                    if (fromDate == null || !qD.isBefore(fromDate)) {
+                        tDItems.add(qD);
+                    }
+                    
+                    if (qD.compareTo(maxD) > 0) {
+                        maxD = qD;
+                    }
+                    if (qD.compareTo(minD) < 0) {
+                        minD = qD;
                     }
                 }
-                if (fromDate.isEqual(LocalDateTime.MIN)) {
-                    fromDateBox.setValue(minD);
+                if (fromDate == null) {
+                    fromDate = minD;
                 }
-                if (toDate.isEqual(LocalDateTime.MAX)) {
-                    toDateBox.setValue(maxD);
+                if (toDate == null) {
+                    toDate = maxD;
                 }
-                xAxis.setAutoRanging(false);
-                long minuteFudge = ((long) ((maxD.toEpochSecond(ZoneOffset.UTC) - minD.toEpochSecond(ZoneOffset.UTC)) * 0.0005));
-                xAxis.setLowerBound(minD.minusMinutes(minuteFudge)); //add a small margin to both sides of the axis
-                xAxis.setUpperBound(maxD.plusMinutes(minuteFudge));
+                fromDateBox.setValue(fromDate);
+                toDateBox.setValue(toDate);
 
-                yAxis.setAutoRanging(false);
-                yAxis.setForceZeroInRange(false);
-                double yFudge = ((maxY - minY) * 0.05);
-                yAxis.setLowerBound(minY - yFudge);
-                yAxis.setUpperBound(maxY + yFudge);
-                yAxis.setTickUnit((maxY - minY) * 0.1);
+                drawSeries(vppm, cppm, qList, fromDate, toDate);
             } else {
                 historyGraphVbox.setDisable(true);
             }
         }
+        graphUpdating = false;
     }
 
+    /**
+     * Creates the mouse events on a Series so that the tooltip pops up and the click fires the selector
+     * @param series The series you want the events placed on
+     * @param yName The name of the series to display in the tooltip
+     */
     private void applyDataPointMouseEvents(LineChart.Series<LocalDateTime, Double> series, String yName) {
         Platform.runLater(() -> {
             StackPane popupPane = new StackPane(hoverLabel);
@@ -396,6 +446,7 @@ public class WaterReportScreenController implements Initializable {
                         tI.getParent().setExpanded(true);
                         TreeTableViewSelectionModel<DisplayableReport> rTTselectionModel = reportTreeTable.getSelectionModel();
                         rTTselectionModel.select(tI);
+                        rTTselectionModel.select(tI); //this is stupid. it selects the wrong one the first time, needs to be called twice
                         reportTreeTable.scrollTo(rTTselectionModel.getSelectedIndex());
                     } else {
                         Debug.warn("Unable to find a TreeItem to map this report to! %s", node.getUserData());
@@ -468,7 +519,12 @@ public class WaterReportScreenController implements Initializable {
         );
 
         reportTreeTable.setRoot(root);
-
+        fromDateBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            redrawHistoryGraph();
+        });
+        toDateBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            redrawHistoryGraph();
+        });
         reportTreeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
