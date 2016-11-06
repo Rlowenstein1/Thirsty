@@ -6,11 +6,31 @@
 package persistence.json;
 
 import persistence.PersistenceInterface;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.lang.reflect.Type;
+import lib.Debug;
 
 /**
  *
  * @author tybrown
  */
 public abstract class PersistentJSONInterface implements PersistenceInterface {
-    
+
+    private Gson gson;
+
+    /**
+     * Default constructor. All sub-classes automatically call this when they are themselves created
+     */
+    public PersistentJSONInterface() {
+        gson = new GsonBuilder().create();
+    }
+
+    public String toJSON(Object o, Type c) {
+        return (gson.toJson(o, c));
+    }
+
+    public <T> T fromJSON(String j, Class<T> c) {
+        return (gson.fromJson(j, c));
+    } 
 }

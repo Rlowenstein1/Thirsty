@@ -55,6 +55,7 @@ public class MasterSingleton {
      * Initializes the master singleton. Should only be called once
      */
     public static void initialize(PersistenceInterface persist) {
+        persist.initialize();
         UserManager.initialize(persist);
         ReportManager.initialize(persist);
     }

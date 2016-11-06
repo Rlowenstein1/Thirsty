@@ -33,6 +33,7 @@ public class User {
     private final transient StringProperty titleProperty = new SimpleStringProperty();
     private final transient ObjectProperty<UserLevel> levelProperty = new SimpleObjectProperty<>();
     private final transient ObjectProperty<Image> profilePictureProperty = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<WaterReport> parentReportProperty = new SimpleObjectProperty<>();
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.

@@ -23,6 +23,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
     private WaterSafety safety;
     private double virusPPM;
     private double contaminantPPM;
+    private transient WaterReport parentReport;
 
     /**
      * JavaFX properties of the object - follows primitives
@@ -33,6 +34,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
     private final transient SimpleObjectProperty<WaterSafety> safetyProperty = new SimpleObjectProperty<>();
     private final transient SimpleDoubleProperty virusPPMProperty = new SimpleDoubleProperty();
     private final transient SimpleDoubleProperty contaminantPPMProperty = new SimpleDoubleProperty();
+    private final transient SimpleObjectProperty<WaterReport> parentReportProperty = new SimpleObjectProperty<>();
 
     /**
      * Constructor for a new water source report.
@@ -66,6 +68,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
         this.setWaterSafety(safety);
         this.setVirusPPM(virusPPM);
         this.setContaminantPPM(contaminantPPM);
+        this.setParentReport(waterReport);
     }
 
     /**
@@ -92,6 +95,24 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
     @Override
     public SimpleIntegerProperty getReportNumProperty() {
         return reportNumProperty;
+    }
+
+    /**
+     * Gets this water report's longitude property
+     * @return the latitude coordinate property
+     */
+    @Override
+    public DoubleProperty getLongitudeProperty() {
+        return getParentReport().getLongitudeProperty();
+    }
+
+    /**
+     * Gets this water report's latitude property
+     * @return the latitude coordinate property
+     */
+    @Override
+    public DoubleProperty getLatitudeProperty() {
+        return getParentReport().getLatitudeProperty();
     }
 
     /**
@@ -280,6 +301,31 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
     }
 
     /**
+     * Gets the water source report attached to this quality report
+     * @return the water source report
+     */
+    public WaterReport getParentReport() {
+        return parentReport;
+    }
+
+    /**
+     * Sets the water source report to a new one
+     * @param wr the new water source report attached to this quality report
+     */
+    public void setParentReport(WaterReport wr) {
+        parentReport = wr;
+        parentReportProperty.set(wr);
+    }
+
+    /**
+     * Gets the water source report property
+     * @return the water source report property
+     */
+    public SimpleObjectProperty<WaterReport> getParentReportProperty() {
+        return parentReportProperty;
+    }
+
+    /**
      * String representation for this water quality report
      * @return a string representation of this water quality report
      */
@@ -289,7 +335,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
                 + "Date and time: " + dateTime + "\n"
                 + "Safety of water: " + safety + "\n"
                 + "Virus PPM: " + virusPPM + "\n"
-                + "Contaminant PPM " + contaminantPPM;
+                + "Contaminant PPM " + contaminantPPM
+                + "Parent report #" + parentReport.getReportNum();
     }
 
     /**

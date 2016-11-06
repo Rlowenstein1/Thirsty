@@ -28,7 +28,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     private WaterType type;
     private WaterCondition condition;
     private User author;
-    private List<QualityReport> qualityReports;
+    private transient List<QualityReport> qualityReports;
 
     /**
      * JavaFX properties of the object - follow the primitives

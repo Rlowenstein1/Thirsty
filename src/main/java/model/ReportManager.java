@@ -140,23 +140,11 @@ public class ReportManager {
      * @param report to be deleted
      */
     public static void deleteQualityReport(QualityReport report) {
-        for (WaterReport waterReport : waterReportList) {
-            waterReport.removeQualityReport(report);
+        WaterReport parent = report.getParentReport();
+        if (parent != null) {
+            parent.removeQualityReport(report);
         }
-    }
-
-    /**
-     * Gets the water report that a quality report is attached to
-     * @param report the quality report to search from
-     * @return the water report that has the specified quality report as a child
-     *         or null if there was an error searching
-     */
-    public static WaterReport getWaterReport(QualityReport report) {
-        for (WaterReport wr : waterReportList) {
-            if (wr.getQualityReportList().contains(wr))
-                return wr;
-        }
-        return null;
+        qualityReportList.remove(report);
     }
 
     /**

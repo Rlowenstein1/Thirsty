@@ -146,10 +146,8 @@ public class WaterReportScreenController implements Initializable {
      * @param reportList the list of reports to display
      */
     public synchronized void updateReports(List<WaterReport> reportList) {
-        ObservableList<TreeTableColumn<DisplayableReport, ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
+        //ObservableList<TreeTableColumn<DisplayableReport, ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
         //if (reportTreeTable.getSortOrder().isEmpty()) {
-        reportNumberColumn.setSortType(SortType.DESCENDING);
-        sortColumns.add(reportNumberColumn);
         /*        
         } else {
             for (TreeTableColumn<DisplayableReport, ?> c : reportTreeTable.getSortOrder()) {
@@ -176,8 +174,11 @@ public class WaterReportScreenController implements Initializable {
                 }
             }
         }
+        reportNumberColumn.setSortType(SortType.DESCENDING);
+        //sortColumns.add(reportNumberColumn);
+        Debug.debug("sort order: %s", reportTreeTable.getSortOrder());
         reportTreeTable.getSortOrder().clear();
-        reportTreeTable.getSortOrder().addAll(sortColumns);
+        reportTreeTable.getSortOrder().add(reportNumberColumn);
         boolean authed = UserManager.isUserHistoryReportAuthorized(activeUser);
         historyGraphVbox.setVisible(authed);
         historyGraphVbox.setManaged(authed);
@@ -219,7 +220,7 @@ public class WaterReportScreenController implements Initializable {
         }
         WaterReport wr;
         if (r instanceof QualityReport) {
-            wr = ReportManager.getWaterReport((QualityReport) r);
+            wr = ((QualityReport) r).getParentReport();
         } else if (r instanceof WaterReport) {
             wr = ((WaterReport) r);
         } else {
