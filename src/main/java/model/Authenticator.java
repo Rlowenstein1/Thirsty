@@ -2,35 +2,22 @@ package model;
 
 import java.util.HashSet;
 import java.util.HashMap;
-import lib.Debug;
+import java.util.Set;
+import java.util.Map;
 
 /**
  * Authenticator class is used to authenticate and register users.
  */
 public final class Authenticator {
     /**
-     * singleton instance.
-     */
-    private static Authenticator authenticator = new Authenticator();
-
-    /**
      * hash table with the users username and password hashes.
      */
-    private HashMap<String, Integer> credentials;
+    private static Map<String, Integer> credentials = new HashMap<>();
 
     /**
      * set of authenticated users to handle sessions.
      */
-    private HashSet<model.User> authenticatedUsers;
-
-
-    /**
-     * private constructor for class.
-     */
-    private Authenticator() {
-        credentials = new HashMap<>();
-        authenticatedUsers = new HashSet<>();
-    }
+    private static Set<model.User> authenticatedUsers = new HashSet<>();
 
     /**
      * Checks if password is valid
@@ -56,7 +43,7 @@ public final class Authenticator {
             throw new IllegalArgumentException("arguments cannot be null");
         }
         if (isValidPassword(password) && userExists(username)) {
-            authenticator.credentials.put(username, password.hashCode());
+            credentials.put(username, password.hashCode());
             return (true);
         }
         return (false);
@@ -75,9 +62,9 @@ public final class Authenticator {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
-        Integer credential = authenticator.credentials.getOrDefault(username, null);
+        Integer credential = credentials.getOrDefault(username, null);
         if (credential != null && password.hashCode() == credential) {
-            authenticator.authenticatedUsers.add(user);
+            authenticatedUsers.add(user);
             return true;
         }
         return false;
@@ -89,7 +76,7 @@ public final class Authenticator {
      * @return boolean value, true if logged in
      */
     public boolean isAuthenticated(User user) {
-        return authenticator.authenticatedUsers.contains(user);
+        return authenticatedUsers.contains(user);
     }
 
     /**
@@ -98,7 +85,7 @@ public final class Authenticator {
      * @return boolean status of if the procedure was successful
      */
     public boolean logout(User user) {
-        return authenticator.authenticatedUsers.remove(user);
+        return authenticatedUsers.remove(user);
     }
 
     /**
@@ -107,7 +94,7 @@ public final class Authenticator {
      * @return boolean, true if user exists, false otherwise
      */
     public static boolean userExists(String username) {
-        return (authenticator.credentials.containsKey(username));
+        return (credentials.containsKey(username));
     }
 
     /**
@@ -125,7 +112,8 @@ public final class Authenticator {
             throw new IllegalArgumentException("arguments cannot be null");
         }
         if (!userExists(username)) {
-            authenticator.credentials.put(username, password.hashCode());
+            
+            credentials.put(username, password.hashCode());
             return true;
         }
         return false;
