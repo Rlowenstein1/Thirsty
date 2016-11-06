@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashSet;
 import java.util.HashMap;
+import lib.Debug;
 
 /**
  * Authenticator class is used to authenticate and register users.
@@ -74,8 +75,8 @@ public final class Authenticator {
         if (username == null || password == null) {
             throw new IllegalArgumentException("arguments cannot be null");
         }
-        Integer credential = authenticator.credentials.get(username);
-        if (password.hashCode() == credential) {
+        Integer credential = authenticator.credentials.getOrDefault(username, null);
+        if (credential != null && password.hashCode() == credential) {
             authenticator.authenticatedUsers.add(user);
             return true;
         }

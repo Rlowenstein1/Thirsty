@@ -16,15 +16,20 @@ import db.PersistenceAbstractObject;
 import db.PersistenceFile;
 
 import com.google.gson.Gson;
+import persistence.PersistenceInterface;
+import persistence.json.PersistentJSONFile;
 
 
 public class Thirsty extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        PersistenceInterface persist = new PersistentJSONFile("src/main/resources/db/");
+        MasterSingleton.initialize(persist);
         MasterSingleton.setMainScreen(stage);
         MasterSingleton.showSplashScreen();
 
+        /*
         User a = UserManager.register("asdf", "qwerty", "A Silently Deadly Ferret", "a@b.c", UserLevel.ADMINISTRATOR);
         User q = UserManager.register("qwerty", "asdf", "Queen With Evil Rats There Yonder", "a@b.c", UserLevel.USER);
 
@@ -58,8 +63,9 @@ public class Thirsty extends Application {
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(4).plusSeconds(4), r2, WaterSafety.UNSAFE, 99, 42, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(5).plusSeconds(6), r2, WaterSafety.UNSAFE, 33, 35, a);
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(39).plusSeconds(8), r2, WaterSafety.UNSAFE, 43, 29, a);
+        */
 
-        PersistenceFile.getInstance().load();
+        //PersistenceFile.getInstance().load();
 
         stage.show();
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import persistence.PersistenceInterface;
 
 /**
  * Manager for the Report classes
@@ -14,6 +15,16 @@ public class ReportManager {
     private static List<QualityReport> qualityReportList = new ArrayList<>();
     private static int reportNumber = 1;
     private static HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
+
+    private static PersistenceInterface persist;
+
+    /**
+     * Sets up the user manager. This method should only be called once
+     * @param persist The PersistenceInterface to use to manage users
+     */
+    public static void initialize(PersistenceInterface persist) {
+        ReportManager.persist = persist;
+    }
 
     /**
      * Creates a water report

@@ -16,6 +16,7 @@ import model.User;
 import fxapp.Thirsty;
 import model.ReportManager;
 import model.UserManager;
+import persistence.PersistenceInterface;
 
 /**
  *
@@ -48,11 +49,14 @@ public class MasterSingleton {
 
     private static ObservableList<Tab> tabList;
 
-    /**
-     * Constructor
-     */
-    private MasterSingleton() {
+    private static PersistenceInterface persist = null;
 
+    /**
+     * Initializes the master singleton. Should only be called once
+     */
+    public static void initialize(PersistenceInterface persist) {
+        UserManager.initialize(persist);
+        ReportManager.initialize(persist);
     }
 
     /**

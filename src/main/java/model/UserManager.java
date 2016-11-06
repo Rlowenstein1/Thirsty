@@ -3,12 +3,22 @@ package model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import persistence.PersistenceInterface;
 
 /**
  * Manager for the user objects of app
  */
 public class UserManager {
     private static HashMap<String, User> usernameMap = new HashMap<>();
+    private static PersistenceInterface persist = null;
+
+    /**
+     * Sets up the user manager. This method should only be called once
+     * @param persist The PersistenceInterface to use to manage users
+     */
+    public static void initialize(PersistenceInterface persist) {
+        UserManager.persist = persist;
+    }
 
     /**
      * registers a new user
