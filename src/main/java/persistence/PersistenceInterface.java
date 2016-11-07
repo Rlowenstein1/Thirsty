@@ -1,6 +1,7 @@
 package persistence;
 
 import java.util.List;
+import model.Credential;
 import model.QualityReport;
 import model.User;
 import model.WaterReport;
@@ -34,6 +35,41 @@ public interface PersistenceInterface {
      * @return Returns a constructed User object with the matching username, or null if no user existed by that name
      */
     public User loadUser(String username);
+
+    /**
+     * Queries the underlying persistence layer for validation of the given username/password
+     * If authentication was successful, subsequent calls to isUserAuthenticated() must return true
+     * @param c The credential to validate
+     * @return true if the credential matches the persistence layer
+     */
+    public boolean authenticateUser(Credential c);
+
+    /**
+     * Logs out the given user
+     * @param username The username to logout 
+     */
+    public void deauthenticateUser(String username);
+
+    /**
+     * Checks if a given user is currently authenticated (logged in)
+     * @param username The username of the user to check
+     * @return true if the user is currently authenticated (logged in)
+     */
+    public boolean isUserAuthenticated(String username);
+
+    /**
+     * Saves credential to persistence layer.
+     * If user already exists, update password
+     * @param c The credential to save
+     */
+    public void saveUserCredential(Credential c);
+
+    /**
+     * Checks the persistence layer to see if a user exists, and has a password
+     * @param username The username of the user to check
+     * @return true if the user exists, and has a password
+     */
+    public boolean userExists(String username);
 
     /**
      * Deletes this user from the underlying persistence implementer

@@ -4,20 +4,19 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
+import lib.Debug;
 
 /**
- * Authenticator class is used to authenticate and register users.
+ * Manages authentication and authenticated users
  */
-public final class Authenticator {
-    /**
-     * hash table with the users username and password hashes.
-     */
-    private static Map<String, Integer> credentials = new HashMap<>();
+public class Authenticator {
+    private Set<String> authenticatedUsers;
+    private CredentialManager credentialManager;
 
-    /**
-     * set of authenticated users to handle sessions.
-     */
-    private static Set<model.User> authenticatedUsers = new HashSet<>();
+    public Authenticator(CredentialManager cm) {
+        this.authenticatedUsers = new HashSet<>();
+        this.credentialManager = cm;
+    }
 
     /**
      * Checks if password is valid
@@ -32,90 +31,56 @@ public final class Authenticator {
         return (true);
     }
 
+
     /**
-     * Updates credentials, only if user exists and password is valid
-     * @param username Username of user to update password 
-     * @param password New password
-     * @return true if password is valid and user exists
+     * Attempts to authenticate a user with a given Credential.
+     * If the authentication was successful, the user will be added to the authenticated users list (currently logged on users list)
+     * @param c The Credentials of the user to test
+     * @return Returns true if the user existed and the credential matched, or if the user was already authenticated
      */
-    public static boolean updateCredential(String username, String password) {
-        if (username == null || password == null) {
-            throw new IllegalArgumentException("arguments cannot be null");
+    public boolean authenticate(Credential c) {
+        if (c == null) {
+            throw new IllegalArgumentException("Credential cannot be null!");
         }
-        if (isValidPassword(password) && userExists(username)) {
-            credentials.put(username, password.hashCode());
+        String username = c.getUsername();
+        if (isAuthenticated(username)) {
             return (true);
         }
-        return (false);
-    }
-
-    /**
-     * attempts to authenticate a user with a given username
-     * and password.
-     * @param user the User object of user attempting to log in
-     * @param username of the user attempting to be authenticated
-     * @param password of the user attempting to be authenticated
-     * @return boolean value whether the attempt was successful
-     */
-    public static boolean authenticate(User user, String username,
-                                       String password) {
-        if (username == null || password == null) {
-            throw new IllegalArgumentException("arguments cannot be null");
+        if (!credentialManager.matchCredential(c)) {
+            return (false);
         }
-        Integer credential = credentials.getOrDefault(username, null);
-        if (credential != null && password.hashCode() == credential) {
-            authenticatedUsers.add(user);
-            return true;
+        authenticatedUsers.add(username);
+        return (true);
+        /*
+        String username = c.getUsername();
+        Integer credential = credentials.get(username);
+        Integer testCredential = c.getCredential();
+        if (credential == null || testCredential == null || !userExists(username) || !credential.equals(testCredential)) {
+            return (false);
         }
-        return false;
-    }
-
-    /**
-     * Checks the authentication status of user
-     * @param user User object to check status of user
-     * @return boolean value, true if logged in
-     */
-    public boolean isAuthenticated(User user) {
-        return authenticatedUsers.contains(user);
-    }
-
-    /**
-     * Ends a user session
-     * @param user User object of the user requesting to logout
-     * @return boolean status of if the procedure was successful
-     */
-    public boolean logout(User user) {
-        return authenticatedUsers.remove(user);
-    }
-
-    /**
-     * 
-     * @param username username to check existence of 
-     * @return boolean, true if user exists, false otherwise
-     */
-    public static boolean userExists(String username) {
-        return (credentials.containsKey(username));
-    }
-
-    /**
-     * registers a user's username and password and stores the credentials
-     * a user session is created if successful
-     * @param username of the new user
-     * @param password of the new user
-     * @return boolean representing if the user was saved
-     *         if the username is already in use the user is not saved
-     *         to prevent a user overriding another's password
-     */
-    public static boolean register(String username,
-                                   String password) {
-        if (username == null || password == null) {
-            throw new IllegalArgumentException("arguments cannot be null");
+        if (!persist.authenticateUser(c)) {
+            return (false);
         }
-        if (!userExists(username)) {
-            
-            credentials.put(username, password.hashCode());
-            return true;
-        }
-        return false;
+        authenticatedUsers.add(username);
+        return (true);
+        */
+    }
+
+    /**
+     * Checks the if the given username is in the authenticated users list
+     * @param username Username of user to check
+     * @return True if the user is on the authenticated users list
+     */
+    public boolean isAuthenticated(String username) {
+        return (authenticatedUsers.contains(username));
+    }
+
+    /**
+     * Ends a user session by removing the user from the authenticated users list
+     * @param username The username of the user to logout
+     * @return boolean True if the user was logged in
+     */
+    public boolean logout(String username) {
+        return (authenticatedUsers.remove(username));
     }
 }

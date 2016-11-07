@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
 import fxapp.Thirsty;
+import model.Authenticator;
 import model.ReportManager;
 import model.UserManager;
 import persistence.PersistenceInterface;
@@ -53,6 +54,7 @@ public class MasterSingleton {
 
     /**
      * Initializes the master singleton. Should only be called once
+     * @param persist The PersistenceInterface to perform persistence operations with
      */
     public static void initialize(PersistenceInterface persist) {
         persist.initialize();

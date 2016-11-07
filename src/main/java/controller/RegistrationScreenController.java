@@ -111,7 +111,7 @@ public class RegistrationScreenController implements Initializable {
                 pwConfRegErrorLabel.setText("Passwords do not match!");
             } else {
                 Debug.debug("User registration successful!");
-                newReg = UserManager.register(username, password, fullname, email, userLevel);
+                newReg = UserManager.createUser(username, password, fullname, email, userLevel);
                 if (newReg != null) {
                     registered = true;
                     stage.close();

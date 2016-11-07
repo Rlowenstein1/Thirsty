@@ -21,31 +21,42 @@ public class UserManager {
     }
 
     /**
-     * registers a new user
+     * Saves the given credential in the persistence layer. If user already exists, updates password
+     * @param c The credentials of the new user
+     */
+    public static void saveCredential(Credential c) {
+        persist.saveUserCredential(c);
+    }
+
+    /**
+     * Registers a new user. Adds the new user to the persistence layer
+     * User will be logged in if this method returns non-null
      * @param username of new user
      * @param password of new user
      * @param fullname of new user
      * @param emailAddress of new user
      * @param userLevel of new user
      * @return the new user object after registration
-     *         returns null if the attempt was unsuccessful (already used username)
+     *         returns null if the attempt was unsuccessful (already used username, invalid password, authentication failed)
      */
-    public static User register(String username, String password, String fullname,
+    public static User createUser(String username, String password, String fullname,
                                 String emailAddress, UserLevel userLevel) {
-        if (usernameMap.containsKey(username)) {
-            return null;
+        if (userExists(username) || !Authenticator.isValidPassword(password)) {
+            return (null);
         }
         User newUser = new User(username, fullname, emailAddress, userLevel);
-        if (Authenticator.register(username, password)
-                && Authenticator.authenticate(newUser, username, password)) {
-            usernameMap.put(username, newUser);
-            return newUser;
+        Credential c = new Credential(username, password);
+        saveCredential(c);
+        if (!persist.authenticateUser(c)) {
+            return (null);
         }
-        return null;
+        persist.saveUser(newUser);
+        usernameMap.put(username, newUser);
+        return (newUser);
     }
 
     /**
-     * Adds existing user to list
+     * Loads an existing user into the username map. Does not add to the persistence layer
      * @param user to be added
      */
     public static void addUser(User user) {
@@ -53,29 +64,47 @@ public class UserManager {
     }
 
     /**
-     * Attempts to log in a user
-     * @param username of prospective user
-     * @param password of prospective user
-     * @return user object if successful or null if not
+     * Gets a user by username
+     * @param username The username of the User to get
+     * @return The User object with the matching username, or null of no user matched this username
      */
-    public static User login(String username, String password) {
-        User user = usernameMap.get(username);
-        if (user != null) {
-            if (Authenticator.authenticate(user, username, password)) {
-                return user;
-            }
-        }
-        return null;
+    public static User getUser(String username) {
+        return (usernameMap.get(username));
     }
 
     /**
-     * Updates login credentials, only if user exists and password is valid
-     * @param username Username of user to update password 
-     * @param password New password
-     * @return true if password is valid and user exists
+     * Checks if a given username exists in the list of known usernames
+     * @param username The username to check
+     * @return True if the username exists, false if no such user exists
      */
-    public static boolean updateLogin(String username, String password) {
-        return (Authenticator.updateCredential(username, password));
+    public static boolean userExists(String username) {
+        return (usernameMap.containsKey(username));
+    }
+
+    /**
+     * Attempts to log in an existing user
+     * @param c The Credentials of the user logging in
+     * @return The User object if successful, or null otherwise
+     */
+    public static User login(Credential c) {
+        if (c != null) {
+            String username = c.getUsername();
+            if (username != null) {
+                User u = getUser(username);
+                if (u != null && persist.authenticateUser(c)) {
+                    return (u);
+                }
+            }
+        }
+        return (null);
+    }
+
+    /**
+     * Logs user out through the persistence layer
+     * @param username The username of the user to logout
+     */
+    public static void logout(String username) {
+        persist.deauthenticateUser(username);
     }
 
     /**

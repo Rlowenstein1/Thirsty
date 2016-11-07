@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import model.Credential;
 import model.User;
 import model.UserManager;
 
@@ -44,7 +45,7 @@ public class LoginScreenController implements Initializable {
         resetErrors();
         String username = usernameField.getText();
         String password = pwField.getText();
-        loggedUser = UserManager.login(username, password);
+        loggedUser = UserManager.login(new Credential(username, password));
         if (loggedUser != null) {
             authed = true;
             stage.close();
