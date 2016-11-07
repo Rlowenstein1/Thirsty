@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.json;
 
 import java.io.BufferedReader;
@@ -20,10 +15,8 @@ import model.User;
 import model.UserManager;
 import model.WaterReport;
 
-/**
- *
- * @author tybrown
- */
+import java.io.File;
+
 public class PersistentJSONFile extends PersistentJSONInterface {
 
     private String pathName;
@@ -46,7 +39,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
     private <T> List<T> loadAll(String filename, Class<T> c) {
         ArrayList<T> res = new ArrayList<>();
-        try (BufferedReader rd = new BufferedReader(new FileReader(pathName + USER_FILE_NAME))) {
+        try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
                 T t = fromJSON(line, c);
