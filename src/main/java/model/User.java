@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
-import lib.Debug;
 
 /**
  * A class representing a User in the water source application.
@@ -276,6 +275,10 @@ public class User {
     }
 
 
+    /**
+     * A function for creating a clone object given the current data.
+     * @return the clone
+     */
     public User clone() {
         return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
                     level.get(), profilePicture.get()));

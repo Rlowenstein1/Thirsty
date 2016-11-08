@@ -10,6 +10,9 @@ import java.util.Map;
 public class CredentialManager {
     private Map<String, Credential> credentials;
 
+    /**
+     * Default constructor
+     */
     public CredentialManager() {
         credentials = new HashMap<>();
     }

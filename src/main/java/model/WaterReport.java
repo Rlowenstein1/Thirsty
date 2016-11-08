@@ -12,10 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
 
 /**
  * Represents a water source report.

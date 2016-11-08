@@ -25,10 +25,19 @@ public class ReportManager {
         ReportManager.persist = persist;
     }
 
+    /**
+     * Sets the max water report number. Assists with adding full reports from persistence
+     * @param maxReportNumber the new number
+     */
     public static void setMaxWaterReportNumber(int maxReportNumber) {
         ReportManager.reportNumber = maxReportNumber;
     }
 
+    /**
+     * Sets the max quality report number. Assists with adding full reports from persistence
+     * @param wr water report to set max quality report number for
+     * @param maxReportNumber the new number
+     */
     public static void setMaxQualityReportNumber(WaterReport wr, int maxReportNumber) {
         ReportManager.qualityReportNumberMap.put(wr, maxReportNumber);
     }

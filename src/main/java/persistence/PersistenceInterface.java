@@ -1,6 +1,5 @@
 package persistence;
 
-import java.util.List;
 import model.Credential;
 import model.QualityReport;
 import model.User;

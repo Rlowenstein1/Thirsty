@@ -11,10 +11,8 @@ import java.io.Writer;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import lib.Debug;
 import model.Authenticator;
 import model.Credential;
@@ -25,15 +23,12 @@ import model.User;
 import model.UserManager;
 import model.WaterReport;
 
-import java.io.File;
-
 public class PersistentJSONFile extends PersistentJSONInterface {
 
     private String pathName;
     private Writer writerUsers;
     private Writer writerCredentials;
     private Writer writerReports;
-    //private HashMap<WaterReport, Writer> writerQualityReports = new HashMap<>();
     private CredentialManager credentialManager;
     private Authenticator authenticator;
 
@@ -42,6 +37,10 @@ public class PersistentJSONFile extends PersistentJSONInterface {
     private static final String CREDENTIAL_FILE_NAME = "credentials" + FILE_EXTENSION;
     private static final String WR_FILE_NAME = "waterReports" + FILE_EXTENSION;
 
+    /**
+     * Constructor that sets the pathname for json files
+     * @param pathName path to be set
+     */
     public PersistentJSONFile(String pathName) {
         this.pathName = pathName;
         if (!pathName.endsWith("/")) {
@@ -52,6 +51,13 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         authenticator = new Authenticator(credentialManager);
     }
 
+    /**
+     * Generic function that loads all objects into a list from the given file of json objects
+     * @param T type for the generic function
+     * @param filename to load
+     * @param c class of objects in json file - must be consistent
+     * @return list of objects of class c
+     */
     private <T> List<T> loadAll(String filename, Class<T> c) {
         ArrayList<T> res = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {

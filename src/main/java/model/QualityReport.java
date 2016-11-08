@@ -314,6 +314,10 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
         return parentReportProperty;
     }
 
+    /**
+     * A function for producing a clone of the current object given the current objects data
+     * @return the clone
+     */
     public QualityReport clone() {
         return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(), getVirusPPM(), getContaminantPPM(), getParentReport()));
     }

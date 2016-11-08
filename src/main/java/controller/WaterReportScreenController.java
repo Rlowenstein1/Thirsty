@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +38,6 @@ import javafx.util.StringConverter;
 import lib.Debug;
 import model.DisplayableReport;
 import model.QualityReport;
-import model.ReportManager;
 import model.User;
 import model.UserManager;
 import model.WaterCondition;
@@ -178,7 +175,7 @@ public class WaterReportScreenController implements Initializable {
         //sortColumns.add(reportNumberColumn);
         Debug.debug("sort order: %s", reportTreeTable.getSortOrder());
         if (reportTreeTable.getSortOrder().isEmpty()) {
-//        reportTreeTable.getSortOrder().clear();
+            // reportTreeTable.getSortOrder().clear();
             reportTreeTable.getSortOrder().add(reportNumberColumn);
         }
         boolean authed = UserManager.isUserHistoryReportAuthorized(activeUser);

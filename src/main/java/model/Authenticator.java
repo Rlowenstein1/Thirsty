@@ -1,10 +1,7 @@
 package model;
 
 import java.util.HashSet;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.Map;
-import lib.Debug;
 
 /**
  * Manages authentication and authenticated users
@@ -13,6 +10,10 @@ public class Authenticator {
     private Set<String> authenticatedUsers;
     private CredentialManager credentialManager;
 
+    /**
+     * Constructor for Authenticator
+     * @param cm a credential manager for this authenticator
+     */
     public Authenticator(CredentialManager cm) {
         this.authenticatedUsers = new HashSet<>();
         this.credentialManager = cm;

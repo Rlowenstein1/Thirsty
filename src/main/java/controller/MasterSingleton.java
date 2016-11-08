@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
 import fxapp.Thirsty;
-import model.Authenticator;
 import model.ReportManager;
 import model.UserManager;
 import persistence.PersistenceInterface;
