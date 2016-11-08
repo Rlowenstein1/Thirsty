@@ -18,6 +18,9 @@ import persistence.PersistenceInterface;
 import persistence.json.PersistentJSONFile;
 
 
+import java.util.List;
+
+
 public class Thirsty extends Application {
 
 
@@ -30,8 +33,8 @@ public class Thirsty extends Application {
         MasterSingleton.showSplashScreen();
 
         /*
-        User a = UserManager.register("asdf", "qwerty", "A Silently Deadly Ferret", "a@b.c", UserLevel.ADMINISTRATOR);
-        User q = UserManager.register("qwerty", "asdf", "Queen With Evil Rats There Yonder", "a@b.c", UserLevel.USER);
+        User a = UserManager.createUser("asdf", "qwerty", "A Silently Deadly Ferret", "a@b.c", UserLevel.ADMINISTRATOR);
+        User q = UserManager.createUser("qwerty", "asdf", "Queen With Evil Rats There Yonder", "a@b.c", UserLevel.USER);
 
         WaterReport r1 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(10), 33.77908, -84.39616, WaterType.LAKE, WaterCondition.CLEAR, a);
         WaterReport r2 = ReportManager.createWaterReport(LocalDateTime.now().plusSeconds(36), 33.77367, -84.39616, WaterType.BOTTLED, WaterCondition.MUDDY, q);
@@ -66,9 +69,16 @@ public class Thirsty extends Application {
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(39).plusSeconds(8), r2, WaterSafety.UNSAFE, 43, 29, a);
 
         ReportManager.createWaterQualityReport(LocalDateTime.now().plusMinutes(20).plusSeconds(8), r3, WaterSafety.SAFE, 0.0001, 0.000004, a);
+
+
+        System.out.println("\n\n\n\n\n\n\n\n" + a + "\n\n\n\n\n\n\n\n");
         */
 
-        //PersistenceFile.getInstance().load();
+        List<WaterReport> wr = ReportManager.getWaterReportList();
+        for (WaterReport w : wr) {
+            System.out.println(w);
+            System.out.println(w.getAuthor());
+        }
 
         stage.show();
     }

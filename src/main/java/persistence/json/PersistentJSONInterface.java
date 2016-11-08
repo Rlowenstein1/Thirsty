@@ -11,6 +11,8 @@ import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
 import org.hildan.fxgson.FxGson;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author tybrown
@@ -25,7 +27,8 @@ public abstract class PersistentJSONInterface implements PersistenceInterface {
     public PersistentJSONInterface() {
         //GsonBuilder gsonBuilder = new GsonBuilder();
         //gson = gsonBuilder.create();
-        gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().
+                registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
     }
 
     public String toJSON(Object o, Type c) {
