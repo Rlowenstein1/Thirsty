@@ -12,7 +12,7 @@ import persistence.PersistenceInterface;
  */
 public class ReportManager {
     private static List<WaterReport> waterReportList = new ArrayList<>(); 
-    private static int reportNumber = 1;
+    private static int reportNumber = 0;
     private static HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
 
     private static PersistenceInterface persist;
@@ -44,9 +44,9 @@ public class ReportManager {
      */
     public static WaterReport createWaterReport(double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(reportNumber++, latitude, longitude, type, condition, author);
+        WaterReport r = new WaterReport(++reportNumber, latitude, longitude, type, condition, author);
         persist.saveWaterReport(r);
-        waterReportList.add(r);
+        addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
         return (r);
     }
@@ -63,9 +63,9 @@ public class ReportManager {
      */
     public static WaterReport createWaterReport(LocalDateTime dateTime, double latitude, double longitude,
                 WaterType type, WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(reportNumber++, dateTime, latitude, longitude, type, condition, author);
+        WaterReport r = new WaterReport(++reportNumber, dateTime, latitude, longitude, type, condition, author);
         persist.saveWaterReport(r);
-        waterReportList.add(r);
+        addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
         return (r);
     }
@@ -84,8 +84,8 @@ public class ReportManager {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
-        persist.saveQualityReport(waterReport, report);
         waterReport.addQualityReport(report);
+        persist.saveQualityReport(waterReport, report);
         return (report);
     }
 
@@ -104,8 +104,8 @@ public class ReportManager {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
-        persist.saveQualityReport(waterReport, report);
         waterReport.addQualityReport(report);
+        persist.saveQualityReport(waterReport, report);
         return (report);
     }
 
@@ -204,7 +204,7 @@ public class ReportManager {
      * @return either the report, or null if not found
      */
     public static WaterReport filterWaterReportByNumber(int num) {
-        if (num > 0 && num < reportNumber) {
+        if (num > 0 && num <= reportNumber) {
             for (WaterReport report: waterReportList) {
                 if (report.getReportNum() == num) {
                     return (report);

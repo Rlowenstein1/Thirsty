@@ -184,6 +184,7 @@ public class WaterReportScreenController implements Initializable {
         boolean authed = UserManager.isUserHistoryReportAuthorized(activeUser);
         historyGraphVbox.setVisible(authed);
         historyGraphVbox.setManaged(authed);
+        redrawHistoryGraph();
     }
 
     /**

@@ -5,10 +5,12 @@
  */
 package persistence.json;
 
+import com.fatboyindustrial.gsonjavatime.LocalDateTimeConverter;
 import persistence.PersistenceInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import org.hildan.fxgson.FxGson;
 
 /**
@@ -25,7 +27,10 @@ public abstract class PersistentJSONInterface implements PersistenceInterface {
     public PersistentJSONInterface() {
         //GsonBuilder gsonBuilder = new GsonBuilder();
         //gson = gsonBuilder.create();
-        gson = FxGson.coreBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        gson = FxGson.coreBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
     }
 
     public String toJSON(Object o, Type c) {

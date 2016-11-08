@@ -11,6 +11,8 @@ import java.time.Month;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -19,36 +21,23 @@ import javafx.collections.FXCollections;
  * Represents a water source report.
  */
 public class WaterReport extends DisplayableReport implements Comparable<WaterReport> {
-    /**
-     * Primitive properties of the object
-     */
-    @Expose
-    private int reportNum;
-    @Expose
-    private double latitude;
-    @Expose
-    private double longitude;
-    @Expose
-    private LocalDateTime dateTime;
-    @Expose
-    private WaterType type;
-    @Expose
-    private WaterCondition condition;
-    @Expose
-    private User author;
-    @Expose
-    private List<QualityReport> qualityReports;
 
-    /**
-     * JavaFX properties of the object - follow the primitives
-     */
-    private final transient SimpleIntegerProperty reportNumProperty = new SimpleIntegerProperty();
-    private final transient SimpleDoubleProperty latitudeProperty = new SimpleDoubleProperty();
-    private final transient SimpleDoubleProperty longitudeProperty = new SimpleDoubleProperty();
-    private final transient SimpleObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
-    private final transient SimpleObjectProperty<WaterType> typeProperty = new SimpleObjectProperty<>();
-    private final transient SimpleObjectProperty<WaterCondition> conditionProperty = new SimpleObjectProperty<>();
-    private final transient SimpleObjectProperty<User> authorProperty = new SimpleObjectProperty<>();
+    @Expose
+    private final IntegerProperty reportNumProperty = new SimpleIntegerProperty();
+    @Expose
+    private final DoubleProperty latitudeProperty = new SimpleDoubleProperty();
+    @Expose
+    private final DoubleProperty longitudeProperty = new SimpleDoubleProperty();
+    @Expose
+    private final ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
+    @Expose
+    private final ObjectProperty<WaterType> typeProperty = new SimpleObjectProperty<>();
+    @Expose
+    private final ObjectProperty<WaterCondition> conditionProperty = new SimpleObjectProperty<>();
+    @Expose
+    private final ObjectProperty<User> authorProperty = new SimpleObjectProperty<>();
+    @Expose
+    private final List<QualityReport> qualityReports = new ArrayList<>();
 
     /**
      * Constructor for a new water source report.
@@ -85,7 +74,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         this.setWaterType(type);
         this.setWaterCondition(condition);
         this.setAuthor(author);
-        qualityReports = new ArrayList<>();
+        //qualityReports = new ArrayList<>();
     }
 
     /**
@@ -93,7 +82,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the number
      */
     public int getReportNum() {
-        return reportNum;
+        return reportNumProperty.get();
     }
 
     /**
@@ -101,7 +90,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param n the new number to be set
      */
     public void setReportNum(int n) {
-        reportNum = n;
         reportNumProperty.set(n);
     }
 
@@ -110,7 +98,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the number property
      */
     @Override
-    public SimpleIntegerProperty getReportNumProperty() {
+    public IntegerProperty getReportNumProperty() {
         return reportNumProperty;
     }
 
@@ -119,7 +107,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the longitude coordinate
      */
     public double getLongitude() {
-        return longitude;
+        return longitudeProperty.get();
     }
 
     /**
@@ -127,7 +115,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param l the new longitude to be set
      */
     public void setLongitude(double l) {
-        longitude = l;
         longitudeProperty.set(l);
     }
 
@@ -136,7 +123,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the longitude coordinate property
      */
     @Override
-    public SimpleDoubleProperty getLongitudeProperty() {
+    public DoubleProperty getLongitudeProperty() {
         return longitudeProperty;
     }
 
@@ -145,7 +132,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the latitude coordinate
      */
     public double getLatitude() {
-        return latitude;
+        return latitudeProperty.get();
     }
 
     /**
@@ -153,7 +140,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param l the new latitude to be set
      */
     public void setLatitude(double l) {
-        latitude = l;
         latitudeProperty.set(l);
     }
 
@@ -171,7 +157,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the second
      */
     public int getSecond() {
-        return dateTime.getSecond();
+        return getDateTime().getSecond();
     }
 
     /**
@@ -179,7 +165,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the minute
      */
     public int getMinute() {
-        return dateTime.getMinute();
+        return getDateTime().getMinute();
     }
 
     /**
@@ -187,14 +173,14 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the hour
      */
     public int getHour() {
-        return dateTime.getHour();
+        return getDateTime().getHour();
     }
 
     /** Gets the day at which this report was created
      * @return the day
      */
     public int getDay() {
-        return dateTime.getDayOfMonth();
+        return getDateTime().getDayOfMonth();
     }
 
     /**
@@ -202,7 +188,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the month
      */
     public Month getMonth() {
-        return dateTime.getMonth();
+        return getDateTime().getMonth();
     }
 
     /**
@@ -210,7 +196,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the year
      */
     public int getYear() {
-        return dateTime.getYear();
+        return getDateTime().getYear();
     }
 
     /**
@@ -218,7 +204,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the LocalDateTime of the report's creation
      */
     public LocalDateTime getDateTime() {
-        return dateTime;
+        return dateTimeProperty.get();
     }
 
     /**
@@ -235,7 +221,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param dt report's new date time
      */
     public void setDateTime(LocalDateTime dt) {
-        dateTime = dt;
         dateTimeProperty.set(dt);
     }
 
@@ -244,7 +229,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the type
      */
     public WaterType getWaterType() {
-        return type;
+        return typeProperty.get();
     }
 
     /**
@@ -252,7 +237,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param t the new type of water
      */
     public void setWaterType(WaterType t) {
-        type = t;
         typeProperty.set(t);
     }
 
@@ -270,7 +254,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the condition
      */
     public WaterCondition getWaterCondition() {
-        return condition;
+        return conditionProperty.get();
     }
 
     /**
@@ -278,7 +262,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param c the condition
      */
     public void setWaterCondition(WaterCondition c) {
-        condition = c;
         conditionProperty.set(c);
     }
 
@@ -296,7 +279,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @return the author
      */
     public User getAuthor() {
-        return author;
+        return authorProperty.get();
     }
 
     /**
@@ -304,7 +287,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param user the user of the report
      */
     public void setAuthor(User user) {
-        author = user;
         authorProperty.set(user);
     }
 
@@ -314,7 +296,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      */
     @Override
     public StringProperty getAuthorUsernameProperty() {
-        return author.getUsernameProperty();
+        return getAuthor().getUsernameProperty();
     }
 
     /**
@@ -432,9 +414,11 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     }
 
     public WaterReport clone() {
-        WaterReport res = new WaterReport(reportNum, dateTime, latitude, longitude, type, condition, author);
+        WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(), getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
         for (QualityReport q : getQualityReportList()) {
-            res.addQualityReport(q.clone());
+            QualityReport newQ = q.clone();
+            newQ.setParentReport(res);
+            res.addQualityReport(newQ);
         }
         return (res);
     }
@@ -445,11 +429,19 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      */
     @Override
     public String toString() {
-        return "Water report number: " + reportNum + "\n"
-                + "Date and time: " + dateTime + "\n"
-                + "Location of water source: " + String.format("(%.5f,%.5f)", latitude, longitude) + "\n"
-                + "Type of water: " + type + "\n"
-                + "Condition of water: " + condition;
+        return (String.format(
+              "Water report number: %s\n"
+            + "Creation date/time: %s\n"
+            + "Location: (%.5f, %.5f)\n"
+            + "Type: %s\n"
+            + "Condition: %s\n",
+            getReportNum(),
+            getDateTime(),
+            getLatitude(),
+            getLongitude(),
+            getWaterType(),
+            getWaterCondition()
+        ));
     }
 
     /**
@@ -460,6 +452,6 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      */
     @Override
     public int compareTo(WaterReport report) {
-        return this.dateTime.compareTo(report.getDateTime());
+        return getDateTime().compareTo(report.getDateTime());
     }
 }
