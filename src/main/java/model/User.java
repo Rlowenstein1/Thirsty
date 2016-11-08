@@ -14,34 +14,22 @@ import lib.Debug;
  *
  */
 public class User {
-    /**
-     * Primative properties of the object
-     */
-    @Expose
-    private String name;
-    @Expose
-    private String username;
-    @Expose
-    private String emailAddress;
-    @Expose
-    private String title;
-    @Expose
-    private UserLevel level;
-    private transient Image profilePicture;
     @Expose
     private double lastCoordsLat;
     @Expose
     private double lastCoordsLng;
 
-    /**
-     * Transient javafx properties - follow primitives
-     */
-    private final transient StringProperty nameProperty = new SimpleStringProperty();
-    private final transient StringProperty usernameProperty = new SimpleStringProperty();
-    private final transient StringProperty emailAddressProperty = new SimpleStringProperty();
-    private final transient StringProperty titleProperty = new SimpleStringProperty();
-    private final transient ObjectProperty<UserLevel> levelProperty = new SimpleObjectProperty<>();
-    private final transient ObjectProperty<Image> profilePictureProperty = new SimpleObjectProperty<>();
+    @Expose
+    private final StringProperty name = new SimpleStringProperty();
+    @Expose
+    private final StringProperty username = new SimpleStringProperty();
+    @Expose
+    private final StringProperty emailAddress = new SimpleStringProperty();
+    @Expose
+    private final StringProperty title = new SimpleStringProperty();
+    @Expose
+    private final ObjectProperty<UserLevel> level = new SimpleObjectProperty<>();
+    private final transient ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.
@@ -100,7 +88,7 @@ public class User {
      * @return the name of the User
      */
     public String getName() {
-        return name;
+        return name.get();
     }
 
     /**
@@ -109,8 +97,7 @@ public class User {
      * @param n the new name
      */
     public void setName(String n) {
-        name = n;
-        nameProperty.set(n);
+        name.set(n);
     }
 
     /**
@@ -118,7 +105,7 @@ public class User {
      * @return the name
      */
     public StringProperty getNameProperty() {
-        return nameProperty;
+        return name;
     }
 
     /**
@@ -127,7 +114,7 @@ public class User {
      * @return the username
      */
     public String getUsername() {
-        return username;
+        return username.get();
     }
 
     /**
@@ -136,8 +123,7 @@ public class User {
      * @param n the new username
      */
     public void setUsername(String n) {
-        username = n;
-        usernameProperty.set(n);
+        username.set(n);
     }
 
     /**
@@ -146,7 +132,7 @@ public class User {
      * @return the username property
      */
     public StringProperty getUsernameProperty() {
-        return usernameProperty;
+        return username;
     }
     /**
      * Gets the User's title
@@ -154,7 +140,7 @@ public class User {
      * @return the title
      */
     public String getTitle() {
-        return title;
+        return title.get();
     }
 
     /**
@@ -163,8 +149,7 @@ public class User {
      * @param t the new title
      */
     public void setTitle(String t) {
-        title = t;
-        titleProperty.set(t);
+        title.set(t);
     }
 
     /**
@@ -173,7 +158,7 @@ public class User {
      * @return the title property
      */
     public StringProperty getTitleProperty() {
-        return titleProperty;
+        return title;
     }
     /**
      * Gets the User's current profile picture
@@ -181,7 +166,7 @@ public class User {
      * @return the User's profile picture
      */
     public Image getProfilePicture() {
-        return profilePicture;
+        return profilePicture.get();
     }
 
     /**
@@ -191,8 +176,7 @@ public class User {
      * @param i the new image
      */
     public void setProfilePicture(Image i) {
-        profilePicture = i;
-        profilePictureProperty.set(i);
+        profilePicture.set(i);
     }
 
     /**
@@ -201,7 +185,7 @@ public class User {
      * @return the image property
      */
     public ObjectProperty<Image> getImageProperty() {
-        return profilePictureProperty;
+        return profilePicture;
     }
 
     /**
@@ -210,7 +194,7 @@ public class User {
      * @return the email address
      */
     public String getEmailAddress() {
-        return emailAddress;
+        return emailAddress.get();
     }
 
     /**
@@ -219,8 +203,7 @@ public class User {
      * @param n the new email address
      */
     public void setEmailAddress(String n) {
-        emailAddress = n;
-        emailAddressProperty.set(n);
+        emailAddress.set(n);
     }
 
     /**
@@ -228,7 +211,7 @@ public class User {
      * @return the email address property
      */
     public StringProperty getEmailAddressProperty() {
-        return emailAddressProperty;
+        return emailAddress;
     }
 
     /**
@@ -237,7 +220,7 @@ public class User {
      * @return the User's level
      */
     public UserLevel getUserLevel() {
-        return level;
+        return level.get();
     }
 
     /**
@@ -246,8 +229,7 @@ public class User {
      * @param l the new level to be set
      */
     public void setUserLevel(UserLevel l) {
-        level = l;
-        levelProperty.set(l);
+        level.set(l);
     }
 
     /**
@@ -256,7 +238,7 @@ public class User {
      * @return the level property
      */
     public ObjectProperty<UserLevel>  getUserLevelProperty() {
-        return levelProperty;
+        return level;
     }
 
     /**
@@ -295,7 +277,8 @@ public class User {
 
 
     public User clone() {
-        return (new User(username, name, title, emailAddress, level, profilePicture));
+        return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
+                    level.get(), profilePicture.get()));
     }
 
     /**
@@ -304,10 +287,10 @@ public class User {
      * @return the String representation
      */
     public String toString() {
-        return "Name: " + name + "\n"
-                + "Username: " + username + "\n"
-                + "Title: " + title + "\n"
-                + "Email address: " + emailAddress + "\n"
-                + "Authorization level: " + level;
+        return "Name: " + name.get() + "\n"
+                + "Username: " + username.get() + "\n"
+                + "Title: " + title.get() + "\n"
+                + "Email address: " + emailAddress.get() + "\n"
+                + "Authorization level: " + level.get();
     }
 }
