@@ -130,17 +130,20 @@ public class PersistentJSONFile extends PersistentJSONInterface {
                 Debug.debug("loaded water report: %s", wr);
                 WaterReport wrClone = wr.clone();
                 ReportManager.addWaterReport(wrClone);
-                if (wr.getReportNum() > maxReportNumber) {
-                    maxReportNumber = wr.getReportNum();
+                if (wrClone.getReportNum() > maxReportNumber) {
+                    maxReportNumber = wrClone.getReportNum();
                 }
-                List<QualityReport> qrs = wrClone.getQualityReportList();
+                List<QualityReport> qrs = wr.getQualityReportList();
                 Debug.debug("Contains quality reports: ");
                 int maxQReportNumber = 1;
                 for (QualityReport qr : qrs) {
-                    qr.setParentReport(wrClone);
-                    Debug.debug("  %s", qr);
-                    if (qr.getReportNum() > maxQReportNumber) {
-                        maxQReportNumber = qr.getReportNum();
+                    QualityReport qrClone = qr.clone();
+                    qrClone.setParentReport(wrClone);
+                    wrClone.removeQualityReport(qr);
+                    wrClone.addQualityReport(qrClone);
+                    Debug.debug("  %s", qrClone);
+                    if (qrClone.getReportNum() > maxQReportNumber) {
+                        maxQReportNumber = qrClone.getReportNum();
                     }
                 }
                 ReportManager.setMaxQualityReportNumber(wr, maxQReportNumber);
