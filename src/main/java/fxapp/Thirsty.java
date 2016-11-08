@@ -12,8 +12,6 @@ import model.WaterCondition;
 import model.WaterReport;
 import model.WaterSafety;
 import model.WaterType;
-import db.PersistenceAbstractObject;
-import db.PersistenceFile;
 
 import com.google.gson.Gson;
 import persistence.PersistenceInterface;
@@ -22,9 +20,11 @@ import persistence.json.PersistentJSONFile;
 
 public class Thirsty extends Application {
 
+
+    private PersistenceInterface persist = new PersistentJSONFile("src/main/resources/db/");
+
     @Override
     public void start(Stage stage) throws Exception {
-        PersistenceInterface persist = new PersistentJSONFile("src/main/resources/db/");
         MasterSingleton.initialize(persist);
         MasterSingleton.setMainScreen(stage);
         MasterSingleton.showSplashScreen();
@@ -82,6 +82,6 @@ public class Thirsty extends Application {
 
     @Override
     public void stop() {
-        PersistenceFile.getInstance().save();
+        persist.terminate();
     }
 }

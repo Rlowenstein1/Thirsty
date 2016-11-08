@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import model.User;
+import model.UserManager;
 
 /**
  *
@@ -38,11 +39,12 @@ public class MainTabbedScreenController implements Initializable {
     }
 
     /**
-     * Returns user to the Splash Screen
+     * Returns user to the Splash Screen. Logs active user out
      * @param event Button push that triggers the code
      */
     @FXML
     private void handleLogoutButtonAction(ActionEvent event) {
+        UserManager.logout(activeUser.getUsername());
         MasterSingleton.showSplashScreen();
         MasterSingleton.fixMainScreenBounds();
     }

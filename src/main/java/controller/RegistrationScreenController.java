@@ -110,14 +110,14 @@ public class RegistrationScreenController implements Initializable {
                 Debug.debug("Password and password confirmation do not match!");
                 pwConfRegErrorLabel.setText("Passwords do not match!");
             } else {
-                Debug.debug("User registration successful!");
-                newReg = UserManager.register(username, password, fullname, email, userLevel);
+                newReg = UserManager.createUser(username, password, fullname, email, userLevel);
                 if (newReg != null) {
+                    Debug.debug("User registration successful!");
                     registered = true;
                     stage.close();
                     return;
                 }
-                Debug.debug("Username already taken!");
+                Debug.debug("Username already taken (newReg == null)!");
                 usernameRegErrorLabel.setText("Username already taken!");
             }
         }

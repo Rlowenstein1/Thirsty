@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.annotations.Expose;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -17,11 +18,17 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
     /**
      * Primitve properties of the object
      */
+    @Expose
     private LocalDateTime dateTime;
+    @Expose
     private int reportNum;
+    @Expose
     private User author;
+    @Expose
     private WaterSafety safety;
+    @Expose
     private double virusPPM;
+    @Expose
     private double contaminantPPM;
     private transient WaterReport parentReport;
 
@@ -323,6 +330,10 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      */
     public SimpleObjectProperty<WaterReport> getParentReportProperty() {
         return parentReportProperty;
+    }
+
+    public QualityReport clone() {
+        return (new QualityReport(dateTime, reportNum, author, safety, virusPPM, contaminantPPM, parentReport));
     }
 
     /**

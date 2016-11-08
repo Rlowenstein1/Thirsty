@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.annotations.Expose;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -21,14 +22,22 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     /**
      * Primitive properties of the object
      */
+    @Expose
     private int reportNum;
+    @Expose
     private double latitude;
+    @Expose
     private double longitude;
+    @Expose
     private LocalDateTime dateTime;
+    @Expose
     private WaterType type;
+    @Expose
     private WaterCondition condition;
+    @Expose
     private User author;
-    private transient List<QualityReport> qualityReports;
+    @Expose
+    private List<QualityReport> qualityReports;
 
     /**
      * JavaFX properties of the object - follow the primitives
@@ -420,6 +429,14 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
             return (super.getCppmProperty());
         }
         return (latestQR.getCppmProperty());
+    }
+
+    public WaterReport clone() {
+        WaterReport res = new WaterReport(reportNum, dateTime, latitude, longitude, type, condition, author);
+        for (QualityReport q : getQualityReportList()) {
+            res.addQualityReport(q.clone());
+        }
+        return (res);
     }
 
     /**

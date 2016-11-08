@@ -1,6 +1,7 @@
 package persistence;
 
 import java.util.List;
+import model.Credential;
 import model.QualityReport;
 import model.User;
 import model.WaterReport;
@@ -29,11 +30,39 @@ public interface PersistenceInterface {
     public void saveUser(User u);
 
     /**
-     * Loads a specific user by name into the model from the underlying persistence implementer
-     * @param username The username of the user to load
-     * @return Returns a constructed User object with the matching username, or null if no user existed by that name
+     * Queries the underlying persistence layer for validation of the given username/password
+     * If authentication was successful, subsequent calls to isUserAuthenticated() must return true
+     * @param c The credential to validate
+     * @return true if the credential matches the persistence layer
      */
-    public User loadUser(String username);
+    public boolean authenticateUser(Credential c);
+
+    /**
+     * Logs out the given user
+     * @param username The username to logout 
+     */
+    public void deauthenticateUser(String username);
+
+    /**
+     * Checks if a given user is currently authenticated (logged in)
+     * @param username The username of the user to check
+     * @return true if the user is currently authenticated (logged in)
+     */
+    public boolean isUserAuthenticated(String username);
+
+    /**
+     * Saves credential to persistence layer.
+     * If user already exists, update password
+     * @param c The credential to save
+     */
+    public void saveUserCredential(Credential c);
+
+    /**
+     * Checks the persistence layer to see if a user exists, and has a password
+     * @param username The username of the user to check
+     * @return true if the user exists, and has a password
+     */
+    public boolean userExists(String username);
 
     /**
      * Deletes this user from the underlying persistence implementer
@@ -54,12 +83,6 @@ public interface PersistenceInterface {
     public void saveWaterReport(WaterReport wr);
 
     /**
-     * Loads a list of all water reports from underlying persistence layer with their child reports added
-     * @return A list of all completely constructed water reports
-     */
-    public List<WaterReport> loadWaterReports();
-
-    /**
      * Deletes the given water report and all its child reports from the underlying persistence layer
      * @param wr The water report to delete
      */
@@ -71,13 +94,6 @@ public interface PersistenceInterface {
      * @param qr The quality report to save
      */
     public void saveQualityReport(WaterReport wr, QualityReport qr);
-
-    /**
-     * Load a list of quality reports for a given water report from the underlying persistence layer
-     * @param wr The water report to search for quality reports in
-     * @return A list of all the quality reports under the given water report
-     */
-    public List<QualityReport> loadQualityReports(WaterReport wr);
 
     /**
      * Deletes a given quality report in the given water report from the underlying persistence layer

@@ -1,11 +1,13 @@
 package model;
 
+import com.google.gson.annotations.Expose;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
+import lib.Debug;
 
 /**
  * A class representing a User in the water source application.
@@ -15,13 +17,20 @@ public class User {
     /**
      * Primative properties of the object
      */
+    @Expose
     private String name;
+    @Expose
     private String username;
+    @Expose
     private String emailAddress;
+    @Expose
     private String title;
+    @Expose
     private UserLevel level;
     private transient Image profilePicture;
+    @Expose
     private double lastCoordsLat;
+    @Expose
     private double lastCoordsLng;
 
     /**
@@ -33,7 +42,6 @@ public class User {
     private final transient StringProperty titleProperty = new SimpleStringProperty();
     private final transient ObjectProperty<UserLevel> levelProperty = new SimpleObjectProperty<>();
     private final transient ObjectProperty<Image> profilePictureProperty = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<WaterReport> parentReportProperty = new SimpleObjectProperty<>();
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.
@@ -283,6 +291,11 @@ public class User {
     public void setLastCoords(double lat, double lng) {
         lastCoordsLat = lat;
         lastCoordsLng = lng;
+    }
+
+
+    public User clone() {
+        return (new User(username, name, title, emailAddress, level, profilePicture));
     }
 
     /**

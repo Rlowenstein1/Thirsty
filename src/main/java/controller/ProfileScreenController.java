@@ -22,6 +22,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import lib.Debug;
 import model.Authenticator;
+import model.Credential;
 import model.User;
 import model.UserLevel;
 import model.UserManager;
@@ -216,11 +217,8 @@ public class ProfileScreenController implements Initializable {
                     Debug.debug("Password and password confirmation do not match!");
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
                 } else {
-                    if (password.length() != 0) {
-                        if (!UserManager.updateLogin(username, password)) {
-                            Debug.debug("Failed to update password! Likely cause: username \"%s\" does not exist!", username);
-                            return;
-                        }
+                    if (password.length() != 0) { //only update password if the user tried to change it
+                        UserManager.saveCredential(new Credential(username, password));
                     }
                     Debug.debug("No errors during profile update check!");
                     editing = false;

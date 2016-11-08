@@ -8,6 +8,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.lynden/GMapsFX
     compile group: 'com.lynden', name: 'GMapsFX', version: '2.0.9'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'org.hildan.fxgson:fx-gson:2.0.0'
 }
 
 sourceCompatibility = 1.8 
@@ -30,6 +31,7 @@ repositories {
         url "https://oss.sonatype.org/content/groups/public"
     }
     mavenCentral()
+    jcenter()
 }
 
 
