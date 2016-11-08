@@ -166,7 +166,7 @@ public class WaterReportScreenController implements Initializable {
             itemMap.put(rr, rT);
             if (UserManager.isUserQualityReportAuthorized(activeUser)) {
                 ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
-                List<QualityReport> q = ReportManager.getQualityReportList(rr);
+                List<QualityReport> q = rr.getQualityReportList();
                 for (QualityReport qq : q) {
                     TreeItem<DisplayableReport> qT = new TreeItem<>(qq);
                     rChildren.add(qT);
@@ -177,8 +177,10 @@ public class WaterReportScreenController implements Initializable {
         reportNumberColumn.setSortType(SortType.DESCENDING);
         //sortColumns.add(reportNumberColumn);
         Debug.debug("sort order: %s", reportTreeTable.getSortOrder());
-        reportTreeTable.getSortOrder().clear();
-        reportTreeTable.getSortOrder().add(reportNumberColumn);
+        if (reportTreeTable.getSortOrder().isEmpty()) {
+//        reportTreeTable.getSortOrder().clear();
+            reportTreeTable.getSortOrder().add(reportNumberColumn);
+        }
         boolean authed = UserManager.isUserHistoryReportAuthorized(activeUser);
         historyGraphVbox.setVisible(authed);
         historyGraphVbox.setManaged(authed);

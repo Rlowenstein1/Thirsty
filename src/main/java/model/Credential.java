@@ -1,5 +1,6 @@
 package model;
 
+import com.google.gson.annotations.Expose;
 import java.util.Objects;
 
 /**
@@ -7,7 +8,9 @@ import java.util.Objects;
  * @author tybrown
  */
 public class Credential {
+    @Expose
     private Integer credential;
+    @Expose
     private String username;
 
     /**

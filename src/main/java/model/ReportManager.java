@@ -12,7 +12,6 @@ import persistence.PersistenceInterface;
  */
 public class ReportManager {
     private static List<WaterReport> waterReportList = new ArrayList<>(); 
-    private static List<QualityReport> qualityReportList = new ArrayList<>();
     private static int reportNumber = 1;
     private static HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
 
@@ -24,6 +23,14 @@ public class ReportManager {
      */
     public static void initialize(PersistenceInterface persist) {
         ReportManager.persist = persist;
+    }
+
+    public static void setMaxWaterReportNumber(int maxReportNumber) {
+        ReportManager.reportNumber = maxReportNumber;
+    }
+
+    public static void setMaxQualityReportNumber(WaterReport wr, int maxReportNumber) {
+        ReportManager.qualityReportNumberMap.put(wr, maxReportNumber);
     }
 
     /**
@@ -38,12 +45,10 @@ public class ReportManager {
     public static WaterReport createWaterReport(double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
         WaterReport r = new WaterReport(reportNumber++, latitude, longitude, type, condition, author);
-        if (waterReportList.add(r)) {
-            qualityReportNumberMap.put(r, 0);
-            return (r);
-        } else {
-            return (null);
-        }
+        persist.saveWaterReport(r);
+        waterReportList.add(r);
+        qualityReportNumberMap.put(r, 0);
+        return (r);
     }
 
     /**
@@ -59,12 +64,10 @@ public class ReportManager {
     public static WaterReport createWaterReport(LocalDateTime dateTime, double latitude, double longitude,
                 WaterType type, WaterCondition condition, User author) {
         WaterReport r = new WaterReport(reportNumber++, dateTime, latitude, longitude, type, condition, author);
-        if (waterReportList.add(r)) {
-            qualityReportNumberMap.put(r, 0);
-            return (r);
-        } else {
-            return (null);
-        }
+        persist.saveWaterReport(r);
+        waterReportList.add(r);
+        qualityReportNumberMap.put(r, 0);
+        return (r);
     }
 
     /**
@@ -81,12 +84,9 @@ public class ReportManager {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
-        if (qualityReportList.add(report)) {
-            waterReport.addQualityReport(report);
-            return (report);
-        } else {
-            return (null);
-        }
+        persist.saveQualityReport(waterReport, report);
+        waterReport.addQualityReport(report);
+        return (report);
     }
 
     /**
@@ -104,12 +104,9 @@ public class ReportManager {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
-        if (qualityReportList.add(report)) {
-            waterReport.addQualityReport(report);
-            return (report);
-        } else {
-            return (null);
-        }
+        persist.saveQualityReport(waterReport, report);
+        waterReport.addQualityReport(report);
+        return (report);
     }
 
     /**
@@ -121,30 +118,33 @@ public class ReportManager {
     }
 
     /**
-     * Add existing quality report to list
-     */
-    public static void addQualityReport(QualityReport report) {
-        qualityReportList.add(report);
-    }
-
-    /**
      * Deletes specified report from the list
      * @param waterReport to be deleted
      */
     public static void deleteWaterReport(WaterReport waterReport) {
+        persist.deleteWaterReport(waterReport);
         waterReportList.remove(waterReport);
     }
 
     /**
-     * Deletes specified report from the list
-     * @param report to be deleted
+     * Deletes specified report from its parent
+     * @param qualityReport the QualityReport to be deleted from its parent
      */
-    public static void deleteQualityReport(QualityReport report) {
-        WaterReport parent = report.getParentReport();
-        if (parent != null) {
-            parent.removeQualityReport(report);
+    public static void deleteQualityReport(QualityReport qualityReport) {
+        WaterReport waterReport = qualityReport.getParentReport();
+        if (waterReport != null) {
+            deleteQualityReport(waterReport, qualityReport);
         }
-        qualityReportList.remove(report);
+    }
+
+    /**
+     * Deletes specified report from the given WaterReport
+     * @param waterReport The parent WaterReport to add this QualityReport to
+     * @param qualityReport the QualityReport to be deleted
+     */
+    public static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
+        persist.deleteQualityReport(waterReport, qualityReport);
+        waterReport.removeQualityReport(qualityReport);
     }
 
     /**
@@ -156,38 +156,11 @@ public class ReportManager {
     }
 
     /**
-     * Returns the list of all quality reports in order they were created
-     * @return a list of all quality reports
-     */
-    public static List<QualityReport> getQualityReportList() {
-        return new ArrayList<>(qualityReportList);
-    }
-
-    /**
-     * Returns the list of quality reports associated with a WaterReport in order they were created
-     * @param r the water report to get the list of quality reports from
-     * @return quality report list
-     */
-    public static List<QualityReport> getQualityReportList(WaterReport r) {
-        return r.getQualityReportList();
-    }
-
-    /**
      * Sorts the list of water reports
      * @return sorted water report list by data (natural ordering)
      */
     public static List<WaterReport> sortWaterReportByDate() {
         List<WaterReport> list = new ArrayList<>(waterReportList);
-        Collections.sort(list);
-        return list;
-    }
-
-    /**
-     * Sorts the list of quality reports
-     * @return sorted quality report list by date (natural ordering)
-     */
-    public static List<QualityReport> sortQualityReportByDate() {
-        List<QualityReport> list = new ArrayList<>(qualityReportList);
         Collections.sort(list);
         return list;
     }
@@ -213,13 +186,16 @@ public class ReportManager {
      * @return list containing only quality reports authored by the user
      */
     public static List<QualityReport> filterQualityReportByUser(User user) {
-        List<QualityReport> list = new ArrayList<>(qualityReportList.size());
-        for (QualityReport report : qualityReportList) {
-            if (user.equals(report.getAuthor())) {
-                list.add(report);
+        List<QualityReport> list = new ArrayList<>();
+        for (WaterReport wr : waterReportList) {
+            for (QualityReport qr : wr.getQualityReportList()) {
+                if (user.equals(qr.getAuthor())) {
+                    list.add(qr);
+                }
+
             }
         }
-        return list;
+        return (list);
     }
 
     /**
@@ -239,34 +215,12 @@ public class ReportManager {
     }
 
     /**
-     * Filters the quality report list by the report number
-     * @param num the number of the report
-     * @param waterReport the parent WaterReport to search through
-     * @return either the report, or null if not found
-     */
-    public static QualityReport filterQualityReportByNumber(WaterReport waterReport, int num) {
-        return (waterReport.getQualityReportByNumber(num));
-    }
-
-    /**
      * Sorts the water reports by alphabetical order of the name of the author
      * @return the sorted report list
      */
     public static List<WaterReport> sortWaterReportByName() {
         List<WaterReport> list = new ArrayList<>(waterReportList);
         Collections.sort(list, (WaterReport a, WaterReport b) ->
-            a.getAuthor().getName().compareTo(b.getAuthor().getName())
-        );
-        return list;
-    }
-
-    /**
-     * Sorts the quality reports by alphabetical order of the name of the author
-     * @return the sorted report list
-     */
-    public static List<QualityReport> sortQaultiyReportByName() {
-        List<QualityReport> list = new ArrayList<>(qualityReportList);
-        Collections.sort(list, (QualityReport a, QualityReport b) ->
             a.getAuthor().getName().compareTo(b.getAuthor().getName())
         );
         return list;

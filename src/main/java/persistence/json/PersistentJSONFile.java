@@ -62,6 +62,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
+                Debug.debug("read line: %s", line);
                 T t = fromJSON(line, c);
                 if (t != null) {
                     res.add(t);
@@ -89,7 +90,12 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         return (null);
     }
 
-    private BufferedWriter openFile(String filename) {
+    /**
+     * Opens a file for writing
+     * @param filename The full (relative or absolute path) name of the file
+     * @return null if the operation failed, or an open Writer if successful
+     */
+    private Writer openFile(String filename) {
         try {
             Debug.debug("opening file for writing: %s", filename);
             BufferedWriter res = new BufferedWriter(new FileWriter(filename, true)); //true = append
@@ -108,7 +114,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         if (users != null) {
             for (User user : users) {
                 Debug.debug("loaded user: %s", user);
-                UserManager.addUser(user);
+                UserManager.addUser(user.clone());
             }
         }
         writerUsers = openFile(usersFile);
@@ -118,34 +124,33 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         if (credentials != null) {
             for (Credential credential : credentials) {
                 Debug.debug("loaded credential: %s", credential);
-                credentialManager.addCredential(credential);
+                credentialManager.saveCredential(credential);
             }
         }
         writerCredentials = openFile(credentialsFile);
 
         String wrFile = pathName + WR_FILE_NAME;
+        int maxReportNumber = 1;
         List<WaterReport> wrs = loadAll(wrFile, WaterReport.class);
         if (wrs != null) {
             for (WaterReport wr : wrs) {
                 Debug.debug("loaded water report: %s", wr);
-                ReportManager.addWaterReport(wr);
+                ReportManager.addWaterReport(wr.clone());
+                if (wr.getReportNum() > maxReportNumber) {
+                    maxReportNumber = wr.getReportNum();
+                }
                 List<QualityReport> qrs = wr.getQualityReportList();
                 Debug.debug("Contains quality reports: ");
+                int maxQReportNumber = 1;
                 for (QualityReport qr : qrs) {
                     Debug.debug("  %s", qr);
-                }
-                /*
-                String qrFile = pathName + QR_FILE_NAME + Integer.toString(wr.getReportNum()) + FILE_EXTENSION;
-                List<QualityReport> qrs = loadAll(qrFile, QualityReport.class);
-                if (qrs != null) {
-                    for (QualityReport qr : qrs) {
-                        wr.addQualityReport(qr);
-                        qr.setParentReport(wr);
+                    if (qr.getReportNum() > maxQReportNumber) {
+                        maxQReportNumber = qr.getReportNum();
                     }
                 }
-                writerQualityReports.put(wr, openFile(qrFile));
-                */
+                ReportManager.setMaxQualityReportNumber(wr, maxQReportNumber);
             }
+            ReportManager.setMaxWaterReportNumber(maxReportNumber);
         }
         writerReports = openFile(wrFile);
     }
@@ -174,6 +179,12 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         }
     }
 
+    /**
+     * Writes a string to a file
+     * @param writer The open Writer to write with
+     * @param s The string which shall be written
+     * @return True if the line was written and flushed, false if there was an IOException
+     */
     private boolean writeToFile(Writer writer, String s) {
         try {
             writer.append(s);
@@ -191,11 +202,6 @@ public class PersistentJSONFile extends PersistentJSONInterface {
     }
 
     @Override
-    public User loadUser(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean authenticateUser(Credential c) {
         return (authenticator.authenticate(c));
     }
@@ -207,7 +213,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
     @Override
     public void saveUserCredential(Credential c) {
-        //TODO: update password instead of just writing the new one
+        credentialManager.saveCredential(c);
         writeToFile(writerCredentials, toJSON(c, Credential.class) + "\n");
     }
 
@@ -218,46 +224,40 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
     @Override
     public boolean userExists(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (UserManager.userExists(username) && credentialManager.userExists(username));
     }
 
     @Override
     public void deleteUser(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        authenticator.logout(username);
+        UserManager.deleteUser(username);
+        credentialManager.deleteCredential(username);
+        //TODO: delete from file too
     }
 
     @Override
     public void deleteUser(User u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        deleteUser(u.getUsername());
     }
 
     @Override
     public void saveWaterReport(WaterReport wr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<WaterReport> loadWaterReports() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
+        //horrible, just appends the new report, which overwrites the old one when it gets loaded
     }
 
     @Override
     public void deleteWaterReport(WaterReport wr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
     }
 
     @Override
     public void saveQualityReport(WaterReport wr, QualityReport qr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<QualityReport> loadQualityReports(WaterReport wr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
     }
 
     @Override
     public void deleteQualityReport(WaterReport wr, QualityReport qr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
     }
 }

@@ -12,8 +12,6 @@ import model.WaterCondition;
 import model.WaterReport;
 import model.WaterSafety;
 import model.WaterType;
-import db.PersistenceAbstractObject;
-import db.PersistenceFile;
 
 import com.google.gson.Gson;
 import persistence.PersistenceInterface;

@@ -24,54 +24,20 @@ public class CredentialManager {
     }
 
     /**
-     * Loads an existing credential into the credentials list. Does not update the persistence layer
-     * @param c The credential to load
+     * Saves credentials in the credentials list.
+     * If the username already existed, updates the credential
+     * @param c The credential to save
      */
-    public void addCredential(Credential c) {
+    public void saveCredential(Credential c) {
         credentials.put(c.getUsername(), c);
     }
 
     /**
-     * Creates a new user's credentials in the credentials list.
-     * @param c The credentials of the new user
-     * @return True if the user was added, False if the user already exists
+     * Removes the user's password from the credentials list
+     * @param username The username of the user whose credentials will be removed
      */
-    public boolean createCredential(Credential c) {
-        return (saveCredential(c, true));
-    }
-
-    /**
-     * Updates credentials, only if user exists. Does not check if password is valid
-     * @param c The new Credentials of the user
-     * @return true if password was successfully updated
-     */
-    public boolean updateCredential(Credential c) {
-        return (saveCredential(c, false));
-    }
-
-    /**
-     * Saves credentials in the credentials list.
-     * If create == true, and the user already exists, returns false
-     * If create == false, and the user doesn't exist, returns false
-     * Otherwise returns true
-     * @param c The credential to save
-     * @param create A modifier to determine the behavior when the user already exists
-     * @return True if the credential was saved
-     */
-    public boolean saveCredential(Credential c, boolean create) {
-        if (c == null) {
-            throw new IllegalArgumentException("Credential cannot be null!");
-        }
-        String username = c.getUsername();
-        if (username == null) {
-            throw new IllegalArgumentException("Username cannot be null!");
-        }
-
-        if (create == userExists(username)) { //boolean logic combination of updateCredential and addCredential -- should actually be !(create XOR userExists), but == is good enough for 2 booleans
-            return (false);
-        }
-        addCredential(c);
-        return (true);
+    public void deleteCredential(String username) {
+        credentials.remove(username);
     }
 
     /**

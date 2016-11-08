@@ -56,7 +56,7 @@ public class UserManager {
     }
 
     /**
-     * Loads an existing user into the username map. Does not add to the persistence layer
+     * Loads an existing user into the username map. Does not add to the persistence layer. Overwrites user if user already exists
      * @param user to be added
      */
     public static void addUser(User user) {
@@ -79,6 +79,15 @@ public class UserManager {
      */
     public static boolean userExists(String username) {
         return (usernameMap.containsKey(username));
+    }
+
+    /**
+     * Removes a user from the list of known users
+     * @param username The username of the user to find
+     * @return null if the user did not exist, or the User object of the removed user
+     */
+    public static User deleteUser(String username) {
+        return (usernameMap.remove(username));
     }
 
     /**

@@ -30,13 +30,6 @@ public interface PersistenceInterface {
     public void saveUser(User u);
 
     /**
-     * Loads a specific user by name into the model from the underlying persistence implementer
-     * @param username The username of the user to load
-     * @return Returns a constructed User object with the matching username, or null if no user existed by that name
-     */
-    public User loadUser(String username);
-
-    /**
      * Queries the underlying persistence layer for validation of the given username/password
      * If authentication was successful, subsequent calls to isUserAuthenticated() must return true
      * @param c The credential to validate
@@ -90,12 +83,6 @@ public interface PersistenceInterface {
     public void saveWaterReport(WaterReport wr);
 
     /**
-     * Loads a list of all water reports from underlying persistence layer with their child reports added
-     * @return A list of all completely constructed water reports
-     */
-    public List<WaterReport> loadWaterReports();
-
-    /**
      * Deletes the given water report and all its child reports from the underlying persistence layer
      * @param wr The water report to delete
      */
@@ -107,13 +94,6 @@ public interface PersistenceInterface {
      * @param qr The quality report to save
      */
     public void saveQualityReport(WaterReport wr, QualityReport qr);
-
-    /**
-     * Load a list of quality reports for a given water report from the underlying persistence layer
-     * @param wr The water report to search for quality reports in
-     * @return A list of all the quality reports under the given water report
-     */
-    public List<QualityReport> loadQualityReports(WaterReport wr);
 
     /**
      * Deletes a given quality report in the given water report from the underlying persistence layer
