@@ -11,8 +11,10 @@ import java.io.Writer;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lib.Debug;
 import model.Authenticator;
 import model.Credential;
@@ -123,30 +125,30 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         writerCredentials = openFile(credentialsFile);
 
         String wrFile = pathName + WR_FILE_NAME;
-        int maxReportNumber = 1;
+        int maxReportNumber = 0;
         List<WaterReport> wrs = loadAll(wrFile, WaterReport.class);
+        Map<Integer, WaterReport> mud = new HashMap<>();
         if (wrs != null) {
             for (WaterReport wr : wrs) {
                 Debug.debug("loaded water report: %s", wr);
-                WaterReport wrClone = wr.clone();
-                ReportManager.addWaterReport(wrClone);
-                if (wrClone.getReportNum() > maxReportNumber) {
-                    maxReportNumber = wrClone.getReportNum();
+                mud.put(wr.getReportNum(), wr);
+            }
+            for (WaterReport wr : mud.values()) {
+                WaterReport newWR = wr.clone();
+                ReportManager.addWaterReport(newWR);
+                if (newWR.getReportNum() > maxReportNumber) {
+                    maxReportNumber = newWR.getReportNum();
                 }
-                List<QualityReport> qrs = wr.getQualityReportList();
+                List<QualityReport> qrs = newWR.getQualityReportList();
                 Debug.debug("Contains quality reports: ");
-                int maxQReportNumber = 1;
+                int maxQReportNumber = 0;
                 for (QualityReport qr : qrs) {
-                    QualityReport qrClone = qr.clone();
-                    qrClone.setParentReport(wrClone);
-                    wrClone.removeQualityReport(qr);
-                    wrClone.addQualityReport(qrClone);
-                    Debug.debug("  %s", qrClone);
-                    if (qrClone.getReportNum() > maxQReportNumber) {
-                        maxQReportNumber = qrClone.getReportNum();
+                    Debug.debug("  %s", qr);
+                    if (qr.getReportNum() > maxQReportNumber) {
+                        maxQReportNumber = qr.getReportNum();
                     }
                 }
-                ReportManager.setMaxQualityReportNumber(wr, maxQReportNumber);
+                ReportManager.setMaxQualityReportNumber(newWR, maxQReportNumber);
             }
             ReportManager.setMaxWaterReportNumber(maxReportNumber);
         }
@@ -240,22 +242,30 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
     @Override
     public void saveWaterReport(WaterReport wr) {
-        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
+        String s = toJSON(wr, WaterReport.class);
+        Debug.debug("Saving water report to file: %s", wr);
+        Debug.debug("QRs:\n");
+        for (QualityReport q : wr.getQualityReportList()) {
+            Debug.debug("%s", q);
+        }
+        Debug.debug("json representation: %s", s);
+        writeToFile(writerReports, s + "\n");
         //horrible, just appends the new report, which overwrites the old one when it gets loaded
     }
 
     @Override
     public void deleteWaterReport(WaterReport wr) {
-        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
+        //pretty sure this doesn't work, need to completely re-write the file
+        saveWaterReport(wr);
     }
 
     @Override
     public void saveQualityReport(WaterReport wr, QualityReport qr) {
-        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
+        saveWaterReport(wr);
     }
 
     @Override
     public void deleteQualityReport(WaterReport wr, QualityReport qr) {
-        writeToFile(writerReports, toJSON(wr, WaterReport.class) + "\n");
+        saveWaterReport(wr);
     }
 }
