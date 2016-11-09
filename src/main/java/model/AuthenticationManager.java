@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Manages authentication and authenticated users
  */
-public class Authenticator {
+public class AuthenticationManager {
     private Set<String> authenticatedUsers;
     private CredentialManager credentialManager;
 
@@ -14,24 +14,10 @@ public class Authenticator {
      * Constructor for Authenticator
      * @param cm a credential manager for this authenticator
      */
-    public Authenticator(CredentialManager cm) {
+    public AuthenticationManager(CredentialManager cm) {
         this.authenticatedUsers = new HashSet<>();
         this.credentialManager = cm;
     }
-
-    /**
-     * Checks if password is valid
-     * @param password to be validated
-     * @return boolean represeting the validity
-     */
-    public static boolean isValidPassword(String password) {
-        //do any password length/complexity checks here
-        if (password == null || password.length() < 1) { 
-            return (false);
-        }
-        return (true);
-    }
-
 
     /**
      * Attempts to authenticate a user with a given Credential.
@@ -52,19 +38,6 @@ public class Authenticator {
         }
         authenticatedUsers.add(username);
         return (true);
-        /*
-        String username = c.getUsername();
-        Integer credential = credentials.get(username);
-        Integer testCredential = c.getCredential();
-        if (credential == null || testCredential == null || !userExists(username) || !credential.equals(testCredential)) {
-            return (false);
-        }
-        if (!persist.authenticateUser(c)) {
-            return (false);
-        }
-        authenticatedUsers.add(username);
-        return (true);
-        */
     }
 
     /**

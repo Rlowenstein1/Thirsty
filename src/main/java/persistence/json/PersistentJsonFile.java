@@ -9,14 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import lib.Debug;
-import model.Authenticator;
+import model.AuthenticationManager;
 import model.Credential;
 import model.CredentialManager;
 import model.QualityReport;
@@ -32,7 +30,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     private Writer writerCredentials;
     private Writer writerReports;
     private CredentialManager credentialManager;
-    private Authenticator authenticator;
+    private AuthenticationManager authenticator;
 
     private static final String FILE_EXTENSION = ".json";
     private static final String USER_FILE_NAME = "users" + FILE_EXTENSION;
@@ -50,7 +48,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         }
         //TO DO: make sure this directory actually exists; try to create if not; throw exception on failure
         credentialManager = new CredentialManager();
-        authenticator = new Authenticator(credentialManager);
+        authenticator = new AuthenticationManager(credentialManager);
     }
 
     /**
@@ -60,8 +58,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @param c class of objects in json file - must be consistent
      * @return list of objects of class c
      */
-    private <T> Collection<T> loadAll(String filename, Class<T> c) {
-        Set<T> res = new HashSet<>();
+    private <T> List<T> loadAll(String filename, Class<T> c) {
+        ArrayList<T> res = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -113,7 +111,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     public void initialize() {
         //read all the files into memory
         String usersFile = pathName + USER_FILE_NAME;
-        Collection<User> users = loadAll(usersFile, User.class);
+        List<User> users = loadAll(usersFile, User.class);
         if (users != null) {
             for (User user : users) {
                 Debug.debug("loaded user: %s", user);
@@ -123,7 +121,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         writerUsers = openFile(usersFile);
 
         String credentialsFile = pathName + CREDENTIAL_FILE_NAME;
-        Collection<Credential> credentials = loadAll(credentialsFile, Credential.class);
+        List<Credential> credentials = loadAll(credentialsFile, Credential.class);
         if (credentials != null) {
             for (Credential credential : credentials) {
                 Debug.debug("loaded credential: %s", credential);
@@ -134,7 +132,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
         String wrFile = pathName + WR_FILE_NAME;
         int maxReportNumber = 0;
-        Collection<WaterReport> wrs = loadAll(wrFile, WaterReport.class);
+        List<WaterReport> wrs = loadAll(wrFile, WaterReport.class);
         Map<Integer, WaterReport> mud = new HashMap<>();
         if (wrs != null) {
             for (WaterReport wr : wrs) {
