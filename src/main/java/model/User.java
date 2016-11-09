@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.annotations.Expose;
 import com.lynden.gmapsfx.javascript.object.LatLong;
+import java.util.Objects;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -282,6 +283,31 @@ public class User {
     public User clone() {
         return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
                     level.get(), profilePicture.get()));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.username);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return true;
     }
 
     /**
