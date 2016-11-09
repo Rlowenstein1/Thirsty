@@ -54,13 +54,16 @@ public class UserManager {
         usernameMap.put(username, newUser);
         return (newUser);
     }
-
+    
     /**
-     * Saves an updated user object to the persistent entity
-     * @param u User object to save
+     * Updates an existing user by matching on the username of the passed user
+     * @param user The new user object
      */
-    public static void updateUser(User u) {
-        persist.saveUser(u);
+    public static void updateUser(User user) {
+        if (user != null && userExists(user.getUsername())) {
+            persist.saveUser(user);
+            addUser(user);
+        }
     }
 
     /**

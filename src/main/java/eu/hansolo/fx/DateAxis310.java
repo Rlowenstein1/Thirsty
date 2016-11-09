@@ -65,12 +65,17 @@ public class DateAxis310 extends Axis<LocalDateTime> {
         SECOND_1(ChronoUnit.SECONDS, 1),
         MILLISECOND(ChronoUnit.MILLIS, 1);
 
-        private final ChronoUnit INTERVAL;
-        private final int        AMOUNT;
+        private final ChronoUnit intervaL;
+        private final int        amounT;
 
-        private Interval(final ChronoUnit INTERVAL, final int AMOUNT) {
-            this.INTERVAL = INTERVAL;
-            this.AMOUNT = AMOUNT;
+        /**
+         * Constructor
+         * @param intervaL the interval
+         * @param amounT the amount
+         */
+        private Interval(final ChronoUnit intervaL, final int amounT) {
+            this.intervaL = intervaL;
+            this.amounT = amounT;
         }
     }
 
@@ -87,21 +92,52 @@ public class DateAxis310 extends Axis<LocalDateTime> {
 
 
     // ******************** Constructors **************************************
+    /**
+     * Default constructor
+     */
     public DateAxis310() {
         this("", LocalDateTime.now(), LocalDateTime.now().plusHours(1), true);
     }
-    public DateAxis310(final boolean AUTO_RANGING) {
-        this("", LocalDateTime.now(), LocalDateTime.now().plusHours(1), AUTO_RANGING);
+
+    /**
+     * Constructor
+     * @param autoRanging boolean
+     */
+    public DateAxis310(final boolean autoRanging) {
+        this("", LocalDateTime.now(), LocalDateTime.now().plusHours(1), autoRanging);
     }
-    public DateAxis310(final LocalDateTime LOWER_BOUND, final LocalDateTime UPPER_BOUND) {
-        this("", LOWER_BOUND, UPPER_BOUND, true);
+
+    /**
+     * Constructor
+     * @param lowerBounD LocalDateTime
+     * @param upperBounD LocalDateTime
+     */
+    public DateAxis310(final LocalDateTime lowerBounD, final LocalDateTime upperBounD) {
+        this("", lowerBounD, upperBounD, true);
     }
-    public DateAxis310(final LocalDateTime LOWER_BOUND, final LocalDateTime UPPER_BOUND, final boolean AUTO_RANGING) {
-        this("", LOWER_BOUND, UPPER_BOUND, AUTO_RANGING);
+
+    /**
+     * Constructor
+     * @param lowerBounD LocalDateTime
+     * @param upperBounD LocalDateTime
+     * @param autoRanging boolean
+     */
+    public DateAxis310(final LocalDateTime lowerBounD, final LocalDateTime upperBounD, final boolean autoRanging) {
+        this("", lowerBounD, upperBounD, autoRanging);
     }
-    public DateAxis310(final String AXIS_LABEL, final LocalDateTime LOWER_BOUND, final LocalDateTime UPPER_BOUND, final boolean AUTO_RANGING) {
+    
+    /**
+     * Constructor
+     * @param axisLabel String
+     * @param lowerBounD LocalDateTime
+     * @param upperBounD LocalDateTime
+     * @param autoRanging boolean
+     */
+    public DateAxis310(final String axisLabel, final LocalDateTime lowerBounD, final LocalDateTime upperBounD, final boolean autoRanging) {
         super();
-        if (LOWER_BOUND.isAfter(UPPER_BOUND)) throw new IllegalArgumentException("Lower bound must be before upper bound!!!");
+        if (lowerBounD.isAfter(upperBounD)) {
+            throw new IllegalArgumentException("Lower bound must be before upper bound!!!");
+        }
         currentLowerBound  = new SimpleLongProperty(this, "currentLowerBound");
         currentUpperBound  = new SimpleLongProperty(this, "currentUpperBound");
         tickLabelFormatter = new ObjectPropertyBase<StringConverter<LocalDateTime>>() {
@@ -118,7 +154,7 @@ public class DateAxis310 extends Axis<LocalDateTime> {
                 return "tickLabelFormatter";
             }
         };
-        lowerBound         = new ObjectPropertyBase<LocalDateTime>(LOWER_BOUND) {
+        lowerBound         = new ObjectPropertyBase<LocalDateTime>(lowerBounD) {
             @Override protected void invalidated() {
                 if (!isAutoRanging()) {
                     invalidateRange();
@@ -132,7 +168,7 @@ public class DateAxis310 extends Axis<LocalDateTime> {
                 return "lowerBound";
             }
         };
-        upperBound         = new ObjectPropertyBase<LocalDateTime>(UPPER_BOUND) {
+        upperBound         = new ObjectPropertyBase<LocalDateTime>(upperBounD) {
             @Override protected void invalidated() {
                 if (!isAutoRanging()) {
                     invalidateRange();
@@ -148,8 +184,8 @@ public class DateAxis310 extends Axis<LocalDateTime> {
         };
         animator           = new ChartLayoutAnimator(this);
         actualInterval     = Interval.DECADE;
-        setLabel(AXIS_LABEL);
-        setAutoRanging(AUTO_RANGING);
+        setLabel(axisLabel);
+        setAutoRanging(autoRanging);
     }
 
 
@@ -157,8 +193,8 @@ public class DateAxis310 extends Axis<LocalDateTime> {
     @Override protected Object getRange() {
         return new Object[]{getLowerBound(), getUpperBound()};
     }
-    @Override protected void setRange(final Object RANGE, final boolean ANIMATED) {
-        Object[]      range         = (Object[]) RANGE;
+    @Override protected void setRange(final Object rangE, final boolean animated) {
+        Object[]      range         = (Object[]) rangE;
         LocalDateTime oldLowerBound = getLowerBound();
         LocalDateTime oldUpperBound = getUpperBound();
         LocalDateTime lower         = (LocalDateTime) range[0];
@@ -166,7 +202,7 @@ public class DateAxis310 extends Axis<LocalDateTime> {
         setLowerBound(lower);
         setUpperBound(upper);
 
-        if (ANIMATED) {
+        if (animated) {
             animator.stop(currentAnimationID);
             currentAnimationID = animator.animate(
                 new KeyFrame(Duration.ZERO,
@@ -184,20 +220,22 @@ public class DateAxis310 extends Axis<LocalDateTime> {
             currentUpperBound.set(toMillis(getUpperBound()));
         }
     }
-    @Override public void invalidateRange(final List<LocalDateTime> LIST) {
-        super.invalidateRange(LIST);
+    @Override public void invalidateRange(final List<LocalDateTime> list) {
+        super.invalidateRange(list);
 
-        Collections.sort(LIST);
-        if (LIST.isEmpty()) {
-            minDate = maxDate = LocalDateTime.now();
-        } else if (LIST.size() == 1) {
-            minDate = maxDate = LIST.get(0);
-        } else if (LIST.size() > 1) {
-            minDate = LIST.get(0);
-            maxDate = LIST.get(LIST.size() - 1);
+        Collections.sort(list);
+        if (list.isEmpty()) {
+            maxDate = LocalDateTime.now();
+            minDate = maxDate;
+        } else if (list.size() == 1) {
+            maxDate = list.get(0);
+            minDate = maxDate;
+        } else if (list.size() > 1) {
+            maxDate = list.get(list.size() - 1);
+            minDate = list.get(0);
         }
     }
-    @Override protected Object autoRange(final double LENGTH) {
+    @Override protected Object autoRange(final double length) {
         if (isAutoRanging()) {
             return new Object[]{minDate, maxDate};
         } else {
@@ -259,8 +297,8 @@ public class DateAxis310 extends Axis<LocalDateTime> {
         return toMillis(date) > currentLowerBound.get() && toMillis(date) < currentUpperBound.get();
     }
 
-    @Override protected List<LocalDateTime> calculateTickValues(final double VALUE, final Object RANGE) {
-        Object[]      range = (Object[]) RANGE;
+    @Override protected List<LocalDateTime> calculateTickValues(final double valuE, final Object rangE) {
+        Object[]      range = (Object[]) rangE;
         LocalDateTime lower = (LocalDateTime) range[0];
         LocalDateTime upper = (LocalDateTime) range[1];
 
@@ -269,7 +307,7 @@ public class DateAxis310 extends Axis<LocalDateTime> {
 
         // The preferred gap which should be between two tick marks.
         double averageTickGap = 100;
-        double averageTicks   = VALUE / averageTickGap;
+        double averageTicks   = valuE / averageTickGap;
 
         List<LocalDateTime> previousDateList = new ArrayList<>();
 
@@ -285,18 +323,18 @@ public class DateAxis310 extends Axis<LocalDateTime> {
             actualInterval = interval;
 
             // Loop as long we exceeded the upper bound.            
-            while(calendar.isBefore(upper)) {
+            while (calendar.isBefore(upper)) {
                 dateList.add(calendar);
-                calendar = calendar.plus(interval.AMOUNT, interval.INTERVAL);
+                calendar = calendar.plus(interval.amounT, interval.intervaL);
             }
 
             // Then check the size of the list. If it is greater than the amount of ticks, take that list.
             if (dateList.size() > averageTicks) {
                 calendar = LocalDateTime.of(lower.toLocalDate(), lower.toLocalTime());
                 // Recheck if the previous interval is better suited.                
-                while(calendar.isBefore(upper) || calendar.isEqual(upper)) {
+                while (calendar.isBefore(upper) || calendar.isEqual(upper)) {
                     previousDateList.add(calendar);
-                    calendar = calendar.plus(previousInterval.AMOUNT, previousInterval.INTERVAL);
+                    calendar = calendar.plus(previousInterval.amounT, previousInterval.intervaL);
                 }
                 break;
             }
@@ -357,152 +395,212 @@ public class DateAxis310 extends Axis<LocalDateTime> {
         DateTimeFormatter dateTimeFormat;
         LocalDateTime calendar = LocalDateTime.of(date.toLocalDate(), date.toLocalTime());
 
-        if (actualInterval.INTERVAL == ChronoUnit.YEARS && calendar.getMonthValue() == 0 && calendar.getDayOfMonth() == 1) {
+        if (actualInterval.intervaL == ChronoUnit.YEARS && calendar.getMonthValue() == 0 && calendar.getDayOfMonth() == 1) {
             dateTimeFormat = DateTimeFormatter.ofPattern("yyyy");
-        } else if (actualInterval.INTERVAL == ChronoUnit.MONTHS && calendar.getDayOfMonth() == 1) {
+        } else if (actualInterval.intervaL == ChronoUnit.MONTHS && calendar.getDayOfMonth() == 1) {
             dateTimeFormat = DateTimeFormatter.ofPattern("MMMM yy");
         } else {
-            switch (actualInterval.INTERVAL) {
-                case DAYS:
-                case WEEKS:
-                default:
-                    dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-                    break;
-                case HOURS:
-                case MINUTES:
-                    dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-                    break;
-                case SECONDS:
-                    dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-                    break;
-                case MILLIS:
-                    dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
-                    break;
+            switch (actualInterval.intervaL) {
+            case HOURS:
+            case MINUTES:
+                dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+                break;
+            case SECONDS:
+                dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+                break;
+            case MILLIS:
+                dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+                break;
+            case DAYS:
+            case WEEKS:
+            default:
+                dateTimeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+                break;
+
             }
         }
 
         return dateTimeFormat.format(date);
     }
 
+    /**
+     * make dates even
+     * @param dates a List of the dates
+     * @return a list of the dates made even
+     */
     private List<LocalDateTime> makeDatesEven(List<LocalDateTime> dates) {
-		// If the dates contain more dates than just the lower and upper bounds,
-		// make the dates in between even.
-		if (dates.size() > 2) {
-			List<LocalDateTime> evenDates = new ArrayList<>();
+        // If the dates contain more dates than just the lower and upper bounds,
+        // make the dates in between even.
+        if (dates.size() > 2) {
+            List<LocalDateTime> evenDates = new ArrayList<>();
 
-			// For each interval, modify the date slightly by a few millis, to
-			// make sure they are different days.
-			// This is because Axis stores each value and won't update the tick
-			// labels, if the value is already known.
-			// This happens if you display days and then add a date many years
-			// in the future the tick label will still be displayed as day.
-			for (int i = 0; i < dates.size(); i++) {
-				LocalDateTime calendar = dates.get(i);
-				switch (actualInterval.INTERVAL) {
-				case YEARS:
-					// If its not the first or last date (lower and upper
-					// bound), make the year begin with first month and let the
-					// months begin with first day.
-					if (i != 0 && i != dates.size() - 1) {
-						calendar = calendar.withMonth(1).withDayOfMonth(1);
-					}
-					calendar = calendar.withHour(0)
-							.withMinute(0)
-							.withSecond(0)
-							.withNano(6000000);
-					break;
-				case MONTHS:
-					// If its not the first or last date (lower and upper
-					// bound), make the months begin with first day.
-					if (i != 0 && i != dates.size() - 1) {
-						calendar = calendar.withDayOfMonth(1);
-					}
-					calendar = calendar.withHour(0)
-							.withMinute(0)
-							.withSecond(0)
-							.withNano(5000000);
-					break;
-				case WEEKS:
-					// Make weeks begin with first day of week?
-					calendar = calendar.withHour(0)
-						.withMinute(0)
-						.withSecond(0)
-						.withNano(4000000);
-					break;
-				case DAYS:
-					calendar = calendar.withHour(0)
-						.withMinute(0)
-						.withSecond(0)
-						.withNano(3000000);
-					break;
-				case HOURS:
-					if (i != 0 && i != dates.size() - 1) {
-						calendar = calendar.withSecond(0);
-					}
-					calendar = calendar.withNano(2000000);
-					break;
-				case MINUTES:
-					calendar = calendar.withNano(1000000);
-					break;
-				case SECONDS:
-					calendar = calendar.withSecond(0);
-					break;
-				default:
-					break;
+            // For each interval, modify the date slightly by a few millis, to
+            // make sure they are different days.
+            // This is because Axis stores each value and won't update the tick
+            // labels, if the value is already known.
+            // This happens if you display days and then add a date many years
+            // in the future the tick label will still be displayed as day.
+            for (int i = 0; i < dates.size(); i++) {
+                LocalDateTime calendar = dates.get(i);
+                switch (actualInterval.intervaL) {
+                case YEARS:
+                    // If its not the first or last date (lower and upper
+                    // bound), make the year begin with first month and let the
+                    // months begin with first day.
+                    if (i != 0 && i != dates.size() - 1) {
+                        calendar = calendar.withMonth(1).withDayOfMonth(1);
+                    }
+                    calendar = calendar.withHour(0)
+                            .withMinute(0)
+                            .withSecond(0)
+                            .withNano(6000000);
+                    break;
+                case MONTHS:
+                    // If its not the first or last date (lower and upper
+                    // bound), make the months begin with first day.
+                    if (i != 0 && i != dates.size() - 1) {
+                        calendar = calendar.withDayOfMonth(1);
+                    }
+                    calendar = calendar.withHour(0)
+                            .withMinute(0)
+                            .withSecond(0)
+                            .withNano(5000000);
+                    break;
+                case WEEKS:
+                    // Make weeks begin with first day of week?
+                    calendar = calendar.withHour(0)
+                        .withMinute(0)
+                        .withSecond(0)
+                        .withNano(4000000);
+                    break;
+                case DAYS:
+                    calendar = calendar.withHour(0)
+                        .withMinute(0)
+                        .withSecond(0)
+                        .withNano(3000000);
+                    break;
+                case HOURS:
+                    if (i != 0 && i != dates.size() - 1) {
+                        calendar = calendar.withSecond(0);
+                    }
+                    calendar = calendar.withNano(2000000);
+                    break;
+                case MINUTES:
+                    calendar = calendar.withNano(1000000);
+                    break;
+                case SECONDS:
+                    calendar = calendar.withSecond(0);
+                    break;
+                default:
+                    break;
 
-				}
-				evenDates.add(calendar);
-			}
+                }
+                evenDates.add(calendar);
+            }
 
-			return evenDates;
-		} else {
-			return dates;
-		}
-	}
+            return evenDates;
+        } else {
+            return dates;
+        }
+    }
 
+    /**
+     * Gets the lower bound
+     * @return the lower bound
+     */
     public final LocalDateTime getLowerBound() {
         return lowerBound.get();
     }
+    
+    /**
+     * Sets the lower bound
+     * @param date the new lower bound
+     */
     public final void setLowerBound(LocalDateTime date) {
         lowerBound.set(date);
     }
+
+    /**
+     * Gets the lower bound property
+     * @return the lower bound property
+     */
     public final ObjectProperty<LocalDateTime> lowerBoundProperty() {
         return lowerBound;
     }
 
+    /**
+     * Gets the upper bound
+     * @return the upper bound
+     */
     public final LocalDateTime getUpperBound() {
         return upperBound.get();
     }
+    
+    /**
+     * Sets the upper bound
+     * @param date The new upper bound
+     */
     public final void setUpperBound(LocalDateTime date) {
         upperBound.set(date);
     }
+
+    /**
+     * Gets the upper bound property
+     * @return The upper bound property
+     */
     public final ObjectProperty<LocalDateTime> upperBoundProperty() {
         return upperBound;
     }
 
+    /**
+     * Gets the tick label formatter
+     * @return the tick label formatter
+     */
     public final StringConverter<LocalDateTime> getTickLabelFormatter() {
         return tickLabelFormatter.getValue();
     }
+
+    /**
+     * Sets the tick label formatter
+     * @param value the new tick label formatter
+     */
     public final void setTickLabelFormatter(StringConverter<LocalDateTime> value) {
         tickLabelFormatter.setValue(value);
     }
+
+    /**
+     * Gets the tick label formatter property
+     * @return the tick label formatter property
+     */
     public final ObjectProperty<StringConverter<LocalDateTime>> tickLabelFormatterProperty() {
         return tickLabelFormatter;
     }
 
-    @Override public double toNumericValue(final LocalDateTime DATE) {
-        return toMillis(DATE);
-    }
-    @Override public LocalDateTime toRealValue(final double VALUE) {
-        return toLocalDateTime((long) VALUE);
+    @Override public double toNumericValue(final LocalDateTime date) {
+        return toMillis(date);
     }
 
-    private long toMillis(final LocalDateTime DATE_TIME) {
-		ZoneOffset offset = DATE_TIME.atZone(ZoneId.systemDefault()).getOffset();
-		return DATE_TIME.toInstant(offset).getEpochSecond() * 1000l;		
-	}
+    @Override public LocalDateTime toRealValue(final double valuE) {
+        return toLocalDateTime((long) valuE);
+    }
+
+    /**
+     * Converts the given dateTime to milliseconds (Unix Epoch time)
+     * @param dateTime The dateTime to convert
+     * @return the number of milliseconds since the Unix Epoch
+     */
+    private long toMillis(final LocalDateTime dateTime) {
+        ZoneOffset offset = dateTime.atZone(ZoneId.systemDefault()).getOffset();
+        return dateTime.toInstant(offset).getEpochSecond() * 1000L;        
+    }
     
-    private LocalDateTime toLocalDateTime(final long MILLIS) {
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(MILLIS), ZoneId.systemDefault());
+    /**
+     * Converts a number of milliseconds since the Unix Epoch to a LocalDateTime
+     * @param millis the number of milliseconds since the Unix Epoch
+     * @return the LocalDateTime representation of this time
+     */
+    private LocalDateTime toLocalDateTime(final long millis) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
     }
 }
+
