@@ -81,4 +81,125 @@ public class CredentialManagerTester {
         }
         assertFalse(cm.userExists("not real!"));
     }
+
+    @Test(timeout = TIMEOUT)
+    public void testUserCredentialMatchesSingle1() {
+        Credential c = new Credential("testUsername", "testPassword");
+        cm.saveCredential(c);
+        assertTrue(cm.matchCredential(new Credential("testUsername", "testPassword")));
+    }
+   
+    @Test(timeout = TIMEOUT)
+    public void testUserNotCredentialMatchesSingle1() {
+        Credential c = new Credential("testUsername", "testPassword");
+        cm.saveCredential(c);
+        assertFalse(cm.matchCredential(new Credential("NOTREAL", "testPassword")));
+    }
+   
+    @Test(timeout = TIMEOUT)
+    public void testUserNotCredentialMatchesSingle2() {
+        Credential c = new Credential("testUsername", "testPassword");
+        cm.saveCredential(c);
+        assertFalse(cm.matchCredential(new Credential("testUsername", "bad password")));
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testUserCredentialMatchesMultiple1() {
+        Credential[] cs = {
+            new Credential("testUsername", "testPassword"),
+            new Credential("testUsername2", "testPassword2"),
+            new Credential("123G*&euthtboo", "th3*g*983@3!"),
+            new Credential("TestMe!", "Password lol"),
+        };
+        for (Credential c : cs) {
+            cm.saveCredential(c);
+        }
+        assertTrue(cm.matchCredential(new Credential("123G*&euthtboo", "th3*g*983@3!")));
+    }
+   
+    @Test(timeout = TIMEOUT)
+    public void testUserCredentialMatchesMultiple2() {
+        Credential[] cs = {
+            new Credential("testUsername", "testPassword"),
+            new Credential("testUsername2", "testPassword2"),
+            new Credential("123G*&euthtboo", "th3*g*983@3!"),
+            new Credential("TestMe!", "Password lol"),
+        };
+        for (Credential c : cs) {
+            cm.saveCredential(c);
+        }
+        for (Credential c : cs) {
+            assertTrue(String.format("Credential: %s did not exist when it should!", c), cm.matchCredential(new Credential(c.getUsername(), c.getCredential())));
+        }
+    }
+   
+    @Test(timeout = TIMEOUT)
+    public void testUserNotCredentialMatchesMultiple1() {
+        Credential[] cs = {
+            new Credential("testUsername", "testPassword"),
+            new Credential("testUsername2", "testPassword2"),
+            new Credential("123G*&euthtboo", "th3*g*983@3!"),
+            new Credential("TestMe!", "Password lol"),
+        };
+        for (Credential c : cs) {
+            cm.saveCredential(c);
+        }
+        assertFalse(cm.matchCredential(new Credential("not real!", "Password lol")));
+    }
+   
+    @Test(timeout = TIMEOUT)
+    public void testUserNotCredentialMatchesMultiple2() {
+        Credential[] cs = {
+            new Credential("testUsername", "testPassword"),
+            new Credential("testUsername2", "testPassword2"),
+            new Credential("123G*&euthtboo", "th3*g*983@3!"),
+            new Credential("TestMe!", "Password lol"),
+        };
+        for (Credential c : cs) {
+            cm.saveCredential(c);
+        }
+        assertFalse(cm.matchCredential(new Credential("TestMe!", "testPassword")));
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testUserDeletedSingle1() {
+        Credential c = new Credential("testUsername", "testPassword");
+        cm.saveCredential(c);
+        cm.deleteCredential(c.getUsername());
+        assertFalse(cm.userExists(c.getUsername()));
+        assertFalse(cm.matchCredential(c));
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testUserDeletedMultiple1() {
+        Credential[] cs = {
+            new Credential("testUsername", "testPassword"),
+            new Credential("testUsername2", "testPassword2"),
+            new Credential("123G*&euthtboo", "th3*g*983@3!"),
+            new Credential("TestMe!", "Password lol"),
+        };
+        for (Credential c : cs) {
+            cm.saveCredential(c);
+        }
+        cm.deleteCredential("testUsername");
+        cm.deleteCredential("testUsername2");
+        cm.deleteCredential("TestMe!");
+        assertTrue(cm.matchCredential(new Credential("123G*&euthtboo", "th3*g*983@3!")));
+    }
+   
+    @Test(timeout = TIMEOUT)
+    public void testUserDeletedMultiple2() {
+        Credential[] cs = {
+            new Credential("testUsername", "testPassword"),
+            new Credential("testUsername2", "testPassword2"),
+            new Credential("123G*&euthtboo", "th3*g*983@3!"),
+            new Credential("TestMe!", "Password lol"),
+        };
+        for (Credential c : cs) {
+            cm.saveCredential(c);
+        }
+        cm.deleteCredential("123G*&euthtboo");
+        assertFalse(cm.matchCredential(new Credential("123G*&euthtboo", "th3*g*983@3!")));
+    }
+ 
 }
