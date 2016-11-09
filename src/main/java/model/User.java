@@ -284,16 +284,20 @@ public class User {
                     level.get(), profilePicture.get()));
     }
 
-    /**
-     * Returns a String representation of a User object
-     *
-     * @return the String representation
-     */
+    @Override
     public String toString() {
         return "Name: " + name.get() + "\n"
                 + "Username: " + username.get() + "\n"
                 + "Title: " + title.get() + "\n"
                 + "Email address: " + emailAddress.get() + "\n"
                 + "Authorization level: " + level.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof User))
+            return false;
+        User u = (User) o;
+        return username.get().equals(u.getUsername());
     }
 }

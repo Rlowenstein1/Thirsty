@@ -9,8 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import lib.Debug;
@@ -58,8 +60,8 @@ public class PersistentJSONFile extends PersistentJSONInterface {
      * @param c class of objects in json file - must be consistent
      * @return list of objects of class c
      */
-    private <T> List<T> loadAll(String filename, Class<T> c) {
-        ArrayList<T> res = new ArrayList<>();
+    private <T> Collection<T> loadAll(String filename, Class<T> c) {
+        Set<T> res = new HashSet<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -111,7 +113,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
     public void initialize() {
         //read all the files into memory
         String usersFile = pathName + USER_FILE_NAME;
-        List<User> users = loadAll(usersFile, User.class);
+        Collection<User> users = loadAll(usersFile, User.class);
         if (users != null) {
             for (User user : users) {
                 Debug.debug("loaded user: %s", user);
@@ -121,7 +123,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         writerUsers = openFile(usersFile);
 
         String credentialsFile = pathName + CREDENTIAL_FILE_NAME;
-        List<Credential> credentials = loadAll(credentialsFile, Credential.class);
+        Collection<Credential> credentials = loadAll(credentialsFile, Credential.class);
         if (credentials != null) {
             for (Credential credential : credentials) {
                 Debug.debug("loaded credential: %s", credential);
@@ -132,7 +134,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
         String wrFile = pathName + WR_FILE_NAME;
         int maxReportNumber = 0;
-        List<WaterReport> wrs = loadAll(wrFile, WaterReport.class);
+        Collection<WaterReport> wrs = loadAll(wrFile, WaterReport.class);
         Map<Integer, WaterReport> mud = new HashMap<>();
         if (wrs != null) {
             for (WaterReport wr : wrs) {

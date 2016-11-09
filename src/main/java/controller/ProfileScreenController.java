@@ -228,6 +228,7 @@ public class ProfileScreenController implements Initializable {
                     activeUser.setName(fullname);
                     activeUser.setEmailAddress(email);
                     activeUser.setUserLevel(userLevel);
+                    UserManager.updateUser(activeUser);
                     MasterSingleton.updateUserPrivileges();
                     return;
 

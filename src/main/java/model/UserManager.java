@@ -56,6 +56,14 @@ public class UserManager {
     }
 
     /**
+     * Saves an updated user object to the persistent entity
+     * @param u User object to save
+     */
+    public static void updateUser(User u) {
+        persist.saveUser(u);
+    }
+
+    /**
      * Loads an existing user into the username map. Does not add to the persistence layer. Overwrites user if user already exists
      * @param user to be added
      */
