@@ -48,8 +48,3 @@ checkstyle {
     ignoreFailures = false
     showViolations = false
 }
-
-tasks.withType(Checkstyle) {
-    //exclude '**/**'
-    exclude 'src/main/java/eu/hansolo/fx/DateAxis310.java'
-}
