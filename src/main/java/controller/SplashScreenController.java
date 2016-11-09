@@ -16,6 +16,8 @@ import lib.Debug;
  */
 public class SplashScreenController implements Initializable {
 
+    private Stage stage;
+
     @FXML
     private ImageView riverImageView;
 
@@ -24,6 +26,7 @@ public class SplashScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     /**

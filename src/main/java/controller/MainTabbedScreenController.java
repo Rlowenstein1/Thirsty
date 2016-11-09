@@ -16,9 +16,9 @@ import model.UserManager;
  */
 public class MainTabbedScreenController implements Initializable {
 
-
     private Stage stage;
     private User activeUser;
+
     @FXML
     private TabPane tabPane;
 
@@ -27,6 +27,7 @@ public class MainTabbedScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     /**
