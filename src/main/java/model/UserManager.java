@@ -29,8 +29,22 @@ public class UserManager {
     }
 
     /**
+     * Checks if password is valid
+     * @param password to be validated
+     * @return boolean represeting the validity
+     */
+    public static boolean isValidPassword(String password) {
+        //do any password length/complexity checks here
+        if (password == null || password.length() < 1) { 
+            return (false);
+        }
+        return (true);
+    }
+
+    /**
      * Registers a new user. Adds the new user to the persistence layer
      * User will be logged in if this method returns non-null
+     * If user already exists or password is invalid, returns null
      * @param username of new user
      * @param password of new user
      * @param fullname of new user
@@ -39,46 +53,49 @@ public class UserManager {
      * @return the new user object after registration
      *         returns null if the attempt was unsuccessful (already used username, invalid password, authentication failed)
      */
-    public static User createUser(String username, String password, String fullname,
-                                String emailAddress, UserLevel userLevel) {
-        if (userExists(username) || !Authenticator.isValidPassword(password)) {
+    public static User createUser(String username, String password, String fullname, String emailAddress, UserLevel userLevel) {
+        if (userExists(username) || !isValidPassword(password)) {
             return (null);
         }
-        User newUser = new User(username, fullname, emailAddress, userLevel);
+        User u = new User(username, fullname, emailAddress, userLevel);
         Credential c = new Credential(username, password);
-        saveCredential(c);
-        if (!persist.authenticateUser(c)) {
+        return (saveUser(u, c));
+    }
+
+    /**
+     * Saves a user. Adds if doesn't exist, updates if exists. Does not change the user's password
+     * @param u The user to save
+     * @return Returns the passed in user, or null if:
+     *      - any of the arguments was null
+     *      - authenticating with the persistence layer failed
+     */
+    public static User saveUser(User u) {
+        return (saveUser(u, null));
+    }
+
+    /**
+     * Saves a user and updates password. Adds if doesn't exist, updates if exists.
+     * @param u The user to save
+     * @param c The new Credential
+     * @return Returns the passed in user, or null if:
+     *      - any of the arguments was null
+     *      - authenticating with the persistence layer failed
+     */
+    public static User saveUser(User u, Credential c) {
+        if (u == null) {
             return (null);
         }
-        persist.saveUser(newUser);
-        usernameMap.put(username, newUser);
-        return (newUser);
+        persist.saveUser(u);
+        addUser(u);
+        if (c != null) {
+            saveCredential(c);
+            if (!persist.authenticateUser(c)) {
+                return (null);
+            }
+        }
+        return (u);
     }
     
-    /**
-     * Updates an existing user by matching on the username of the passed user
-     * @param user The new user object
-     */
-    public static void updateUser(User user) {
-        if (user == null) {
-            return;
-        }
-        String username = user.getUsername();
-        if (!userExists(username)) {
-            return;
-        }
-        persist.saveUser(user);
-        addUser(user);
-    }
-
-    /**
-     * Saves an updated user object to the persistent entity
-     * @param u User object to save
-     */
-    public static void updateUser(User u) {
-        persist.saveUser(u);
-    }
-
     /**
      * Loads an existing user into the username map. Does not add to the persistence layer. Overwrites user if user already exists
      * @param user to be added

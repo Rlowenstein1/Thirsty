@@ -21,7 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import lib.Debug;
-import model.Authenticator;
+import model.AuthenticationManager;
 import model.Credential;
 import model.User;
 import model.UserLevel;
@@ -208,7 +208,7 @@ public class ProfileScreenController implements Initializable {
             } else if (email.length() == 0) {
                 Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
-            } else if (password.length() != 0 && !Authenticator.isValidPassword(password)) {
+            } else if (password.length() != 0 && !UserManager.isValidPassword(password)) {
                 Debug.debug("Invalid password!");
                 pwProfileErrorLabel.setText("Invalid Password!");
 
@@ -217,8 +217,9 @@ public class ProfileScreenController implements Initializable {
                     Debug.debug("Password and password confirmation do not match!");
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
                 } else {
+                    Credential cred = null;
                     if (password.length() != 0) { //only update password if the user tried to change it
-                        UserManager.saveCredential(new Credential(username, password));
+                        cred = new Credential(username, password);
                     }
                     Debug.debug("No errors during profile update check!");
                     editing = false;
@@ -228,7 +229,7 @@ public class ProfileScreenController implements Initializable {
                     activeUser.setName(fullname);
                     activeUser.setEmailAddress(email);
                     activeUser.setUserLevel(userLevel);
-                    UserManager.updateUser(activeUser);
+                    UserManager.saveUser(activeUser, cred);
                     MasterSingleton.updateUserPrivileges();
                     return;
 
