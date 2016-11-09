@@ -23,7 +23,7 @@ import model.User;
 import model.UserManager;
 import model.WaterReport;
 
-public class PersistentJSONFile extends PersistentJSONInterface {
+public class PersistentJsonFile extends PersistentJsonInterface {
 
     private String pathName;
     private Writer writerUsers;
@@ -41,19 +41,19 @@ public class PersistentJSONFile extends PersistentJSONInterface {
      * Constructor that sets the pathname for json files
      * @param pathName path to be set
      */
-    public PersistentJSONFile(String pathName) {
+    public PersistentJsonFile(String pathName) {
         this.pathName = pathName;
         if (!pathName.endsWith("/")) {
             this.pathName += "/";
         }
-        //TODO: make sure this directory actually exists; try to create if not; throw exception on failure
+        //TO DO: make sure this directory actually exists; try to create if not; throw exception on failure
         credentialManager = new CredentialManager();
         authenticator = new Authenticator(credentialManager);
     }
 
     /**
      * Generic function that loads all objects into a list from the given file of json objects
-     * @param T type for the generic function
+     * @param <T> type of the object to be created from the lines in the given file
      * @param filename to load
      * @param c class of objects in json file - must be consistent
      * @return list of objects of class c
@@ -64,7 +64,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
             String line;
             while ((line = rd.readLine()) != null) {
                 Debug.debug("read line: %s", line);
-                T t = fromJSON(line, c);
+                T t = fromJson(line, c);
                 if (t != null) {
                     res.add(t);
                 }
@@ -204,7 +204,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
     @Override
     public void saveUser(User u) {
-        writeToFile(writerUsers, toJSON(u, User.class) + "\n");
+        writeToFile(writerUsers, toJson(u, User.class) + "\n");
     }
 
     @Override
@@ -220,7 +220,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
     @Override
     public void saveUserCredential(Credential c) {
         credentialManager.saveCredential(c);
-        writeToFile(writerCredentials, toJSON(c, Credential.class) + "\n");
+        writeToFile(writerCredentials, toJson(c, Credential.class) + "\n");
     }
 
     @Override
@@ -238,7 +238,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
         authenticator.logout(username);
         UserManager.deleteUser(username);
         credentialManager.deleteCredential(username);
-        //TODO: delete from file too
+        //TO DO: delete from file too
     }
 
     @Override
@@ -248,7 +248,7 @@ public class PersistentJSONFile extends PersistentJSONInterface {
 
     @Override
     public void saveWaterReport(WaterReport wr) {
-        String s = toJSON(wr, WaterReport.class);
+        String s = toJson(wr, WaterReport.class);
         Debug.debug("Saving water report to file: %s", wr);
         Debug.debug("QRs:\n");
         for (QualityReport q : wr.getQualityReportList()) {

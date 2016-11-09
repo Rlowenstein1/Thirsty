@@ -4,12 +4,12 @@ import controller.MasterSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import persistence.PersistenceInterface;
-import persistence.json.PersistentJSONFile;
+import persistence.json.PersistentJsonFile;
 
 public class Thirsty extends Application {
 
 
-    private PersistenceInterface persist = new PersistentJSONFile("src/main/resources/db/");
+    private PersistenceInterface persist = new PersistentJsonFile("src/main/resources/db/");
 
     @Override
     public void start(Stage stage) throws Exception {
