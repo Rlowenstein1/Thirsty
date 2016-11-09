@@ -410,6 +410,10 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         return (latestQR.getCppmProperty());
     }
 
+    /**
+     * Creates a (deep -- quality reports are cloned too) clone of this water report
+     * @return Returns a WaterReport with all the same fields as this WaterReport
+     */
     public WaterReport clone() {
         WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(), getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
         for (QualityReport q : getQualityReportList()) {

@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.annotations.Expose;
 import com.lynden.gmapsfx.javascript.object.LatLong;
+import java.util.Objects;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -285,19 +286,36 @@ public class User {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.username);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Name: " + name.get() + "\n"
                 + "Username: " + username.get() + "\n"
                 + "Title: " + title.get() + "\n"
                 + "Email address: " + emailAddress.get() + "\n"
                 + "Authorization level: " + level.get();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof User))
-            return false;
-        User u = (User) o;
-        return username.get().equals(u.getUsername());
     }
 }
