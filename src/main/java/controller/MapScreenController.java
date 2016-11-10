@@ -62,6 +62,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private User activeUser;
     private Stage stage;
     private List<Marker> markerList = null;
+    private boolean mapInitialized = false;
 
 
     private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the next big thing in the water reporting application world! To get started, click one of the buttons below!";
@@ -184,46 +185,17 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
             }
         });
-        /*
-        map.addUIEventHandler(UIEventType.click, (JSObject e) -> {
-            Debug.debug("you clicked");
-            JSObject clicked = (JSObject) e.getMember("latLng");
-            Double clickedLat = (Double) clicked.call("lat");
-            Double clickedLng = (Double) clicked.call("lng");
-            Debug.debug("here: %f,%f", clickedLat, clickedLng);
-
-            MarkerOptions markerOptions = new MarkerOptions();
-            LatLong loc = new LatLong(clickedLat, clickedLng);
-
-            markerOptions.position(loc)
-                    .visible(Boolean.TRUE)
-                    .title(String.format("%f,%f", clickedLat, clickedLng));
-
-            Marker marker = new Marker(markerOptions);
-
-            map.addUIEventHandler(marker,
-                UIEventType.click,
-                (JSObject obj) -> {
-                    InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-                    infoWindowOptions.content("this is the description<br /><h1>test header</h1><br /><a href='#test'>test link</a><br /><a href='http://google.com/'>test external link</a>");
-
-                    InfoWindow window = new InfoWindow(infoWindowOptions);
-                    window.open(map, marker);
-                }
-            );
-
-            map.addMarker(marker);
-
-
-        });
-        */
-
     }
 
     @Override
     public void mapInitialized() {
         createMap();
         updateMap();
+        mapInitialized = true;
+    }
+
+    public boolean isMapInitialized() {
+        return (mapInitialized);
     }
 
     /**

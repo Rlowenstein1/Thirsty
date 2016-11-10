@@ -156,7 +156,7 @@ public class MasterSingleton {
             mapTab.setContent(mapPane);
 
             tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-                if (newTab.equals(mapTab)) {
+                if (newTab.equals(mapTab) && mapController.isMapInitialized()) {
                     mapController.updateMap();
                 }
             });
