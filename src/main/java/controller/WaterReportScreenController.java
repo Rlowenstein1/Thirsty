@@ -100,8 +100,6 @@ public class WaterReportScreenController implements Initializable {
 
     private Label hoverLabel = new Label("");
 
-    private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yy ");
-
     private static final String DATA_TYPE_BOTH = "Both";
     private static final String DATA_TYPE_VPPM = "V PPM";
     private static final String DATA_TYPE_CPPM = "C PPM";

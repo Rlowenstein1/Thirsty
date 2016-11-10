@@ -1,5 +1,6 @@
 package controller;
 
+import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -50,6 +51,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     @FXML
     private ToggleButton addQReportButton;
 
+    @FXML
+    private JFXTextArea tutTextArea;
+
     private boolean addingAReport;
     private boolean addingQReport;
 
@@ -58,6 +62,11 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private User activeUser;
     private Stage stage;
     private List<Marker> markerList = null;
+
+
+    private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the next big water reporting applications! To get started, click one of the buttons below!";
+    private final static String TUT_AVAIL_TEXT = "Now, click anywhere on the map to add a water report at that coordinate!";
+    private final static String TUT_QUAIL_TEXT = "Now, click on any existing water report to add a quality report to it!";
 
     /**
      * Set the stage for the Main Screen Controller
@@ -71,7 +80,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * Sets the Quality Report button based on user's level
      */
     private void setQButtonVisibility() {
-        addQReportButton.setVisible(UserManager.isUserQualityReportAuthorized(activeUser));
+        boolean authed = UserManager.isUserQualityReportAuthorized(activeUser);
+        addQReportButton.setVisible(authed);
+        addQReportButton.setManaged(authed);
     }
 
     /**
@@ -103,6 +114,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         } catch (Exception e) {
             Debug.debug("Exception: %s %s", e.toString(), mapView);
         }
+        tutTextArea.setText(TUT_DEFAULT_TEXT);
     }    
 
     /**
@@ -324,6 +336,11 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         if (addQReportButton.isSelected()) {
             addQReportButton.setSelected(false);
         }
+        if (addingAReport) {
+            tutTextArea.setText(String.format("%s\n\n%s", TUT_DEFAULT_TEXT, TUT_AVAIL_TEXT));
+        } else {
+            tutTextArea.setText(TUT_DEFAULT_TEXT);
+        }
     }
 
     /**
@@ -336,6 +353,11 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         addingQReport = addQReportButton.isSelected();
         if (addAReportButton.isSelected()) {
             addAReportButton.setSelected(false);
+        }
+        if (addingQReport) {
+            tutTextArea.setText(String.format("%s\n\n%s", TUT_DEFAULT_TEXT, TUT_QUAIL_TEXT));
+        } else {
+            tutTextArea.setText(TUT_DEFAULT_TEXT);
         }
     }
 }

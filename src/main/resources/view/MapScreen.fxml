@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapScreenController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapScreenController">
     <stylesheets>
         <URL value="@/css/stylesheet.css" />
     </stylesheets>
@@ -22,11 +22,11 @@
             <HBox maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
          </top>
          <right>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXTextArea fx:id="tutTextArea" editable="false" maxWidth="273.0" minWidth="273.0" prefHeight="600.0" prefWidth="273.0" text="Welcome to Thirsty : the next big water reporting application! To get started, clck the report water availability button, then click anywhere on the map!" wrapText="true" />
-                  <JFXToggleButton fx:id="addAReportButton" onAction="#handleAddAReportButtonAction" text="Report Water Availability" toggleColor="#07aeda" />
-                  <JFXToggleButton fx:id="addQReportButton" onAction="#handleAddQReportButtonAction" text="Add Quality Report" toggleColor="#07aeda" />
+                  <JFXTextArea fx:id="tutTextArea" editable="false" minHeight="200.0" minWidth="273.0" text="Thirsty?" wrapText="true" VBox.vgrow="SOMETIMES" />
+                  <JFXToggleButton fx:id="addAReportButton" onAction="#handleAddAReportButtonAction" text="Report Water Availability" toggleColor="#07aeda" VBox.vgrow="SOMETIMES" />
+                  <JFXToggleButton fx:id="addQReportButton" onAction="#handleAddQReportButtonAction" text="Add Quality Report" toggleColor="#07aeda" VBox.vgrow="SOMETIMES" />
                </children>
             </VBox>
          </right>
