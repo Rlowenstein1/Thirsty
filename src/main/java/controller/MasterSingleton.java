@@ -51,6 +51,8 @@ public class MasterSingleton {
 
     private static PersistenceInterface persist = null;
 
+    private static final int QUALITY_REPORT_TAB_INDEX = 3;
+
     /**
      * Initializes the master singleton. Should only be called once
      * @param persist The PersistenceInterface to perform persistence operations with
@@ -92,7 +94,7 @@ public class MasterSingleton {
     public static void updateUserPrivileges() {
         if (waterQualityReportTab != null) {
             if (UserManager.isUserQualityReportAuthorized(activeUser) && !tabList.contains(waterQualityReportTab)) {
-                tabList.add(2, waterQualityReportTab);
+                tabList.add(QUALITY_REPORT_TAB_INDEX, waterQualityReportTab);
             } else {
                 if (!UserManager.isUserQualityReportAuthorized(activeUser) && tabList.contains(waterQualityReportTab)) {
                     tabList.remove(waterQualityReportTab);
@@ -140,6 +142,109 @@ public class MasterSingleton {
         }
     }
 
+    private static Tab loadMapScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/MapScreen.fxml"));
+            AnchorPane mapPane = loader.load();
+            mapController = loader.getController();
+            mapController.setActiveUser(activeUser);
+            mapController.setStage(mainStage);
+
+            Tab mapTab = new Tab();
+            mapTab.setText(mapController.getTabText());
+            mapTab.setContent(mapPane);
+
+            tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+                if (newTab.equals(mapTab)) {
+                    mapController.updateMap();
+                }
+            });
+            return (mapTab);
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing map screen! Reason: %s", e.toString());
+        }
+        return (null);
+    }
+
+    private static Tab loadProfileScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
+            profilePane = loader.load();
+            profileController = loader.getController();
+            profileController.setActiveUser(activeUser);
+            profileController.setStage(mainStage);
+
+            
+            Tab res = new Tab();
+            res.setText(profileController.getTabText());
+            res.setContent(profilePane);
+            return (res);
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing profile screen! Reason: %s", e.toString());
+        }
+        return (null);
+    }
+
+    private static Tab loadWaterSourceReportScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/WaterSourceReportScreen.fxml"));
+            GridPane waterSourceReportPane = loader.load();
+            waterSourceReportController = loader.getController();
+            waterSourceReportController.setActiveUser(activeUser);
+            waterSourceReportController.setStage(mainStage);
+
+            Tab res = new Tab();
+            res.setText(waterSourceReportController.getTabText());
+            res.setContent(waterSourceReportPane);
+            return (res);
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing profile screen! Reason: %s", e.toString());
+        }
+        return (null);
+    }
+
+    private static Tab loadWaterQualityReportScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/WaterQualityReportScreen.fxml"));
+            GridPane waterQualityReportPane = loader.load();
+            waterQualityReportController = loader.getController();
+            waterQualityReportController.setActiveUser(activeUser);
+            waterQualityReportController.setStage(mainStage);
+
+            Tab res = new Tab();
+            res.setText(waterQualityReportController.getTabText());
+            res.setContent(waterQualityReportPane);
+            return (res);
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing profile screen! Reason: %s", e.toString());
+        }
+        return (null);
+    }
+
+    private static Tab loadWaterReportScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Thirsty.class.getResource("/view/WaterReportScreen.fxml"));
+            AnchorPane waterReportPane = loader.load();
+            waterReportController = loader.getController();
+            waterReportController.setActiveUser(activeUser);
+            waterReportController.setStage(mainStage);
+
+            Tab res = new Tab();
+            res.setText(waterReportController.getTabText());
+            res.setContent(waterReportPane);
+            return (res);
+        } catch (IOException e) {
+            Debug.error("Exception while creating/showing profile screen! Reason: %s", e.toString());
+        }
+        return (null);
+    }
+
+
     /**
      * Displays the main screen
      */
@@ -161,85 +266,20 @@ public class MasterSingleton {
 
             tabList = tabPane.getTabs();
 
-            /*
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/HomeScreen.fxml"));
-            homePane = loader.load();
-            homeController = loader.getController();
-            homeController.setActiveUser(activeUser);
-            homeController.setStage(mainStage);
-
-            Tab homeTab = new Tab();
-            homeTab.setText(homeController.getTabText());
-            homeTab.setContent(homePane);
-            tabList.add(homeTab);
-            */
-
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
-            profilePane = loader.load();
-            profileController = loader.getController();
-            profileController.setActiveUser(activeUser);
-            profileController.setStage(mainStage);
-
-            Tab profileTab = new Tab();
-            profileTab.setText(profileController.getTabText());
-            profileTab.setContent(profilePane);
-            tabList.add(profileTab);
-
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/WaterSourceReportScreen.fxml"));
-            GridPane waterSourceReportPane = loader.load();
-            waterSourceReportController = loader.getController();
-            waterSourceReportController.setActiveUser(activeUser);
-            waterSourceReportController.setStage(mainStage);
-
-            waterSourceReportTab = new Tab();
-            waterSourceReportTab.setText(waterSourceReportController.getTabText());
-            waterSourceReportTab.setContent(waterSourceReportPane);
-            tabList.add(waterSourceReportTab);
-
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/WaterQualityReportScreen.fxml"));
-            GridPane waterQualityReportPane = loader.load();
-            waterQualityReportController = loader.getController();
-            waterQualityReportController.setActiveUser(activeUser);
-            waterQualityReportController.setStage(mainStage);
-
-            waterQualityReportTab = new Tab();
-            waterQualityReportTab.setText(waterQualityReportController.getTabText());
-            waterQualityReportTab.setContent(waterQualityReportPane);
-            //add the tab in updateUserPrivileges()
-
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/WaterReportScreen.fxml"));
-            AnchorPane waterReportPane = loader.load();
-            waterReportController = loader.getController();
-            waterReportController.setActiveUser(activeUser);
-            waterReportController.setStage(mainStage);
-
-            Tab waterReportTab = new Tab();
-            waterReportTab.setText(waterReportController.getTabText());
-            waterReportTab.setContent(waterReportPane);
+            Tab mapTab = loadMapScreen();
+            tabList.add(mapTab);
+            
+            Tab waterReportTab = loadWaterReportScreen();
             tabList.add(waterReportTab);
 
-            loader = new FXMLLoader();
-            loader.setLocation(Thirsty.class.getResource("/view/MapScreen.fxml"));
-            AnchorPane mapPane = loader.load();
-            mapController = loader.getController();
-            mapController.setActiveUser(activeUser);
-            mapController.setStage(mainStage);
+            waterSourceReportTab = loadWaterSourceReportScreen();
+            tabList.add(waterSourceReportTab);
 
-            Tab mapTab = new Tab();
-            mapTab.setText(mapController.getTabText());
-            mapTab.setContent(mapPane);
-            tabList.add(mapTab);
+            waterQualityReportTab = loadWaterQualityReportScreen();
+            //let water quality report tab be added in updateUserPrivileges()
 
-            tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-                if (newTab.equals(mapTab)) {
-                    mapController.updateMap();
-                }
-            });
+            Tab profileTab = loadProfileScreen();
+            tabList.add(profileTab);
 
             updateUserPrivileges();
 
