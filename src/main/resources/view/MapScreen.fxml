@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.lynden.gmapsfx.GoogleMapView?>
 <?import java.net.URL?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapScreenController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MapScreenController">
     <stylesheets>
         <URL value="@/css/stylesheet.css" />
     </stylesheets>
@@ -17,13 +19,17 @@
             <GoogleMapView fx:id="mapView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <HBox maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
-               <children>
-                  <ToggleButton fx:id="addAReportButton" mnemonicParsing="false" onAction="#handleAddAReportButtonAction" text="Report water availability" />
-                  <ToggleButton fx:id="addQReportButton" mnemonicParsing="false" onAction="#handleAddQReportButtonAction" text="Add quality report to availability report" visible="false" />
-               </children>
-            </HBox>
+            <HBox maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
          </top>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXTextArea editable="false" maxWidth="273.0" minWidth="273.0" prefHeight="600.0" prefWidth="273.0" text="Welcome to Thirsty : the next big water reporting application! To get started, clck the report water availability button, then click anywhere on the map!" wrapText="true" />
+                  <ToggleButton fx:id="addAReportButton" mnemonicParsing="false" onAction="#handleAddAReportButtonAction" prefHeight="35.0" prefWidth="275.0" styleClass="but" stylesheets="@../css/stylesheet.css" text="Report water availability" />
+                  <ToggleButton fx:id="addQReportButton" mnemonicParsing="false" onAction="#handleAddQReportButtonAction" styleClass="but" stylesheets="@../css/stylesheet.css" text="Add quality report to availability report" visible="false" />
+               </children>
+            </VBox>
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>
