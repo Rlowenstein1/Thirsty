@@ -21,7 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import lib.Debug;
-import model.AuthenticationManager;
+
 import model.Credential;
 import model.User;
 import model.UserLevel;

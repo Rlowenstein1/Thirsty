@@ -35,10 +35,7 @@ public class UserManager {
      */
     public static boolean isValidPassword(String password) {
         //do any password length/complexity checks here
-        if (password == null || password.length() < 1) { 
-            return (false);
-        }
-        return (true);
+        return !(password == null || password.length() < 1);
     }
 
     /**
@@ -176,7 +173,7 @@ public class UserManager {
 
     /**
      * Returns true if the given user is allowed to view history reports
-     * TODO This is business logic - what each user is allowed to see should be
+     * This is business logic - what each user is allowed to see should be
      * controlled in the controller(?) where we do other business logic - this
      * couples this class with pretty much everything...
      * @param u the user to check

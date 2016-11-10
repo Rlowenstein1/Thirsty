@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
 /**
  * Represents a water quality report.
  */
-public class QualityReport extends DisplayableReport implements Comparable<QualityReport> {
+public final class QualityReport extends DisplayableReport implements Comparable<QualityReport> {
     @Expose
     private final ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
     @Expose
@@ -318,6 +318,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * A function for producing a clone of the current object given the current objects data
      * @return the clone
      */
+    @Override
     public QualityReport clone() {
         return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(), getVirusPPM(), getContaminantPPM(), getParentReport()));
     }

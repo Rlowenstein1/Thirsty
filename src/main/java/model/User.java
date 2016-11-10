@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
  * A class representing a User in the water source application.
  *
  */
-public class User {
+public final class User {
     @Expose
     private double lastCoordsLat;
     @Expose
@@ -280,6 +280,7 @@ public class User {
      * A function for creating a clone object given the current data.
      * @return the clone
      */
+    @Override
     public User clone() {
         return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
                     level.get(), profilePicture.get()));
