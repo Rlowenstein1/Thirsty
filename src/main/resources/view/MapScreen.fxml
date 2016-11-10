@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import com.lynden.gmapsfx.GoogleMapView?>
 <?import java.net.URL?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -24,9 +24,9 @@
          <right>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXTextArea editable="false" maxWidth="273.0" minWidth="273.0" prefHeight="600.0" prefWidth="273.0" text="Welcome to Thirsty : the next big water reporting application! To get started, clck the report water availability button, then click anywhere on the map!" wrapText="true" />
-                  <ToggleButton fx:id="addAReportButton" mnemonicParsing="false" onAction="#handleAddAReportButtonAction" prefHeight="35.0" prefWidth="275.0" styleClass="but" stylesheets="@../css/stylesheet.css" text="Report water availability" />
-                  <ToggleButton fx:id="addQReportButton" mnemonicParsing="false" onAction="#handleAddQReportButtonAction" styleClass="but" stylesheets="@../css/stylesheet.css" text="Add quality report to availability report" visible="false" />
+                  <JFXTextArea fx:id="tutTextArea" editable="false" maxWidth="273.0" minWidth="273.0" prefHeight="600.0" prefWidth="273.0" text="Welcome to Thirsty : the next big water reporting application! To get started, clck the report water availability button, then click anywhere on the map!" wrapText="true" />
+                  <JFXToggleButton fx:id="addAReportButton" onAction="#handleAddAReportButtonAction" text="Report Water Availability" toggleColor="#07aeda" />
+                  <JFXToggleButton fx:id="addQReportButton" onAction="#handleAddQReportButtonAction" text="Add Quality Report" toggleColor="#07aeda" />
                </children>
             </VBox>
          </right>
