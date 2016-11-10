@@ -64,7 +64,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private List<Marker> markerList = null;
 
 
-    private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the next big water reporting applications! To get started, click one of the buttons below!";
+    private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the next big thing in the water reporting application world! To get started, click one of the buttons below!";
     private final static String TUT_AVAIL_TEXT = "Now, click anywhere on the map to add a water report at that coordinate!";
     private final static String TUT_QUAIL_TEXT = "Now, click on any existing water report to add a quality report to it!";
 
