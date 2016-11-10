@@ -31,7 +31,7 @@ public class UserManager {
     /**
      * Checks if password is valid
      * @param password to be validated
-     * @return boolean represeting the validity
+     * @return boolean representing the validity
      */
     public static boolean isValidPassword(String password) {
         //do any password length/complexity checks here
