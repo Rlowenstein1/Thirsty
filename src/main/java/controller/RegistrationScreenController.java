@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,10 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lib.Debug;
-import model.User;
-import model.UserLevel;
-import model.UserManager;
+import main.java.lib.Debug;
+import main.java.model.User;
+import main.java.model.UserLevel;
+import main.java.model.UserManager;
 
 /**
  *

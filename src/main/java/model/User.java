@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import com.google.gson.annotations.Expose;
 import com.lynden.gmapsfx.javascript.object.LatLong;

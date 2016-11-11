@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import lib.Debug;
+import main.java.lib.Debug;
 
 /**
  *

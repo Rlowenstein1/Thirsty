@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="606.0" styleClass="splashbg3" stylesheets="@/css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileScreenController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="574.0" prefWidth="606.0" styleClass="splashbg3" stylesheets="@/css/stylesheet.css" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controller.ProfileScreenController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="186.0" percentWidth="40" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0" percentWidth="60" />

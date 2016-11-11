@@ -1,9 +1,9 @@
-package persistence;
+package main.java.persistence;
 
-import model.Credential;
-import model.QualityReport;
-import model.User;
-import model.WaterReport;
+import main.java.model.Credential;
+import main.java.model.QualityReport;
+import main.java.model.User;
+import main.java.model.WaterReport;
 
 /**
  *

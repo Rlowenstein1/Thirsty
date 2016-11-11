@@ -1,10 +1,10 @@
-package fxapp;
+package main.java.fxapp;
 
-import controller.MasterSingleton;
+import main.java.controller.MasterSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import persistence.PersistenceInterface;
-import persistence.json.PersistentJsonFile;
+import main.java.persistence.PersistenceInterface;
+import main.java.persistence.json.PersistentJsonFile;
 
 public class Thirsty extends Application {
 

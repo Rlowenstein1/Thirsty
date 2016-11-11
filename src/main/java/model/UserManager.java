@@ -1,11 +1,11 @@
-package model;
+package main.java.model;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-import persistence.PersistenceInterface;
+import main.java.persistence.PersistenceInterface;
 
 /**
  * Manager for the user objects of app

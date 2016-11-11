@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,9 +10,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import model.Credential;
-import model.User;
-import model.UserManager;
+import main.java.model.Credential;
+import main.java.model.User;
+import main.java.model.UserManager;
 
 public class LoginScreenController implements Initializable {
 

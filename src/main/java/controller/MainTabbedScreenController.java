@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import model.User;
-import model.UserManager;
+import main.java.model.User;
+import main.java.model.UserManager;
 
 /**
  *

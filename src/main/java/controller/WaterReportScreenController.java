@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import eu.hansolo.fx.DateAxis310;
 import java.net.URL;
@@ -36,15 +36,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lib.Debug;
-import model.DisplayableReport;
-import model.QualityReport;
-import model.User;
-import model.UserManager;
-import model.WaterCondition;
-import model.WaterReport;
-import model.WaterSafety;
-import model.WaterType;
+import main.java.lib.Debug;
+import main.java.model.DisplayableReport;
+import main.java.model.QualityReport;
+import main.java.model.User;
+import main.java.model.UserManager;
+import main.java.model.WaterCondition;
+import main.java.model.WaterReport;
+import main.java.model.WaterSafety;
+import main.java.model.WaterType;
 
 /**
  * FXML Controller class
@@ -139,7 +139,7 @@ public class WaterReportScreenController implements Initializable {
      * Updates the reports with the given list of reports
      * @param reportList the list of reports to display
      */
-    public synchronized void updateReports(Iterable<model.WaterReport> reportList) {
+    public synchronized void updateReports(Iterable<WaterReport> reportList) {
         //ObservableList<TreeTableColumn<DisplayableReport,
         // ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
         //if (reportTreeTable.getSortOrder().isEmpty()) {
@@ -263,7 +263,7 @@ public class WaterReportScreenController implements Initializable {
      * @param fromDate The starting date to filter the events
      * @param toDate The ending date to filter the events
      */
-    private void drawSeries(boolean vppm, boolean cppm, Iterable<model.QualityReport> qList,
+    private void drawSeries(boolean vppm, boolean cppm, Iterable<QualityReport> qList,
                             LocalDateTime fromDate, LocalDateTime toDate) {
         ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
         LineChart.Series<LocalDateTime, Double> vPPMSeries = new LineChart.Series<>();
