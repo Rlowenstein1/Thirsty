@@ -210,7 +210,7 @@ public class ProfileScreenController implements Initializable {
             } else if (email.isEmpty()) {
                 Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
-            } else if (!password.isEmpty() && !UserManager.isValidPassword(password)) {
+            } else if (!password.isEmpty() && UserManager.isPasswordInvalid(password)) {
                 Debug.debug("Invalid password!");
                 pwProfileErrorLabel.setText("Invalid Password!");
 

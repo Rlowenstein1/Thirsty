@@ -35,9 +35,9 @@ public class UserManager {
      * @param password to be validated
      * @return boolean representing the validity
      */
-    public static boolean isValidPassword(CharSequence password) {
+    public static boolean isPasswordInvalid(CharSequence password) {
         //do any password length/complexity checks here
-        return !((password == null) || (password.length() < 1));
+        return ((password == null) || (password.length() < 1));
     }
 
     /**
@@ -55,7 +55,7 @@ public class UserManager {
      */
     public static User createUser(String username, String password,
                                   String fullname, String emailAddress, UserLevel userLevel) {
-        if (userExists(username) || !isValidPassword(password)) {
+        if (userExists(username) || isPasswordInvalid(password)) {
             return (null);
         }
         User u = new User(username, fullname, emailAddress, userLevel);

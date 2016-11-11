@@ -1,11 +1,11 @@
 package main.java.model;
 
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 import main.java.persistence.PersistenceInterface;
 
@@ -144,12 +144,14 @@ public class ReportManager {
      * Deletes specified report from its parent
      * @param qualityReport the QualityReport to be deleted from its parent
      */
+
     public static void deleteQualityReport(QualityReport qualityReport) {
         WaterReport waterReport = qualityReport.getParentReport();
         if (waterReport != null) {
             deleteQualityReport(waterReport, qualityReport);
         }
     }
+
 
     /**
      * Deletes specified report from the given WaterReport
@@ -173,29 +175,34 @@ public class ReportManager {
      * Sorts the list of water reports
      * @return sorted water report list by data (natural ordering)
      */
+    /*
     public static List<WaterReport> sortWaterReportByDate() {
         List<WaterReport> list = new ArrayList<>(waterReportList);
         Collections.sort(list);
         return list;
     }
+    */
 
     /**
      * Filters the report list by the author
      * @param user that authored reports
      * @return list containing only reports authored by the user
      */
+    /*
     public static List<WaterReport> filterWaterReportByUser(User user) {
         List<WaterReport> list = new ArrayList<>(waterReportList.size());
         list.addAll(waterReportList.stream().filter(report ->
                 user.equals(report.getAuthor())).collect(Collectors.toList()));
         return list;
     }
+    */
 
     /**
      * Filters the quality report list by the author
      * @param user that authored reports
      * @return list containing only quality reports authored by the user
      */
+    /*
     public static List<QualityReport> filterQualityReportByUser(User user) {
         List<QualityReport> list = new ArrayList<>();
         for (WaterReport wr : waterReportList) {
@@ -208,6 +215,7 @@ public class ReportManager {
         }
         return (list);
     }
+    */
 
     /**
      * Filters the report list by the report number
@@ -229,6 +237,7 @@ public class ReportManager {
      * Sorts the water reports by alphabetical order of the name of the author
      * @return the sorted report list
      */
+    /*
     public static List<WaterReport> sortWaterReportByName() {
         List<WaterReport> list = new ArrayList<>(waterReportList);
         Collections.sort(list, (WaterReport a, WaterReport b) ->
@@ -236,4 +245,5 @@ public class ReportManager {
         );
         return list;
     }
+    */
 }

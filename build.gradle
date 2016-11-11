@@ -15,7 +15,7 @@ dependencies {
 sourceCompatibility = 1.8 
 
 version = '1.0.1'
-mainClassName = 'fxapp.Thirsty'
+mainClassName = 'main.java.fxapp.Thirsty'
 
 //create a single Jar with all dependencies
 jar {

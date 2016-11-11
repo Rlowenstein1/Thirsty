@@ -345,10 +345,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      */
     public boolean removeQualityReport(int reportNum) {
         QualityReport q = getQualityReportByNumber(reportNum);
-        if (q != null) {
-            return (qualityReports.remove(q));
-        }
-        return (false);
+        return q != null && (qualityReports.remove(q));
     }
 
     /**
