@@ -7,12 +7,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
 
 /**
  * Represents a water source report.
@@ -90,14 +88,16 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         reportNumProperty.set(n);
     }
 
-    /**
-     * Gets this water report's number property
-     * @return the number property
-     */
-    @Override
-    public IntegerProperty getReportNumProperty() {
-        return reportNumProperty;
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets this water report's number property
+//     * @return the number property
+//     */
+//    @Override
+//    public IntegerProperty getReportNumProperty() {
+//        return reportNumProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
     /**
      * Gets this water report's longitude coordinate
@@ -115,14 +115,16 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         longitudeProperty.set(l);
     }
 
-    /**
-     * Gets this water report's longitude property
-     * @return the longitude coordinate property
-     */
-    @Override
-    public DoubleProperty getLongitudeProperty() {
-        return longitudeProperty;
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets this water report's longitude property
+//     * @return the longitude coordinate property
+//     */
+//    @Override
+//    public DoubleProperty getLongitudeProperty() {
+//        return longitudeProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
     /**
      * Gets this water report's latitude coordinate
@@ -140,61 +142,72 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         latitudeProperty.set(l);
     }
 
-    /**
-     * Gets this water report's latitude property
-     * @return the latitude coordinate property
-     */
-    @Override
-    public DoubleProperty getLatitudeProperty() {
-        return latitudeProperty;
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets this water report's latitude property
+//     * @return the latitude coordinate property
+//     */
+//    @Override
+//    public DoubleProperty getLatitudeProperty() {
+//        return latitudeProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
-    /**
-     * Gets the second at which this report was created
-     * @return the second
-     */
-    public int getSecond() {
-        return getDateTime().getSecond();
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets the second at which this report was created
+//     * @return the second
+//     */
+//    public int getSecond() {
+//        return getDateTime().getSecond();
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
-    /**
-     * Gets the minute at which this report was created
-     * @return the minute
-     */
-    public int getMinute() {
-        return getDateTime().getMinute();
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets the minute at which this report was created
+//     * @return the minute
+//     */
+//    public int getMinute() {
+//        return getDateTime().getMinute();
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
     /**
      * Gets the hour at which this report was created
      * @return the hour
      */
+    /*
     public int getHour() {
         return getDateTime().getHour();
-    }
+    }*/
 
     /** Gets the day at which this report was created
      * @return the day
      */
-    public int getDay() {
+    /*public int getDay() {
         return getDateTime().getDayOfMonth();
-    }
+    }*/
 
-    /**
-     * Gets the month at which this report was created
-     * @return the month
-     */
-    public Month getMonth() {
-        return getDateTime().getMonth();
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets the month at which this report was created
+//     * @return the month
+//     */
+//    public Month getMonth() {
+//        return getDateTime().getMonth();
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
-    /**
-     * Gets the year at which this report was created
-     * @return the year
-     */
-    public int getYear() {
-        return getDateTime().getYear();
-    }
+// --Commented out by Inspection START (11/11/2016 10:59 AM):
+//    /**
+//     * Gets the year at which this report was created
+//     * @return the year
+//     */
+//    public int getYear() {
+//        return getDateTime().getYear();
+//    }
+// --Commented out by Inspection STOP (11/11/2016 10:59 AM)
 
     /**
      * Get the report's creation time
@@ -204,14 +217,16 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         return dateTimeProperty.get();
     }
 
-    /**
-     * Gets this water report's dateTime property
-     * @return the dateTime property
-     */
-    @Override
-    public ObjectProperty<LocalDateTime> getDateTimeProperty() {
-        return dateTimeProperty;
-    }
+// --Commented out by Inspection START (11/11/2016 11:01 AM):
+//    /**
+//     * Gets this water report's dateTime property
+//     * @return the dateTime property
+//     */
+//    @Override
+//    public ObjectProperty<LocalDateTime> getDateTimeProperty() {
+//        return dateTimeProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:01 AM)
 
     /**
      * Sets the report's creation time
@@ -237,14 +252,16 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         typeProperty.set(t);
     }
 
-    /**
-     * Gets this water report's water source type
-     * @return the water type property
-     */
-    @Override
-    public ObjectProperty<WaterType> getWaterTypeProperty() {
-        return typeProperty;
-    }
+// --Commented out by Inspection START (11/11/2016 11:01 AM):
+//    /**
+//     * Gets this water report's water source type
+//     * @return the water type property
+//     */
+//    @Override
+//    public ObjectProperty<WaterType> getWaterTypeProperty() {
+//        return typeProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:01 AM)
 
     /**
      * Gets the water condition
@@ -262,15 +279,17 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         conditionProperty.set(c);
     }
 
-    /**
-     * Gets the water report's water condition property
-     * @return the water condition property
-     */
-    @Override
-    public ObjectProperty<WaterCondition> getWaterConditionProperty() {
-        return conditionProperty;
-    }
-    
+// --Commented out by Inspection START (11/11/2016 11:02 AM):
+//    /**
+//     * Gets the water report's water condition property
+//     * @return the water condition property
+//     */
+//    @Override
+//    public ObjectProperty<WaterCondition> getWaterConditionProperty() {
+//        return conditionProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
+
     /**
      * Gets the water report's author
      * @return the author
@@ -298,13 +317,15 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         return getAuthor().getUsernameProperty();
     }*/
 
-    /**
-     * Gets the water report's author property
-     * @return the author property
-     */
-    public ObjectProperty<User> getAuthorProperty() {
-        return authorProperty;
-    }
+// --Commented out by Inspection START (11/11/2016 11:02 AM):
+//    /**
+//     * Gets the water report's author property
+//     * @return the author property
+//     */
+//    public ObjectProperty<User> getAuthorProperty() {
+//        return authorProperty;
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
 
     /**
      * Adds a quality report to the list of quality reports for this
@@ -316,6 +337,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         return qualityReports.add(qualityReport);
     }
 
+
     /**
      * Removes a quality report from the list of quality reports for this
      * water source.
@@ -326,19 +348,22 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         return qualityReports.remove(qualityReport);
     }
 
-    /**
-     * Removes a quality report from the list of quality reports for this
-     * water source.
-     * @param reportNum the number of the report to remove
-     * @return True if an element was removed
-     */
-    public boolean removeQualityReport(int reportNum) {
-        QualityReport q = getQualityReportByNumber(reportNum);
-        if (q != null) {
-            return (qualityReports.remove(q));
-        }
-        return (false);
-    }
+
+// --Commented out by Inspection START (11/11/2016 11:02 AM):
+//    /**
+//     * Removes a quality report from the list of quality reports for this
+//     * water source.
+//     * @param reportNum the number of the report to remove
+//     * @return True if an element was removed
+//     */
+//    public boolean removeQualityReport(int reportNum) {
+//        QualityReport q = getQualityReportByNumber(reportNum);
+//        if (q != null) {
+//            return (qualityReports.remove(q));
+//        }
+//        return (false);
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
 
     /**
      * Returns the QualityReport with the report number matching reportNum
@@ -373,44 +398,50 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         return (qualityReports.get(qualityReports.size() - 1));
     }
 
-    /**
-     * Gets this water report's water safety
-     * @return the water type property
-     */
-    @Override
-    public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
-        QualityReport latestQR = getMostRecentQualityReport();
-        if (latestQR == null) {
-            return (super.getWaterSafetyProperty());
-        }
-        return (latestQR.getWaterSafetyProperty());
-    }
+// --Commented out by Inspection START (11/11/2016 11:02 AM):
+//    /**
+//     * Gets this water report's water safety
+//     * @return the water type property
+//     */
+//    @Override
+//    public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
+//        QualityReport latestQR = getMostRecentQualityReport();
+//        if (latestQR == null) {
+//            return (super.getWaterSafetyProperty());
+//        }
+//        return (latestQR.getWaterSafetyProperty());
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
 
-    /**
-     * Gets the virus PPM property for the most recent quality report
-     * @return the virus PPM property
-     */
-    @Override
-    public DoubleProperty getVppmProperty() {
-        QualityReport latestQR = getMostRecentQualityReport();
-        if (latestQR == null) {
-            return (super.getVppmProperty());
-        }
-        return (latestQR.getVppmProperty());
-    }
+// --Commented out by Inspection START (11/11/2016 11:02 AM):
+//    /**
+//     * Gets the virus PPM property for the most recent quality report
+//     * @return the virus PPM property
+//     */
+//    @Override
+//    public DoubleProperty getVppmProperty() {
+//        QualityReport latestQR = getMostRecentQualityReport();
+//        if (latestQR == null) {
+//            return (super.getVppmProperty());
+//        }
+//        return (latestQR.getVppmProperty());
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
 
-    /**
-     * Gets the contaminant PPM property for the most recent quality report
-     * @return the contaminant PPM property
-     */
-    @Override
-    public DoubleProperty getCppmProperty() {
-        QualityReport latestQR = getMostRecentQualityReport();
-        if (latestQR == null) {
-            return (super.getCppmProperty());
-        }
-        return (latestQR.getCppmProperty());
-    }
+// --Commented out by Inspection START (11/11/2016 11:02 AM):
+//    /**
+//     * Gets the contaminant PPM property for the most recent quality report
+//     * @return the contaminant PPM property
+//     */
+//    @Override
+//    public DoubleProperty getCppmProperty() {
+//        QualityReport latestQR = getMostRecentQualityReport();
+//        if (latestQR == null) {
+//            return (super.getCppmProperty());
+//        }
+//        return (latestQR.getCppmProperty());
+//    }
+// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
 
     /**
      * Creates a (deep -- quality reports are cloned too) clone of this water report
