@@ -65,9 +65,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private boolean mapInitialized = false;
 
 
-    private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the next big thing in the water reporting application world! To get started, click one of the buttons below!";
-    private final static String TUT_AVAIL_TEXT = "Now, click anywhere on the map to add a water report at that coordinate!";
-    private final static String TUT_QUAIL_TEXT = "Now, click on any existing water report to add a quality report to it!";
+    private final String defaultText = "Welcome! Thirsty?\nThirsty is the next big thing in the water reporting application world! To get started, click one of the buttons below!";
+    private final String availText = "Now, click anywhere on the map to add a water report at that coordinate!";
+    private final String qualText = "Now, click on any existing water report to add a quality report to it!";
 
     /**
      * Set the stage for the Main Screen Controller
@@ -115,7 +115,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         } catch (Exception e) {
             Debug.debug("Exception: %s %s", e.toString(), mapView);
         }
-        tutTextArea.setText(TUT_DEFAULT_TEXT);
+        tutTextArea.setText(defaultText);
     }    
 
     /**
@@ -194,6 +194,10 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         mapInitialized = true;
     }
 
+    /**
+     * Returns true if the map is initialized, false otherwise
+     * @return true if the map is initialized
+     */
     public boolean isMapInitialized() {
         return (mapInitialized);
     }
@@ -309,9 +313,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             addQReportButton.setSelected(false);
         }
         if (addingAReport) {
-            tutTextArea.setText(String.format("%s\n\n%s", TUT_DEFAULT_TEXT, TUT_AVAIL_TEXT));
+            tutTextArea.setText(String.format("%s\n\n%s", defaultText, availText));
         } else {
-            tutTextArea.setText(TUT_DEFAULT_TEXT);
+            tutTextArea.setText(defaultText);
         }
     }
 
@@ -327,9 +331,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             addAReportButton.setSelected(false);
         }
         if (addingQReport) {
-            tutTextArea.setText(String.format("%s\n\n%s", TUT_DEFAULT_TEXT, TUT_QUAIL_TEXT));
+            tutTextArea.setText(String.format("%s\n\n%s", defaultText, qualText));
         } else {
-            tutTextArea.setText(TUT_DEFAULT_TEXT);
+            tutTextArea.setText(defaultText);
         }
     }
 }

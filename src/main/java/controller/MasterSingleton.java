@@ -142,6 +142,10 @@ public class MasterSingleton {
         }
     }
 
+    /**
+     * Loads all the elements on the map screen
+     * @return a Tab with all the loaded elements
+     */
     private static Tab loadMapScreen() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -167,6 +171,10 @@ public class MasterSingleton {
         return (null);
     }
 
+    /**
+     * Loads all the elements on the profile screen
+     * @return a Tab with all the loaded elements
+     */
     private static Tab loadProfileScreen() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -187,6 +195,10 @@ public class MasterSingleton {
         return (null);
     }
 
+    /**
+     * Loads all the elements on the water source report screen
+     * @return a Tab with all the new elements
+     */
     private static Tab loadWaterSourceReportScreen() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -206,6 +218,10 @@ public class MasterSingleton {
         return (null);
     }
 
+    /**
+     * Loads all the elements on the water quality report screen
+     * @return a Tab with all the new elements
+     */
     private static Tab loadWaterQualityReportScreen() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -225,6 +241,10 @@ public class MasterSingleton {
         return (null);
     }
 
+    /**
+     * Loads all the elements on the water report screen
+     * @return a Tab with all the new elements
+     */
     private static Tab loadWaterReportScreen() {
         try {
             FXMLLoader loader = new FXMLLoader();
