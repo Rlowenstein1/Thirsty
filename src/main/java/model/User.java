@@ -33,12 +33,14 @@ public final class User {
     private final transient ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
 
     /**
-     * No param constructor -- DO NOT CALL NORMALLY.
+    * No param constructor -- DO NOT CALL NORMALLY.
      * This constructor only for GUI use
      */
     public User() {
         this("Username");
     }
+
+
 
     /**
      * 1-param constructor for creating a new User object
@@ -49,6 +51,8 @@ public final class User {
     public User(String username) {
         this(username, "Name", "sample@example.com", UserLevel.USER);
     }
+
+
 
     /**
      * Constructor used to create a new User object
@@ -61,6 +65,7 @@ public final class User {
     public User(String username, String name, String emailAddress, UserLevel level) {
         this(username, name, "Sample Title", emailAddress, level, null);
     }
+
 
     /**
      * Constructor used to create a complete User

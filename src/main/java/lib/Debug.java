@@ -116,7 +116,7 @@ public class Debug {
     public static void log(String format, Object... args) {
         printf(LOG, format, args);
     }
-    
+
     /**
      *
      * @param format The format of the string to print Same as System.out.printf
@@ -143,7 +143,7 @@ public class Debug {
     public static void fatal(String format, Object... args) {
         printf(FATAL, format, args);
     }
-   
+
     /**
      *
      * @param format The format of the string to print Same as System.out.printf

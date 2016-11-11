@@ -14,21 +14,20 @@ public enum WaterSafety {
 
     /**
      * Default constructor
+     *
      * @param condition the condition of the water
      */
     WaterSafety(String condition) {
         this.condition = condition;
     }
 
-// --Commented out by Inspection START (11/11/2016 11:02 AM):
-//    /**
-//     * Gets the String value of the water condition
-//     * @return the condition
-//     */
-//    public String getValue() {
-//        return condition;
-//    }
-// --Commented out by Inspection STOP (11/11/2016 11:02 AM)
+    /**
+     * Gets the String value of the water condition
+     * @return the condition
+     */
+    public String getValue() {
+        return condition;
+    }
 
     /**
      * Getter for all observable lists
