@@ -31,7 +31,7 @@ public class TextFormatterFactory {
             ParsePosition parsePosition = new ParsePosition(0);
             Object object = format.parse(c.getControlNewText(), parsePosition);
 
-            if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+            if ((object == null) || (parsePosition.getIndex() < c.getControlNewText().length())) {
                 return null;
             } else {
                 return c;

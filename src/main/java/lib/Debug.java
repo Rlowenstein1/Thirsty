@@ -34,7 +34,7 @@ public class Debug {
         for (int i = 1; i < stElements.length; i++) {
             StackTraceElement ste = stElements[i];
             if (!ste.getClassName().equals(Debug.class.getName())
-                    && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+                    && (ste.getClassName().indexOf("java.lang.Thread") != 0)) {
                 return ste.getClassName() + "::" + ste.getMethodName();
                 //return ste.getClassName();
             }
@@ -52,7 +52,7 @@ public class Debug {
         for (int i = 1; i < stElements.length; i++) {
             StackTraceElement ste = stElements[i];
             if (!ste.getClassName().equals(Debug.class.getName())
-                    && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+                    && (ste.getClassName().indexOf("java.lang.Thread") != 0)) {
                 if (callerClassName == null) {
                     callerClassName = ste.getClassName();
                 } else if (!callerClassName.equals(ste.getClassName())) {

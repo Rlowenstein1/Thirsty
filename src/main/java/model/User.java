@@ -293,7 +293,7 @@ public final class User {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.username);
+        hash = (23 * hash) + Objects.hashCode(this.username);
         return hash;
     }
 

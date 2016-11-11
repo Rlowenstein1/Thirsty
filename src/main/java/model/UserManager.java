@@ -37,7 +37,7 @@ public class UserManager {
      */
     public static boolean isValidPassword(CharSequence password) {
         //do any password length/complexity checks here
-        return !(password == null || password.length() < 1);
+        return !((password == null) || (password.length() < 1));
     }
 
     /**
@@ -68,7 +68,7 @@ public class UserManager {
      * @param user The new user object
      */
     public static void updateUser(User user) {
-        if (user != null && userExists(user.getUsername())) {
+        if ((user != null) && userExists(user.getUsername())) {
             persist.saveUser(user);
             addUser(user);
         }
@@ -143,7 +143,7 @@ public class UserManager {
             String username = c.getUsername();
             if (username != null) {
                 User u = getUser(username);
-                if (u != null && persist.authenticateUser(c)) {
+                if ((u != null) && persist.authenticateUser(c)) {
                     return (u);
                 }
             }

@@ -222,7 +222,7 @@ public class WaterReportScreenController implements Initializable {
         } else {
             throw (new InvalidParameterException(String.format("Unknown report type \"%s\"!", r.getClass().getName())));
         }
-        return (currentReport == null ? wr : (currentReport.equals(wr) ? null : wr));
+        return ((currentReport == null) ? wr : (currentReport.equals(wr) ? null : wr));
     }
 
     /**
@@ -334,7 +334,7 @@ public class WaterReportScreenController implements Initializable {
         final double yFudgeMult = 0.05;
         double yFudge = ((maxY - minY) * yFudgeMult);
         if (yFudge == 0) {
-            yFudge = (maxY != 0 ? maxY : minY) * yFudgeMult;
+            yFudge = ((maxY != 0) ? maxY : minY) * yFudgeMult;
         }
         yAxis.setLowerBound(minY - yFudge);
         yAxis.setUpperBound(maxY + yFudge);
@@ -347,7 +347,7 @@ public class WaterReportScreenController implements Initializable {
      * Redraws the history graph
      */
     public void redrawHistoryGraph() {
-        if (currentReport == null || graphUpdating) {
+        if ((currentReport == null) || graphUpdating) {
             return;
         }
         graphUpdating = true;
@@ -384,11 +384,11 @@ public class WaterReportScreenController implements Initializable {
                 LocalDateTime maxD = LocalDateTime.MIN;
                 for (QualityReport q : qList) {
                     LocalDateTime qD = q.getDateTime();
-                    if (toDate == null || !qD.isAfter(toDate)) {
+                    if ((toDate == null) || !qD.isAfter(toDate)) {
                         fDItems.add(qD);
                     }
                     
-                    if (fromDate == null || !qD.isBefore(fromDate)) {
+                    if ((fromDate == null) || !qD.isBefore(fromDate)) {
                         tDItems.add(qD);
                     }
                     

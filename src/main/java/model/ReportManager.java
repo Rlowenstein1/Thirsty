@@ -215,7 +215,7 @@ public class ReportManager {
      * @return either the report, or null if not found
      */
     public static WaterReport filterWaterReportByNumber(int num) {
-        if (num > 0 && num <= reportNumber) {
+        if ((num > 0) && (num <= reportNumber)) {
             for (WaterReport report: waterReportList) {
                 if (report.getReportNum() == num) {
                     return (report);

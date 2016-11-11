@@ -131,7 +131,7 @@ public class WaterSourceReportScreenController implements Initializable {
         String longS = longTextField.getText();
         
         if (!latS.isEmpty()) {
-            double mult = Double.compare(latSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
+            double mult = (Double.compare(latSlider.getValue(), -1.0) == 0) ? -1.0 : 1.0;
             latD = Double.parseDouble(latS) * mult;
             final int maxLat = 90;
             if (Math.abs(latD) > maxLat) {
@@ -143,7 +143,7 @@ public class WaterSourceReportScreenController implements Initializable {
             return;
         }
         if (!longS.isEmpty()) {
-            double mult = Double.compare(longSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
+            double mult = (Double.compare(longSlider.getValue(), -1.0) == 0) ? -1.0 : 1.0;
             longD = Double.parseDouble(longS) * mult;
             final int maxLong = 180;
             if (Math.abs(longD) > maxLong) {

@@ -71,15 +71,15 @@ public class Credential {
         Credential c = (Credential) obj;
         String usernameT = c.getUsername();
         Integer credentialT = c.getCredential();
-        return (usernameT != null && usernameT.equals(this.username)
-                && credentialT != null && credentialT.equals(this.credential));
+        return ((usernameT != null) && usernameT.equals(this.username)
+                && (credentialT != null) && credentialT.equals(this.credential));
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.credential);
-        hash = 97 * hash + Objects.hashCode(this.username);
+        hash = (97 * hash) + Objects.hashCode(this.credential);
+        hash = (97 * hash) + Objects.hashCode(this.username);
         return hash;
     }
 

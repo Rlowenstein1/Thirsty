@@ -339,7 +339,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
             + "Safety: %s\n"
             + "Contaminant PPM: %s\n"
             + "Virus PPM: %s",
-            parentReport == null ? "<no parent>" : parentReport.getReportNum(),
+                (parentReport == null) ? "<no parent>" : parentReport.getReportNum(),
             getReportNum(),
             getDateTime(),
             getWaterSafety(),
