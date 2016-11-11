@@ -6,8 +6,11 @@ import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -106,7 +109,6 @@ public class WaterReportScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        Stage stage1 = stage;
     }
 
     /**
@@ -128,7 +130,7 @@ public class WaterReportScreenController implements Initializable {
     /**
      * Clears the reports
      */
-    public void clearReports() {
+    private void clearReports() {
         root.getChildren().clear();
         itemMap.clear();
     }
@@ -346,7 +348,7 @@ public class WaterReportScreenController implements Initializable {
     /**
      * Redraws the history graph
      */
-    public void redrawHistoryGraph() {
+    private void redrawHistoryGraph() {
         if ((currentReport == null) || graphUpdating) {
             return;
         }

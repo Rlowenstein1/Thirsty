@@ -46,8 +46,8 @@ public class WaterSourceReportScreenController implements Initializable {
     @FXML
     private ComboBox<WaterCondition> conditionComboBox;
 
-    public static final WaterType WATER_TYPE_DEFAULT = WaterType.OTHER;
-    public static final WaterCondition WATER_CONDITION_DEFAULT = WaterCondition.MUDDY;
+    private static final WaterType WATER_TYPE_DEFAULT = WaterType.OTHER;
+    private static final WaterCondition WATER_CONDITION_DEFAULT = WaterCondition.MUDDY;
 
     private User activeUser;
 
@@ -56,7 +56,6 @@ public class WaterSourceReportScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        Stage stage1 = stage;
     }
 
     /**

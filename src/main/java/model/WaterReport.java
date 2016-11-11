@@ -86,7 +86,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets this water report's number
      * @param n the new number to be set
      */
-    public void setReportNum(int n) {
+    private void setReportNum(int n) {
         reportNumProperty.set(n);
     }
 
@@ -111,7 +111,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets this water report's longitude
      * @param l the new longitude to be set
      */
-    public void setLongitude(double l) {
+    private void setLongitude(double l) {
         longitudeProperty.set(l);
     }
 
@@ -136,7 +136,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets this water report's latitude
      * @param l the new latitude to be set
      */
-    public void setLatitude(double l) {
+    private void setLatitude(double l) {
         latitudeProperty.set(l);
     }
 
@@ -217,7 +217,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets the report's creation time
      * @param dt report's new date time
      */
-    public void setDateTime(LocalDateTime dt) {
+    private void setDateTime(LocalDateTime dt) {
         dateTimeProperty.set(dt);
     }
 
@@ -233,7 +233,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets the type of water
      * @param t the new type of water
      */
-    public void setWaterType(WaterType t) {
+    private void setWaterType(WaterType t) {
         typeProperty.set(t);
     }
 
@@ -258,7 +258,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets the water condition
      * @param c the condition
      */
-    public void setWaterCondition(WaterCondition c) {
+    private void setWaterCondition(WaterCondition c) {
         conditionProperty.set(c);
     }
 
@@ -283,18 +283,20 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets the author
      * @param user the user of the report
      */
-    public void setAuthor(User user) {
+    private void setAuthor(User user) {
         authorProperty.set(user);
     }
 
+    /*
     /**
      * Gets the water report's author property
      * @return the author property
      */
+    /*
     @Override
     public StringProperty getAuthorUsernameProperty() {
         return getAuthor().getUsernameProperty();
-    }
+    }*/
 
     /**
      * Gets the water report's author property
@@ -343,7 +345,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * @param reportNum the number of the report to find
      * @return returns the quality report if found, otherwise null
      */
-    public QualityReport getQualityReportByNumber(int reportNum) {
+    private QualityReport getQualityReportByNumber(int reportNum) {
         for (QualityReport q : qualityReports) {
             if (q.getReportNum() == reportNum) {
                 return (q);

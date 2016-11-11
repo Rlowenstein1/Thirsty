@@ -99,8 +99,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     private Writer openFile(String filename) {
         try {
             Debug.debug("opening file for writing: %s", filename);
-            BufferedWriter res = new BufferedWriter(new FileWriter(filename, true)); //true = append
-            return (res);
+            return (new BufferedWriter(new FileWriter(filename, true)));
         } catch (IOException e) {
             Debug.debug("Exception while opening file for writing: %s\nException: %s", filename, e.toString());
         }

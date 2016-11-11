@@ -23,7 +23,6 @@ public class HomeScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        Stage stage1 = stage;
     }
 
     /**
@@ -31,7 +30,6 @@ public class HomeScreenController implements Initializable {
      * @param activeUser The user who is being greeted
      */
     public void setActiveUser(User activeUser) {
-        model.User activeUser1 = activeUser;
         homeName.textProperty().bind(activeUser.getNameProperty());
     }
 

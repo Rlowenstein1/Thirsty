@@ -75,7 +75,6 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        Stage stage1 = stage;
     }
 
     /**

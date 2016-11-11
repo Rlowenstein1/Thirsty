@@ -59,7 +59,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param waterReport the availability report to add the quality report to
      */
     public QualityReport(LocalDateTime dateTime, int reportNum, User author,
-                         WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+                          WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.setDateTime(dateTime);
         this.setReportNum(reportNum);
         this.setAuthor(author);
@@ -81,7 +81,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets this water report's number
      * @param n the new number to be set
      */
-    public void setReportNum(int n) {
+    private void setReportNum(int n) {
         reportNumProperty.set(n);
     }
 
@@ -180,7 +180,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets this report's dateTime property
      * @param dt new date time
      */
-    public void setDateTime(LocalDateTime dt) {
+    private void setDateTime(LocalDateTime dt) {
         dateTimeProperty.set(dt);
     }
 
@@ -196,7 +196,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets the safety of water
      * @param t the new type of water
      */
-    public void setWaterSafety(WaterSafety t) {
+    private void setWaterSafety(WaterSafety t) {
         safetyProperty.set(t);
     }
 
@@ -221,7 +221,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets the author
      * @param user the user of the report
      */
-    public void setAuthor(User user) {
+    private void setAuthor(User user) {
         authorProperty.set(user);
     }
 
@@ -254,7 +254,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets the virus PPM for this water source
      * @param virus the new virus PPM
      */
-    public void setVirusPPM(double virus) {
+    private void setVirusPPM(double virus) {
         virusPPMProperty.set(virus);
     }
 
@@ -279,7 +279,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets the contaminant PPM for this water report
      * @param contaminant the new contaminant PPM
      */
-    public void setContaminantPPM(double contaminant) {
+    private void setContaminantPPM(double contaminant) {
         contaminantPPMProperty.set(contaminant);
     }
 
