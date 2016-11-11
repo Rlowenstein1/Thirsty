@@ -6,10 +6,8 @@ import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -91,14 +89,13 @@ public class WaterReportScreenController implements Initializable {
     private NumberAxis yAxis;
 
     private User activeUser;
-    private Stage stage;
     private TreeItem<DisplayableReport> root;
     private Popup popup;
     private WaterReport currentReport = null;
-    private HashMap<DisplayableReport, TreeItem<DisplayableReport>> itemMap = new HashMap<>();
+    private final Map<DisplayableReport, TreeItem<DisplayableReport>> itemMap = new HashMap<>();
     private boolean graphUpdating = false;
 
-    private Label hoverLabel = new Label("");
+    private final Label hoverLabel = new Label("");
 
     private static final String DATA_TYPE_BOTH = "Both";
     private static final String DATA_TYPE_VPPM = "V PPM";
@@ -109,7 +106,7 @@ public class WaterReportScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
+        Stage stage1 = stage;
     }
 
     /**
@@ -140,7 +137,7 @@ public class WaterReportScreenController implements Initializable {
      * Updates the reports with the given list of reports
      * @param reportList the list of reports to display
      */
-    public synchronized void updateReports(List<WaterReport> reportList) {
+    public synchronized void updateReports(Iterable<model.WaterReport> reportList) {
         //ObservableList<TreeTableColumn<DisplayableReport,
         // ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
         //if (reportTreeTable.getSortOrder().isEmpty()) {
@@ -264,7 +261,7 @@ public class WaterReportScreenController implements Initializable {
      * @param fromDate The starting date to filter the events
      * @param toDate The ending date to filter the events
      */
-    private void drawSeries(boolean vppm, boolean cppm, List<QualityReport> qList,
+    private void drawSeries(boolean vppm, boolean cppm, Iterable<model.QualityReport> qList,
                             LocalDateTime fromDate, LocalDateTime toDate) {
         ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
         LineChart.Series<LocalDateTime, Double> vPPMSeries = new LineChart.Series<>();
@@ -323,8 +320,9 @@ public class WaterReportScreenController implements Initializable {
             }
         }
         xAxis.setAutoRanging(false);
+        final double minuteFudgeMult = 0.0005;
         long minuteFudge = ((long) ((toDate.toEpochSecond(ZoneOffset.UTC)
-                - fromDate.toEpochSecond(ZoneOffset.UTC)) * 0.0005));
+                - fromDate.toEpochSecond(ZoneOffset.UTC)) * minuteFudgeMult));
         if (minuteFudge == 0) {
             minuteFudge = 1;
         }
@@ -333,13 +331,15 @@ public class WaterReportScreenController implements Initializable {
         
         yAxis.setAutoRanging(false);
         yAxis.setForceZeroInRange(false);
-        double yFudge = ((maxY - minY) * 0.05);
+        final double yFudgeMult = 0.05;
+        double yFudge = ((maxY - minY) * yFudgeMult);
         if (yFudge == 0) {
-            yFudge = (maxY != 0 ? maxY : minY) * 0.05;
+            yFudge = (maxY != 0 ? maxY : minY) * yFudgeMult;
         }
         yAxis.setLowerBound(minY - yFudge);
         yAxis.setUpperBound(maxY + yFudge);
-        yAxis.setTickUnit((maxY - minY) * 0.1);
+        final double tickMult = 0.1;
+        yAxis.setTickUnit((maxY - minY) * tickMult);
         
     }
 
@@ -378,7 +378,7 @@ public class WaterReportScreenController implements Initializable {
                 cppm = dTV.equals(DATA_TYPE_CPPM);
             }
 
-            if (qList.size() > 0) {
+            if (!qList.isEmpty()) {
 
                 LocalDateTime minD = LocalDateTime.MAX;
                 LocalDateTime maxD = LocalDateTime.MIN;
@@ -436,8 +436,10 @@ public class WaterReportScreenController implements Initializable {
                     hoverLabel.setText(String.format("Date: %s\n%s: %s",
                             DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dataPoint.getXValue()),
                             yName, dataPoint.getYValue()));
-                    popup.setX(mouseEvent.getScreenX() - 35);
-                    popup.setY(mouseEvent.getScreenY() - 40);
+                    final int xSubtract = 35;
+                    final int ySubtract = 40;
+                    popup.setX(mouseEvent.getScreenX() - xSubtract);
+                    popup.setY(mouseEvent.getScreenY() - ySubtract);
                     popup.show(series.getNode().getScene().getWindow());
                 });
                 

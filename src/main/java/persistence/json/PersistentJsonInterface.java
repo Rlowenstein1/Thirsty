@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public abstract class PersistentJsonInterface implements PersistenceInterface {
 
-    private Gson gson;
+    private final Gson gson;
 
     /**
      * Default constructor. All sub-classes automatically call this when they are themselves created

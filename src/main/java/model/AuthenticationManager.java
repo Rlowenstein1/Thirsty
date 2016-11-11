@@ -7,8 +7,8 @@ import java.util.Set;
  * Manages authentication and authenticated users
  */
 public class AuthenticationManager {
-    private Set<String> authenticatedUsers;
-    private CredentialManager credentialManager;
+    private final Set<String> authenticatedUsers;
+    private final CredentialManager credentialManager;
 
     /**
      * Constructor for Authenticator

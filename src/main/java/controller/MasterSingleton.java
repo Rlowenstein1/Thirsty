@@ -29,9 +29,6 @@ public class MasterSingleton {
     private static StackPane mainPane;
     private static TabPane tabPane;
 
-    private static GridPane profilePane;
-    private static ProfileScreenController profileController;
-
     private static AnchorPane homePane;
     private static HomeScreenController homeController;
 
@@ -49,7 +46,7 @@ public class MasterSingleton {
 
     private static ObservableList<Tab> tabList;
 
-    private static PersistenceInterface persist = null;
+    private static final PersistenceInterface persist = null;
 
     private static final int QUALITY_REPORT_TAB_INDEX = 3;
 
@@ -171,8 +168,8 @@ public class MasterSingleton {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
-            profilePane = loader.load();
-            profileController = loader.getController();
+            GridPane profilePane = loader.load();
+            ProfileScreenController profileController = loader.getController();
             profileController.setActiveUser(activeUser);
             profileController.setStage(mainStage);
 

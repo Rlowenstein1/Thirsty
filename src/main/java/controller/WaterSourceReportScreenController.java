@@ -50,14 +50,13 @@ public class WaterSourceReportScreenController implements Initializable {
     public static final WaterCondition WATER_CONDITION_DEFAULT = WaterCondition.MUDDY;
 
     private User activeUser;
-    private Stage stage;
 
     /**
      * Set the stage for the Main Screen Controller
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
+        Stage stage1 = stage;
     }
 
     /**
@@ -134,7 +133,8 @@ public class WaterSourceReportScreenController implements Initializable {
         if (!latS.isEmpty()) {
             double mult = Double.compare(latSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
             latD = Double.parseDouble(latS) * mult;
-            if (Math.abs(latD) > 90) {
+            final int maxLat = 90;
+            if (Math.abs(latD) > maxLat) {
                 latErrorLabel.setText("Invalid lattitude!");
                 return;
             }
@@ -145,7 +145,8 @@ public class WaterSourceReportScreenController implements Initializable {
         if (!longS.isEmpty()) {
             double mult = Double.compare(longSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
             longD = Double.parseDouble(longS) * mult;
-            if (Math.abs(longD) > 180) {
+            final int maxLong = 180;
+            if (Math.abs(longD) > maxLong) {
                 longErrorLabel.setText("Invalid longitude!");
                 return;
             }

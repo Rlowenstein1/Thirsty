@@ -7,6 +7,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 
 /**
@@ -80,7 +81,9 @@ public final class User {
         setUserLevel(level);
         setTitle(title);
         setProfilePicture(profilePicture);
-        setLastCoords(33.7756, -84.3963);
+        final double defaultLat = 33.7756;
+        final double defaultLong = -84.3963;
+        setLastCoords(defaultLat, defaultLong);
     }
 
     /**
@@ -105,7 +108,7 @@ public final class User {
      * Gets the name property for this User
      * @return the name
      */
-    public StringProperty getNameProperty() {
+    public ObservableValue getNameProperty() {
         return name;
     }
 

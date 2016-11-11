@@ -3,13 +3,15 @@ package model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+
 import persistence.PersistenceInterface;
 
 /**
  * Manager for the user objects of app
  */
 public class UserManager {
-    private static HashMap<String, User> usernameMap = new HashMap<>();
+    private static final Map<String, User> usernameMap = new HashMap<>();
     private static PersistenceInterface persist = null;
 
     /**
@@ -33,7 +35,7 @@ public class UserManager {
      * @param password to be validated
      * @return boolean representing the validity
      */
-    public static boolean isValidPassword(String password) {
+    public static boolean isValidPassword(CharSequence password) {
         //do any password length/complexity checks here
         return !(password == null || password.length() < 1);
     }

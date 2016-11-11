@@ -90,16 +90,16 @@ public class RegistrationScreenController implements Initializable {
         Debug.debug("Attempting to register user: username: \"%s\";" +
                 "fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"",
                 username, fullname, email, password, passwordConf, userLevel.toString());
-        if (fullname.length() == 0) {
+        if (fullname.isEmpty()) {
             Debug.debug("Fullname field cannot be left blank!");
             fullnameRegErrorLabel.setText("Fullname cannot be left blank!");
-        } else if (username.length() == 0) {
+        } else if (username.isEmpty()) {
             Debug.debug("Username field cannot be left blank!");
             usernameRegErrorLabel.setText("Username cannot be left blank!");
-        } else if (email.length() == 0) {
+        } else if (email.isEmpty()) {
             Debug.debug("email field cannot be left blank!");
             emailRegErrorLabel.setText("Email cannot be left blank!");
-        } else if (password.length() == 0) {
+        } else if (password.isEmpty()) {
             Debug.debug("Password field cannot be left blank!");
             pwRegErrorLabel.setText("Password cannot be left blank!");
         /*

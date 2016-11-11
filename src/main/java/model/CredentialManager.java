@@ -8,7 +8,7 @@ import java.util.Map;
  * @author tybrown
  */
 public class CredentialManager {
-    private Map<String, Credential> credentials;
+    private final Map<String, Credential> credentials;
 
     /**
      * Default constructor

@@ -60,7 +60,6 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private GoogleMap map;
 
     private User activeUser;
-    private Stage stage;
     private List<Marker> markerList = null;
 
 
@@ -76,7 +75,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
+        Stage stage1 = stage;
     }
 
     /**
@@ -130,8 +129,10 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         //set up the center location for the map
         LatLong center = new LatLong(activeUser.getLastCoordsLat(), activeUser.getLastCoordsLng());
 
+        //noinspection ChainedMethodCall
+        final int zoomVal = 16;
         options.center(center)
-                .zoom(16)
+                .zoom(zoomVal)
                 .overviewMapControl(false)
                 .panControl(true)
                 .rotateControl(true)
@@ -175,8 +176,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                         String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng),
                         ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                 Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
-                alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
-                alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
+                final double divide = 2.0;
+                alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / divide));
+                alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / divide));
                 alert.showAndWait();
                 
                 if (alert.getResult() == ButtonType.YES) {
@@ -250,7 +252,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * Draws all the given reports
      * @param reportList the list of reports to draw 
      */
-    public void markReports(List<WaterReport> reportList) {
+    public void markReports(Iterable<model.WaterReport> reportList) {
         for (WaterReport rr : reportList) {
             MarkerOptions markerOptions = new MarkerOptions();
             double lat = rr.getLatitude();
@@ -314,8 +316,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                                 String.format("Create new water Quality report at\n%.5f, %.5f?", lat, lng),
                                 ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                         Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
-                        alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
-                        alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
+                        final double divide = 2.0;
+                        alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / divide));
+                        alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / divide));
                         alert.showAndWait();
                         
                         if (alert.getResult() == ButtonType.YES) {

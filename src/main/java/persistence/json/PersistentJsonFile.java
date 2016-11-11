@@ -29,8 +29,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     private Writer writerUsers;
     private Writer writerCredentials;
     private Writer writerReports;
-    private CredentialManager credentialManager;
-    private AuthenticationManager authenticator;
+    private final CredentialManager credentialManager;
+    private final AuthenticationManager authenticator;
 
     private static final String FILE_EXTENSION = ".json";
     private static final String USER_FILE_NAME = "users" + FILE_EXTENSION;
@@ -59,7 +59,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @return list of objects of class c
      */
     private <T> List<T> loadAll(String filename, Class<T> c) {
-        ArrayList<T> res = new ArrayList<>();
+        List<T> res = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -191,7 +191,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @param s The string which shall be written
      * @return True if the line was written and flushed, false if there was an IOException
      */
-    private boolean writeToFile(Writer writer, String s) {
+    private boolean writeToFile(Writer writer, CharSequence s) {
         try {
             writer.append(s);
             writer.flush();
@@ -265,11 +265,13 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         saveWaterReport(wr);
     }
 
-    public void saveQualityReport(WaterReport wr) {
+    @Override
+    public void saveQualityReport(WaterReport wr, QualityReport qr) {
         saveWaterReport(wr);
     }
 
-    public void deleteQualityReport(WaterReport wr) {
+    @Override
+    public void deleteQualityReport(WaterReport wr, QualityReport qr) {
         saveWaterReport(wr);
     }
 }

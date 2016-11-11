@@ -9,9 +9,9 @@ import java.util.Objects;
  */
 public class Credential {
     @Expose
-    private Integer credential;
+    private final Integer credential;
     @Expose
-    private String username;
+    private final String username;
 
     /**
      * Returns the credential

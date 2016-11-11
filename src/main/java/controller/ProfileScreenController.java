@@ -93,12 +93,12 @@ public class ProfileScreenController implements Initializable {
 
     private Image userProfileImage;
 
-    private FileChooser fileChooser = new FileChooser();
+    private final FileChooser fileChooser = new FileChooser();
 
-    private ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)",
+    private final ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)",
             "*.bmp", "*.gif", "*.jpeg", "*.jpg", "*.png");
 
-    private ExtensionFilter allFilter = new ExtensionFilter("All files (*.*)", "*.*");
+    private final ExtensionFilter allFilter = new ExtensionFilter("All files (*.*)", "*.*");
 
     /**
      * Resets error fields
@@ -202,16 +202,16 @@ public class ProfileScreenController implements Initializable {
             Debug.debug("Attempting to modify user: title: \"%s\"; username: \"%s\"; fullname: \"%s\";" +
                     "email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", title,
                     username, fullname, email, password, passwordConf, userLevel.toString());
-            if (fullname.length() == 0) {
+            if (fullname.isEmpty()) {
                 Debug.debug("Fullname field cannot be left blank!");
                 fullnameProfileErrorLabel.setText("Fullname cannot be left blank!");
-            } else if (username.length() == 0) {
+            } else if (username.isEmpty()) {
                 Debug.debug("Username field cannot be left blank!");
                 usernameProfileErrorLabel.setText("Username cannot be left blank!");
-            } else if (email.length() == 0) {
+            } else if (email.isEmpty()) {
                 Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
-            } else if (password.length() != 0 && !UserManager.isValidPassword(password)) {
+            } else if (!password.isEmpty() && !UserManager.isValidPassword(password)) {
                 Debug.debug("Invalid password!");
                 pwProfileErrorLabel.setText("Invalid Password!");
 
@@ -221,7 +221,7 @@ public class ProfileScreenController implements Initializable {
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
                 } else {
                     Credential cred = null;
-                    if (password.length() != 0) { //only update password if the user tried to change it
+                    if (!password.isEmpty()) { //only update password if the user tried to change it
                         cred = new Credential(username, password);
                     }
                     Debug.debug("No errors during profile update check!");

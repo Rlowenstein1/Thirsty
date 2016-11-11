@@ -46,14 +46,13 @@ public class WaterQualityReportScreenController implements Initializable {
     public static final WaterSafety WATER_SAFETY_DEFAULT = WaterSafety.UNKNOWN;
 
     private User activeUser;
-    private Stage stage;
 
     /**
      * Set the stage for the Main Screen Controller
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
+        Stage stage1 = stage;
     }
 
     /**
@@ -143,13 +142,13 @@ public class WaterQualityReportScreenController implements Initializable {
             reportNumErrorLabel.setText("Cannot be blank!");
             return;
         }
-
+        final double compareVal = 1000000.0;
         if (!vppmS.isEmpty()) {
             vppm = Double.valueOf(vppmS);
             if (vppm.compareTo(0.0) < 0.0) {
                 vppmErrorLabel.setText("Invalid value!");
                 return;
-            } else if (vppm.compareTo(1000000.0) >= 0.0) {
+            } else if (vppm.compareTo(compareVal) >= 0.0) {
                 vppmErrorLabel.setText("Value too large!");
                 return;
             }
@@ -163,7 +162,7 @@ public class WaterQualityReportScreenController implements Initializable {
             if (cppm.compareTo(0.0) < 0.0) {
                 cppmErrorLabel.setText("Invalid value!");
                 return;
-            } else if (cppm.compareTo(1000000.0) >= 0.0) {
+            } else if (cppm.compareTo(compareVal) >= 0.0) {
                 cppmErrorLabel.setText("Value too large!");
                 return;
             }
@@ -173,7 +172,7 @@ public class WaterQualityReportScreenController implements Initializable {
             return;
         }
 
-        if (Double.valueOf(cppm + vppm).compareTo(1000000.0) >= 0.0) {
+        if (Double.valueOf(cppm + vppm).compareTo(compareVal) >= 0.0) {
             cppmErrorLabel.setText("Combined value too large!");
             return;
         }

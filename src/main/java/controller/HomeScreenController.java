@@ -18,15 +18,12 @@ public class HomeScreenController implements Initializable {
     @FXML
     private Label homeName;
 
-    private User activeUser;
-    private Stage stage;
-
     /**
      * Set the stage for the Main Screen Controller
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
+        Stage stage1 = stage;
     }
 
     /**
@@ -34,7 +31,7 @@ public class HomeScreenController implements Initializable {
      * @param activeUser The user who is being greeted
      */
     public void setActiveUser(User activeUser) {
-        this.activeUser = activeUser;
+        model.User activeUser1 = activeUser;
         homeName.textProperty().bind(activeUser.getNameProperty());
     }
 

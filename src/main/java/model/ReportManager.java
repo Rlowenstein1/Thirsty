@@ -13,9 +13,9 @@ import persistence.PersistenceInterface;
  * Manager for the Report classes
  */
 public class ReportManager {
-    private static List<WaterReport> waterReportList = new ArrayList<>(); 
+    private static final List<WaterReport> waterReportList = new ArrayList<>();
     private static int reportNumber = 0;
-    private static HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
+    private static final HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
 
     private static PersistenceInterface persist;
 
@@ -55,7 +55,8 @@ public class ReportManager {
      */
     public static WaterReport createWaterReport(double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(++reportNumber, latitude, longitude, type, condition, author);
+        reportNumber = reportNumber + 1;
+        WaterReport r = new WaterReport(reportNumber, latitude, longitude, type, condition, author);
         persist.saveWaterReport(r);
         addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
@@ -74,7 +75,8 @@ public class ReportManager {
      */
     public static WaterReport createWaterReport(LocalDateTime dateTime, double latitude, double longitude,
                 WaterType type, WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(++reportNumber, dateTime, latitude, longitude, type, condition, author);
+        reportNumber = reportNumber + 1;
+        WaterReport r = new WaterReport(reportNumber, dateTime, latitude, longitude, type, condition, author);
         persist.saveWaterReport(r);
         addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
