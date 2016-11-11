@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.stream.Collectors;
+
 import persistence.PersistenceInterface;
 
 /**
@@ -108,7 +110,8 @@ public class ReportManager {
      * @param author of the report
      * @return the quality report added, or null if the report already exists
      */
-    public static QualityReport createWaterQualityReport(LocalDateTime dateTime, WaterReport waterReport, WaterSafety safety,
+    public static QualityReport createWaterQualityReport(LocalDateTime dateTime,
+                                                         WaterReport waterReport, WaterSafety safety,
                 double vppm, double cppm, User author) {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
@@ -181,11 +184,8 @@ public class ReportManager {
      */
     public static List<WaterReport> filterWaterReportByUser(User user) {
         List<WaterReport> list = new ArrayList<>(waterReportList.size());
-        for (WaterReport report : waterReportList) {
-            if (user.equals(report.getAuthor())) {
-                list.add(report);
-            }
-        }
+        list.addAll(waterReportList.stream().filter(report ->
+                user.equals(report.getAuthor())).collect(Collectors.toList()));
         return list;
     }
 

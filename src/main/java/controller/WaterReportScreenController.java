@@ -141,7 +141,8 @@ public class WaterReportScreenController implements Initializable {
      * @param reportList the list of reports to display
      */
     public synchronized void updateReports(List<WaterReport> reportList) {
-        //ObservableList<TreeTableColumn<DisplayableReport, ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
+        //ObservableList<TreeTableColumn<DisplayableReport,
+        // ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
         //if (reportTreeTable.getSortOrder().isEmpty()) {
         /*        
         } else {
@@ -184,26 +185,26 @@ public class WaterReportScreenController implements Initializable {
 
     /**
      * Handle the action when the "fromDateBox" selector changes
-     * @param e The event triggering this function
+     * @param event The event triggering this function
      */
     @FXML
-    public void handleFromDateAction(ActionEvent e) {
+    public void handleFromDateAction(ActionEvent event) {
     }
 
     /**
      * Handle the action when the "toDateBox" selector changes
-     * @param e The event triggering this function
+     * @param event The event triggering this function
      */
     @FXML
-    public void handleToDateAction(ActionEvent e) {
+    public void handleToDateAction(ActionEvent event) {
     }
 
     /**
      * Handle the action when the "dataType" selector changes
-     * @param e The event triggering this function
+     * @param event The event triggering this function
      */
     @FXML
-    public void handleDataTypeAction(ActionEvent e) {
+    public void handleDataTypeAction(ActionEvent event) {
         redrawHistoryGraph();
     }
 
@@ -263,7 +264,8 @@ public class WaterReportScreenController implements Initializable {
      * @param fromDate The starting date to filter the events
      * @param toDate The ending date to filter the events
      */
-    private void drawSeries(boolean vppm, boolean cppm, List<QualityReport> qList, LocalDateTime fromDate, LocalDateTime toDate) {
+    private void drawSeries(boolean vppm, boolean cppm, List<QualityReport> qList,
+                            LocalDateTime fromDate, LocalDateTime toDate) {
         ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
         LineChart.Series<LocalDateTime, Double> vPPMSeries = new LineChart.Series<>();
         LineChart.Series<LocalDateTime, Double> cPPMSeries = new LineChart.Series<>();
@@ -321,7 +323,8 @@ public class WaterReportScreenController implements Initializable {
             }
         }
         xAxis.setAutoRanging(false);
-        long minuteFudge = ((long) ((toDate.toEpochSecond(ZoneOffset.UTC) - fromDate.toEpochSecond(ZoneOffset.UTC)) * 0.0005));
+        long minuteFudge = ((long) ((toDate.toEpochSecond(ZoneOffset.UTC)
+                - fromDate.toEpochSecond(ZoneOffset.UTC)) * 0.0005));
         if (minuteFudge == 0) {
             minuteFudge = 1;
         }
@@ -421,7 +424,8 @@ public class WaterReportScreenController implements Initializable {
     private void applyDataPointMouseEvents(LineChart.Series<LocalDateTime, Double> series, String yName) {
         Platform.runLater(() -> {
             StackPane popupPane = new StackPane(hoverLabel);
-            popupPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+            popupPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,
+                    CornerRadii.EMPTY, Insets.EMPTY)));
             popup = new Popup();
             popup.getContent().add(popupPane);
             
@@ -429,23 +433,24 @@ public class WaterReportScreenController implements Initializable {
                 final Node node = dataPoint.getNode();
                 
                 node.setOnMouseEntered(mouseEvent -> {
-                    hoverLabel.setText(String.format("Date: %s\n%s: %s", DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dataPoint.getXValue()), yName, dataPoint.getYValue()));
+                    hoverLabel.setText(String.format("Date: %s\n%s: %s",
+                            DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dataPoint.getXValue()),
+                            yName, dataPoint.getYValue()));
                     popup.setX(mouseEvent.getScreenX() - 35);
                     popup.setY(mouseEvent.getScreenY() - 40);
                     popup.show(series.getNode().getScene().getWindow());
                 });
                 
-                node.setOnMouseExited(mouseEvent -> {
-                    popup.hide();
-                });
+                node.setOnMouseExited(mouseEvent -> popup.hide());
 
                 node.setOnMouseClicked(mouseEvent -> {
                     TreeItem<DisplayableReport> tI = itemMap.get(node.getUserData());
                     if (tI != null) {
                         tI.getParent().setExpanded(true);
-                        TreeTableViewSelectionModel<DisplayableReport> rTTselectionModel = reportTreeTable.getSelectionModel();
+                        TreeTableViewSelectionModel<DisplayableReport> rTTselectionModel =
+                                reportTreeTable.getSelectionModel();
                         rTTselectionModel.select(tI);
-                        rTTselectionModel.select(tI); //this is stupid. it selects the wrong one the first time, needs to be called twice
+                        rTTselectionModel.select(tI); //selects the wrong one the first time. needs to be called twice
                         reportTreeTable.scrollTo(rTTselectionModel.getSelectedIndex());
                     } else {
                         Debug.warn("Unable to find a TreeItem to map this report to! %s", node.getUserData());

@@ -42,7 +42,8 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+    public QualityReport(int reportNum, User author, WaterSafety safety, double virusPPM,
+                         double contaminantPPM, WaterReport waterReport) {
         this(LocalDateTime.now(), reportNum, author, safety, virusPPM, contaminantPPM, waterReport);
     }
 
@@ -57,7 +58,8 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+    public QualityReport(LocalDateTime dateTime, int reportNum, User author,
+                         WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.setDateTime(dateTime);
         this.setReportNum(reportNum);
         this.setAuthor(author);
@@ -320,7 +322,8 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public QualityReport clone() {
-        return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(), getVirusPPM(), getContaminantPPM(), getParentReport()));
+        return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(),
+                getVirusPPM(), getContaminantPPM(), getParentReport()));
     }
 
     /**

@@ -265,13 +265,11 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         saveWaterReport(wr);
     }
 
-    @Override
-    public void saveQualityReport(WaterReport wr, QualityReport qr) {
+    public void saveQualityReport(WaterReport wr) {
         saveWaterReport(wr);
     }
 
-    @Override
-    public void deleteQualityReport(WaterReport wr, QualityReport qr) {
+    public void deleteQualityReport(WaterReport wr) {
         saveWaterReport(wr);
     }
 }

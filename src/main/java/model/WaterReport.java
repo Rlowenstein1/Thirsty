@@ -416,7 +416,8 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      */
     @Override
     public WaterReport clone() {
-        WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(), getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
+        WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(),
+                getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
         for (QualityReport q : getQualityReportList()) {
             QualityReport newQ = q.clone();
             newQ.setParentReport(res);

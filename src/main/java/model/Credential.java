@@ -48,7 +48,8 @@ public class Credential {
     }
 
     /**
-     * Constructs a credential. Normally should not be called (designed for loading an existing credential from disk/network)
+     * Constructs a credential. Normally should not be called
+     * (designed for loading an existing credential from disk/network)
      * @param username The username of the user whose password this is
      * @param credential The credential hash code of the password 
      */

@@ -9,15 +9,15 @@ import java.text.SimpleDateFormat;
  */
 public class Debug {
 
-    public static final int FATAL = 1;
+    private static final int FATAL = 1;
 
-    public static final int ERROR = 2;
+    private static final int ERROR = 2;
 
-    public static final int LOG = 3;
+    private static final int LOG = 3;
 
-    public static final int WARN = 4;
+    private static final int WARN = 4;
 
-    public static final int DEBUG = 5;
+    private static final int DEBUG = 5;
 
     private static int logLevel = DEBUG;
 
@@ -29,7 +29,7 @@ public class Debug {
      *
      * @return Gets a String representation of the method which called
      */
-    public static String getCallerClassName() {
+    private static String getCallerClassName() {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         for (int i = 1; i < stElements.length; i++) {
             StackTraceElement ste = stElements[i];
@@ -91,8 +91,8 @@ public class Debug {
      * @param format The format of the string to print Same as System.out.printf
      * @param args Optional args. Similar to System.out.printf
      */
-    public static synchronized void printf(int level, String format,
-            Object... args) {
+    private static synchronized void printf(int level, String format,
+                                            Object... args) {
         if (level > logLevel) {
             return;
         }

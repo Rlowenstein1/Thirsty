@@ -48,9 +48,11 @@ public class UserManager {
      * @param emailAddress of new user
      * @param userLevel of new user
      * @return the new user object after registration
-     *         returns null if the attempt was unsuccessful (already used username, invalid password, authentication failed)
+     *         returns null if the attempt was unsuccessful
+     *         (already used username, invalid password, authentication failed)
      */
-    public static User createUser(String username, String password, String fullname, String emailAddress, UserLevel userLevel) {
+    public static User createUser(String username, String password,
+                                  String fullname, String emailAddress, UserLevel userLevel) {
         if (userExists(username) || !isValidPassword(password)) {
             return (null);
         }
@@ -94,7 +96,8 @@ public class UserManager {
     }
     
     /**
-     * Loads an existing user into the username map. Does not add to the persistence layer. Overwrites user if user already exists
+     * Loads an existing user into the username map.
+     * Does not add to the persistence layer. Overwrites user if user already exists
      * @param user to be added
      */
     public static void addUser(User user) {

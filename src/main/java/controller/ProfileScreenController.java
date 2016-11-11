@@ -95,7 +95,8 @@ public class ProfileScreenController implements Initializable {
 
     private FileChooser fileChooser = new FileChooser();
 
-    private ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)", "*.bmp", "*.gif", "*.jpeg", "*.jpg", "*.png");
+    private ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)",
+            "*.bmp", "*.gif", "*.jpeg", "*.jpg", "*.png");
 
     private ExtensionFilter allFilter = new ExtensionFilter("All files (*.*)", "*.*");
 
@@ -198,7 +199,9 @@ public class ProfileScreenController implements Initializable {
             UserLevel userLevel = accountTypeProfileBox.getValue();
             String password = pwProfileField.getText();
             String passwordConf = pwConfProfileField.getText();
-            Debug.debug("Attempting to modify user: title: \"%s\"; username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", title, username, fullname, email, password, passwordConf, userLevel.toString());
+            Debug.debug("Attempting to modify user: title: \"%s\"; username: \"%s\"; fullname: \"%s\";" +
+                    "email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", title,
+                    username, fullname, email, password, passwordConf, userLevel.toString());
             if (fullname.length() == 0) {
                 Debug.debug("Fullname field cannot be left blank!");
                 fullnameProfileErrorLabel.setText("Fullname cannot be left blank!");

@@ -178,13 +178,15 @@ public class WaterQualityReportScreenController implements Initializable {
             return;
         }
         
-        QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(), vppm, cppm, activeUser);
+        QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(),
+                vppm, cppm, activeUser);
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {
             MasterSingleton.updateReportScreen();
             resetFields();
-            submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!", r.getReportNum(), report.getReportNum()));
+            submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!",
+                    r.getReportNum(), report.getReportNum()));
         }
     }
 

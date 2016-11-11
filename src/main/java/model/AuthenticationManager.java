@@ -21,7 +21,8 @@ public class AuthenticationManager {
 
     /**
      * Attempts to authenticate a user with a given Credential.
-     * If the authentication was successful, the user will be added to the authenticated users list (currently logged on users list)
+     * If the authentication was successful,
+     * the user will be added to the authenticated users list (currently logged on users list)
      * @param c The Credentials of the user to test
      * @return Returns true if the user existed and the credential matched, or if the user was already authenticated
      */

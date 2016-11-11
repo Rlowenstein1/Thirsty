@@ -16,14 +16,16 @@ import com.google.gson.JsonDeserializer;
 
 public class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
     @Override
-    public JsonElement serialize(LocalDateTime localDateTime, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(LocalDateTime localDateTime,
+                                 Type type, JsonSerializationContext jsonSerializationContext) {
         Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(instant);
         return new JsonPrimitive(date.getTime());
     }
 
     @Override
-    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public LocalDateTime deserialize(JsonElement json, Type type,
+                                     JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         Instant instant = Instant.ofEpochMilli(json.getAsJsonPrimitive().getAsLong());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }

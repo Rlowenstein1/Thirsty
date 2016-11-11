@@ -64,9 +64,12 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private List<Marker> markerList = null;
 
 
-    private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the next big thing in the water reporting application world! To get started, click one of the buttons below!";
-    private final static String TUT_AVAIL_TEXT = "Now, click anywhere on the map to add a water report at that coordinate!";
-    private final static String TUT_QUAIL_TEXT = "Now, click on any existing water report to add a quality report to it!";
+    private final static String TUT_DEFAULT_TEXT = "Welcome! Thirsty?\nThirsty is the " +
+            "next big thing in the water reporting application world! To get started, click one of the buttons below!";
+    private final static String TUT_AVAIL_TEXT = "Now, click anywhere on the map to add a " +
+            "water report at that coordinate!";
+    private final static String TUT_QUAIL_TEXT = "Now, click on any existing water report to add a" +
+            " quality report to it!";
 
     /**
      * Set the stage for the Main Screen Controller
@@ -138,9 +141,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                 .mapType(MapTypeIdEnum.HYBRID);
 
         map = mapView.createMap(options);
-        map.addStateEventHandler(MapStateEventType.center_changed, () -> {
-            activeUser.setLastCoords(map.getCenter());
-        });
+        map.addStateEventHandler(MapStateEventType.center_changed, () -> activeUser.setLastCoords(map.getCenter()));
         map.addUIEventHandler(UIEventType.click, (JSObject e) -> {
             if (addingAReport) {
                 JSObject clicked = (JSObject) e.getMember("latLng");
@@ -170,7 +171,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
                 map.panTo(new LatLong(clickedLat, clickedLng));
 
-                Alert alert = new Alert(AlertType.CONFIRMATION, String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng), ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                Alert alert = new Alert(AlertType.CONFIRMATION,
+                        String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng),
+                        ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                 Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
                 alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
                 alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
@@ -205,7 +208,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                 UIEventType.click,
                 (JSObject obj) -> {
                     InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-                    infoWindowOptions.content("this is the description<br /><h1>test header</h1><br /><a href='#test'>test link</a><br /><a href='http://google.com/'>test external link</a>");
+                    infoWindowOptions.content("this is the description<br /><h1>test
+                     header</h1><br /><a href='#test'>test link</a><br /><a href='http://google.com/'>
+                     test external link</a>");
 
                     InfoWindow window = new InfoWindow(infoWindowOptions);
                     window.open(map, marker);
@@ -305,7 +310,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                     if (addingQReport) {
                         map.panTo(new LatLong(lat, lng));
                         
-                        Alert alert = new Alert(AlertType.CONFIRMATION, String.format("Create new water Quality report at\n%.5f, %.5f?", lat, lng), ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                        Alert alert = new Alert(AlertType.CONFIRMATION,
+                                String.format("Create new water Quality report at\n%.5f, %.5f?", lat, lng),
+                                ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                         Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
                         alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
                         alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));

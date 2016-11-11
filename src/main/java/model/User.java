@@ -72,7 +72,8 @@ public final class User {
      * @param level the authority level of the User
      * @param profilePicture the User's profile picture
      */
-    public User(String username, String name, String title, String emailAddress, UserLevel level, Image profilePicture) {
+    public User(String username, String name, String title,
+                String emailAddress, UserLevel level, Image profilePicture) {
         setUsername(username);
         setName(name);
         setEmailAddress(emailAddress);
