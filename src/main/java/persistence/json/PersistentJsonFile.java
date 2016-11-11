@@ -114,7 +114,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         if (users != null) {
             for (User user : users) {
                 Debug.debug("loaded user: %s", user);
-                UserManager.addUser(user.clone());
+                UserManager.addUser(user.cloneIt());
             }
         }
         writerUsers = openFile(usersFile);
@@ -139,7 +139,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                 mud.put(wr.getReportNum(), wr);
             }
             for (WaterReport wr : mud.values()) {
-                WaterReport newWR = wr.clone();
+                WaterReport newWR = wr.cloneIt();
                 ReportManager.addWaterReport(newWR);
                 if (newWR.getReportNum() > maxReportNumber) {
                     maxReportNumber = newWR.getReportNum();

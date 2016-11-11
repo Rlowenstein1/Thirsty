@@ -121,7 +121,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     /**
      * Creates the map with default options
      */
-    public void createMap() {
+    private void createMap() {
         //Set the initial properties of the map
         MapOptions options = new MapOptions();
 
@@ -251,7 +251,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * Draws all the given reports
      * @param reportList the list of reports to draw 
      */
-    public void markReports(Iterable<model.WaterReport> reportList) {
+    private void markReports(Iterable<model.WaterReport> reportList) {
         for (WaterReport rr : reportList) {
             MarkerOptions markerOptions = new MarkerOptions();
             double lat = rr.getLatitude();

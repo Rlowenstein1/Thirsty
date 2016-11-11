@@ -424,15 +424,14 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
     }
 
     /**
-     * Creates a (deep -- quality reports are cloned too) clone of this water report
+     * Creates a (deep -- quality reports are cloned too) cloneIt of this water report
      * @return Returns a WaterReport with all the same fields as this WaterReport
      */
-    @Override
-    public WaterReport clone() {
+    public WaterReport cloneIt() {
         WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(),
                 getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
         for (QualityReport q : getQualityReportList()) {
-            QualityReport newQ = q.clone();
+            QualityReport newQ = q.cloneIt();
             newQ.setParentReport(res);
             res.addQualityReport(newQ);
         }

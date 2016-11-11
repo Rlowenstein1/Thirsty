@@ -289,8 +289,7 @@ public final class User {
      * A function for creating a clone object given the current data.
      * @return the clone
      */
-    @Override
-    public User clone() {
+    public User cloneIt() {
         return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
                     level.get(), profilePicture.get()));
     }

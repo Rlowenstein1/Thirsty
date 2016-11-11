@@ -156,7 +156,7 @@ public class ReportManager {
      * @param waterReport The parent WaterReport to add this QualityReport to
      * @param qualityReport the QualityReport to be deleted
      */
-    public static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
+    private static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
         persist.deleteQualityReport(waterReport, qualityReport);
         waterReport.removeQualityReport(qualityReport);
     }

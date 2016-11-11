@@ -34,7 +34,7 @@ public class Credential {
      * @param password The password to hash
      * @return The hash of the password
      */
-    public static Integer hashPassword(String password) {
+    private static Integer hashPassword(String password) {
         return (password.hashCode());
     }
 

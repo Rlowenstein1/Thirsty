@@ -81,7 +81,7 @@ public class MasterSingleton {
      * Sets the user that is accessing the application
      * @param activeUser The User that is using the application
      */
-    public static void setActiveUser(User activeUser) {
+    private static void setActiveUser(User activeUser) {
         MasterSingleton.activeUser = activeUser;
     }
 

@@ -14,7 +14,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonDeserializer;
 
-public class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
+class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
     @Override
     public JsonElement serialize(LocalDateTime localDateTime,
                                  Type type, JsonSerializationContext jsonSerializationContext) {

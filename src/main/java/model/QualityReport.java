@@ -317,11 +317,10 @@ public final class QualityReport extends DisplayableReport implements Comparable
     }
 
     /**
-     * A function for producing a clone of the current object given the current objects data
-     * @return the clone
+     * A function for producing a cloneIt of the current object given the current objects data
+     * @return the cloneIt
      */
-    @Override
-    public QualityReport clone() {
+    public QualityReport cloneIt() {
         return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(),
                 getVirusPPM(), getContaminantPPM(), getParentReport()));
     }
