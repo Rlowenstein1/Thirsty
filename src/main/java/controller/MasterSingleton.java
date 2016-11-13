@@ -29,8 +29,8 @@ public class MasterSingleton {
     private static StackPane mainPane;
     private static TabPane tabPane;
 
-    private static AnchorPane homePane;
-    private static HomeScreenController homeController;
+    //private static AnchorPane homePane;
+    //private static HomeScreenController homeController;
 
     private static WaterSourceReportScreenController waterSourceReportController;
     private static Tab waterSourceReportTab;
