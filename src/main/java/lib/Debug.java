@@ -1,4 +1,4 @@
-package lib;
+package main.java.lib;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -9,15 +9,15 @@ import java.text.SimpleDateFormat;
  */
 public class Debug {
 
-    public static final int FATAL = 1;
+    private static final int FATAL = 1;
 
-    public static final int ERROR = 2;
+    private static final int ERROR = 2;
 
-    public static final int LOG = 3;
+    private static final int LOG = 3;
 
-    public static final int WARN = 4;
+    private static final int WARN = 4;
 
-    public static final int DEBUG = 5;
+    private static final int DEBUG = 5;
 
     private static int logLevel = DEBUG;
 
@@ -29,12 +29,12 @@ public class Debug {
      *
      * @return Gets a String representation of the method which called
      */
-    public static String getCallerClassName() {
+    private static String getCallerClassName() {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         for (int i = 1; i < stElements.length; i++) {
             StackTraceElement ste = stElements[i];
             if (!ste.getClassName().equals(Debug.class.getName())
-                    && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+                    && (ste.getClassName().indexOf("java.lang.Thread") != 0)) {
                 return ste.getClassName() + "::" + ste.getMethodName();
                 //return ste.getClassName();
             }
@@ -52,7 +52,7 @@ public class Debug {
         for (int i = 1; i < stElements.length; i++) {
             StackTraceElement ste = stElements[i];
             if (!ste.getClassName().equals(Debug.class.getName())
-                    && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+                    && (ste.getClassName().indexOf("java.lang.Thread") != 0)) {
                 if (callerClassName == null) {
                     callerClassName = ste.getClassName();
                 } else if (!callerClassName.equals(ste.getClassName())) {
@@ -91,8 +91,8 @@ public class Debug {
      * @param format The format of the string to print Same as System.out.printf
      * @param args Optional args. Similar to System.out.printf
      */
-    public static synchronized void printf(int level, String format,
-            Object... args) {
+    private static synchronized void printf(int level, String format,
+                                            Object... args) {
         if (level > logLevel) {
             return;
         }
@@ -116,7 +116,7 @@ public class Debug {
     public static void log(String format, Object... args) {
         printf(LOG, format, args);
     }
-    
+
     /**
      *
      * @param format The format of the string to print Same as System.out.printf
@@ -143,7 +143,7 @@ public class Debug {
     public static void fatal(String format, Object... args) {
         printf(FATAL, format, args);
     }
-   
+
     /**
      *
      * @param format The format of the string to print Same as System.out.printf

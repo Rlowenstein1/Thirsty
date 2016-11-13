@@ -1,19 +1,21 @@
-package model;
+package main.java.model;
 
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import persistence.PersistenceInterface;
+//import java.util.stream.Collectors;
+
+import main.java.persistence.PersistenceInterface;
 
 /**
  * Manager for the Report classes
  */
 public class ReportManager {
-    private static List<WaterReport> waterReportList = new ArrayList<>(); 
+    private static final List<WaterReport> waterReportList = new ArrayList<>();
     private static int reportNumber = 0;
-    private static HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
+    private static final HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
 
     private static PersistenceInterface persist;
 
@@ -53,7 +55,8 @@ public class ReportManager {
      */
     public static WaterReport createWaterReport(double latitude, double longitude, WaterType type,
                 WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(++reportNumber, latitude, longitude, type, condition, author);
+        reportNumber = reportNumber + 1;
+        WaterReport r = new WaterReport(reportNumber, latitude, longitude, type, condition, author);
         persist.saveWaterReport(r);
         addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
@@ -72,7 +75,8 @@ public class ReportManager {
      */
     public static WaterReport createWaterReport(LocalDateTime dateTime, double latitude, double longitude,
                 WaterType type, WaterCondition condition, User author) {
-        WaterReport r = new WaterReport(++reportNumber, dateTime, latitude, longitude, type, condition, author);
+        reportNumber = reportNumber + 1;
+        WaterReport r = new WaterReport(reportNumber, dateTime, latitude, longitude, type, condition, author);
         persist.saveWaterReport(r);
         addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
@@ -108,7 +112,8 @@ public class ReportManager {
      * @param author of the report
      * @return the quality report added, or null if the report already exists
      */
-    public static QualityReport createWaterQualityReport(LocalDateTime dateTime, WaterReport waterReport, WaterSafety safety,
+    public static QualityReport createWaterQualityReport(LocalDateTime dateTime,
+                                                         WaterReport waterReport, WaterSafety safety,
                 double vppm, double cppm, User author) {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
@@ -139,6 +144,7 @@ public class ReportManager {
      * Deletes specified report from its parent
      * @param qualityReport the QualityReport to be deleted from its parent
      */
+
     public static void deleteQualityReport(QualityReport qualityReport) {
         WaterReport waterReport = qualityReport.getParentReport();
         if (waterReport != null) {
@@ -146,12 +152,13 @@ public class ReportManager {
         }
     }
 
+
     /**
      * Deletes specified report from the given WaterReport
      * @param waterReport The parent WaterReport to add this QualityReport to
      * @param qualityReport the QualityReport to be deleted
      */
-    public static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
+    private static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
         persist.deleteQualityReport(waterReport, qualityReport);
         waterReport.removeQualityReport(qualityReport);
     }
@@ -168,32 +175,34 @@ public class ReportManager {
      * Sorts the list of water reports
      * @return sorted water report list by data (natural ordering)
      */
+    /*
     public static List<WaterReport> sortWaterReportByDate() {
         List<WaterReport> list = new ArrayList<>(waterReportList);
         Collections.sort(list);
         return list;
     }
+    */
 
     /**
      * Filters the report list by the author
      * @param user that authored reports
      * @return list containing only reports authored by the user
      */
+    /*
     public static List<WaterReport> filterWaterReportByUser(User user) {
         List<WaterReport> list = new ArrayList<>(waterReportList.size());
-        for (WaterReport report : waterReportList) {
-            if (user.equals(report.getAuthor())) {
-                list.add(report);
-            }
-        }
+        list.addAll(waterReportList.stream().filter(report ->
+                user.equals(report.getAuthor())).collect(Collectors.toList()));
         return list;
     }
+    */
 
     /**
      * Filters the quality report list by the author
      * @param user that authored reports
      * @return list containing only quality reports authored by the user
      */
+    /*
     public static List<QualityReport> filterQualityReportByUser(User user) {
         List<QualityReport> list = new ArrayList<>();
         for (WaterReport wr : waterReportList) {
@@ -206,6 +215,7 @@ public class ReportManager {
         }
         return (list);
     }
+    */
 
     /**
      * Filters the report list by the report number
@@ -213,7 +223,7 @@ public class ReportManager {
      * @return either the report, or null if not found
      */
     public static WaterReport filterWaterReportByNumber(int num) {
-        if (num > 0 && num <= reportNumber) {
+        if ((num > 0) && (num <= reportNumber)) {
             for (WaterReport report: waterReportList) {
                 if (report.getReportNum() == num) {
                     return (report);
@@ -227,6 +237,7 @@ public class ReportManager {
      * Sorts the water reports by alphabetical order of the name of the author
      * @return the sorted report list
      */
+    /*
     public static List<WaterReport> sortWaterReportByName() {
         List<WaterReport> list = new ArrayList<>(waterReportList);
         Collections.sort(list, (WaterReport a, WaterReport b) ->
@@ -234,4 +245,5 @@ public class ReportManager {
         );
         return list;
     }
+    */
 }

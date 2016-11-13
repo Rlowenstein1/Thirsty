@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,8 +7,8 @@ import java.util.Set;
  * Manages authentication and authenticated users
  */
 public class AuthenticationManager {
-    private Set<String> authenticatedUsers;
-    private CredentialManager credentialManager;
+    private final Set<String> authenticatedUsers;
+    private final CredentialManager credentialManager;
 
     /**
      * Constructor for Authenticator
@@ -21,7 +21,8 @@ public class AuthenticationManager {
 
     /**
      * Attempts to authenticate a user with a given Credential.
-     * If the authentication was successful, the user will be added to the authenticated users list (currently logged on users list)
+     * If the authentication was successful,
+     * the user will be added to the authenticated users list (currently logged on users list)
      * @param c The Credentials of the user to test
      * @return Returns true if the user existed and the credential matched, or if the user was already authenticated
      */

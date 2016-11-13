@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
  * @author tybrown
  */
 public class CredentialManager {
-    private Map<String, Credential> credentials;
+    private final Map<String, Credential> credentials;
 
     /**
      * Default constructor

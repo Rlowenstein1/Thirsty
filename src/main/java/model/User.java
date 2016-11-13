@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import com.google.gson.annotations.Expose;
 import com.lynden.gmapsfx.javascript.object.LatLong;
@@ -7,13 +7,14 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 
 /**
  * A class representing a User in the water source application.
  *
  */
-public class User {
+public final class User {
     @Expose
     private double lastCoordsLat;
     @Expose
@@ -32,12 +33,14 @@ public class User {
     private final ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
 
     /**
-     * No param constructor -- DO NOT CALL NORMALLY.
+    * No param constructor -- DO NOT CALL NORMALLY.
      * This constructor only for GUI use
      */
     public User() {
         this("Username");
     }
+
+
 
     /**
      * 1-param constructor for creating a new User object
@@ -48,6 +51,8 @@ public class User {
     public User(String username) {
         this(username, "Name", "sample@example.com", UserLevel.USER);
     }
+
+
 
     /**
      * Constructor used to create a new User object
@@ -61,6 +66,7 @@ public class User {
         this(username, name, "Sample Title", emailAddress, level, null);
     }
 
+
     /**
      * Constructor used to create a complete User
      * object with a title and profile picture
@@ -72,14 +78,17 @@ public class User {
      * @param level the authority level of the User
      * @param profilePicture the User's profile picture
      */
-    public User(String username, String name, String title, String emailAddress, UserLevel level, Image profilePicture) {
+    public User(String username, String name, String title,
+                String emailAddress, UserLevel level, Image profilePicture) {
         setUsername(username);
         setName(name);
         setEmailAddress(emailAddress);
         setUserLevel(level);
         setTitle(title);
         setProfilePicture(profilePicture);
-        setLastCoords(33.7756, -84.3963);
+        final double defaultLat = 33.7756;
+        final double defaultLong = -84.3963;
+        setLastCoords(defaultLat, defaultLong);
     }
 
     /**
@@ -104,7 +113,7 @@ public class User {
      * Gets the name property for this User
      * @return the name
      */
-    public StringProperty getNameProperty() {
+    public ObservableValue getNameProperty() {
         return name;
     }
 
@@ -280,7 +289,7 @@ public class User {
      * A function for creating a clone object given the current data.
      * @return the clone
      */
-    public User clone() {
+    public User cloneIt() {
         return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
                     level.get(), profilePicture.get()));
     }
@@ -288,7 +297,7 @@ public class User {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.username);
+        hash = (23 * hash) + Objects.hashCode(this.username);
         return hash;
     }
 

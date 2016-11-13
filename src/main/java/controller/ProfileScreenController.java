@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,11 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import lib.Debug;
-import model.Credential;
-import model.User;
-import model.UserLevel;
-import model.UserManager;
+import main.java.lib.Debug;
+import main.java.model.Credential;
+import main.java.model.User;
+import main.java.model.UserLevel;
+import main.java.model.UserManager;
 
 /**
  *
@@ -92,11 +92,12 @@ public class ProfileScreenController implements Initializable {
 
     private Image userProfileImage;
 
-    private FileChooser fileChooser = new FileChooser();
+    private final FileChooser fileChooser = new FileChooser();
 
-    private ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)", "*.bmp", "*.gif", "*.jpeg", "*.jpg", "*.png");
+    private final ExtensionFilter imageFilter = new ExtensionFilter("Images (bmp, gif, jpeg, png)",
+            "*.bmp", "*.gif", "*.jpeg", "*.jpg", "*.png");
 
-    private ExtensionFilter allFilter = new ExtensionFilter("All files (*.*)", "*.*");
+    private final ExtensionFilter allFilter = new ExtensionFilter("All files (*.*)", "*.*");
 
     /**
      * Resets error fields
@@ -199,11 +200,14 @@ public class ProfileScreenController implements Initializable {
             String passwordConf = pwConfProfileField.getText();
             if (fullname.length() == 0) {
                 fullnameProfileErrorLabel.setText("Fullname cannot be left blank!");
-            } else if (username.length() == 0) {
+            } else if (username.isEmpty()) {
+                Debug.debug("Username field cannot be left blank!");
                 usernameProfileErrorLabel.setText("Username cannot be left blank!");
-            } else if (email.length() == 0) {
+            } else if (email.isEmpty()) {
+                Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
-            } else if (password.length() != 0 && !UserManager.isValidPassword(password)) {
+            } else if (!password.isEmpty() && UserManager.isPasswordInvalid(password)) {
+                Debug.debug("Invalid password!");
                 pwProfileErrorLabel.setText("Invalid Password!");
 
             } else {
@@ -211,7 +215,7 @@ public class ProfileScreenController implements Initializable {
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
                 } else {
                     Credential cred = null;
-                    if (password.length() != 0) { //only update password if the user tried to change it
+                    if (!password.isEmpty()) { //only update password if the user tried to change it
                         cred = new Credential(username, password);
                     }
                     editing = false;

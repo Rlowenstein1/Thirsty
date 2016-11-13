@@ -1,4 +1,4 @@
-package persistence.json;
+package main.java.persistence.json;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lib.Debug;
-import model.AuthenticationManager;
-import model.Credential;
-import model.CredentialManager;
-import model.QualityReport;
-import model.ReportManager;
-import model.User;
-import model.UserManager;
-import model.WaterReport;
+import main.java.lib.Debug;
+import main.java.model.AuthenticationManager;
+import main.java.model.Credential;
+import main.java.model.CredentialManager;
+import main.java.model.QualityReport;
+import main.java.model.ReportManager;
+import main.java.model.User;
+import main.java.model.UserManager;
+import main.java.model.WaterReport;
 
 public class PersistentJsonFile extends PersistentJsonInterface {
 
@@ -29,8 +29,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     private Writer writerUsers;
     private Writer writerCredentials;
     private Writer writerReports;
-    private CredentialManager credentialManager;
-    private AuthenticationManager authenticator;
+    private final CredentialManager credentialManager;
+    private final AuthenticationManager authenticator;
 
     private static final String FILE_EXTENSION = ".json";
     public static final String USER_FILE_NAME = "users" + FILE_EXTENSION;
@@ -59,7 +59,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @return list of objects of class c
      */
     private <T> List<T> loadAll(String filename, Class<T> c) {
-        ArrayList<T> res = new ArrayList<>();
+        List<T> res = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -97,8 +97,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      */
     private Writer openFile(String filename) {
         try {
-            BufferedWriter res = new BufferedWriter(new FileWriter(filename, true)); //true = append
-            return (res);
+            Debug.debug("opening file for writing: %s", filename);
+            return (new BufferedWriter(new FileWriter(filename, true)));
         } catch (IOException e) {
             Debug.debug("Exception while opening file for writing: %s\nException: %s", filename, e.toString());
         }
@@ -112,7 +112,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         List<User> users = loadAll(usersFile, User.class);
         if (users != null) {
             for (User user : users) {
-                UserManager.addUser(user.clone());
+                Debug.debug("loaded user: %s", user);
+                UserManager.addUser(user.cloneIt());
             }
         }
         writerUsers = openFile(usersFile);
@@ -135,7 +136,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                 mud.put(wr.getReportNum(), wr);
             }
             for (WaterReport wr : mud.values()) {
-                WaterReport newWR = wr.clone();
+                WaterReport newWR = wr.cloneIt();
                 ReportManager.addWaterReport(newWR);
                 if (newWR.getReportNum() > maxReportNumber) {
                     maxReportNumber = newWR.getReportNum();
@@ -184,7 +185,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @param s The string which shall be written
      * @return True if the line was written and flushed, false if there was an IOException
      */
-    private boolean writeToFile(Writer writer, String s) {
+    private boolean writeToFile(Writer writer, CharSequence s) {
         try {
             writer.append(s);
             writer.flush();

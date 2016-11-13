@@ -1,15 +1,15 @@
-package fxapp;
+package main.java.fxapp;
 
-import controller.MasterSingleton;
+import main.java.controller.MasterSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import persistence.PersistenceInterface;
-import persistence.json.PersistentJsonFile;
+import main.java.persistence.PersistenceInterface;
+import main.java.persistence.json.PersistentJsonFile;
 
 public class Thirsty extends Application {
 
 
-    private PersistenceInterface persist = new PersistentJsonFile("src/main/resources/db/");
+    private final PersistenceInterface persist = new PersistentJsonFile("src/main/resources/db/");
 
     @Override
     public void start(Stage stage) throws Exception {

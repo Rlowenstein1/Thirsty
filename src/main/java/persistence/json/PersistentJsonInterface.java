@@ -1,6 +1,6 @@
-package persistence.json;
+package main.java.persistence.json;
 
-import persistence.PersistenceInterface;
+import main.java.persistence.PersistenceInterface;
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import org.hildan.fxgson.FxGson;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public abstract class PersistentJsonInterface implements PersistenceInterface {
 
-    private Gson gson;
+    private final Gson gson;
 
     /**
      * Default constructor. All sub-classes automatically call this when they are themselves created

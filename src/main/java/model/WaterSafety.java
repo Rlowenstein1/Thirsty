@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +14,7 @@ public enum WaterSafety {
 
     /**
      * Default constructor
+     *
      * @param condition the condition of the water
      */
     WaterSafety(String condition) {

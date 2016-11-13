@@ -1,5 +1,5 @@
-import model.Credential;
-import model.CredentialManager;
+import main.java.model.Credential;
+import main.java.model.CredentialManager;
 /*
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;

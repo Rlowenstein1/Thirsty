@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import eu.hansolo.fx.DateAxis310;
 import java.net.URL;
@@ -6,10 +6,11 @@ import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,15 +36,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import lib.Debug;
-import model.DisplayableReport;
-import model.QualityReport;
-import model.User;
-import model.UserManager;
-import model.WaterCondition;
-import model.WaterReport;
-import model.WaterSafety;
-import model.WaterType;
+import main.java.lib.Debug;
+import main.java.model.DisplayableReport;
+import main.java.model.QualityReport;
+import main.java.model.User;
+import main.java.model.UserManager;
+import main.java.model.WaterCondition;
+import main.java.model.WaterReport;
+import main.java.model.WaterSafety;
+import main.java.model.WaterType;
 
 /**
  * FXML Controller class
@@ -91,14 +92,13 @@ public class WaterReportScreenController implements Initializable {
     private NumberAxis yAxis;
 
     private User activeUser;
-    private Stage stage;
     private TreeItem<DisplayableReport> root;
     private Popup popup;
     private WaterReport currentReport = null;
-    private HashMap<DisplayableReport, TreeItem<DisplayableReport>> itemMap = new HashMap<>();
+    private final Map<DisplayableReport, TreeItem<DisplayableReport>> itemMap = new HashMap<>();
     private boolean graphUpdating = false;
 
-    private Label hoverLabel = new Label("");
+    private final Label hoverLabel = new Label("");
 
     private static final String DATA_TYPE_BOTH = "Both";
     private static final String DATA_TYPE_VPPM = "V PPM";
@@ -109,7 +109,6 @@ public class WaterReportScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
@@ -131,7 +130,7 @@ public class WaterReportScreenController implements Initializable {
     /**
      * Clears the reports
      */
-    public void clearReports() {
+    private void clearReports() {
         root.getChildren().clear();
         itemMap.clear();
     }
@@ -140,8 +139,9 @@ public class WaterReportScreenController implements Initializable {
      * Updates the reports with the given list of reports
      * @param reportList the list of reports to display
      */
-    public synchronized void updateReports(List<WaterReport> reportList) {
-        //ObservableList<TreeTableColumn<DisplayableReport, ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
+    public synchronized void updateReports(Iterable<WaterReport> reportList) {
+        //ObservableList<TreeTableColumn<DisplayableReport,
+        // ?>> sortColumns = new SimpleListProperty<>(FXCollections.observableArrayList());
         //if (reportTreeTable.getSortOrder().isEmpty()) {
         /*        
         } else {
@@ -183,26 +183,26 @@ public class WaterReportScreenController implements Initializable {
 
     /**
      * Handle the action when the "fromDateBox" selector changes
-     * @param e The event triggering this function
+     * @param event The event triggering this function
      */
     @FXML
-    public void handleFromDateAction(ActionEvent e) {
+    public void handleFromDateAction(ActionEvent event) {
     }
 
     /**
      * Handle the action when the "toDateBox" selector changes
-     * @param e The event triggering this function
+     * @param event The event triggering this function
      */
     @FXML
-    public void handleToDateAction(ActionEvent e) {
+    public void handleToDateAction(ActionEvent event) {
     }
 
     /**
      * Handle the action when the "dataType" selector changes
-     * @param e The event triggering this function
+     * @param event The event triggering this function
      */
     @FXML
-    public void handleDataTypeAction(ActionEvent e) {
+    public void handleDataTypeAction(ActionEvent event) {
         redrawHistoryGraph();
     }
 
@@ -223,7 +223,7 @@ public class WaterReportScreenController implements Initializable {
         } else {
             throw (new InvalidParameterException(String.format("Unknown report type \"%s\"!", r.getClass().getName())));
         }
-        return (currentReport == null ? wr : (currentReport.equals(wr) ? null : wr));
+        return ((currentReport == null) ? wr : (currentReport.equals(wr) ? null : wr));
     }
 
     /**
@@ -262,7 +262,8 @@ public class WaterReportScreenController implements Initializable {
      * @param fromDate The starting date to filter the events
      * @param toDate The ending date to filter the events
      */
-    private void drawSeries(boolean vppm, boolean cppm, List<QualityReport> qList, LocalDateTime fromDate, LocalDateTime toDate) {
+    private void drawSeries(boolean vppm, boolean cppm, Iterable<QualityReport> qList,
+                            LocalDateTime fromDate, LocalDateTime toDate) {
         ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
         LineChart.Series<LocalDateTime, Double> vPPMSeries = new LineChart.Series<>();
         LineChart.Series<LocalDateTime, Double> cPPMSeries = new LineChart.Series<>();
@@ -320,7 +321,9 @@ public class WaterReportScreenController implements Initializable {
             }
         }
         xAxis.setAutoRanging(false);
-        long minuteFudge = ((long) ((toDate.toEpochSecond(ZoneOffset.UTC) - fromDate.toEpochSecond(ZoneOffset.UTC)) * 0.0005));
+        final double minuteFudgeMult = 0.0005;
+        long minuteFudge = ((long) ((toDate.toEpochSecond(ZoneOffset.UTC)
+                - fromDate.toEpochSecond(ZoneOffset.UTC)) * minuteFudgeMult));
         if (minuteFudge == 0) {
             minuteFudge = 1;
         }
@@ -329,21 +332,23 @@ public class WaterReportScreenController implements Initializable {
         
         yAxis.setAutoRanging(false);
         yAxis.setForceZeroInRange(false);
-        double yFudge = ((maxY - minY) * 0.05);
+        final double yFudgeMult = 0.05;
+        double yFudge = ((maxY - minY) * yFudgeMult);
         if (yFudge == 0) {
-            yFudge = (maxY != 0 ? maxY : minY) * 0.05;
+            yFudge = ((maxY != 0) ? maxY : minY) * yFudgeMult;
         }
         yAxis.setLowerBound(minY - yFudge);
         yAxis.setUpperBound(maxY + yFudge);
-        yAxis.setTickUnit((maxY - minY) * 0.1);
+        final double tickMult = 0.1;
+        yAxis.setTickUnit((maxY - minY) * tickMult);
         
     }
 
     /**
      * Redraws the history graph
      */
-    public void redrawHistoryGraph() {
-        if (currentReport == null || graphUpdating) {
+    private void redrawHistoryGraph() {
+        if ((currentReport == null) || graphUpdating) {
             return;
         }
         graphUpdating = true;
@@ -374,17 +379,17 @@ public class WaterReportScreenController implements Initializable {
                 cppm = dTV.equals(DATA_TYPE_CPPM);
             }
 
-            if (qList.size() > 0) {
+            if (!qList.isEmpty()) {
 
                 LocalDateTime minD = LocalDateTime.MAX;
                 LocalDateTime maxD = LocalDateTime.MIN;
                 for (QualityReport q : qList) {
                     LocalDateTime qD = q.getDateTime();
-                    if (toDate == null || !qD.isAfter(toDate)) {
+                    if ((toDate == null) || !qD.isAfter(toDate)) {
                         fDItems.add(qD);
                     }
                     
-                    if (fromDate == null || !qD.isBefore(fromDate)) {
+                    if ((fromDate == null) || !qD.isBefore(fromDate)) {
                         tDItems.add(qD);
                     }
                     
@@ -420,7 +425,8 @@ public class WaterReportScreenController implements Initializable {
     private void applyDataPointMouseEvents(LineChart.Series<LocalDateTime, Double> series, String yName) {
         Platform.runLater(() -> {
             StackPane popupPane = new StackPane(hoverLabel);
-            popupPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+            popupPane.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,
+                    CornerRadii.EMPTY, Insets.EMPTY)));
             popup = new Popup();
             popup.getContent().add(popupPane);
             
@@ -428,23 +434,26 @@ public class WaterReportScreenController implements Initializable {
                 final Node node = dataPoint.getNode();
                 
                 node.setOnMouseEntered(mouseEvent -> {
-                    hoverLabel.setText(String.format("Date: %s\n%s: %s", DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dataPoint.getXValue()), yName, dataPoint.getYValue()));
-                    popup.setX(mouseEvent.getScreenX() - 35);
-                    popup.setY(mouseEvent.getScreenY() - 40);
+                    hoverLabel.setText(String.format("Date: %s\n%s: %s",
+                            DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(dataPoint.getXValue()),
+                            yName, dataPoint.getYValue()));
+                    final int xSubtract = 35;
+                    final int ySubtract = 40;
+                    popup.setX(mouseEvent.getScreenX() - xSubtract);
+                    popup.setY(mouseEvent.getScreenY() - ySubtract);
                     popup.show(series.getNode().getScene().getWindow());
                 });
                 
-                node.setOnMouseExited(mouseEvent -> {
-                    popup.hide();
-                });
+                node.setOnMouseExited(mouseEvent -> popup.hide());
 
                 node.setOnMouseClicked(mouseEvent -> {
                     TreeItem<DisplayableReport> tI = itemMap.get(node.getUserData());
                     if (tI != null) {
                         tI.getParent().setExpanded(true);
-                        TreeTableViewSelectionModel<DisplayableReport> rTTselectionModel = reportTreeTable.getSelectionModel();
+                        TreeTableViewSelectionModel<DisplayableReport> rTTselectionModel =
+                                reportTreeTable.getSelectionModel();
                         rTTselectionModel.select(tI);
-                        rTTselectionModel.select(tI); //this is stupid. it selects the wrong one the first time, needs to be called twice
+                        rTTselectionModel.select(tI); //selects the wrong one the first time. needs to be called twice
                         reportTreeTable.scrollTo(rTTselectionModel.getSelectedIndex());
                     } else {
                         Debug.warn("Unable to find a TreeItem to map this report to! %s", node.getUserData());
@@ -547,7 +556,7 @@ public class WaterReportScreenController implements Initializable {
         });
         yAxis.setTickLabelFormatter(new StringConverter<Number>() {
             @Override public String toString(Number d) {
-                return (String.format("%.2f", d));
+                return (String.format("%.2f", (Double)d));
             }
             @Override public Number fromString(String d) {
                 return (Double.valueOf(d));

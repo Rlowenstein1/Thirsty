@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import com.google.gson.annotations.Expose;
 import javafx.beans.property.ObjectProperty;
@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
 /**
  * Represents a water quality report.
  */
-public class QualityReport extends DisplayableReport implements Comparable<QualityReport> {
+public final class QualityReport extends DisplayableReport implements Comparable<QualityReport> {
     @Expose
     private final ObjectProperty<LocalDateTime> dateTimeProperty = new SimpleObjectProperty<>();
     @Expose
@@ -42,7 +42,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+    public QualityReport(int reportNum, User author, WaterSafety safety, double virusPPM,
+                         double contaminantPPM, WaterReport waterReport) {
         this(LocalDateTime.now(), reportNum, author, safety, virusPPM, contaminantPPM, waterReport);
     }
 
@@ -57,7 +58,8 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(LocalDateTime dateTime, int reportNum, User author, WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+    public QualityReport(LocalDateTime dateTime, int reportNum, User author,
+                          WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.setDateTime(dateTime);
         this.setReportNum(reportNum);
         this.setAuthor(author);
@@ -79,7 +81,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Sets this water report's number
      * @param n the new number to be set
      */
-    public void setReportNum(int n) {
+    private void setReportNum(int n) {
         reportNumProperty.set(n);
     }
 
@@ -178,7 +180,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Sets this report's dateTime property
      * @param dt new date time
      */
-    public void setDateTime(LocalDateTime dt) {
+    private void setDateTime(LocalDateTime dt) {
         dateTimeProperty.set(dt);
     }
 
@@ -194,7 +196,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Sets the safety of water
      * @param t the new type of water
      */
-    public void setWaterSafety(WaterSafety t) {
+    private void setWaterSafety(WaterSafety t) {
         safetyProperty.set(t);
     }
 
@@ -219,7 +221,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Sets the author
      * @param user the user of the report
      */
-    public void setAuthor(User user) {
+    private void setAuthor(User user) {
         authorProperty.set(user);
     }
 
@@ -252,7 +254,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Sets the virus PPM for this water source
      * @param virus the new virus PPM
      */
-    public void setVirusPPM(double virus) {
+    private void setVirusPPM(double virus) {
         virusPPMProperty.set(virus);
     }
 
@@ -277,7 +279,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
      * Sets the contaminant PPM for this water report
      * @param contaminant the new contaminant PPM
      */
-    public void setContaminantPPM(double contaminant) {
+    private void setContaminantPPM(double contaminant) {
         contaminantPPMProperty.set(contaminant);
     }
 
@@ -315,11 +317,12 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
     }
 
     /**
-     * A function for producing a clone of the current object given the current objects data
-     * @return the clone
+     * A function for producing a cloneIt of the current object given the current objects data
+     * @return the cloneIt
      */
-    public QualityReport clone() {
-        return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(), getVirusPPM(), getContaminantPPM(), getParentReport()));
+    public QualityReport cloneIt() {
+        return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(),
+                getVirusPPM(), getContaminantPPM(), getParentReport()));
     }
 
     /**
@@ -335,7 +338,7 @@ public class QualityReport extends DisplayableReport implements Comparable<Quali
             + "Safety: %s\n"
             + "Contaminant PPM: %s\n"
             + "Virus PPM: %s",
-            parentReport == null ? "<no parent>" : parentReport.getReportNum(),
+                (parentReport == null) ? "<no parent>" : parentReport.getReportNum(),
             getReportNum(),
             getDateTime(),
             getWaterSafety(),

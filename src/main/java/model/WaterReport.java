@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import com.google.gson.annotations.Expose;
 import javafx.beans.property.ObjectProperty;
@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
@@ -17,7 +16,7 @@ import javafx.beans.property.StringProperty;
 /**
  * Represents a water source report.
  */
-public class WaterReport extends DisplayableReport implements Comparable<WaterReport> {
+public final class WaterReport extends DisplayableReport implements Comparable<WaterReport> {
 
     @Expose
     private final IntegerProperty reportNumProperty = new SimpleIntegerProperty();
@@ -86,9 +85,10 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Sets this water report's number
      * @param n the new number to be set
      */
-    public void setReportNum(int n) {
+    private void setReportNum(int n) {
         reportNumProperty.set(n);
     }
+
 
     /**
      * Gets this water report's number property
@@ -97,7 +97,8 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     @Override
     public IntegerProperty getReportNumProperty() {
         return reportNumProperty;
-    }
+  }
+
 
     /**
      * Gets this water report's longitude coordinate
@@ -111,7 +112,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Sets this water report's longitude
      * @param l the new longitude to be set
      */
-    public void setLongitude(double l) {
+    private void setLongitude(double l) {
         longitudeProperty.set(l);
     }
 
@@ -123,6 +124,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     public DoubleProperty getLongitudeProperty() {
         return longitudeProperty;
     }
+
 
     /**
      * Gets this water report's latitude coordinate
@@ -136,7 +138,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Sets this water report's latitude
      * @param l the new latitude to be set
      */
-    public void setLatitude(double l) {
+    private void setLatitude(double l) {
         latitudeProperty.set(l);
     }
 
@@ -169,24 +171,25 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Gets the hour at which this report was created
      * @return the hour
      */
+    /*
     public int getHour() {
         return getDateTime().getHour();
-    }
+    }*/
 
     /** Gets the day at which this report was created
      * @return the day
      */
-    public int getDay() {
+    /*public int getDay() {
         return getDateTime().getDayOfMonth();
-    }
+    }*/
 
     /**
      * Gets the month at which this report was created
      * @return the month
      */
-    public Month getMonth() {
-        return getDateTime().getMonth();
-    }
+//    public Month getMonth() {
+//        return getDateTime().getMonth();
+//    }
 
     /**
      * Gets the year at which this report was created
@@ -204,6 +207,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         return dateTimeProperty.get();
     }
 
+
     /**
      * Gets this water report's dateTime property
      * @return the dateTime property
@@ -213,11 +217,12 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         return dateTimeProperty;
     }
 
+
     /**
      * Sets the report's creation time
      * @param dt report's new date time
      */
-    public void setDateTime(LocalDateTime dt) {
+    private void setDateTime(LocalDateTime dt) {
         dateTimeProperty.set(dt);
     }
 
@@ -233,9 +238,10 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Sets the type of water
      * @param t the new type of water
      */
-    public void setWaterType(WaterType t) {
+    private void setWaterType(WaterType t) {
         typeProperty.set(t);
     }
+
 
     /**
      * Gets this water report's water source type
@@ -245,6 +251,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     public ObjectProperty<WaterType> getWaterTypeProperty() {
         return typeProperty;
     }
+
 
     /**
      * Gets the water condition
@@ -258,7 +265,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Sets the water condition
      * @param c the condition
      */
-    public void setWaterCondition(WaterCondition c) {
+    private void setWaterCondition(WaterCondition c) {
         conditionProperty.set(c);
     }
 
@@ -270,7 +277,8 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     public ObjectProperty<WaterCondition> getWaterConditionProperty() {
         return conditionProperty;
     }
-    
+
+
     /**
      * Gets the water report's author
      * @return the author
@@ -283,18 +291,21 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Sets the author
      * @param user the user of the report
      */
-    public void setAuthor(User user) {
+    private void setAuthor(User user) {
         authorProperty.set(user);
     }
+
 
     /**
      * Gets the water report's author property
      * @return the author property
      */
+
     @Override
     public StringProperty getAuthorUsernameProperty() {
         return getAuthor().getUsernameProperty();
     }
+
 
     /**
      * Gets the water report's author property
@@ -314,6 +325,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         return qualityReports.add(qualityReport);
     }
 
+
     /**
      * Removes a quality report from the list of quality reports for this
      * water source.
@@ -324,6 +336,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
         return qualityReports.remove(qualityReport);
     }
 
+
     /**
      * Removes a quality report from the list of quality reports for this
      * water source.
@@ -332,10 +345,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      */
     public boolean removeQualityReport(int reportNum) {
         QualityReport q = getQualityReportByNumber(reportNum);
-        if (q != null) {
-            return (qualityReports.remove(q));
-        }
-        return (false);
+        return q != null && (qualityReports.remove(q));
     }
 
     /**
@@ -343,7 +353,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * @param reportNum the number of the report to find
      * @return returns the quality report if found, otherwise null
      */
-    public QualityReport getQualityReportByNumber(int reportNum) {
+    private QualityReport getQualityReportByNumber(int reportNum) {
         for (QualityReport q : qualityReports) {
             if (q.getReportNum() == reportNum) {
                 return (q);
@@ -375,7 +385,7 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
      * Gets this water report's water safety
      * @return the water type property
      */
-    @Override
+   @Override
     public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
         QualityReport latestQR = getMostRecentQualityReport();
         if (latestQR == null) {
@@ -411,13 +421,14 @@ public class WaterReport extends DisplayableReport implements Comparable<WaterRe
     }
 
     /**
-     * Creates a (deep -- quality reports are cloned too) clone of this water report
+     * Creates a (deep -- quality reports are cloned too) cloneIt of this water report
      * @return Returns a WaterReport with all the same fields as this WaterReport
      */
-    public WaterReport clone() {
-        WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(), getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
+    public WaterReport cloneIt() {
+        WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(),
+                getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
         for (QualityReport q : getQualityReportList()) {
-            QualityReport newQ = q.clone();
+            QualityReport newQ = q.cloneIt();
             newQ.setParentReport(res);
             res.addQualityReport(newQ);
         }

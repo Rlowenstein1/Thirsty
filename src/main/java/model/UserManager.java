@@ -1,15 +1,17 @@
-package model;
+package main.java.model;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import persistence.PersistenceInterface;
+import java.util.Map;
+
+import main.java.persistence.PersistenceInterface;
 
 /**
  * Manager for the user objects of app
  */
 public class UserManager {
-    private static HashMap<String, User> usernameMap = new HashMap<>();
+    private static final Map<String, User> usernameMap = new HashMap<>();
     private static PersistenceInterface persist = null;
 
     /**
@@ -31,14 +33,11 @@ public class UserManager {
     /**
      * Checks if password is valid
      * @param password to be validated
-     * @return boolean represeting the validity
+     * @return boolean representing the validity
      */
-    public static boolean isValidPassword(String password) {
+    public static boolean isPasswordInvalid(CharSequence password) {
         //do any password length/complexity checks here
-        if (password == null || password.length() < 1) { 
-            return (false);
-        }
-        return (true);
+        return ((password == null) || (password.length() < 1));
     }
 
     /**
@@ -51,10 +50,12 @@ public class UserManager {
      * @param emailAddress of new user
      * @param userLevel of new user
      * @return the new user object after registration
-     *         returns null if the attempt was unsuccessful (already used username, invalid password, authentication failed)
+     *         returns null if the attempt was unsuccessful
+     *         (already used username, invalid password, authentication failed)
      */
-    public static User createUser(String username, String password, String fullname, String emailAddress, UserLevel userLevel) {
-        if (userExists(username) || !isValidPassword(password)) {
+    public static User createUser(String username, String password,
+                                  String fullname, String emailAddress, UserLevel userLevel) {
+        if (userExists(username) || isPasswordInvalid(password)) {
             return (null);
         }
         User u = new User(username, fullname, emailAddress, userLevel);
@@ -67,7 +68,7 @@ public class UserManager {
      * @param user The new user object
      */
     public static void updateUser(User user) {
-        if (user != null && userExists(user.getUsername())) {
+        if ((user != null) && userExists(user.getUsername())) {
             persist.saveUser(user);
             addUser(user);
         }
@@ -97,7 +98,8 @@ public class UserManager {
     }
     
     /**
-     * Loads an existing user into the username map. Does not add to the persistence layer. Overwrites user if user already exists
+     * Loads an existing user into the username map.
+     * Does not add to the persistence layer. Overwrites user if user already exists
      * @param user to be added
      */
     public static void addUser(User user) {
@@ -141,7 +143,7 @@ public class UserManager {
             String username = c.getUsername();
             if (username != null) {
                 User u = getUser(username);
-                if (u != null && persist.authenticateUser(c)) {
+                if ((u != null) && persist.authenticateUser(c)) {
                     return (u);
                 }
             }
@@ -180,7 +182,7 @@ public class UserManager {
 
     /**
      * Returns true if the given user is allowed to view history reports
-     * TODO This is business logic - what each user is allowed to see should be
+     * This is business logic - what each user is allowed to see should be
      * controlled in the controller(?) where we do other business logic - this
      * couples this class with pretty much everything...
      * @param u the user to check

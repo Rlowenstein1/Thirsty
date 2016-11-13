@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,12 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lib.TextFormatterFactory;
-import model.ReportManager;
-import model.User;
-import model.WaterType;
-import model.WaterCondition;
-import model.WaterReport;
+import main.java.lib.TextFormatterFactory;
+import main.java.model.ReportManager;
+import main.java.model.User;
+import main.java.model.WaterType;
+import main.java.model.WaterCondition;
+import main.java.model.WaterReport;
 
 /**
  * FXML Controller class
@@ -46,18 +46,16 @@ public class WaterSourceReportScreenController implements Initializable {
     @FXML
     private ComboBox<WaterCondition> conditionComboBox;
 
-    public static final WaterType WATER_TYPE_DEFAULT = WaterType.OTHER;
-    public static final WaterCondition WATER_CONDITION_DEFAULT = WaterCondition.MUDDY;
+    private static final WaterType WATER_TYPE_DEFAULT = WaterType.OTHER;
+    private static final WaterCondition WATER_CONDITION_DEFAULT = WaterCondition.MUDDY;
 
     private User activeUser;
-    private Stage stage;
 
     /**
      * Set the stage for the Main Screen Controller
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
@@ -132,9 +130,10 @@ public class WaterSourceReportScreenController implements Initializable {
         String longS = longTextField.getText();
         
         if (!latS.isEmpty()) {
-            double mult = Double.compare(latSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
+            double mult = (Double.compare(latSlider.getValue(), -1.0) == 0) ? -1.0 : 1.0;
             latD = Double.parseDouble(latS) * mult;
-            if (Math.abs(latD) > 90) {
+            final int maxLat = 90;
+            if (Math.abs(latD) > maxLat) {
                 latErrorLabel.setText("Invalid lattitude!");
                 return;
             }
@@ -143,9 +142,10 @@ public class WaterSourceReportScreenController implements Initializable {
             return;
         }
         if (!longS.isEmpty()) {
-            double mult = Double.compare(longSlider.getValue(), -1.0) == 0 ? -1.0 : 1.0;
+            double mult = (Double.compare(longSlider.getValue(), -1.0) == 0) ? -1.0 : 1.0;
             longD = Double.parseDouble(longS) * mult;
-            if (Math.abs(longD) > 180) {
+            final int maxLong = 180;
+            if (Math.abs(longD) > maxLong) {
                 longErrorLabel.setText("Invalid longitude!");
                 return;
             }
@@ -154,7 +154,8 @@ public class WaterSourceReportScreenController implements Initializable {
             return;
         }
 
-        WaterReport r = ReportManager.createWaterReport(latD, longD, typeComboBox.getValue(), conditionComboBox.getValue(), activeUser);
+        WaterReport r = ReportManager.createWaterReport(latD, longD, typeComboBox.getValue(),
+                conditionComboBox.getValue(), activeUser);
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {

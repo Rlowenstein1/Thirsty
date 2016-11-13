@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,10 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lib.Debug;
-import model.User;
-import model.UserLevel;
-import model.UserManager;
+import main.java.lib.Debug;
+import main.java.model.User;
+import main.java.model.UserLevel;
+import main.java.model.UserManager;
 
 /**
  *
@@ -87,17 +87,19 @@ public class RegistrationScreenController implements Initializable {
         UserLevel userLevel = accountTypeBox.getValue();
         String password = pwRegField.getText();
         String passwordConf = pwConfRegField.getText();
-        Debug.debug("Attempting to register user: username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", username, fullname, email, password, passwordConf, userLevel.toString());
-        if (fullname.length() == 0) {
+        Debug.debug("Attempting to register user: username: \"%s\";" +
+                "fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"",
+                username, fullname, email, password, passwordConf, userLevel.toString());
+        if (fullname.isEmpty()) {
             Debug.debug("Fullname field cannot be left blank!");
             fullnameRegErrorLabel.setText("Fullname cannot be left blank!");
-        } else if (username.length() == 0) {
+        } else if (username.isEmpty()) {
             Debug.debug("Username field cannot be left blank!");
             usernameRegErrorLabel.setText("Username cannot be left blank!");
-        } else if (email.length() == 0) {
+        } else if (email.isEmpty()) {
             Debug.debug("email field cannot be left blank!");
             emailRegErrorLabel.setText("Email cannot be left blank!");
-        } else if (password.length() == 0) {
+        } else if (password.isEmpty()) {
             Debug.debug("Password field cannot be left blank!");
             pwRegErrorLabel.setText("Password cannot be left blank!");
         /*

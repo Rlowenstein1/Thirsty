@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,12 +9,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lib.TextFormatterFactory;
-import model.ReportManager;
-import model.User;
-import model.WaterReport;
-import model.QualityReport;
-import model.WaterSafety;
+import main.java.lib.TextFormatterFactory;
+import main.java.model.ReportManager;
+import main.java.model.User;
+import main.java.model.WaterReport;
+import main.java.model.QualityReport;
+import main.java.model.WaterSafety;
 
 /**
  * FXML Controller class
@@ -46,14 +46,12 @@ public class WaterQualityReportScreenController implements Initializable {
     public static final WaterSafety WATER_SAFETY_DEFAULT = WaterSafety.UNKNOWN;
 
     private User activeUser;
-    private Stage stage;
 
     /**
      * Set the stage for the Main Screen Controller
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
@@ -143,13 +141,13 @@ public class WaterQualityReportScreenController implements Initializable {
             reportNumErrorLabel.setText("Cannot be blank!");
             return;
         }
-
+        final double compareVal = 1000000.0;
         if (!vppmS.isEmpty()) {
             vppm = Double.valueOf(vppmS);
             if (vppm.compareTo(0.0) < 0.0) {
                 vppmErrorLabel.setText("Invalid value!");
                 return;
-            } else if (vppm.compareTo(1000000.0) >= 0.0) {
+            } else if (vppm.compareTo(compareVal) >= 0.0) {
                 vppmErrorLabel.setText("Value too large!");
                 return;
             }
@@ -163,7 +161,7 @@ public class WaterQualityReportScreenController implements Initializable {
             if (cppm.compareTo(0.0) < 0.0) {
                 cppmErrorLabel.setText("Invalid value!");
                 return;
-            } else if (cppm.compareTo(1000000.0) >= 0.0) {
+            } else if (cppm.compareTo(compareVal) >= 0.0) {
                 cppmErrorLabel.setText("Value too large!");
                 return;
             }
@@ -173,18 +171,20 @@ public class WaterQualityReportScreenController implements Initializable {
             return;
         }
 
-        if (Double.valueOf(cppm + vppm).compareTo(1000000.0) >= 0.0) {
+        if (Double.valueOf(cppm + vppm).compareTo(compareVal) >= 0.0) {
             cppmErrorLabel.setText("Combined value too large!");
             return;
         }
         
-        QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(), vppm, cppm, activeUser);
+        QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(),
+                vppm, cppm, activeUser);
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {
             MasterSingleton.updateReportScreen();
             resetFields();
-            submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!", r.getReportNum(), report.getReportNum()));
+            submitErrorLabel.setText(String.format("Quality report #%d created on availability report #%d!",
+                    r.getReportNum(), report.getReportNum()));
         }
     }
 

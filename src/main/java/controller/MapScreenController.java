@@ -1,11 +1,11 @@
-package controller;
+package main.java.controller;
 
 import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
-import model.User;
+import main.java.model.User;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.MapStateEventType;
@@ -28,11 +28,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
-import lib.Debug;
-import model.QualityReport;
-import model.ReportManager;
-import model.UserManager;
-import model.WaterReport;
+import main.java.lib.Debug;
+import main.java.model.QualityReport;
+import main.java.model.ReportManager;
+import main.java.model.UserManager;
+import main.java.model.WaterReport;
 import netscape.javascript.JSObject;
 
 
@@ -60,7 +60,6 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private GoogleMap map;
 
     private User activeUser;
-    private Stage stage;
     private List<Marker> markerList = null;
     private boolean mapInitialized = false;
 
@@ -74,7 +73,6 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
@@ -121,15 +119,17 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     /**
      * Creates the map with default options
      */
-    public void createMap() {
+    private void createMap() {
         //Set the initial properties of the map
         MapOptions options = new MapOptions();
 
         //set up the center location for the map
         LatLong center = new LatLong(activeUser.getLastCoordsLat(), activeUser.getLastCoordsLng());
 
+        //noinspection ChainedMethodCall
+        final int zoomVal = 16;
         options.center(center)
-                .zoom(16)
+                .zoom(zoomVal)
                 .overviewMapControl(false)
                 .panControl(true)
                 .rotateControl(true)
@@ -139,9 +139,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                 .mapType(MapTypeIdEnum.HYBRID);
 
         map = mapView.createMap(options);
-        map.addStateEventHandler(MapStateEventType.center_changed, () -> {
-            activeUser.setLastCoords(map.getCenter());
-        });
+        map.addStateEventHandler(MapStateEventType.center_changed, () -> activeUser.setLastCoords(map.getCenter()));
         map.addUIEventHandler(UIEventType.click, (JSObject e) -> {
             if (addingAReport) {
                 JSObject clicked = (JSObject) e.getMember("latLng");
@@ -171,10 +169,13 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
                 map.panTo(new LatLong(clickedLat, clickedLng));
 
-                Alert alert = new Alert(AlertType.CONFIRMATION, String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng), ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                Alert alert = new Alert(AlertType.CONFIRMATION,
+                        String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng),
+                        ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                 Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
-                alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
-                alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
+                final double divide = 2.0;
+                alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / divide));
+                alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / divide));
                 alert.showAndWait();
                 
                 if (alert.getResult() == ButtonType.YES) {
@@ -221,7 +222,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
      * Draws all the given reports
      * @param reportList the list of reports to draw 
      */
-    public void markReports(List<WaterReport> reportList) {
+    private void markReports(Iterable<WaterReport> reportList) {
         for (WaterReport rr : reportList) {
             MarkerOptions markerOptions = new MarkerOptions();
             double lat = rr.getLatitude();
@@ -281,10 +282,13 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                     if (addingQReport) {
                         map.panTo(new LatLong(lat, lng));
                         
-                        Alert alert = new Alert(AlertType.CONFIRMATION, String.format("Create new water Quality report at\n%.5f, %.5f?", lat, lng), ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                        Alert alert = new Alert(AlertType.CONFIRMATION,
+                                String.format("Create new water Quality report at\n%.5f, %.5f?", lat, lng),
+                                ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                         Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
-                        alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / 2.0));
-                        alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / 2.0));
+                        final double divide = 2.0;
+                        alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / divide));
+                        alert.setX(screenBounds.getMinX() + (screenBounds.getWidth() / divide));
                         alert.showAndWait();
                         
                         if (alert.getResult() == ButtonType.YES) {

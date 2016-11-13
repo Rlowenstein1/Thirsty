@@ -1,12 +1,12 @@
-import model.UserLevel;
-import model.UserManager;
+import main.java.model.UserLevel;
+import main.java.model.UserManager;
 import java.io.File;
 
 import org.junit.Test;
-import persistence.*;
+import main.java.persistence.*;
 
 import org.junit.Before;
-import persistence.json.PersistentJsonFile;
+import main.java.persistence.json.PersistentJsonFile;
 
 import static org.junit.Assert.*;
 
@@ -47,12 +47,12 @@ public class CreateUserTester {
 
 	@Test(timeout = TIMEOUT)
 	public void testValidPassword() {
-		assertNotEquals("Password should be valid", UserManager.isValidPassword("pw"), null);
+		assertFalse("Password should be valid", UserManager.isPasswordInvalid("pw"));
 	}
 
 	@Test(timeout = TIMEOUT)
 	public void testInvalidPassword() {
-		assertEquals("Password should be invalid", UserManager.isValidPassword(""), false);
+		assertTrue("Password should be invalid", UserManager.isPasswordInvalid(""));
 	}
 
 

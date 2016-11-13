@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.io.IOException;
 import javafx.collections.ObservableList;
@@ -11,12 +11,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lib.Debug;
-import model.User;
-import fxapp.Thirsty;
-import model.ReportManager;
-import model.UserManager;
-import persistence.PersistenceInterface;
+import main.java.lib.Debug;
+import main.java.model.User;
+import main.java.fxapp.Thirsty;
+import main.java.model.ReportManager;
+import main.java.model.UserManager;
+import main.java.persistence.PersistenceInterface;
 
 /**
  *
@@ -29,8 +29,8 @@ public class MasterSingleton {
     private static StackPane mainPane;
     private static TabPane tabPane;
 
-    private static GridPane profilePane;
-    private static ProfileScreenController profileController;
+    //private static AnchorPane homePane;
+    //private static HomeScreenController homeController;
 
     private static WaterSourceReportScreenController waterSourceReportController;
     private static Tab waterSourceReportTab;
@@ -46,7 +46,7 @@ public class MasterSingleton {
 
     private static ObservableList<Tab> tabList;
 
-    private static PersistenceInterface persist = null;
+    private static final PersistenceInterface persist = null;
 
     private static final int QUALITY_REPORT_TAB_INDEX = 3;
 
@@ -81,7 +81,7 @@ public class MasterSingleton {
      * Sets the user that is accessing the application
      * @param activeUser The User that is using the application
      */
-    public static void setActiveUser(User activeUser) {
+    private static void setActiveUser(User activeUser) {
         MasterSingleton.activeUser = activeUser;
     }
 
@@ -176,8 +176,8 @@ public class MasterSingleton {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Thirsty.class.getResource("/view/ProfileScreen.fxml"));
-            profilePane = loader.load();
-            profileController = loader.getController();
+            GridPane profilePane = loader.load();
+            ProfileScreenController profileController = loader.getController();
             profileController.setActiveUser(activeUser);
             profileController.setStage(mainStage);
 

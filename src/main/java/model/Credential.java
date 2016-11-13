@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 import com.google.gson.annotations.Expose;
 import java.util.Objects;
@@ -9,9 +9,9 @@ import java.util.Objects;
  */
 public class Credential {
     @Expose
-    private Integer credential;
+    private final Integer credential;
     @Expose
-    private String username;
+    private final String username;
 
     /**
      * Returns the credential
@@ -48,7 +48,8 @@ public class Credential {
     }
 
     /**
-     * Constructs a credential. Normally should not be called (designed for loading an existing credential from disk/network)
+     * Constructs a credential. Normally should not be called
+     * (designed for loading an existing credential from disk/network)
      * @param username The username of the user whose password this is
      * @param credential The credential hash code of the password 
      */
@@ -70,15 +71,15 @@ public class Credential {
         Credential c = (Credential) obj;
         String usernameT = c.getUsername();
         Integer credentialT = c.getCredential();
-        return (usernameT != null && usernameT.equals(this.username)
-                && credentialT != null && credentialT.equals(this.credential));
+        return ((usernameT != null) && usernameT.equals(this.username)
+                && (credentialT != null) && credentialT.equals(this.credential));
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.credential);
-        hash = 97 * hash + Objects.hashCode(this.username);
+        hash = (97 * hash) + Objects.hashCode(this.credential);
+        hash = (97 * hash) + Objects.hashCode(this.username);
         return hash;
     }
 

@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -8,15 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import lib.Debug;
+import main.java.lib.Debug;
 
 /**
  *
  * @author tybrown
  */
 public class SplashScreenController implements Initializable {
-
-    private Stage stage;
 
     @FXML
     private ImageView riverImageView;
@@ -26,7 +24,6 @@ public class SplashScreenController implements Initializable {
      * @param stage The stage being set
      */
     public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**
