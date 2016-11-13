@@ -198,30 +198,23 @@ public class ProfileScreenController implements Initializable {
             UserLevel userLevel = accountTypeProfileBox.getValue();
             String password = pwProfileField.getText();
             String passwordConf = pwConfProfileField.getText();
-            Debug.debug("Attempting to modify user: title: \"%s\"; username: \"%s\"; fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"", title, username, fullname, email, password, passwordConf, userLevel.toString());
             if (fullname.length() == 0) {
-                Debug.debug("Fullname field cannot be left blank!");
                 fullnameProfileErrorLabel.setText("Fullname cannot be left blank!");
             } else if (username.length() == 0) {
-                Debug.debug("Username field cannot be left blank!");
                 usernameProfileErrorLabel.setText("Username cannot be left blank!");
             } else if (email.length() == 0) {
-                Debug.debug("email field cannot be left blank!");
                 emailProfileErrorLabel.setText("Email cannot be left blank!");
             } else if (password.length() != 0 && !UserManager.isValidPassword(password)) {
-                Debug.debug("Invalid password!");
                 pwProfileErrorLabel.setText("Invalid Password!");
 
             } else {
                 if (!password.equals(passwordConf)) {
-                    Debug.debug("Password and password confirmation do not match!");
                     pwConfProfileErrorLabel.setText("Passwords do not match!");
                 } else {
                     Credential cred = null;
                     if (password.length() != 0) { //only update password if the user tried to change it
                         cred = new Credential(username, password);
                     }
-                    Debug.debug("No errors during profile update check!");
                     editing = false;
                     editButton.setText("Edit profile");
                     setFields(true);
@@ -232,21 +225,8 @@ public class ProfileScreenController implements Initializable {
                     UserManager.saveUser(activeUser, cred);
                     MasterSingleton.updateUserPrivileges();
                     return;
-
-                    /*
-                    newProfile = UserManager.register(username, password, fullname, email, userLevel);
-                    if (newProfile != null) {
-                        registered = true;
-                        stage.close();
-                        return;
-                    }
-                    Debug.debug("Username already taken!");
-                    usernameProfileErrorLabel.setText("Username already taken!");
-                    */
                 }
             }
-            Debug.debug("User registration failed!");
-
         } else {
             editing = true;
             setFields(false);

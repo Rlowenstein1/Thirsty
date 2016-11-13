@@ -154,7 +154,11 @@ public class UserManager {
      * @param username The username of the user to logout
      */
     public static void logout(String username) {
-        persist.deauthenticateUser(username);
+        User u = getUser(username);
+        if (u != null) {
+            persist.saveUser(u);
+            persist.deauthenticateUser(username);
+        }
     }
 
     /**

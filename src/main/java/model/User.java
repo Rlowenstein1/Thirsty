@@ -29,7 +29,7 @@ public class User {
     private final StringProperty title = new SimpleStringProperty();
     @Expose
     private final ObjectProperty<UserLevel> level = new SimpleObjectProperty<>();
-    private final transient ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
+    private final ObjectProperty<Image> profilePicture = new SimpleObjectProperty<>();
 
     /**
      * No param constructor -- DO NOT CALL NORMALLY.
