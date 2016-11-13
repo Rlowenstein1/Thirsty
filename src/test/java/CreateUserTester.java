@@ -1,19 +1,14 @@
 import model.UserLevel;
 import model.UserManager;
-import model.User;
-
 import java.io.File;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import persistence.*;
 
 import org.junit.Before;
 import persistence.json.PersistentJsonFile;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -41,9 +36,25 @@ public class CreateUserTester {
 		UserManager.createUser("Bob", "pw", "Bob Bob", "blah", UserLevel.WORKER);
 	}
 
-	@Test
+	@Test(timeout = TIMEOUT)
 	public void testCreateUserExists() {
-		assertEquals("User already exists", UserManager.createUser("Bob", "pw", "Bob Bob", "blah", UserLevel.WORKER), null);
+		assertEquals("User should have existed", UserManager.createUser("Bob", "pw", "Bob Bob", "blah", UserLevel.WORKER), null);
 	}
+	@Test(timeout = TIMEOUT)
+	public void testCreateUserDoesNotExist() {
+		assertNotEquals("User already existed", UserManager.createUser("Sally", "pw", "Bob Sally", "blah", UserLevel.WORKER), null);
+	}
+
+	@Test(timeout = TIMEOUT)
+	public void testValidPassword() {
+		assertNotEquals("Password should be valid", UserManager.isValidPassword("pw"), null);
+	}
+
+	@Test(timeout = TIMEOUT)
+	public void testInvalidPassword() {
+		assertEquals("Password should be invalid", UserManager.isValidPassword(""), false);
+	}
+
+
 
 }
