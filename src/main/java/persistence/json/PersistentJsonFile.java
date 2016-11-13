@@ -23,6 +23,9 @@ import main.java.model.User;
 import main.java.model.UserManager;
 import main.java.model.WaterReport;
 
+/**
+ * Dominic Pattison
+ */
 public class PersistentJsonFile extends PersistentJsonInterface {
 
     private String pathName;

@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 import main.java.persistence.PersistenceInterface;
 import main.java.persistence.json.PersistentJsonFile;
 
+/**
+ * Tyler Brown
+ */
 public class Thirsty extends Application {
 
 

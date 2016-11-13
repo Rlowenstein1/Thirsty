@@ -7,6 +7,9 @@ import org.hildan.fxgson.FxGson;
 
 import java.time.LocalDateTime;
 
+/**
+ * Dominic Pattison
+ */
 public abstract class PersistentJsonInterface implements PersistenceInterface {
 
     private final Gson gson;

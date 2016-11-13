@@ -14,6 +14,9 @@ import main.java.model.Credential;
 import main.java.model.User;
 import main.java.model.UserManager;
 
+/**
+ * Tyler Brown
+ */
 public class LoginScreenController implements Initializable {
 
     private Stage stage;
