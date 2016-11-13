@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javafx.stage.Stage;
 import main.java.model.User;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
@@ -67,12 +66,6 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private final String defaultText = "Welcome! Thirsty?\nThirsty is the next big thing" +
             " in the water reporting application world! To get started, click one of the buttons below!";
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Sets the Quality Report button based on user's level

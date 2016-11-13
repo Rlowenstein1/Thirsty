@@ -34,7 +34,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import main.java.lib.Debug;
 import main.java.model.DisplayableReport;
@@ -104,12 +103,6 @@ public class WaterReportScreenController implements Initializable {
     private static final String DATA_TYPE_VPPM = "V PPM";
     private static final String DATA_TYPE_CPPM = "C PPM";
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Greets the user with a welcome message

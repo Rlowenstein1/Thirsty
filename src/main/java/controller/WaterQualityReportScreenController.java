@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import main.java.lib.TextFormatterFactory;
 import main.java.model.ReportManager;
 import main.java.model.User;
@@ -47,12 +46,7 @@ public class WaterQualityReportScreenController implements Initializable {
 
     private User activeUser;
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
+
 
     /**
      * Greets the user with a welcome message

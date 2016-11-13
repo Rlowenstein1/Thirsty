@@ -150,7 +150,7 @@ public class MasterSingleton {
             AnchorPane mapPane = loader.load();
             mapController = loader.getController();
             mapController.setActiveUser(activeUser);
-            mapController.setStage(mainStage);
+            //mapController.setStage(mainStage);
 
             Tab mapTab = new Tab();
             mapTab.setText(mapController.getTabText());
@@ -203,7 +203,7 @@ public class MasterSingleton {
             GridPane waterSourceReportPane = loader.load();
             waterSourceReportController = loader.getController();
             waterSourceReportController.setActiveUser(activeUser);
-            waterSourceReportController.setStage(mainStage);
+            //waterSourceReportController.setStage(mainStage);
 
             Tab res = new Tab();
             res.setText(waterSourceReportController.getTabText());
@@ -226,7 +226,7 @@ public class MasterSingleton {
             GridPane waterQualityReportPane = loader.load();
             waterQualityReportController = loader.getController();
             waterQualityReportController.setActiveUser(activeUser);
-            waterQualityReportController.setStage(mainStage);
+            //waterQualityReportController.setStage(mainStage);
 
             Tab res = new Tab();
             res.setText(waterQualityReportController.getTabText());
@@ -249,7 +249,7 @@ public class MasterSingleton {
             AnchorPane waterReportPane = loader.load();
             waterReportController = loader.getController();
             waterReportController.setActiveUser(activeUser);
-            waterReportController.setStage(mainStage);
+            //waterReportController.setStage(mainStage);
 
             Tab res = new Tab();
             res.setText(waterReportController.getTabText());
@@ -276,7 +276,7 @@ public class MasterSingleton {
             AnchorPane page = loader.load();
             MainTabbedScreenController controller = loader.getController();
             mainStage.setTitle("Thirsty?");
-            controller.setStage(mainStage);
+            //controller.setStage(mainStage);
             controller.setActiveUser(activeUser);
 
             tabPane = controller.getTabPane();
@@ -346,8 +346,8 @@ public class MasterSingleton {
             mainStage.setScene(scene);
 
             // Set the person into the controller.
-            SplashScreenController controller = loader.getController();
-            controller.setStage(mainStage);
+            //SplashScreenController controller = loader.getController();
+            //controller.setStage(mainStage);
 
         } catch (IOException e) {
             Debug.error("Exception while creating/showing splash screen! Reason: %s", e.toString());
