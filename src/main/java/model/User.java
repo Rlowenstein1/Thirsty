@@ -131,7 +131,7 @@ public final class User {
      *
      * @param n the new username
      */
-    public void setUsername(String n) {
+    private void setUsername(String n) {
         username.set(n);
     }
 
@@ -279,7 +279,7 @@ public final class User {
      * @param lat Latitude
      * @param lng Longitude
      */
-    public void setLastCoords(double lat, double lng) {
+    private void setLastCoords(double lat, double lng) {
         lastCoordsLat = lat;
         lastCoordsLng = lng;
     }

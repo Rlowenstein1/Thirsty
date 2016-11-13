@@ -124,9 +124,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         String credentialsFile = pathName + CREDENTIAL_FILE_NAME;
         List<Credential> credentials = loadAll(credentialsFile, Credential.class);
         if (credentials != null) {
-            for (Credential credential : credentials) {
-                credentialManager.saveCredential(credential);
-            }
+            credentials.forEach(credentialManager::saveCredential);
         }
         writerCredentials = openFile(credentialsFile);
 
