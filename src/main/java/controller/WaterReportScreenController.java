@@ -171,7 +171,6 @@ public class WaterReportScreenController implements Initializable {
         }
         reportNumberColumn.setSortType(SortType.DESCENDING);
         //sortColumns.add(reportNumberColumn);
-        Debug.debug("sort order: %s", reportTreeTable.getSortOrder());
         if (reportTreeTable.getSortOrder().isEmpty()) {
             // reportTreeTable.getSortOrder().clear();
             reportTreeTable.getSortOrder().add(reportNumberColumn);

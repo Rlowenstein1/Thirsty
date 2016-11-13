@@ -32,9 +32,6 @@ public class MasterSingleton {
     private static GridPane profilePane;
     private static ProfileScreenController profileController;
 
-    private static AnchorPane homePane;
-    private static HomeScreenController homeController;
-
     private static WaterSourceReportScreenController waterSourceReportController;
     private static Tab waterSourceReportTab;
 

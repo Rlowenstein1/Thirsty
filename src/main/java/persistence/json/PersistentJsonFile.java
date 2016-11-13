@@ -63,7 +63,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
-                Debug.debug("read line: %s", line);
                 T t = fromJson(line, c);
                 if (t != null) {
                     res.add(t);
@@ -98,7 +97,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      */
     private Writer openFile(String filename) {
         try {
-            Debug.debug("opening file for writing: %s", filename);
             BufferedWriter res = new BufferedWriter(new FileWriter(filename, true)); //true = append
             return (res);
         } catch (IOException e) {
@@ -114,7 +112,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         List<User> users = loadAll(usersFile, User.class);
         if (users != null) {
             for (User user : users) {
-                Debug.debug("loaded user: %s", user);
                 UserManager.addUser(user.clone());
             }
         }
@@ -124,7 +121,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         List<Credential> credentials = loadAll(credentialsFile, Credential.class);
         if (credentials != null) {
             for (Credential credential : credentials) {
-                Debug.debug("loaded credential: %s", credential);
                 credentialManager.saveCredential(credential);
             }
         }
@@ -136,7 +132,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         Map<Integer, WaterReport> mud = new HashMap<>();
         if (wrs != null) {
             for (WaterReport wr : wrs) {
-                Debug.debug("loaded water report: %s", wr);
                 mud.put(wr.getReportNum(), wr);
             }
             for (WaterReport wr : mud.values()) {
@@ -146,10 +141,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                     maxReportNumber = newWR.getReportNum();
                 }
                 List<QualityReport> qrs = newWR.getQualityReportList();
-                Debug.debug("Contains quality reports: ");
                 int maxQReportNumber = 0;
                 for (QualityReport qr : qrs) {
-                    Debug.debug("  %s", qr);
                     if (qr.getReportNum() > maxQReportNumber) {
                         maxQReportNumber = qr.getReportNum();
                     }
@@ -248,14 +241,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     @Override
     public void saveWaterReport(WaterReport wr) {
-        String s = toJson(wr, WaterReport.class);
-        Debug.debug("Saving water report to file: %s", wr);
-        Debug.debug("QRs:\n");
-        for (QualityReport q : wr.getQualityReportList()) {
-            Debug.debug("%s", q);
-        }
-        Debug.debug("json representation: %s", s);
-        writeToFile(writerReports, s + "\n");
+        writeToFile(writerReports, toJson(wr, WaterReport.class) + "\n");
         //horrible, just appends the new report, which overwrites the old one when it gets loaded
     }
 
