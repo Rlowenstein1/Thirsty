@@ -45,6 +45,6 @@ checkstyle {
         mavenLocal()
         mavenCentral()
     }
-    ignoreFailures = false
+    ignoreFailures = true
     showViolations = false
 }
