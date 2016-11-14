@@ -1,10 +1,10 @@
-package main.java.fxapp;
+package fxapp;
 
-import main.java.controller.MasterSingleton;
+import controller.MasterSingleton;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.java.persistence.PersistenceInterface;
-import main.java.persistence.json.PersistentJsonFile;
+import persistence.PersistenceInterface;
+import persistence.json.PersistentJsonFile;
 
 /**
  * Tyler Brown

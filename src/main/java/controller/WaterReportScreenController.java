@@ -1,4 +1,4 @@
-package main.java.controller;
+package controller;
 
 import eu.hansolo.fx.DateAxis310;
 import java.net.URL;
@@ -35,15 +35,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.util.StringConverter;
-import main.java.lib.Debug;
-import main.java.model.DisplayableReport;
-import main.java.model.QualityReport;
-import main.java.model.User;
-import main.java.model.UserManager;
-import main.java.model.WaterCondition;
-import main.java.model.WaterReport;
-import main.java.model.WaterSafety;
-import main.java.model.WaterType;
+import lib.Debug;
+import model.DisplayableReport;
+import model.QualityReport;
+import model.User;
+import model.UserManager;
+import model.WaterCondition;
+import model.WaterReport;
+import model.WaterSafety;
+import model.WaterType;
 
 /**
  * FXML Controller class

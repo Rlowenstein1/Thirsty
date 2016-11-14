@@ -1,4 +1,4 @@
-package main.java.persistence.json;
+package persistence.json;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import main.java.lib.Debug;
-import main.java.model.AuthenticationManager;
-import main.java.model.Credential;
-import main.java.model.CredentialManager;
-import main.java.model.QualityReport;
-import main.java.model.ReportManager;
-import main.java.model.User;
-import main.java.model.UserManager;
-import main.java.model.WaterReport;
+import lib.Debug;
+import model.AuthenticationManager;
+import model.Credential;
+import model.CredentialManager;
+import model.QualityReport;
+import model.ReportManager;
+import model.User;
+import model.UserManager;
+import model.WaterReport;
 
 /**
  * Dominic Pattison

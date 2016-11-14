@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 //import java.util.Collections;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 //import java.util.stream.Collectors;
 
-import main.java.persistence.PersistenceInterface;
+import persistence.PersistenceInterface;
 
 /**
  * Manager for the Report classes

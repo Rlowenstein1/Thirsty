@@ -1,4 +1,4 @@
-package main.java.persistence.json;
+package persistence.json;
 
 import java.time.LocalDateTime;
 import java.time.Instant;

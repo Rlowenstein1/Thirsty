@@ -1,4 +1,4 @@
-package main.java.controller;
+package controller;
 
 import java.io.IOException;
 import javafx.collections.ObservableList;
@@ -11,12 +11,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import main.java.lib.Debug;
-import main.java.model.User;
-import main.java.fxapp.Thirsty;
-import main.java.model.ReportManager;
-import main.java.model.UserManager;
-import main.java.persistence.PersistenceInterface;
+import lib.Debug;
+import model.User;
+import fxapp.Thirsty;
+import model.ReportManager;
+import model.UserManager;
+import persistence.PersistenceInterface;
 
 /**
  *

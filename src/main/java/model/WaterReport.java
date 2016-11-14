@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import com.google.gson.annotations.Expose;
 import javafx.beans.property.ObjectProperty;

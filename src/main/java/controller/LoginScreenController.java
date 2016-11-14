@@ -1,4 +1,4 @@
-package main.java.controller;
+package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,9 +10,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import main.java.model.Credential;
-import main.java.model.User;
-import main.java.model.UserManager;
+import model.Credential;
+import model.User;
+import model.UserManager;
 
 /**
  * Tyler Brown
