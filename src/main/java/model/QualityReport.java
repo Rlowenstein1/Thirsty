@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a water quality report.
@@ -309,7 +310,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @return the integer value from comparison
      */
     @Override
-    public int compareTo(QualityReport report) {
+    public int compareTo(@NotNull QualityReport report) {
         return getDateTime().compareTo(report.getDateTime());
     }
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a water source report.
@@ -463,7 +464,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * @return the integer value from comparison
      */
     @Override
-    public int compareTo(WaterReport report) {
+    public int compareTo(@NotNull WaterReport report) {
         return getDateTime().compareTo(report.getDateTime());
     }
 }

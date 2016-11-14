@@ -442,7 +442,7 @@ public class WaterReportScreenController implements Initializable {
                 node.setOnMouseExited(mouseEvent -> popup.hide());
 
                 node.setOnMouseClicked(mouseEvent -> {
-                    TreeItem<DisplayableReport> tI = itemMap.get(node.getUserData());
+                    TreeItem<DisplayableReport> tI = itemMap.get((DisplayableReport) node.getUserData());
                     if (tI != null) {
                         tI.getParent().setExpanded(true);
                         TreeTableViewSelectionModel<DisplayableReport> rTTselectionModel =
