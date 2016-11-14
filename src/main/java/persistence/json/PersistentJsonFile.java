@@ -97,7 +97,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      */
     private Writer openFile(String filename) {
         try {
-            Debug.debug("opening file for writing: %s", filename);
             return (new BufferedWriter(new FileWriter(filename, true)));
         } catch (IOException e) {
             Debug.debug("Exception while opening file for writing: %s\nException: %s", filename, e.toString());
@@ -112,7 +111,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         List<User> users = loadAll(usersFile, User.class);
         if (users != null) {
             for (User user : users) {
-                Debug.debug("loaded user: %s", user);
                 UserManager.addUser(user.cloneIt());
             }
         }

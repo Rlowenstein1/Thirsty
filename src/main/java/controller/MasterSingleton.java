@@ -51,9 +51,9 @@ public class MasterSingleton {
      */
     public static void initialize(PersistenceInterface persist) {
         MasterSingleton.persist = persist;
-        persist.initialize();
         UserManager.initialize(persist);
         ReportManager.initialize(persist);
+        persist.initialize();
     }
 
     /**
