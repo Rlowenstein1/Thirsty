@@ -97,7 +97,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
     @Override
     public IntegerProperty getReportNumProperty() {
         return reportNumProperty;
-  }
+    }
 
 
     /**
@@ -174,22 +174,27 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
     /*
     public int getHour() {
         return getDateTime().getHour();
-    }*/
+    }
+    */
 
     /** Gets the day at which this report was created
      * @return the day
      */
-    /*public int getDay() {
+    /*
+    public int getDay() {
         return getDateTime().getDayOfMonth();
-    }*/
+    }
+    */
 
     /**
      * Gets the month at which this report was created
      * @return the month
      */
-//    public Month getMonth() {
-//        return getDateTime().getMonth();
-//    }
+    /*
+    public Month getMonth() {
+        return getDateTime().getMonth();
+    }
+    */
 
     /**
      * Gets the year at which this report was created
@@ -385,7 +390,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Gets this water report's water safety
      * @return the water type property
      */
-   @Override
+    @Override
     public ObjectProperty<WaterSafety> getWaterSafetyProperty() {
         QualityReport latestQR = getMostRecentQualityReport();
         if (latestQR == null) {

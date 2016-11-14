@@ -556,7 +556,7 @@ public class WaterReportScreenController implements Initializable {
         });
         yAxis.setTickLabelFormatter(new StringConverter<Number>() {
             @Override public String toString(Number d) {
-                return (String.format("%.2f", (Double)d));
+                return (String.format("%.2f", d.doubleValue()));
             }
             @Override public Number fromString(String d) {
                 return (Double.valueOf(d));

@@ -8,7 +8,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.java.lib.Debug;
@@ -26,11 +25,7 @@ public class MasterSingleton {
    
     private static Stage mainStage;
 
-    private static StackPane mainPane;
     private static TabPane tabPane;
-
-    //private static AnchorPane homePane;
-    //private static HomeScreenController homeController;
 
     private static WaterSourceReportScreenController waterSourceReportController;
     private static Tab waterSourceReportTab;
@@ -46,7 +41,7 @@ public class MasterSingleton {
 
     private static ObservableList<Tab> tabList;
 
-    private static final PersistenceInterface persist = null;
+    private static PersistenceInterface persist;
 
     private static final int QUALITY_REPORT_TAB_INDEX = 3;
 
@@ -55,6 +50,7 @@ public class MasterSingleton {
      * @param persist The PersistenceInterface to perform persistence operations with
      */
     public static void initialize(PersistenceInterface persist) {
+        MasterSingleton.persist = persist;
         persist.initialize();
         UserManager.initialize(persist);
         ReportManager.initialize(persist);

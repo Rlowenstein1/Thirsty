@@ -87,8 +87,8 @@ public class RegistrationScreenController implements Initializable {
         UserLevel userLevel = accountTypeBox.getValue();
         String password = pwRegField.getText();
         String passwordConf = pwConfRegField.getText();
-        Debug.debug("Attempting to register user: username: \"%s\";" +
-                "fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"",
+        Debug.debug("Attempting to register user: username: \"%s\";"
+                + "fullname: \"%s\"; email: \"%s\"; password: \"%s\"; passwordConf: \"%s\"; type: \"%s\"",
                 username, fullname, email, password, passwordConf, userLevel.toString());
         if (fullname.isEmpty()) {
             Debug.debug("Fullname field cannot be left blank!");

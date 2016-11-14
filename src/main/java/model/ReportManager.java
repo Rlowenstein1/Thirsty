@@ -13,9 +13,9 @@ import main.java.persistence.PersistenceInterface;
  * Manager for the Report classes
  */
 public class ReportManager {
-    private static final List<WaterReport> waterReportList = new ArrayList<>();
+    private static List<WaterReport> waterReportList;
     private static int reportNumber = 0;
-    private static final HashMap<WaterReport, Integer> qualityReportNumberMap = new HashMap<>();
+    private static HashMap<WaterReport, Integer> qualityReportNumberMap;
 
     private static PersistenceInterface persist;
 
@@ -25,6 +25,8 @@ public class ReportManager {
      */
     public static void initialize(PersistenceInterface persist) {
         ReportManager.persist = persist;
+        waterReportList = new ArrayList<>();
+        qualityReportNumberMap = new HashMap<>();
     }
 
     /**

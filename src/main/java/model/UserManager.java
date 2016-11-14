@@ -11,7 +11,7 @@ import main.java.persistence.PersistenceInterface;
  * Manager for the user objects of app
  */
 public class UserManager {
-    private static final Map<String, User> usernameMap = new HashMap<>();
+    private static Map<String, User> usernameMap;
     private static PersistenceInterface persist = null;
 
     /**
@@ -19,6 +19,7 @@ public class UserManager {
      * @param persist The PersistenceInterface to use to manage users
      */
     public static void initialize(PersistenceInterface persist) {
+        usernameMap = new HashMap<>();
         UserManager.persist = persist;
     }
 
