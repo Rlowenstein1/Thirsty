@@ -180,6 +180,7 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleFromDateAction(ActionEvent event) {
+        redrawHistoryGraph();
     }
 
     /**
@@ -188,6 +189,7 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleToDateAction(ActionEvent event) {
+        redrawHistoryGraph();
     }
 
     /**
@@ -519,12 +521,14 @@ public class WaterReportScreenController implements Initializable {
         );
 
         reportTreeTable.setRoot(root);
+        /*
         fromDateBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             redrawHistoryGraph();
         });
         toDateBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             redrawHistoryGraph();
         });
+        */
         reportTreeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {

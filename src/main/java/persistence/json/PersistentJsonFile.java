@@ -81,13 +81,13 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                 Debug.debug("Permission denied while creating file: %s\nMessage: %s", filename, ee.toString());
             } catch (IOException ee) {
                 Debug.debug("IOException while creating new file: %s\nMessage: %s", filename, ee.toString());
-                e.printStackTrace(System.out);
+                //e.printStackTrace(System.out);
             }
         } catch (AccessDeniedException e) {
             Debug.debug("Permission denied while reading file: %s", filename);
         } catch (Exception e) {
             Debug.debug("Exception while loading from file: %s\nException message: %s", filename, e.getMessage());
-            e.printStackTrace(System.out);
+            //e.printStackTrace(System.out);
             // error reading the file
         }
         return (null);
