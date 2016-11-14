@@ -1,12 +1,12 @@
-import main.java.model.UserLevel;
-import main.java.model.UserManager;
+import model.UserLevel;
+import model.UserManager;
 import java.io.File;
 
 import org.junit.Test;
-import main.java.persistence.PersistenceInterface;
+import persistence.PersistenceInterface;
 
 import org.junit.Before;
-import main.java.persistence.json.PersistentJsonFile;
+import persistence.json.PersistentJsonFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;

@@ -1,4 +1,4 @@
-package main.java.controller;
+package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,12 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.java.lib.TextFormatterFactory;
-import main.java.model.ReportManager;
-import main.java.model.User;
-import main.java.model.WaterType;
-import main.java.model.WaterCondition;
-import main.java.model.WaterReport;
+import lib.TextFormatterFactory;
+import model.ReportManager;
+import model.User;
+import model.WaterType;
+import model.WaterCondition;
+import model.WaterReport;
 
 /**
  * FXML Controller class

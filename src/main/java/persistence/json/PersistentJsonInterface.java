@@ -1,6 +1,6 @@
-package main.java.persistence.json;
+package persistence.json;
 
-import main.java.persistence.PersistenceInterface;
+import persistence.PersistenceInterface;
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import org.hildan.fxgson.FxGson;
