@@ -17,7 +17,6 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -243,11 +242,11 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                             + "<br />"
                             + "",
                             lat, lng,
-                            rr.getWaterType().toString(),
-                            rr.getWaterCondition().toString(),
+                            rr.getWaterType(),
+                            rr.getWaterCondition(),
                             rr.getReportNum(),
                             rr.getAuthor().getUsername(),
-                            rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
+                            rr.getDateTime()
                     );
 
                     QualityReport qr = rr.getMostRecentQualityReport();
