@@ -20,7 +20,7 @@ public class TextFormatterFactory {
      * @param integerOnly True if only integers, false if decimals are acceptable
      * @return the TextFormatter
      */
-    public static TextFormatter numericOnlyTextFormatter(boolean integerOnly) {
+    private static TextFormatter numericOnlyTextFormatter(boolean integerOnly) {
         DecimalFormat format = new DecimalFormat("#.0");
         format.setParseIntegerOnly(integerOnly);
         return (new TextFormatter<>(c -> {

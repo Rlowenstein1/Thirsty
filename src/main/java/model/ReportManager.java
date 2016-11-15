@@ -98,7 +98,7 @@ public class ReportManager {
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
         waterReport.addQualityReport(report);
-        persist.saveQualityReport(waterReport, report);
+        persist.saveQualityReport(waterReport);
         return (report);
     }
 
@@ -119,7 +119,7 @@ public class ReportManager {
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
         waterReport.addQualityReport(report);
-        persist.saveQualityReport(waterReport, report);
+        persist.saveQualityReport(waterReport);
         return (report);
     }
 
@@ -159,7 +159,7 @@ public class ReportManager {
      * @param qualityReport the QualityReport to be deleted
      */
     private static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
-        persist.deleteQualityReport(waterReport, qualityReport);
+        persist.deleteQualityReport(waterReport);
         waterReport.removeQualityReport(qualityReport);
     }
 

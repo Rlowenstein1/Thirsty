@@ -42,7 +42,7 @@ public class WaterQualityReportScreenController implements Initializable {
     @FXML
     private ComboBox<WaterSafety> safetyComboBox;
 
-    public static final WaterSafety WATER_SAFETY_DEFAULT = WaterSafety.UNKNOWN;
+    private static final WaterSafety WATER_SAFETY_DEFAULT = WaterSafety.UNKNOWN;
 
     private User activeUser;
 

@@ -26,7 +26,7 @@ public class UserManager {
      * Saves the given credential in the persistence layer. If user already exists, updates password
      * @param c The credentials of the new user
      */
-    public static void saveCredential(Credential c) {
+    private static void saveCredential(Credential c) {
         persist.saveUserCredential(c);
     }
 
@@ -111,7 +111,7 @@ public class UserManager {
      * @param username The username of the User to get
      * @return The User object with the matching username, or null of no user matched this username
      */
-    public static User getUser(String username) {
+    private static User getUser(String username) {
         return (usernameMap.get(username));
     }
 
@@ -127,10 +127,9 @@ public class UserManager {
     /**
      * Removes a user from the list of known users
      * @param username The username of the user to find
-     * @return null if the user did not exist, or the User object of the removed user
      */
-    public static User deleteUser(String username) {
-        return (usernameMap.remove(username));
+    public static void deleteUser(String username) {
+        usernameMap.remove(username);
     }
 
     /**

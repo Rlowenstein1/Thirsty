@@ -17,7 +17,7 @@ public class Credential {
      * Returns the credential
      * @return the credential
      */
-    public Integer getCredential() {
+    private Integer getCredential() {
         return (credential);
     }
 
@@ -34,7 +34,7 @@ public class Credential {
      * @param password The password to hash
      * @return The hash of the password
      */
-    public static Integer hashPassword(String password) {
+    private static Integer hashPassword(String password) {
         return (password.hashCode());
     }
 

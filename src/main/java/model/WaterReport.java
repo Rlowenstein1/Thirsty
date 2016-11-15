@@ -320,10 +320,9 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Adds a quality report to the list of quality reports for this
      * water source.
      * @param qualityReport the quality report to be added to the list
-     * @return True if this element did not already exist
      */
-    public boolean addQualityReport(QualityReport qualityReport) {
-        return qualityReports.add(qualityReport);
+    public void addQualityReport(QualityReport qualityReport) {
+        qualityReports.add(qualityReport);
     }
 
 
@@ -331,10 +330,9 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Removes a quality report from the list of quality reports for this
      * water source.
      * @param qualityReport the quality report to be removed from the list
-     * @return True if an element was removed
      */
-    public boolean removeQualityReport(QualityReport qualityReport) {
-        return qualityReports.remove(qualityReport);
+    public void removeQualityReport(QualityReport qualityReport) {
+        qualityReports.remove(qualityReport);
     }
 
 
