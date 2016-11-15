@@ -1,12 +1,12 @@
-import main.java.model.UserLevel;
-import main.java.model.UserManager;
+import model.UserLevel;
+import model.UserManager;
 import java.io.File;
 
 import org.junit.Test;
-import main.java.persistence.*;
+import persistence.*;
 
 import org.junit.Before;
-import main.java.persistence.json.PersistentJsonFile;
+import persistence.json.PersistentJsonFile;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +24,7 @@ public class CreateUserTester {
 	public File credentialsTestFile = new File(FILE_PATH + PersistentJsonFile.CREDENTIAL_FILE_NAME);
 	public File reportsTestFile = new File(FILE_PATH + PersistentJsonFile.WR_FILE_NAME);
 
-	public PersistenceInterface persist = new PersistentJsonFile(FILE_PATH);
+	public PersistenceInterface persist = new PersistentJsonFile();
 
 	@Before
 	public void setup() {

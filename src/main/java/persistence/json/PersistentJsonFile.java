@@ -38,9 +38,9 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     private final AuthenticationManager authenticator;
 
     private static final String FILE_EXTENSION = ".json";
-    private static final String USER_FILE_NAME = "users" + FILE_EXTENSION;
-    private static final String CREDENTIAL_FILE_NAME = "credentials" + FILE_EXTENSION;
-    private static final String WR_FILE_NAME = "waterReports" + FILE_EXTENSION;
+    public static final String USER_FILE_NAME = "users" + FILE_EXTENSION;
+    public static final String CREDENTIAL_FILE_NAME = "credentials" + FILE_EXTENSION;
+    public static final String WR_FILE_NAME = "waterReports" + FILE_EXTENSION;
 
     /**
      * Constructor that sets the pathname for json files
