@@ -119,11 +119,10 @@ public class Debug {
 
     /**
      *
-     * @param format The format of the string to print Same as System.out.printf
      * @param args Optional args. Similar to System.out.printf
      */
-    public static void warn(String format, Object... args) {
-        printf(WARN, format, args);
+    public static void warn(Object... args) {
+        printf(WARN, "Unable to find a TreeItem to map this report to! %s", args);
     }
     
     /**

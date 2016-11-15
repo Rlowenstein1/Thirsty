@@ -44,11 +44,10 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     /**
      * Constructor that sets the pathname for json files
-     * @param pathName path to be set
      */
-    public PersistentJsonFile(String pathName) {
-        this.pathName = pathName;
-        if (!pathName.endsWith("/")) {
+    public PersistentJsonFile() {
+        this.pathName = "src/main/resources/db/";
+        if (!"src/main/resources/db/".endsWith("/")) {
             this.pathName += "/";
         }
         //TO DO: make sure this directory actually exists; try to create if not; throw exception on failure

@@ -12,7 +12,7 @@ import persistence.json.PersistentJsonFile;
 public class Thirsty extends Application {
 
 
-    private final PersistenceInterface persist = new PersistentJsonFile("src/main/resources/db/");
+    private final PersistenceInterface persist = new PersistentJsonFile();
 
     @Override
     public void start(Stage stage) throws Exception {

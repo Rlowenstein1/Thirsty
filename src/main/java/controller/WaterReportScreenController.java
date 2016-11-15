@@ -451,7 +451,7 @@ public class WaterReportScreenController implements Initializable {
                         rTTselectionModel.select(tI); //selects the wrong one the first time. needs to be called twice
                         reportTreeTable.scrollTo(rTTselectionModel.getSelectedIndex());
                     } else {
-                        Debug.warn("Unable to find a TreeItem to map this report to! %s", node.getUserData());
+                        Debug.warn(node.getUserData());
                     }
                 });
             }
