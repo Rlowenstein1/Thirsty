@@ -9,7 +9,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import lib.TextFormatterFactory;
 import model.ReportManager;
 import model.User;
@@ -51,12 +50,6 @@ public class WaterSourceReportScreenController implements Initializable {
 
     private User activeUser;
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Greets the user with a welcome message

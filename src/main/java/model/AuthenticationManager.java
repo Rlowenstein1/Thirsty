@@ -53,9 +53,8 @@ public class AuthenticationManager {
     /**
      * Ends a user session by removing the user from the authenticated users list
      * @param username The username of the user to logout
-     * @return boolean True if the user was logged in
      */
-    public boolean logout(String username) {
-        return (authenticatedUsers.remove(username));
+    public void logout(String username) {
+        authenticatedUsers.remove(username);
     }
 }

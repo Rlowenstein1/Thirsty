@@ -1,31 +1,33 @@
 import model.UserLevel;
 import model.UserManager;
 import java.io.File;
-
-import org.junit.Test;
-import persistence.PersistenceInterface;
-
-import org.junit.Before;
-import persistence.json.PersistentJsonFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+
+import org.junit.Before;
+import persistence.PersistenceInterface;
+import persistence.json.PersistentJsonFile;
+
+
+
 /**
  * Created by rudy tudy fresh and frudy on 11/13/16.
  */
 public class CreateUserTester {
-
-    private static final int TIMEOUT = 200;
+    
+    public static final int TIMEOUT = 200;
     
     private static final String FILE_PATH = "src/test/resources/db/";
     
-    private final File userTestFile = new File(FILE_PATH + PersistentJsonFile.USER_FILE_NAME);
-    private final File credentialsTestFile = new File(FILE_PATH + PersistentJsonFile.CREDENTIAL_FILE_NAME);
-    private final File reportsTestFile = new File(FILE_PATH + PersistentJsonFile.WR_FILE_NAME);
+    private File userTestFile = new File(FILE_PATH + PersistentJsonFile.USER_FILE_NAME);
+    private File credentialsTestFile = new File(FILE_PATH + PersistentJsonFile.CREDENTIAL_FILE_NAME);
+    private File reportsTestFile = new File(FILE_PATH + PersistentJsonFile.WR_FILE_NAME);
     
-    private final PersistenceInterface persist = new PersistentJsonFile(FILE_PATH);
+    private PersistenceInterface persist = new PersistentJsonFile(FILE_PATH);
     
     @Before
     public void setup() {
@@ -55,4 +57,7 @@ public class CreateUserTester {
     public void testInvalidPassword() {
         assertTrue("Password should be invalid", UserManager.isPasswordInvalid(""));
     }
+    
+    
+    
 }

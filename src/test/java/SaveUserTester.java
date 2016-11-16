@@ -1,15 +1,11 @@
 import model.UserLevel;
 import model.UserManager;
 import model.Credential;
-import model.CredentialManager;
 import java.io.File;
 
 import org.junit.Test;
 import org.junit.Before;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import persistence.PersistenceInterface;
 import persistence.json.PersistentJsonFile;

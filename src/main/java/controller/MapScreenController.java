@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXTextArea;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javafx.stage.Stage;
 import model.User;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
@@ -18,7 +17,6 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
@@ -64,16 +62,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
     private boolean mapInitialized = false;
 
 
-    private final String defaultText = "Welcome! Thirsty?\nThirsty is the next big thing in the water reporting application world! To get started, click one of the buttons below!";
-    private final String availText = "Now, click anywhere on the map to add a water report at that coordinate!";
-    private final String qualText = "Now, click on any existing water report to add a quality report to it!";
+    private final String defaultText = "Welcome! Thirsty?\nThirsty is the next big thing"
+            + " in the water reporting application world! To get started, click one of the buttons below!";
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Sets the Quality Report button based on user's level
@@ -188,6 +179,9 @@ public class MapScreenController implements Initializable, MapComponentInitializ
         });
     }
 
+    /**
+     * Updates the map
+     */
     @Override
     public void mapInitialized() {
         createMap();
@@ -248,11 +242,11 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                             + "<br />"
                             + "",
                             lat, lng,
-                            rr.getWaterType().toString(),
-                            rr.getWaterCondition().toString(),
+                            rr.getWaterType(),
+                            rr.getWaterCondition(),
                             rr.getReportNum(),
                             rr.getAuthor().getUsername(),
-                            rr.getDateTime().format(DateTimeFormatter.ISO_DATE_TIME)
+                            rr.getDateTime()
                     );
 
                     QualityReport qr = rr.getMostRecentQualityReport();
@@ -317,6 +311,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             addQReportButton.setSelected(false);
         }
         if (addingAReport) {
+            String availText = "Now, click anywhere on the map to add a water report at that coordinate!";
             tutTextArea.setText(String.format("%s\n\n%s", defaultText, availText));
         } else {
             tutTextArea.setText(defaultText);
@@ -335,7 +330,8 @@ public class MapScreenController implements Initializable, MapComponentInitializ
             addAReportButton.setSelected(false);
         }
         if (addingQReport) {
-            tutTextArea.setText(String.format("%s\n\n%s", defaultText, qualText));
+            String qualityText = "Now, click on any existing water report to add a quality report to it!";
+            tutTextArea.setText(String.format("%s\n\n%s", defaultText, qualityText));
         } else {
             tutTextArea.setText(defaultText);
         }

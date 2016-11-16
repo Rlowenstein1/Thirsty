@@ -6,10 +6,13 @@ import javafx.stage.Stage;
 import persistence.PersistenceInterface;
 import persistence.json.PersistentJsonFile;
 
+/**
+ * Tyler Brown
+ */
 public class Thirsty extends Application {
 
 
-    private final PersistenceInterface persist = new PersistentJsonFile("src/main/resources/db/");
+    private final PersistenceInterface persist = new PersistentJsonFile(PersistentJsonFile.DEFAULT_PATH);
 
     @Override
     public void start(Stage stage) throws Exception {

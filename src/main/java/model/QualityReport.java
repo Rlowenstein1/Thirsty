@@ -8,9 +8,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDateTime;
-import java.time.Month;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a water quality report.
@@ -100,7 +101,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLongitudeProperty() {
-        return getParentReport().getLongitudeProperty();
+        return parentReport.getLongitudeProperty();
     }
 
     /**
@@ -109,55 +110,10 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLatitudeProperty() {
-        return getParentReport().getLatitudeProperty();
+        return parentReport.getLatitudeProperty();
     }
 
-    /**
-     * Gets the second at which this report was created
-     * @return the second
-     */
-    public int getSecond() {
-        return getDateTime().getSecond();
-    }
 
-    /**
-     * Gets the minute at which this report was created
-     * @return the minute
-     */
-    public int getMinute() {
-        return getDateTime().getMinute();
-    }
-
-    /**
-     * Gets the hour at which this report was created
-     * @return the hour
-     */
-    public int getHour() {
-        return getDateTime().getHour();
-    }
-
-    /** Gets the day at which this report was created
-     * @return the day
-     */
-    public int getDay() {
-        return getDateTime().getDayOfMonth();
-    }
-
-    /**
-     * Gets the month at which this report was created
-     * @return the month
-     */
-    public Month getMonth() {
-        return getDateTime().getMonth();
-    }
-
-    /**
-     * Gets the year at which this report was created
-     * @return the year
-     */
-    public int getYear() {
-        return getDateTime().getYear();
-    }
 
     /**
      * Get the report's creation time
@@ -354,7 +310,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @return the integer value from comparison
      */
     @Override
-    public int compareTo(QualityReport report) {
+    public int compareTo(@NotNull QualityReport report) {
         return getDateTime().compareTo(report.getDateTime());
     }
 }

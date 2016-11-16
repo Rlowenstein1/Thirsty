@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
-import javafx.stage.Stage;
 import model.User;
 import model.UserManager;
 
@@ -21,12 +20,6 @@ public class MainTabbedScreenController implements Initializable {
     @FXML
     private TabPane tabPane;
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Sets the currently logged in user

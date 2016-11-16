@@ -1,7 +1,6 @@
 package persistence;
 
 import model.Credential;
-import model.QualityReport;
 import model.User;
 import model.WaterReport;
 
@@ -90,15 +89,15 @@ public interface PersistenceInterface {
     /**
      * Saves a given quality report in the given water report in the underlying persistence layer
      * @param wr The water report to save this quality report in
-     * @param qr The quality report to save
+     *
      */
-    void saveQualityReport(WaterReport wr, QualityReport qr);
+    void saveQualityReport(WaterReport wr);
 
     /**
      * Deletes a given quality report in the given water report from the underlying persistence layer
      * @param wr The water report to delete this quality report from
-     * @param qr The quality report to delete
+     *
      */
-    void deleteQualityReport(WaterReport wr, QualityReport qr);
+    void deleteQualityReport(WaterReport wr);
 
 }

@@ -198,7 +198,7 @@ public class ProfileScreenController implements Initializable {
             UserLevel userLevel = accountTypeProfileBox.getValue();
             String password = pwProfileField.getText();
             String passwordConf = pwConfProfileField.getText();
-            if (fullname.length() == 0) {
+            if (fullname.isEmpty()) {
                 fullnameProfileErrorLabel.setText("Fullname cannot be left blank!");
             } else if (username.isEmpty()) {
                 Debug.debug("Username field cannot be left blank!");
@@ -227,7 +227,6 @@ public class ProfileScreenController implements Initializable {
                     activeUser.setUserLevel(userLevel);
                     UserManager.saveUser(activeUser, cred);
                     MasterSingleton.updateUserPrivileges();
-                    return;
                 }
             }
         } else {

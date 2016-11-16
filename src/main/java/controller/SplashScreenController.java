@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import lib.Debug;
 
 /**
@@ -19,12 +18,6 @@ public class SplashScreenController implements Initializable {
     @FXML
     private ImageView riverImageView;
 
-    /**
-     * Set the stage for the Splash Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Handles when the Login button is pressed

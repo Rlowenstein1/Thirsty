@@ -14,6 +14,9 @@ import model.Credential;
 import model.User;
 import model.UserManager;
 
+/**
+ * Tyler Brown
+ */
 public class LoginScreenController implements Initializable {
 
     private Stage stage;

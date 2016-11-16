@@ -9,10 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+
 import lib.Debug;
 import model.AuthenticationManager;
 import model.Credential;
@@ -23,6 +25,9 @@ import model.User;
 import model.UserManager;
 import model.WaterReport;
 
+/**
+ * Dominic Pattison
+ */
 public class PersistentJsonFile extends PersistentJsonInterface {
 
     private String pathName;
@@ -32,6 +37,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     private final CredentialManager credentialManager;
     private final AuthenticationManager authenticator;
 
+    public static final String DEFAULT_PATH = "src/main/resources/db/";
     private static final String FILE_EXTENSION = ".json";
     public static final String USER_FILE_NAME = "users" + FILE_EXTENSION;
     public static final String CREDENTIAL_FILE_NAME = "credentials" + FILE_EXTENSION;
@@ -39,11 +45,11 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     /**
      * Constructor that sets the pathname for json files
-     * @param pathName path to be set
+     * @param path The path folder for the database files to live in
      */
-    public PersistentJsonFile(String pathName) {
-        this.pathName = pathName;
-        if (!pathName.endsWith("/")) {
+    public PersistentJsonFile(String path) {
+        this.pathName = path;
+        if (!"src/main/resources/db/".endsWith("/")) {
             this.pathName += "/";
         }
         //TO DO: make sure this directory actually exists; try to create if not; throw exception on failure
@@ -59,7 +65,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @return list of objects of class c
      */
     private <T> List<T> loadAll(String filename, Class<T> c) {
-        List<T> res = new ArrayList<>();
+        Collection<T> res = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -68,7 +74,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                     res.add(t);
                 }
             }
-            return (res);
+            return (List<T>) res;
         } catch (FileNotFoundException e) {
             Debug.debug("File does not exist: %s", filename);
             try {
@@ -78,13 +84,13 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                 Debug.debug("Permission denied while creating file: %s\nMessage: %s", filename, ee.toString());
             } catch (IOException ee) {
                 Debug.debug("IOException while creating new file: %s\nMessage: %s", filename, ee.toString());
-                e.printStackTrace(System.out);
+                //e.printStackTrace(System.out);
             }
         } catch (AccessDeniedException e) {
             Debug.debug("Permission denied while reading file: %s", filename);
         } catch (Exception e) {
             Debug.debug("Exception while loading from file: %s\nException message: %s", filename, e.getMessage());
-            e.printStackTrace(System.out);
+            //e.printStackTrace(System.out);
             // error reading the file
         }
         return (null);
@@ -119,9 +125,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         String credentialsFile = pathName + CREDENTIAL_FILE_NAME;
         List<Credential> credentials = loadAll(credentialsFile, Credential.class);
         if (credentials != null) {
-            for (Credential credential : credentials) {
-                credentialManager.saveCredential(credential);
-            }
+            credentials.forEach(credentialManager::saveCredential);
         }
         writerCredentials = openFile(credentialsFile);
 
@@ -181,17 +185,14 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * Writes a string to a file
      * @param writer The open Writer to write with
      * @param s The string which shall be written
-     * @return True if the line was written and flushed, false if there was an IOException
      */
-    private boolean writeToFile(Writer writer, CharSequence s) {
+    private void writeToFile(Writer writer, CharSequence s) {
         try {
             writer.append(s);
             writer.flush();
-            return (true);
         } catch (IOException e) {
             Debug.debug("Exception while writing user: %s", e.getMessage());
         }
-        return (false);
     }
 
     @Override
@@ -251,12 +252,12 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     }
 
     @Override
-    public void saveQualityReport(WaterReport wr, QualityReport qr) {
+    public void saveQualityReport(WaterReport wr) {
         saveWaterReport(wr);
     }
 
     @Override
-    public void deleteQualityReport(WaterReport wr, QualityReport qr) {
+    public void deleteQualityReport(WaterReport wr) {
         saveWaterReport(wr);
     }
 }

@@ -34,7 +34,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lib.Debug;
 import model.DisplayableReport;
@@ -104,12 +103,6 @@ public class WaterReportScreenController implements Initializable {
     private static final String DATA_TYPE_VPPM = "V PPM";
     private static final String DATA_TYPE_CPPM = "C PPM";
 
-    /**
-     * Set the stage for the Main Screen Controller
-     * @param stage The stage being set
-     */
-    public void setStage(Stage stage) {
-    }
 
     /**
      * Greets the user with a welcome message
@@ -187,6 +180,7 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleFromDateAction(ActionEvent event) {
+        redrawHistoryGraph();
     }
 
     /**
@@ -195,6 +189,7 @@ public class WaterReportScreenController implements Initializable {
      */
     @FXML
     public void handleToDateAction(ActionEvent event) {
+        redrawHistoryGraph();
     }
 
     /**
@@ -456,7 +451,7 @@ public class WaterReportScreenController implements Initializable {
                         rTTselectionModel.select(tI); //selects the wrong one the first time. needs to be called twice
                         reportTreeTable.scrollTo(rTTselectionModel.getSelectedIndex());
                     } else {
-                        Debug.warn("Unable to find a TreeItem to map this report to! %s", node.getUserData());
+                        Debug.warn(node.getUserData());
                     }
                 });
             }
@@ -526,12 +521,14 @@ public class WaterReportScreenController implements Initializable {
         );
 
         reportTreeTable.setRoot(root);
+        /*
         fromDateBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             redrawHistoryGraph();
         });
         toDateBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             redrawHistoryGraph();
         });
+        */
         reportTreeTable.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {

@@ -7,14 +7,17 @@ import org.hildan.fxgson.FxGson;
 
 import java.time.LocalDateTime;
 
-public abstract class PersistentJsonInterface implements PersistenceInterface {
+/**
+ * Dominic Pattison
+ */
+abstract class PersistentJsonInterface implements PersistenceInterface {
 
     private final Gson gson;
 
     /**
      * Default constructor. All sub-classes automatically call this when they are themselves created
      */
-    public PersistentJsonInterface() {
+    PersistentJsonInterface() {
         //GsonBuilder gsonBuilder = new GsonBuilder();
         //gson = gsonBuilder.create();
         gson = FxGson.coreBuilder()
@@ -29,7 +32,7 @@ public abstract class PersistentJsonInterface implements PersistenceInterface {
      * @param c class of object
      * @return string of json representing the object o
      */
-    public String toJson(Object o, Type c) {
+    String toJson(Object o, Type c) {
         return (gson.toJson(o, c));
     }
 
@@ -40,7 +43,7 @@ public abstract class PersistentJsonInterface implements PersistenceInterface {
      * @param c class of type T of the json string object
      * @return object of type T parsed from the json string j
      */
-    public <T> T fromJson(String j, Class<T> c) {
+    <T> T fromJson(String j, Class<T> c) {
         return (gson.fromJson(j, c));
     } 
 }

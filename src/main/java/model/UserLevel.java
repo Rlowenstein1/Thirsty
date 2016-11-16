@@ -26,7 +26,7 @@ public enum UserLevel {
      *
      * @return the integer (1-4) representing a User's authority level
      */
-    public int getValue() {
+    private int getValue() {
         return level;
     }
 
