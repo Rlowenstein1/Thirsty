@@ -1,7 +1,5 @@
-import model.CredentialManager;
-import model.UserLevel;
-import model.UserManager;
-import model.AuthenticationManager;
+import model.*;
+
 import java.io.File;
 
 import org.junit.Test;
@@ -11,7 +9,8 @@ import org.junit.Before;
 import persistence.json.PersistentJsonFile;
 import org.omg.CORBA.TIMEOUT;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -44,5 +43,34 @@ public class AuthenticationManagerTester {
     @Test(timeout = TIMEOUT, expected = IllegalArgumentException.class)
     public void testNullCredential() {
         authenticationManager.authenticate(null);
+    }
+    @Test(timeout = TIMEOUT)
+    public void testfalseCredential() {
+        Credential c = new Credential("user", "pass");
+        assertFalse(authenticationManager.authenticate((c)));
+    }
+    @Test(timeout = TIMEOUT)
+    public void testauthenticated() {
+        Credential c = new Credential("user1", "pass1");
+        boolean ignore = authenticationManager.authenticate(c);
+        assertTrue(authenticationManager.authenticate((c)));
+    }
+    @Test(timeout = TIMEOUT)
+    public void isAuthenticatedTesterFalse() {
+        assertFalse(authenticationManager.isAuthenticated("user2"));
+    }
+    @Test(timeout = TIMEOUT)
+    public void isAuthenticatedTestTrue() {
+        Credential c = new Credential("user3", "pass3");
+        boolean ignore = authenticationManager.authenticate(c);
+        assertTrue(authenticationManager.isAuthenticated("user3"));
+    }
+    @Test(timeout = TIMEOUT)
+    public void logout() {
+        Credential c = new Credential("user4", "pass4");
+        authenticationManager.authenticate(c);
+        assertTrue(authenticationManager.isAuthenticated("user4"));
+        authenticationManager.logout("user4");
+        assertFalse(authenticationManager.isAuthenticated("user4"));
     }
 }
