@@ -37,3 +37,4 @@ settings.gradle
 
 # persistence JSON files
 src/main/resources/db/*
+src/test/resources/db/*
