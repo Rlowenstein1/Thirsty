@@ -56,7 +56,7 @@ public class AuthenticationManagerTester {
     @Test(timeout = TIMEOUT)
     public void testauthenticated() {
         Credential c = new Credential("user1", "pass1");
-        boolean ignore = authenticationManager.authenticate(c);
+        credentialManager.saveCredential(c);
         assertTrue(authenticationManager.authenticate(c));
     }
     @Test(timeout = TIMEOUT)
@@ -66,13 +66,15 @@ public class AuthenticationManagerTester {
     @Test(timeout = TIMEOUT)
     public void isAuthenticatedTestTrue() {
         Credential c = new Credential("user3", "pass3");
-        boolean ignore = authenticationManager.authenticate(c);
+        credentialManager.saveCredential(c);
+        assertTrue(authenticationManager.authenticate(c));
         assertTrue(authenticationManager.isAuthenticated("user3"));
     }
     @Test(timeout = TIMEOUT)
     public void logout() {
         Credential c = new Credential("user4", "pass4");
-        authenticationManager.authenticate(c);
+        credentialManager.saveCredential(c);
+        assertTrue(authenticationManager.authenticate(c));
         assertTrue(authenticationManager.isAuthenticated("user4"));
         authenticationManager.logout("user4");
         assertFalse(authenticationManager.isAuthenticated("user4"));

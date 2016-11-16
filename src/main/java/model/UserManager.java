@@ -84,7 +84,7 @@ public class UserManager {
      *      - authenticating with the persistence layer failed
      */
     public static User saveUser(User u, Credential c) {
-        if (u == null || c == null) {
+        if ((u == null) || (c == null)) {
             return (null);
         }
         persist.saveUser(u);
