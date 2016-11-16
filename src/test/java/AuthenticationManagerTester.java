@@ -40,6 +40,8 @@ public class AuthenticationManagerTester {
         UserManager.initialize(persist);
         UserManager.createUser("Bob", "pw", "Bob Bob", "blah", UserLevel.WORKER);
 
+        Credential c = new Credential("user1", "pass1");
+        credentialManager.saveCredential(c);
     }
 
     @Test(timeout = TIMEOUT, expected = IllegalArgumentException.class)
@@ -55,7 +57,7 @@ public class AuthenticationManagerTester {
     public void testauthenticated() {
         Credential c = new Credential("user1", "pass1");
         boolean ignore = authenticationManager.authenticate(c);
-        assertTrue(authenticationManager.authenticate((c)));
+        assertTrue(authenticationManager.authenticate(c));
     }
     @Test(timeout = TIMEOUT)
     public void isAuthenticatedTesterFalse() {
