@@ -6,6 +6,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Test;
 
+/**
+ * A JUnit test class for testing the Credential class
+ * @author Dominic Pattison
+ */
 public class CredentialTester {
     public static final int TIMEOUT = 200;
 
