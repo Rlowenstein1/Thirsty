@@ -1,5 +1,6 @@
 import model.UserLevel;
 import model.UserManager;
+import model.User;
 import model.Credential;
 import model.CredentialManager;
 import java.io.File;
@@ -29,6 +30,7 @@ public class SaveUserTester {
     
     private final PersistenceInterface persist = new PersistentJsonFile(FILE_PATH);
     private Credential credential;
+    private CredentialManager manager;
     
     @Before
     public void setup() {
@@ -38,23 +40,38 @@ public class SaveUserTester {
         persist.initialize();
         UserManager.initialize(persist); 
         credential = new Credential("Kenny", "Bae");
+        manager = new CredentialManager();
     }
     
     @Test(timeout = TIMEOUT)
-    public void testNullCredentials() {
-        assertEquals("User should not be saved", null, UserManager.saveUser(
-            UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER), null));
+    public void testNullCredential() {
+    	User kenny = UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER);
+        assertEquals("User should not be saved", null, UserManager.saveUser(kenny, null));
     }
 
     @Test(timeout = TIMEOUT)
-    public void testInvalidCredentials() {
-        assertEquals("User should not be saved", null, UserManager.saveUser(
-            UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER), new Credential("Rudy", "Swag")));
+    public void testNullUser() {
+    	User kenny = UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER);
+        assertEquals("User should not be saved", null, UserManager.saveUser(null, credential));
     }
 
     @Test(timeout = TIMEOUT)
     public void testValidCredentials() {
-        assertEquals("User should be saved", UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER), UserManager.saveUser(
-            UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER), credential));
+    	User kenny = UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER);
+        assertEquals("User should be saved", kenny, UserManager.saveUser(kenny, credential));
     }
+
+    @Test(timeout = TIMEOUT)
+    public void testUpdatePassword() {
+    	User kenny = UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER);
+    	UserManager.saveUser(kenny, credential);
+    	manager.saveCredential(credential);
+    	Credential c = new Credential("Kenny", "Swag");
+    	UserManager.saveUser(kenny, c);
+    	manager.saveCredential(c);
+        assertTrue("User should still be authenticated", persist.isUserAuthenticated(kenny.getUsername()));
+        assertTrue("User password should be updated", manager.matchCredential(c));
+
+    }
+
 }
