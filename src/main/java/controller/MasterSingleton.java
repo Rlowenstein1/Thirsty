@@ -53,7 +53,11 @@ public class MasterSingleton {
         MasterSingleton.persist = persist;
         UserManager.initialize(persist);
         ReportManager.initialize(persist);
-        persist.initialize();
+        try {
+            persist.initialize();
+        } catch (IOException e) {
+            Debug.debug("IOexception! persistence failed");
+        }
     }
 
     /**

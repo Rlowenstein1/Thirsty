@@ -1,5 +1,6 @@
 package persistence;
 
+import java.io.IOException;
 import model.Credential;
 import model.User;
 import model.WaterReport;
@@ -12,8 +13,9 @@ public interface PersistenceInterface {
 
     /**
      * Sets up the persistence layer (connect to DB, create/lock files, etc)
+     * @throws IOException If there was a problem setting up the interface
      */
-    void initialize();
+    void initialize() throws IOException;
 
     /**
      * Shuts down the persistence layer (disconnect from DB, close files, etc)

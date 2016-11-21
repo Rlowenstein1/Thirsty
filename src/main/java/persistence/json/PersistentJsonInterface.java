@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 /**
  * Dominic Pattison
  */
-abstract class PersistentJsonInterface implements PersistenceInterface {
+public abstract class PersistentJsonInterface implements PersistenceInterface {
 
     private final Gson gson;
 
     /**
      * Default constructor. All sub-classes automatically call this when they are themselves created
      */
-    PersistentJsonInterface() {
+    public PersistentJsonInterface() {
         //GsonBuilder gsonBuilder = new GsonBuilder();
         //gson = gsonBuilder.create();
         gson = FxGson.coreBuilder()
