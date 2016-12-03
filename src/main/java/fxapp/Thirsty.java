@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import persistence.PersistenceInterface;
 import persistence.json.PersistentJsonFile;
+import java.io.IOException;
 
 /**
  * Tyler Brown
@@ -31,6 +32,10 @@ public class Thirsty extends Application {
 
     @Override
     public void stop() {
-        persist.terminate();
+        try {
+            persist.terminate();
+        } catch (IOException e) {
+            // TODO how to handle error
+        }
     }
 }

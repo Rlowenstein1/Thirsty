@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.io.IOException;
 
 import persistence.PersistenceInterface;
+import lib.Debug;
 
 /**
  * Manager for the user objects of app
@@ -28,7 +30,11 @@ public class UserManager {
      * @param c The credentials of the new user
      */
     private static void saveCredential(Credential c) {
-        persist.saveUserCredential(c);
+        try {
+            persist.saveUserCredential(c);
+        } catch (IOException e) {
+            Debug.debug("Error in saving credential");
+        }
     }
 
     /**
@@ -70,7 +76,11 @@ public class UserManager {
      */
     public static void updateUser(User user) {
         if ((user != null) && userExists(user.getUsername())) {
-            persist.saveUser(user);
+            try {
+                persist.saveUser(user);
+            } catch (IOException e) {
+                Debug.debug("Error in updating user");
+            }
             addUser(user);
         }
     }
@@ -85,15 +95,24 @@ public class UserManager {
      */
     public static User saveUser(User u, Credential c) {
         if ((u == null) || (c == null)) {
-            return (null);
+            return null;
         }
-        persist.saveUser(u);
+        try {
+            persist.saveUser(u);
+        } catch (IOException e) {
+            Debug.debug("Error in saving user");
+        }
         addUser(u);
         saveCredential(c);
-        if (!persist.authenticateUser(c)) {
-            return (null);
+        try {
+            if (!persist.authenticateUser(c)) {
+                return null;
+            }
+        } catch (IOException e) {
+            Debug.debug("Error in saving user");
+            return null;
         }
-        return (u);
+        return u;
     }
     
     /**
@@ -141,8 +160,13 @@ public class UserManager {
             String username = c.getUsername();
             if (username != null) {
                 User u = getUser(username);
-                if ((u != null) && persist.authenticateUser(c)) {
-                    return (u);
+                try {
+                    if ((u != null) && persist.authenticateUser(c)) {
+                        return (u);
+                    }
+                } catch (IOException e) {
+                    Debug.debug("Error in logging in");
+                    return null;
                 }
             }
         }
@@ -156,8 +180,12 @@ public class UserManager {
     public static void logout(String username) {
         User u = getUser(username);
         if (u != null) {
-            persist.saveUser(u);
-            persist.deauthenticateUser(username);
+            try {
+                persist.saveUser(u);
+                persist.deauthenticateUser(username);
+            } catch (IOException e) {
+                Debug.debug("Error in logging out");
+            }
         }
     }
 

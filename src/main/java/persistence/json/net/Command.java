@@ -15,7 +15,7 @@ public class Command {
     private String data;
     private Credential credential;
 
-    public void setCommand(CommandType command) {
+    public void setCommandType(CommandType command) {
         this.command = command;
     }
 

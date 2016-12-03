@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 //import java.util.stream.Collectors;
+import java.io.IOException;
 
 import persistence.PersistenceInterface;
+import lib.Debug;
 
 /**
  * Manager for the Report classes
@@ -59,7 +61,11 @@ public class ReportManager {
                 WaterCondition condition, User author) {
         reportNumber = reportNumber + 1;
         WaterReport r = new WaterReport(reportNumber, latitude, longitude, type, condition, author);
-        persist.saveWaterReport(r);
+        try {
+            persist.saveWaterReport(r);
+        } catch (IOException e) {
+            Debug.debug("Error in saving water report");
+        }
         addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
         return (r);
@@ -79,7 +85,11 @@ public class ReportManager {
                 WaterType type, WaterCondition condition, User author) {
         reportNumber = reportNumber + 1;
         WaterReport r = new WaterReport(reportNumber, dateTime, latitude, longitude, type, condition, author);
-        persist.saveWaterReport(r);
+        try {
+            persist.saveWaterReport(r);
+        } catch (IOException e) {
+            Debug.debug("Error in saving water report");
+        }
         addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
         return (r);
@@ -100,7 +110,11 @@ public class ReportManager {
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
         waterReport.addQualityReport(report);
-        persist.saveQualityReport(waterReport);
+        try {
+            persist.saveQualityReport(waterReport);
+        } catch (IOException e) {
+            Debug.debug("Error in saving water report");
+        }
         return (report);
     }
 
@@ -121,7 +135,11 @@ public class ReportManager {
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
         waterReport.addQualityReport(report);
-        persist.saveQualityReport(waterReport);
+        try {
+            persist.saveQualityReport(waterReport);
+        } catch (IOException e) {
+            Debug.debug("Error in saving water report");
+        }
         return (report);
     }
 
@@ -138,7 +156,11 @@ public class ReportManager {
      * @param waterReport to be deleted
      */
     public static void deleteWaterReport(WaterReport waterReport) {
-        persist.deleteWaterReport(waterReport);
+        try {
+            persist.deleteWaterReport(waterReport);
+        } catch (IOException e) {
+            Debug.debug("Error in saving water report");
+        }
         waterReportList.remove(waterReport);
     }
 
@@ -161,7 +183,11 @@ public class ReportManager {
      * @param qualityReport the QualityReport to be deleted
      */
     private static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
-        persist.deleteQualityReport(waterReport);
+        try {
+            persist.deleteQualityReport(waterReport);
+        } catch (IOException e) {
+            Debug.debug("Error in saving water report");
+        }
         waterReport.removeQualityReport(qualityReport);
     }
 

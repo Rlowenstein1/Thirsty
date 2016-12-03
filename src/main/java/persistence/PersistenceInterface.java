@@ -20,14 +20,14 @@ public interface PersistenceInterface {
     /**
      * Shuts down the persistence layer (disconnect from DB, close files, etc)
      */
-    void terminate();
+    void terminate() throws IOException;
 
     /**
      * Saves user to underlying persistence implementer
      * If user already exists, update all fields
      * @param u The user to save/update
      */
-    void saveUser(User u);
+    void saveUser(User u) throws IOException;
 
     /**
      * Queries the underlying persistence layer for validation of the given username/password
@@ -35,71 +35,71 @@ public interface PersistenceInterface {
      * @param c The credential to validate
      * @return true if the credential matches the persistence layer
      */
-    boolean authenticateUser(Credential c);
+    boolean authenticateUser(Credential c) throws IOException;
 
     /**
      * Logs out the given user
      * @param username The username to logout 
      */
-    void deauthenticateUser(String username);
+    void deauthenticateUser(String username) throws IOException;
 
     /**
      * Checks if a given user is currently authenticated (logged in)
      * @param username The username of the user to check
      * @return true if the user is currently authenticated (logged in)
      */
-    boolean isUserAuthenticated(String username);
+    boolean isUserAuthenticated(String username) throws IOException;
 
     /**
      * Saves credential to persistence layer.
      * If user already exists, update password
      * @param c The credential to save
      */
-    void saveUserCredential(Credential c);
+    void saveUserCredential(Credential c) throws IOException;
 
     /**
      * Checks the persistence layer to see if a user exists, and has a password
      * @param username The username of the user to check
      * @return true if the user exists, and has a password
      */
-    boolean userExists(String username);
+    boolean userExists(String username) throws IOException;
 
     /**
      * Deletes this user from the underlying persistence implementer
      * @param username The username of the user to delete
      */
-    void deleteUser(String username);
+    void deleteUser(String username) throws IOException;
 
     /**
      * Deletes this user from the underlying persistence implementer
      * @param u The User object of the user to delete
      */
-    void deleteUser(User u);
+    void deleteUser(User u) throws IOException;
 
     /**
      * Saves a water report to the underlying persistence implementer
      * @param wr The water report to save
      */
-    void saveWaterReport(WaterReport wr);
+    void saveWaterReport(WaterReport wr) throws IOException;
 
     /**
      * Deletes the given water report and all its child reports from the underlying persistence layer
      * @param wr The water report to delete
      */
-    void deleteWaterReport(WaterReport wr);
+    void deleteWaterReport(WaterReport wr) throws IOException;
 
     /**
      * Saves a given quality report in the given water report in the underlying persistence layer
      * @param wr The water report to save this quality report in
      *
      */
-    void saveQualityReport(WaterReport wr);
+    void saveQualityReport(WaterReport wr) throws IOException;
 
     /**
      * Deletes a given quality report in the given water report from the underlying persistence layer
      * @param wr The water report to delete this quality report from
      *
      */
-    void deleteQualityReport(WaterReport wr);
+    void deleteQualityReport(WaterReport wr) throws IOException;
 
 }
