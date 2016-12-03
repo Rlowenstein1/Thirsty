@@ -30,14 +30,18 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
     private PrintWriter out = null;
 
     private ReaderThread readerThread;
+    private CommandThread commandThread;
 
     protected BlockingQueue<String> inputMessages;
+    protected BlockingQueue<Command> inputCommands;
 
     @Override
     public void initialize() throws IOException {
         connect();
         readerThread = new ReaderThread();
         readerThread.start();
+        commandThread = new CommandThread();
+        commandThread.start();
     }
 
     /**
@@ -46,10 +50,10 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
      * @param port The port of the server to connect to
      */
     public PersistentJsonNetworkInterface(String hostname, int port) {
-        super();
         this.serverName = hostname;
         this.serverPort = port;
         this.inputMessages = new LinkedBlockingQueue<>();
+        this.inputCommands = new LinkedBlockingQueue<>();
     }
 
     /**
@@ -68,6 +72,8 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
         if (sock != null && !sock.isClosed()) {
             sock.close();
         }
+        readerThread.interrupt();
+        commandThread.interrupt();
     }
 
     /**
@@ -115,7 +121,7 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
      * @param text The text to send
      * @throws IOException If there was a problem with the socket. Connection must be re-established
      */
-    public void sendText(String text) throws IOException {
+    public void sendRaw(String text) throws IOException {
         if (text == null) {
             return;
         }
@@ -132,6 +138,11 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
         }
     }
 
+
+    public void sendMessage(String text) throws IOException {
+        sendRaw(text + "\n\n");
+    }
+
     /**
      * Gets the count of the messages which are waiting for processing. 0 means no messages, and that a subsequent call to getNextMessage() will (most likely) block
      * @return 
@@ -141,10 +152,18 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
     }
 
     /**
+     * Gets the next (oldest) response command on the queue. Blocks if no command is available
+     * @return 
+     */
+    public Command getNextCommand() throws InterruptedException {
+        return (inputCommands.take());
+    }
+
+    /**
      * Gets the next (oldest) message on the queue. Blocks if no message is available
      * @return 
      */
-    public String getNextMessage() throws InterruptedException {
+    private String getNextMessage() throws InterruptedException {
         return (inputMessages.take());
     }
 
@@ -167,7 +186,40 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
                 try {
                     String in = receiveMessage();
                     inputMessages.put(in);
+                    Debug.debug("Put into inputMessages: %s", in);
                 } catch (IOException | InterruptedException e) {
+                    Debug.debug("Exception: %s", e.toString());
+                }
+            }
+        }
+    }
+
+    /**
+     */
+    private class CommandThread extends Thread {
+        @Override
+        public void run() {
+            while (!sock.isClosed()) {
+                try {
+                    Debug.debug("Taking from inputMessages...");
+                    String mess = inputMessages.take();
+                    Debug.debug("Got a string from inputMessages: %s", mess);
+                    try {
+                        Command commandIn = fromJson(mess, Command.class);
+                        Debug.debug("Got a command: %s", commandIn);
+                        if (commandIn.getCommand() == Command.CommandType.UNKNOWN) {
+                            Debug.debug("Unknown command type!");
+                            continue;
+                        }
+                        if (commandIn.isResponse()) {
+                            inputCommands.put(commandIn);
+                        } else {
+                            //this is a new message (push notification), like loading a new user/report. handle adding it to the model now
+                        }
+                    } catch (ClassCastException e) {
+                        Debug.debug("Failed to cast incoming message to command: %s", e.toString());
+                    }
+                } catch (InterruptedException e) {
                     Debug.debug("Exception: %s", e.toString());
                 }
             }

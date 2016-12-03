@@ -23,8 +23,8 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     private Credential credential;
 
-    public PersistentJsonNetwork() {
-        super("host", 111);
+    public PersistentJsonNetwork(String hostname, int port) {
+        super(hostname, port);
     }
 
     public void terminate() throws IOException {
@@ -36,8 +36,14 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
         Command command = new Command();
         command.setCredential(c);
         command.setCommandType(Command.CommandType.AUTHENTICATE);
-        //sendText(toJson(command, Command.class));   TODO not recognized for some reason
-        String test = receiveMessage();
+        Debug.debug("Sending: %s", command);
+        sendMessage(toJson(command));
+        try {
+            Command next = getNextCommand();
+            Debug.debug("Got a command in response to our authentication: %s", next.toString());
+        } catch (InterruptedException e) {
+            Debug.debug("getting response was interrupted!");
+        }
         return false;
     }
 

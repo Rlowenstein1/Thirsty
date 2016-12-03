@@ -29,11 +29,10 @@ public abstract class PersistentJsonInterface implements PersistenceInterface {
     /**
      * Function for converting object to json string
      * @param o object to convert
-     * @param c class of object
      * @return string of json representing the object o
      */
-    String toJson(Object o, Type c) {
-        return (gson.toJson(o, c));
+    public String toJson(Object o) {
+        return (gson.toJson(o));
     }
 
     /**
@@ -43,7 +42,7 @@ public abstract class PersistentJsonInterface implements PersistenceInterface {
      * @param c class of type T of the json string object
      * @return object of type T parsed from the json string j
      */
-    <T> T fromJson(String j, Class<T> c) {
+    public <T> T fromJson(String j, Class<T> c) {
         return (gson.fromJson(j, c));
     } 
 }

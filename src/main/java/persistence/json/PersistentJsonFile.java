@@ -197,7 +197,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     @Override
     public void saveUser(User u) {
-        writeToFile(writerUsers, toJson(u, User.class) + "\n");
+        writeToFile(writerUsers, toJson(u) + "\n");
     }
 
     @Override
@@ -213,7 +213,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     @Override
     public void saveUserCredential(Credential c) {
         credentialManager.saveCredential(c);
-        writeToFile(writerCredentials, toJson(c, Credential.class) + "\n");
+        writeToFile(writerCredentials, toJson(c) + "\n");
     }
 
     @Override
@@ -241,7 +241,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     @Override
     public void saveWaterReport(WaterReport wr) {
-        writeToFile(writerReports, toJson(wr, WaterReport.class) + "\n");
+        writeToFile(writerReports, toJson(wr) + "\n");
         //horrible, just appends the new report, which overwrites the old one when it gets loaded
     }
 
