@@ -176,6 +176,8 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
         disconnect();
     }
 
+    public abstract void addUser();
+
     /**
      * Class that handles asynchronous network reading
      */
@@ -214,6 +216,11 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
                         if (commandIn.isResponse()) {
                             inputCommands.put(commandIn);
                         } else {
+                            switch (commandIn.getCommand()) {
+                                case LOAD_USER:
+                                    addUser();
+                                    break;
+                            }
                             //this is a new message (push notification), like loading a new user/report. handle adding it to the model now
                         }
                     } catch (ClassCastException e) {

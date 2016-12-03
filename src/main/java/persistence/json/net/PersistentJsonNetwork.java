@@ -92,4 +92,9 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     public void deleteQualityReport(WaterReport qr) throws IOException {
         // net stuff
     }
+
+    @Override
+    public void addUser() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
