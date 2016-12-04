@@ -43,7 +43,15 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     }
 
     public void deauthenticateUser(String username) throws IOException {
-        // net stuff
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DEAUTHENTICATE, null, credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful deauthentication: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Successful deauthentication");
+            //maybe throw an exception so the message can be displayed to the user?
+        }
     }
 
     public boolean isUserAuthenticated(String username) throws IOException {
@@ -56,36 +64,73 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     }
 
     public boolean userExists(String username) throws IOException {
-        // net stuff?
-        return false;
+        // user manager should already be loaded with users
+        return UserManager.userExists(username);
     }
 
     public void saveUser(User u) throws IOException {
-        // net stuff
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_USER, toJson(u), credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful user save: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully saved user");
+        }
     }
 
     public void deleteUser(User u) throws IOException {
-        // net stuff
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DELETE_USER, toJson(u), credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful user delete: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully deleted user");
+        }
     }
 
     public void deleteUser(String username) throws IOException {
+        User u = UserManager.getUser(username);
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DELETE_USER, toJson(u), credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful user delete: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully deleted user");
+        }
         // net stuff
     }
 
     public void saveWaterReport(WaterReport wr) throws IOException {
-        // net stuff
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_WATER_REPORT, toJson(wr), credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful water report save: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully saved water report");
+        }
     }
 
     public void deleteWaterReport(WaterReport wr) throws IOException {
-        // net stuff
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DELETE_WATER_REPORT, toJson(wr), credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful water report delete: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully deleted water report");
+        }
     }
 
     public void saveQualityReport(WaterReport wr) throws IOException {
-        // net suff
+        saveWaterReport(wr); // using the water report to delete
     }
 
-    public void deleteQualityReport(WaterReport qr) throws IOException {
-        // net stuff
+    public void deleteQualityReport(WaterReport wr) throws IOException {
+        deleteWaterReport(wr); // using the water report to delete
     }
 
     @Override
