@@ -159,12 +159,6 @@ public class UserManager {
         if (c != null) {
             String username = c.getUsername();
             if (username != null) {
-                try {
-                    persist.authenticateUser(c);
-                } catch (IOException e) {
-                    Debug.debug("Error in logging in");
-                }
-                /*
                 User u = getUser(username);
                 try {
                     if ((u != null) && persist.authenticateUser(c)) {
@@ -174,7 +168,6 @@ public class UserManager {
                     Debug.debug("Error in logging in");
                     return null;
                 }
-                */
             }
         }
         return (null);

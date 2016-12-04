@@ -15,21 +15,33 @@ public class Command {
     @Expose
     private CommandType command;
     @Expose
-    private boolean response;
-    @Expose
     private String data;
     @Expose
     private Credential credential;
 
-    public Command(CommandType type, boolean response, String data, Credential c) {
+
+    @Expose
+    private boolean response;
+    @Expose
+    private boolean success;
+    @Expose
+    private String message;
+
+    public Command(CommandType type, String data, Credential c, boolean response, boolean success, String message) {
         this.command = type;
         this.response = response;
         this.data = data;
         this.credential = c;
+        this.success = success;
+        this.message = message;
+    }
+
+    public Command(CommandType type, String data, Credential c) {
+        this(type, data, c, false, false, null);
     }
 
     public Command() {
-        this(CommandType.UNKNOWN, false, null, null);
+        this(CommandType.UNKNOWN, null, null);
     }
 
     public void setCommandType(CommandType command) {
@@ -64,20 +76,40 @@ public class Command {
         this.response = response;
     }
 
+    public boolean isSuccessful() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return (
                 String.format(""
                         + "Command: [\n"
                         + "  type: %s\n"
-                        + "  response: %b\n"
                         + "  data: %s\n"
                         + "  credential: %s\n"
+                        + "  response: %b\n"
+                        + "  success: %b\n"
+                        + "  message: %s\n"
                         + "]",
                         command,
-                        response,
                         data,
-                        credential
+                        credential,
+                        response,
+                        success,
+                        message
                 )
         );
     }

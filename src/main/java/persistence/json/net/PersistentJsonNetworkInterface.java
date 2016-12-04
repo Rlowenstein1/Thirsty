@@ -5,6 +5,7 @@
  */
 package persistence.json.net;
 
+import com.google.gson.JsonSyntaxException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +15,10 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import lib.Debug;
+import model.Credential;
+import model.User;
 import persistence.json.PersistentJsonInterface;
+import persistence.json.net.Command.CommandType;
 
 /**
  *
@@ -176,7 +180,25 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
         disconnect();
     }
 
-    public abstract void addUser();
+    public Command sendCommandAndAwaitResponse(CommandType type, String data, Credential cred) throws IOException {
+        Command command = new Command(type, data, cred);
+        Debug.debug("Sending command:\n%s", command);
+        sendMessage(toJson(command));
+        Command next = null;
+        try {
+            while (next == null || (!next.isResponse() && next.getCommand() != type)) {
+                next = getNextCommand();
+                Debug.debug("Got a command: %s", next.toString());
+            }
+            Debug.debug("Command was a response to our query for %s", type);
+        } catch (InterruptedException e) {
+            Debug.debug("getting response was interrupted!");
+            next = null;
+        }
+        return (next);
+    }
+
+    public abstract void addUser(User u);
 
     /**
      * Class that handles asynchronous network reading
@@ -208,7 +230,7 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
                     Debug.debug("Got a string from inputMessages: %s", mess);
                     try {
                         Command commandIn = fromJson(mess, Command.class);
-                        Debug.debug("Got a command: %s", commandIn);
+                        Debug.debug("Got a command:\n%s", commandIn);
                         if (commandIn.getCommand() == Command.CommandType.UNKNOWN) {
                             Debug.debug("Unknown command type!");
                             continue;
@@ -216,18 +238,23 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
                         if (commandIn.isResponse()) {
                             inputCommands.put(commandIn);
                         } else {
+                            //this is a new message (push notification), like loading a new user/report. handle adding it to the model now
                             switch (commandIn.getCommand()) {
                                 case LOAD_USER:
-                                    addUser();
+                                    try {
+                                        User u = fromJson(commandIn.getData(), User.class);
+                                        addUser(u);
+                                    } catch (JsonSyntaxException e) {
+                                        Debug.debug("Failed to cast incoming data to user: %s", e.toString());
+                                    }
                                     break;
                             }
-                            //this is a new message (push notification), like loading a new user/report. handle adding it to the model now
                         }
-                    } catch (ClassCastException e) {
+                    } catch (JsonSyntaxException e) {
                         Debug.debug("Failed to cast incoming message to command: %s", e.toString());
                     }
                 } catch (InterruptedException e) {
-                    Debug.debug("Exception: %s", e.toString());
+                    Debug.debug("Interrupted: %s", e.toString());
                 }
             }
         }

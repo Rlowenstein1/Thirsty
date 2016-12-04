@@ -33,18 +33,13 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     public boolean authenticateUser(Credential c) throws IOException {
         credential = c;
-        Command command = new Command();
-        command.setCredential(c);
-        command.setCommandType(Command.CommandType.AUTHENTICATE);
-        Debug.debug("Sending: %s", command);
-        sendMessage(toJson(command));
-        try {
-            Command next = getNextCommand();
-            Debug.debug("Got a command in response to our authentication: %s", next.toString());
-        } catch (InterruptedException e) {
-            Debug.debug("getting response was interrupted!");
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.AUTHENTICATE, null, c);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful authentication: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
         }
-        return false;
+        return (resp.isSuccessful());
     }
 
     public void deauthenticateUser(String username) throws IOException {
@@ -94,7 +89,7 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     }
 
     @Override
-    public void addUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addUser(User user) {
+        UserManager.addUser(user);
     }
 }
