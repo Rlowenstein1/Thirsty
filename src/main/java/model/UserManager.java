@@ -98,7 +98,10 @@ public class UserManager {
             return null;
         }
         try {
-            persist.saveUser(u);
+            u = persist.saveUser(u);
+            if (u == null) {
+                return (null);
+            }
         } catch (IOException e) {
             Debug.debug("Error in saving user");
         }
@@ -160,9 +163,8 @@ public class UserManager {
             try {
                 User u = persist.authenticateUser(c);
                 if (u != null) {
-                    User newU = u.cloneIt();
-                    addUser(newU);
-                    return (newU);
+                    addUser(u);
+                    return (u);
                 }
             } catch (IOException e) {
                 Debug.debug("Error in logging in");

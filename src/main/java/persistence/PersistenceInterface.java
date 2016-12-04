@@ -28,7 +28,7 @@ public interface PersistenceInterface {
      * If user already exists, update all fields
      * @param u The user to save/update
      */
-    void saveUser(User u) throws IOException;
+    User saveUser(User u) throws IOException;
 
     /**
      * Queries the underlying persistence layer for validation of the given username/password
@@ -74,7 +74,7 @@ public interface PersistenceInterface {
      * Saves a water report to the underlying persistence implementer
      * @param wr The water report to save
      */
-    void saveWaterReport(WaterReport wr) throws IOException;
+    WaterReport saveWaterReport(WaterReport wr) throws IOException;
 
     /**
      * Deletes the given water report and all its child reports from the underlying persistence layer
@@ -87,7 +87,7 @@ public interface PersistenceInterface {
      * @param wr The water report to save this quality report in
      *
      */
-    void saveQualityReport(QualityReport wr) throws IOException;
+    QualityReport saveQualityReport(QualityReport wr) throws IOException;
 
     /**
      * Deletes a given quality report in the given water report from the underlying persistence layer

@@ -197,8 +197,9 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     }
 
     @Override
-    public void saveUser(User u) {
+    public User saveUser(User u) {
         writeToFile(writerUsers, toJson(u) + "\n");
+        return (u);
     }
 
     @Override
@@ -236,12 +237,13 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     }
 
     @Override
-    public void saveWaterReport(WaterReport wr) {
+    public WaterReport saveWaterReport(WaterReport wr) {
         if (wr == null) {
-            return;
+            return (null);
         }
         writeToFile(writerReports, toJson(wr) + "\n");
         //horrible, just appends the new report, which overwrites the old one when it gets loaded
+        return (wr);
     }
 
     @Override
@@ -254,8 +256,9 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     }
 
     @Override
-    public void saveQualityReport(QualityReport qr) {
+    public QualityReport saveQualityReport(QualityReport qr) {
         saveWaterReport(qr.getParentReport());
+        return (qr);
     }
 
     @Override

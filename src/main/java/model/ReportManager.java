@@ -65,7 +65,10 @@ public class ReportManager {
         reportNumber = reportNumber + 1;
         WaterReport r = new WaterReport(reportNumber, latitude, longitude, type, condition, author);
         try {
-            persist.saveWaterReport(r);
+            r = persist.saveWaterReport(r);
+            if (r == null) {
+                return (null);
+            }
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
@@ -89,7 +92,10 @@ public class ReportManager {
         reportNumber = reportNumber + 1;
         WaterReport r = new WaterReport(reportNumber, dateTime, latitude, longitude, type, condition, author);
         try {
-            persist.saveWaterReport(r);
+            r = persist.saveWaterReport(r);
+            if (r == null) {
+                return (null);
+            }
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
@@ -112,12 +118,13 @@ public class ReportManager {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
-        waterReport.addQualityReport(report);
+        report.setParentReport(waterReport);
         try {
-            persist.saveQualityReport(report);
+            report = persist.saveQualityReport(report);
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
+        waterReport.addQualityReport(report);
         return (report);
     }
 
@@ -137,12 +144,13 @@ public class ReportManager {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
-        waterReport.addQualityReport(report);
+        report.setParentReport(waterReport);
         try {
             persist.saveQualityReport(report);
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
+        waterReport.addQualityReport(report);
         return (report);
     }
 

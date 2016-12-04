@@ -43,7 +43,7 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
             //maybe throw an exception so the message can be displayed to the user?
         }
         authed = resp.isSuccessful();
-        return (resp.isSuccessful() ? fromJson(resp.getData(), User.class) : null);
+        return (resp.isSuccessful() ? fromJson(resp.getData(), User.class).cloneIt() : null);
     }
 
     @Override
@@ -64,8 +64,14 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     }
 
     @Override
-    public void saveUser(User u) throws IOException {
-        sendCommandAndAwaitResponse(Command.CommandType.SAVE_USER, toJson(u), credential);
+    public User saveUser(User u) throws IOException {
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_USER, toJson(u), credential);
+        if (resp.isSuccessful()) {
+            return (fromJson(resp.getData(), User.class).cloneIt());
+        } else {
+            Debug.debug("Failed to save user: %s", resp.getMessage());
+            return (null);
+        }
     }
 
     @Override
@@ -82,8 +88,14 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     }
 
     @Override
-    public void saveWaterReport(WaterReport wr) throws IOException {
-        sendCommandAndAwaitResponse(Command.CommandType.SAVE_WATER_REPORT, toJson(wr), credential);
+    public WaterReport saveWaterReport(WaterReport wr) throws IOException {
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_WATER_REPORT, toJson(wr), credential);
+        if (resp.isSuccessful()) {
+            return (fromJson(resp.getData(), WaterReport.class).cloneIt());
+        } else {
+            Debug.debug("Failed to save water report: %s", resp.getMessage());
+            return (null);
+        }
     }
 
     @Override
@@ -92,8 +104,14 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     }
 
     @Override
-    public void saveQualityReport(QualityReport qr) throws IOException {
-        sendCommandAndAwaitResponse(Command.CommandType.SAVE_QUALITY_REPORT, toJson(qr), credential);
+    public QualityReport saveQualityReport(QualityReport qr) throws IOException {
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_QUALITY_REPORT, toJson(qr), credential);
+        if (resp.isSuccessful()) {
+            return (fromJson(resp.getData(), QualityReport.class).cloneIt());
+        } else {
+            Debug.debug("Failed to save user: %s", resp.getMessage());
+            return (null);
+        }
     }
 
     @Override
