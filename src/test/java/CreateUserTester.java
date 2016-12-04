@@ -1,6 +1,7 @@
 import model.UserLevel;
 import model.UserManager;
 import java.io.File;
+import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -30,7 +31,7 @@ public class CreateUserTester {
     private PersistenceInterface persist = new PersistentJsonFile(FILE_PATH);
     
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         userTestFile.delete();
         credentialsTestFile.delete();
         reportsTestFile.delete();

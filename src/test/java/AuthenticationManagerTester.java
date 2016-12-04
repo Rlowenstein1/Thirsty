@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import model.AuthenticationManager;
 import model.Credential;
 import model.CredentialManager;
@@ -32,7 +33,8 @@ public class AuthenticationManagerTester {
     private AuthenticationManager authenticationManager = new AuthenticationManager(credentialManager);
 
     @Before
-    public void setup() {
+    public void setup() throws IOException
+    {
         userTestFile.delete();
         credentialsTestFile.delete();
         reportsTestFile.delete();

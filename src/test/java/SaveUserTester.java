@@ -3,6 +3,7 @@ import model.UserManager;
 import model.User;
 import model.Credential;
 import java.io.File;
+import java.io.IOException;
 import model.CredentialManager;
 
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class SaveUserTester {
     private CredentialManager manager;
     
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         userTestFile.delete();
         credentialsTestFile.delete();
         reportsTestFile.delete();
@@ -61,7 +62,7 @@ public class SaveUserTester {
     }
     
     @Test(timeout = TIMEOUT)
-    public void testUpdatePassword() {
+    public void testUpdatePassword() throws IOException {
         User kenny = UserManager.createUser("Kenny", "Bae", "Kenny is Bae", "kscharm@hitmeup.com", UserLevel.WORKER);
         UserManager.saveUser(kenny, credential);
         manager.saveCredential(credential);
