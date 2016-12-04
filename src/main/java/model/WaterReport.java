@@ -288,7 +288,6 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         return conditionProperty;
     }
 
-
     /**
      * Gets the water report's author
      * @return the author

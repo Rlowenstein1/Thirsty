@@ -111,7 +111,8 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
      * @throws IOException If there was a problem with the socket. Connection must be re-established
      */
     public String receiveMessage() throws IOException {
-        String line, text = "";
+        String line;
+        String text = "";
         int lines = 0;
         while ((line = receiveLine()) != null) {
             lines++;
