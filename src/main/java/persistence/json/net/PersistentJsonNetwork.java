@@ -50,8 +50,15 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     @Override
     public void deauthenticateUser(String username) throws IOException {
         authed = false;
-        sendCommandAndAwaitResponse(Command.CommandType.DEAUTHENTICATE, null, credential);
-        //only error case would be, user wasn't logged in anyway
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DEAUTHENTICATE, null, credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful deauthentication: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Successful deauthentication");
+            //maybe throw an exception so the message can be displayed to the user?
+        }
     }
 
     @Override
@@ -68,16 +75,24 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     public User saveUser(User u) throws IOException {
         Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_USER, toJson(u), credential);
         if (resp.isSuccessful()) {
+            Debug.debug("Sucessfully saved user");
             return (fromJson(resp.getData(), User.class).cloneIt());
         } else {
             Debug.debug("Failed to save user: %s", resp.getMessage());
             return (null);
         }
+
     }
 
-    @Override
     public void deleteUser(User u) throws IOException {
-        sendCommandAndAwaitResponse(Command.CommandType.DELETE_USER, toJson(u), credential);
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DELETE_USER, toJson(u), credential);
+        
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful user delete: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully deleted user");
+        }
     }
 
     @Override
@@ -101,7 +116,13 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     @Override
     public void deleteWaterReport(WaterReport wr) throws IOException {
-        sendCommandAndAwaitResponse(Command.CommandType.DELETE_WATER_REPORT, toJson(wr), credential);
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.DELETE_WATER_REPORT, toJson(wr), credential);
+        if (!resp.isSuccessful()) {
+            Debug.debug("Unsuccessful water report delete: %s", resp.getMessage());
+            //maybe throw an exception so the message can be displayed to the user?
+        } else {
+            Debug.debug("Sucessfully deleted water report");
+        }
     }
 
     @Override
