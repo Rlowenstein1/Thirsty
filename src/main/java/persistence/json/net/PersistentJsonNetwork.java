@@ -95,6 +95,7 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     @Override
     public void addWaterReport(WaterReport wr) {
+        Debug.debug("adding water report: %s", wr);
         ReportManager.addWaterReport(wr);
     }
 

@@ -31,7 +31,6 @@ public final class QualityReport extends DisplayableReport implements Comparable
     private final DoubleProperty contaminantPPMProperty = new SimpleDoubleProperty();
     @Expose
     private final ObjectProperty<WaterReport> parentReportProperty = new SimpleObjectProperty<>();
-    private transient WaterReport parentReport;
 
     /**
      * Constructor for a new water source report.
@@ -75,7 +74,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @return the number
      */
     public int getParentReportNum() {
-        return parentReport.getReportNum();
+        return getParentReport().getReportNum();
     }
 
     /**
@@ -109,7 +108,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLongitudeProperty() {
-        return parentReport.getLongitudeProperty();
+        return getParentReport().getLongitudeProperty();
     }
 
     /**
@@ -118,7 +117,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLatitudeProperty() {
-        return parentReport.getLatitudeProperty();
+        return getParentReport().getLatitudeProperty();
     }
 
 
@@ -261,7 +260,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @return the water source report
      */
     public WaterReport getParentReport() {
-        return parentReport;
+        return parentReportProperty.get();
     }
 
     /**
@@ -269,7 +268,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param wr the new water source report attached to this quality report
      */
     public void setParentReport(WaterReport wr) {
-        parentReport = wr;
+        parentReportProperty.set(wr);
     }
 
     /**
@@ -302,7 +301,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
             + "Safety: %s\n"
             + "Contaminant PPM: %s\n"
             + "Virus PPM: %s",
-                (parentReport == null) ? "<no parent>" : parentReport.getReportNum(),
+                (getParentReport() == null) ? "<no parent>" : getParentReportNum(),
             getReportNum(),
             getDateTime(),
             getWaterSafety(),

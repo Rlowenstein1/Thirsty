@@ -166,10 +166,11 @@ public class ReportManager {
      * Add existing water report to list
      * @param report WaterReport object to add to list
      */
-    public static void addWaterReport(WaterReport report) {
+    public synchronized static void addWaterReport(WaterReport report) {
         if (report.getReportNum() > reportNumber) {
             reportNumber = report.getReportNum();
         }
+        waterReports.remove(report);
         waterReports.add(report);
     }
 
