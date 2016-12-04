@@ -74,6 +74,14 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Gets this water report's number
      * @return the number
      */
+    public int getParentReportNum() {
+        return parentReport.getReportNum();
+    }
+
+    /**
+     * Gets this water report's number
+     * @return the number
+     */
     public int getReportNum() {
         return reportNumProperty.get();
     }

@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -326,7 +327,8 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * water source.
      * @param qualityReport the quality report to be added to the list
      */
-    public void addQualityReport(QualityReport qualityReport) {
+    protected void addQualityReport(QualityReport qualityReport) {
+        qualityReport.setParentReport(this);
         qualityReports.add(qualityReport);
     }
 
@@ -432,9 +434,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         WaterReport res = new WaterReport(getReportNum(), getDateTime(), getLatitude(),
                 getLongitude(), getWaterType(), getWaterCondition(), getAuthor());
         for (QualityReport q : getQualityReportList()) {
-            QualityReport newQ = q.cloneIt();
-            newQ.setParentReport(res);
-            res.addQualityReport(newQ);
+            res.addQualityReport(q.cloneIt());
         }
         return (res);
     }
@@ -469,5 +469,42 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
     @Override
     public int compareTo(@NotNull WaterReport report) {
         return getDateTime().compareTo(report.getDateTime());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.latitudeProperty);
+        hash = 37 * hash + Objects.hashCode(this.longitudeProperty);
+        hash = 37 * hash + Objects.hashCode(this.dateTimeProperty);
+        hash = 37 * hash + Objects.hashCode(this.typeProperty);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final WaterReport other = (WaterReport) obj;
+        if (!Objects.equals(this.latitudeProperty, other.latitudeProperty)) {
+            return false;
+        }
+        if (!Objects.equals(this.longitudeProperty, other.longitudeProperty)) {
+            return false;
+        }
+        if (!Objects.equals(this.dateTimeProperty, other.dateTimeProperty)) {
+            return false;
+        }
+        if (!Objects.equals(this.typeProperty, other.typeProperty)) {
+            return false;
+        }
+        return true;
     }
 }

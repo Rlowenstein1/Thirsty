@@ -92,4 +92,17 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
     public void addUser(User user) {
         UserManager.addUser(user);
     }
+
+    @Override
+    public void addWaterReport(WaterReport wr) {
+        ReportManager.addWaterReport(wr);
+    }
+
+    @Override
+    public void addQualityReport(QualityReport qr) {
+        WaterReport parent = ReportManager.filterWaterReportByNumber(qr.getParentReportNum());
+        if (parent != null) {
+            ReportManager.addQualityReport(parent, qr);
+        }
+    }
 }

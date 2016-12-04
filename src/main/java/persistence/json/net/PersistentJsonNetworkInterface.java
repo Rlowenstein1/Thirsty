@@ -6,6 +6,7 @@
 package persistence.json.net;
 
 import com.google.gson.JsonSyntaxException;
+import controller.MasterSingleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,9 +15,12 @@ import static java.lang.System.out;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import javafx.application.Platform;
 import lib.Debug;
 import model.Credential;
+import model.QualityReport;
 import model.User;
+import model.WaterReport;
 import persistence.json.PersistentJsonInterface;
 import persistence.json.net.Command.CommandType;
 
@@ -200,6 +204,10 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
 
     public abstract void addUser(User u);
 
+    public abstract void addWaterReport(WaterReport wr);
+
+    public abstract void addQualityReport(QualityReport qr);
+
     /**
      * Class that handles asynchronous network reading
      */
@@ -238,14 +246,42 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
                         if (commandIn.isResponse()) {
                             inputCommands.put(commandIn);
                         } else {
-                            //this is a new message (push notification), like loading a new user/report. handle adding it to the model now
+                            //this is a new message (push notification), like loading a new user/report. handle adding it to the model by calling the overrideable functions
                             switch (commandIn.getCommand()) {
                                 case LOAD_USER:
                                     try {
                                         User u = fromJson(commandIn.getData(), User.class);
-                                        addUser(u);
+                                        addUser(u.cloneIt());
                                     } catch (JsonSyntaxException e) {
                                         Debug.debug("Failed to cast incoming data to user: %s", e.toString());
+                                    }
+                                    break;
+                                case LOAD_WATER_REPORT:
+                                    try {
+                                        WaterReport wr = fromJson(commandIn.getData(), WaterReport.class);
+                                        addWaterReport(wr.cloneIt());
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                MasterSingleton.updateReportScreen(); //can't do this from a non-FX thread
+                                            }
+                                        });      
+                                    } catch (JsonSyntaxException e) {
+                                        Debug.debug("Failed to cast incoming data to water report: %s", e.toString());
+                                    }
+                                    break;
+                                case LOAD_QUALITY_REPORT:
+                                    try {
+                                        QualityReport qr = fromJson(commandIn.getData(), QualityReport.class);
+                                        addQualityReport(qr.cloneIt());
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                MasterSingleton.updateReportScreen(); //can't do this from a non-FX thread
+                                            }
+                                        });
+                                    } catch (JsonSyntaxException e) {
+                                        Debug.debug("Failed to cast incoming data to quality report: %s", e.toString());
                                     }
                                     break;
                             }

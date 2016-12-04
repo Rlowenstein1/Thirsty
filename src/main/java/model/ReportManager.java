@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 //import java.util.stream.Collectors;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import persistence.PersistenceInterface;
 import lib.Debug;
@@ -15,7 +18,7 @@ import lib.Debug;
  * Manager for the Report classes
  */
 public class ReportManager {
-    private static List<WaterReport> waterReportList;
+    private static SortedSet<WaterReport> waterReports;
     private static int reportNumber = 0;
     private static HashMap<WaterReport, Integer> qualityReportNumberMap;
 
@@ -27,7 +30,7 @@ public class ReportManager {
      */
     public static void initialize(PersistenceInterface persist) {
         ReportManager.persist = persist;
-        waterReportList = new ArrayList<>();
+        waterReports = Collections.synchronizedSortedSet(new TreeSet<WaterReport>());
         qualityReportNumberMap = new HashMap<>();
     }
 
@@ -144,11 +147,30 @@ public class ReportManager {
     }
 
     /**
+     * Add existing quality report to water report
+     * @param report WaterReport object to add to list
+     */
+    public static void addQualityReport(WaterReport parent, QualityReport report) {
+        if (qualityReportNumberMap.containsKey(parent)) {
+            Integer qualityReportNum = qualityReportNumberMap.get(parent) + 1;
+            if (report.getReportNum() > qualityReportNum) {
+                qualityReportNumberMap.put(parent, qualityReportNum);
+            }
+        } else {
+            qualityReportNumberMap.put(parent, 1);
+        }
+        parent.addQualityReport(report);
+    }
+
+    /**
      * Add existing water report to list
      * @param report WaterReport object to add to list
      */
     public static void addWaterReport(WaterReport report) {
-        waterReportList.add(report);
+        if (report.getReportNum() > reportNumber) {
+            reportNumber = report.getReportNum();
+        }
+        waterReports.add(report);
     }
 
     /**
@@ -161,7 +183,7 @@ public class ReportManager {
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
-        waterReportList.remove(waterReport);
+        waterReports.remove(waterReport);
     }
 
     /**
@@ -196,7 +218,7 @@ public class ReportManager {
      * @return water report list
      */
     public static List<WaterReport> getWaterReportList() {
-        return new ArrayList<>(waterReportList);
+        return new ArrayList<>(waterReports);
     }
 
     /**
@@ -205,7 +227,7 @@ public class ReportManager {
      */
     /*
     public static List<WaterReport> sortWaterReportByDate() {
-        List<WaterReport> list = new ArrayList<>(waterReportList);
+        List<WaterReport> list = new ArrayList<>(waterReports);
         Collections.sort(list);
         return list;
     }
@@ -218,8 +240,8 @@ public class ReportManager {
      */
     /*
     public static List<WaterReport> filterWaterReportByUser(User user) {
-        List<WaterReport> list = new ArrayList<>(waterReportList.size());
-        list.addAll(waterReportList.stream().filter(report ->
+        List<WaterReport> list = new ArrayList<>(waterReports.size());
+        list.addAll(waterReports.stream().filter(report ->
                 user.equals(report.getAuthor())).collect(Collectors.toList()));
         return list;
     }
@@ -233,7 +255,7 @@ public class ReportManager {
     /*
     public static List<QualityReport> filterQualityReportByUser(User user) {
         List<QualityReport> list = new ArrayList<>();
-        for (WaterReport wr : waterReportList) {
+        for (WaterReport wr : waterReports) {
             for (QualityReport qr : wr.getQualityReportList()) {
                 if (user.equals(qr.getAuthor())) {
                     list.add(qr);
@@ -252,7 +274,7 @@ public class ReportManager {
      */
     public static WaterReport filterWaterReportByNumber(int num) {
         if ((num > 0) && (num <= reportNumber)) {
-            for (WaterReport report: waterReportList) {
+            for (WaterReport report: waterReports) {
                 if (report.getReportNum() == num) {
                     return (report);
                 }
@@ -267,7 +289,7 @@ public class ReportManager {
      */
     /*
     public static List<WaterReport> sortWaterReportByName() {
-        List<WaterReport> list = new ArrayList<>(waterReportList);
+        List<WaterReport> list = new ArrayList<>(waterReports);
         Collections.sort(list, (WaterReport a, WaterReport b) ->
             a.getAuthor().getName().compareTo(b.getAuthor().getName())
         );
