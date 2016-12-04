@@ -2,6 +2,7 @@ package persistence;
 
 import java.io.IOException;
 import model.Credential;
+import model.QualityReport;
 import model.User;
 import model.WaterReport;
 
@@ -58,13 +59,6 @@ public interface PersistenceInterface {
     void saveUserCredential(Credential c) throws IOException;
 
     /**
-     * Checks the persistence layer to see if a user exists, and has a password
-     * @param username The username of the user to check
-     * @return true if the user exists, and has a password
-     */
-    boolean userExists(String username) throws IOException;
-
-    /**
      * Deletes this user from the underlying persistence implementer
      * @param username The username of the user to delete
      */
@@ -93,13 +87,13 @@ public interface PersistenceInterface {
      * @param wr The water report to save this quality report in
      *
      */
-    void saveQualityReport(WaterReport wr) throws IOException;
+    void saveQualityReport(QualityReport wr) throws IOException;
 
     /**
      * Deletes a given quality report in the given water report from the underlying persistence layer
      * @param wr The water report to delete this quality report from
      *
      */
-    void deleteQualityReport(WaterReport wr) throws IOException;
+    void deleteQualityReport(QualityReport wr) throws IOException;
 
 }

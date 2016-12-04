@@ -22,70 +22,83 @@ import persistence.json.PersistentJsonInterface;
 public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     private Credential credential;
+    private boolean authed = false;
 
     public PersistentJsonNetwork(String hostname, int port) {
         super(hostname, port);
     }
 
+    @Override
     public void terminate() throws IOException {
         disconnect();
     }
 
+    @Override
     public User authenticateUser(Credential c) throws IOException {
         credential = c;
-        Command resp = sendCommandAndAwaitResponse(Command.CommandType.AUTHENTICATE, null, c);
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.AUTHENTICATE, null, credential);
         
         if (!resp.isSuccessful()) {
             Debug.debug("Unsuccessful authentication: %s", resp.getMessage());
             //maybe throw an exception so the message can be displayed to the user?
         }
+        authed = resp.isSuccessful();
         return (resp.isSuccessful() ? fromJson(resp.getData(), User.class) : null);
     }
 
+    @Override
     public void deauthenticateUser(String username) throws IOException {
-        // net stuff
+        authed = false;
+        sendCommandAndAwaitResponse(Command.CommandType.DEAUTHENTICATE, null, credential);
+        //only error case would be, user wasn't logged in anyway
     }
 
+    @Override
     public boolean isUserAuthenticated(String username) throws IOException {
-        // net stuff
-        return false;
+        return (authed);
     }
 
+    @Override
     public void saveUserCredential(Credential c) throws IOException {
-        // net stuff
+        sendCommandAndAwaitResponse(Command.CommandType.SAVE_CREDENTIAL, toJson(c), credential);
     }
 
-    public boolean userExists(String username) throws IOException {
-        // net stuff?
-        return false;
-    }
-
+    @Override
     public void saveUser(User u) throws IOException {
-        // net stuff
+        sendCommandAndAwaitResponse(Command.CommandType.SAVE_USER, toJson(u), credential);
     }
 
+    @Override
     public void deleteUser(User u) throws IOException {
-        // net stuff
+        sendCommandAndAwaitResponse(Command.CommandType.DELETE_USER, toJson(u), credential);
     }
 
+    @Override
     public void deleteUser(String username) throws IOException {
-        // net stuff
+        User u = UserManager.getUser(username);
+        if (u != null) {
+            deleteUser(u);
+        }
     }
 
+    @Override
     public void saveWaterReport(WaterReport wr) throws IOException {
-        // net stuff
+        sendCommandAndAwaitResponse(Command.CommandType.SAVE_WATER_REPORT, toJson(wr), credential);
     }
 
+    @Override
     public void deleteWaterReport(WaterReport wr) throws IOException {
-        // net stuff
+        sendCommandAndAwaitResponse(Command.CommandType.DELETE_WATER_REPORT, toJson(wr), credential);
     }
 
-    public void saveQualityReport(WaterReport wr) throws IOException {
-        // net suff
+    @Override
+    public void saveQualityReport(QualityReport qr) throws IOException {
+        sendCommandAndAwaitResponse(Command.CommandType.SAVE_QUALITY_REPORT, toJson(qr), credential);
     }
 
-    public void deleteQualityReport(WaterReport qr) throws IOException {
-        // net stuff
+    @Override
+    public void deleteQualityReport(QualityReport qr) throws IOException {
+        sendCommandAndAwaitResponse(Command.CommandType.DELETE_QUALITY_REPORT, toJson(qr), credential);
     }
 
     @Override
@@ -101,6 +114,7 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     @Override
     public void addQualityReport(QualityReport qr) {
+        Debug.debug("adding quality report: %s", qr);
         WaterReport parent = ReportManager.filterWaterReportByNumber(qr.getParentReportNum());
         if (parent != null) {
             ReportManager.addQualityReport(parent, qr);

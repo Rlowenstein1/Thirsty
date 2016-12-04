@@ -114,7 +114,7 @@ public class ReportManager {
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
         waterReport.addQualityReport(report);
         try {
-            persist.saveQualityReport(waterReport);
+            persist.saveQualityReport(report);
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
@@ -139,7 +139,7 @@ public class ReportManager {
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
         waterReport.addQualityReport(report);
         try {
-            persist.saveQualityReport(waterReport);
+            persist.saveQualityReport(report);
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
@@ -188,30 +188,20 @@ public class ReportManager {
     }
 
     /**
-     * Deletes specified report from its parent
-     * @param qualityReport the QualityReport to be deleted from its parent
-     */
-
-    public static void deleteQualityReport(QualityReport qualityReport) {
-        WaterReport waterReport = qualityReport.getParentReport();
-        if (waterReport != null) {
-            deleteQualityReport(waterReport, qualityReport);
-        }
-    }
-
-
-    /**
      * Deletes specified report from the given WaterReport
      * @param waterReport The parent WaterReport to add this QualityReport to
      * @param qualityReport the QualityReport to be deleted
      */
-    private static void deleteQualityReport(WaterReport waterReport, QualityReport qualityReport) {
+    private static void deleteQualityReport(QualityReport qualityReport) {
         try {
-            persist.deleteQualityReport(waterReport);
+            persist.deleteQualityReport(qualityReport);
         } catch (IOException e) {
-            Debug.debug("Error in saving water report");
+            Debug.debug("Error deleting quality report");
         }
-        waterReport.removeQualityReport(qualityReport);
+        WaterReport parent = qualityReport.getParentReport();
+        if (parent != null) {
+            parent.removeQualityReport(qualityReport);
+        }
     }
 
     /**

@@ -223,11 +223,6 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     }
 
     @Override
-    public boolean userExists(String username) {
-        return (UserManager.userExists(username) && credentialManager.userExists(username));
-    }
-
-    @Override
     public void deleteUser(String username) {
         authenticator.logout(username);
         UserManager.deleteUser(username);
@@ -242,23 +237,29 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     @Override
     public void saveWaterReport(WaterReport wr) {
+        if (wr == null) {
+            return;
+        }
         writeToFile(writerReports, toJson(wr) + "\n");
         //horrible, just appends the new report, which overwrites the old one when it gets loaded
     }
 
     @Override
     public void deleteWaterReport(WaterReport wr) {
+        if (wr == null) {
+            return;
+        }
         //pretty sure this doesn't work, need to completely re-write the file
         saveWaterReport(wr);
     }
 
     @Override
-    public void saveQualityReport(WaterReport wr) {
-        saveWaterReport(wr);
+    public void saveQualityReport(QualityReport qr) {
+        saveWaterReport(qr.getParentReport());
     }
 
     @Override
-    public void deleteQualityReport(WaterReport wr) {
-        saveWaterReport(wr);
+    public void deleteQualityReport(QualityReport qr) {
+        saveWaterReport(qr.getParentReport());
     }
 }
