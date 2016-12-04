@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.SortedSet;
 
 import lib.Debug;
 import model.AuthenticationManager;
@@ -143,7 +144,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                 if (newWR.getReportNum() > maxReportNumber) {
                     maxReportNumber = newWR.getReportNum();
                 }
-                List<QualityReport> qrs = newWR.getQualityReportList();
+                SortedSet<QualityReport> qrs = newWR.getQualityReportList();
                 int maxQReportNumber = 0;
                 for (QualityReport qr : qrs) {
                     if (qr.getReportNum() > maxQReportNumber) {
@@ -201,8 +202,8 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     }
 
     @Override
-    public boolean authenticateUser(Credential c) {
-        return (authenticator.authenticate(c));
+    public User authenticateUser(Credential c) {
+        return (authenticator.authenticate(c) ? UserManager.getUser(c.getUsername()) : null);
     }
 
     @Override

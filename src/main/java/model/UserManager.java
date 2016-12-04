@@ -105,11 +105,11 @@ public class UserManager {
         addUser(u);
         saveCredential(c);
         try {
-            if (!persist.authenticateUser(c)) {
+            if (persist.authenticateUser(c) == null) {
                 return null;
             }
         } catch (IOException e) {
-            Debug.debug("Error in saving user");
+            Debug.debug("Error in saving user credential");
             return null;
         }
         return u;
@@ -129,7 +129,7 @@ public class UserManager {
      * @param username The username of the User to get
      * @return The User object with the matching username, or null of no user matched this username
      */
-    private static User getUser(String username) {
+    public static User getUser(String username) {
         return (usernameMap.get(username));
     }
 
@@ -157,8 +157,24 @@ public class UserManager {
      */
     public static User login(Credential c) {
         if (c != null) {
+            try {
+                User u = persist.authenticateUser(c);
+                if (u != null) {
+                    User newU = u.cloneIt();
+                    addUser(newU);
+                    return (newU);
+                }
+            } catch (IOException e) {
+                Debug.debug("Error in logging in");
+            }
+            /*
             String username = c.getUsername();
             if (username != null) {
+                try {
+                    ;
+                } catch (IOException e) {
+                    Debug.debug("Error in logging in");
+                }
                 User u = getUser(username);
                 try {
                     if ((u != null) && persist.authenticateUser(c)) {
@@ -169,6 +185,7 @@ public class UserManager {
                     return null;
                 }
             }
+            */
         }
         return (null);
     }

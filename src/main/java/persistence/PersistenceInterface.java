@@ -33,9 +33,9 @@ public interface PersistenceInterface {
      * Queries the underlying persistence layer for validation of the given username/password
      * If authentication was successful, subsequent calls to isUserAuthenticated() must return true
      * @param c The credential to validate
-     * @return true if the credential matches the persistence layer
+     * @return A User object if successful, or null if authentication was unsuccessful
      */
-    boolean authenticateUser(Credential c) throws IOException;
+    User authenticateUser(Credential c) throws IOException;
 
     /**
      * Logs out the given user

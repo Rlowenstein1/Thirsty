@@ -9,7 +9,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -35,7 +38,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
     @Expose
     private final ObjectProperty<User> authorProperty = new SimpleObjectProperty<>();
     @Expose
-    private final List<QualityReport> qualityReports = new ArrayList<>();
+    private final SortedSet<QualityReport> qualityReports = Collections.synchronizedSortedSet(new TreeSet<QualityReport>());
 
     /**
      * Constructor for a new water source report.
@@ -327,8 +330,9 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * water source.
      * @param qualityReport the quality report to be added to the list
      */
-    protected void addQualityReport(QualityReport qualityReport) {
+    protected synchronized void addQualityReport(QualityReport qualityReport) {
         qualityReport.setParentReport(this);
+        qualityReports.remove(qualityReport);
         qualityReports.add(qualityReport);
     }
 
@@ -372,7 +376,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Gets the list of quality reports for this water source report.
      * @return the list of quality reports
      */
-    public List<QualityReport> getQualityReportList() {
+    public SortedSet<QualityReport> getQualityReportList() {
         return qualityReports;
     }
 
@@ -384,7 +388,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
         if (qualityReports.size() < 1) {
             return (null);
         }
-        return (qualityReports.get(qualityReports.size() - 1));
+        return (qualityReports.last());//(qualityReports.size() - 1));
     }
 
     /**

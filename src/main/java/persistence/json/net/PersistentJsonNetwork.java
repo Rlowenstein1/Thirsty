@@ -31,7 +31,7 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
         disconnect();
     }
 
-    public boolean authenticateUser(Credential c) throws IOException {
+    public User authenticateUser(Credential c) throws IOException {
         credential = c;
         Command resp = sendCommandAndAwaitResponse(Command.CommandType.AUTHENTICATE, null, c);
         
@@ -39,7 +39,7 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
             Debug.debug("Unsuccessful authentication: %s", resp.getMessage());
             //maybe throw an exception so the message can be displayed to the user?
         }
-        return (resp.isSuccessful());
+        return (resp.isSuccessful() ? fromJson(resp.getData(), User.class) : null);
     }
 
     public void deauthenticateUser(String username) throws IOException {

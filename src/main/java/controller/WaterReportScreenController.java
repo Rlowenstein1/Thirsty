@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.ResourceBundle;
+import java.util.SortedSet;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -154,7 +155,7 @@ public class WaterReportScreenController implements Initializable {
             itemMap.put(rr, rT);
             if (UserManager.isUserQualityReportAuthorized(activeUser)) {
                 ObservableList<TreeItem<DisplayableReport>> rChildren = rT.getChildren();
-                List<QualityReport> q = rr.getQualityReportList();
+                SortedSet<QualityReport> q = rr.getQualityReportList();
                 for (QualityReport qq : q) {
                     TreeItem<DisplayableReport> qT = new TreeItem<>(qq);
                     rChildren.add(qT);
@@ -350,7 +351,7 @@ public class WaterReportScreenController implements Initializable {
         ObservableList<LineChart.Series<LocalDateTime, Double>> graphData = historyGraph.getData();
         graphData.clear();
         if (UserManager.isUserHistoryReportAuthorized(activeUser)) {
-            List<QualityReport> qList = currentReport.getQualityReportList();
+            SortedSet<QualityReport> qList = currentReport.getQualityReportList();
 
 
             LocalDateTime fromDate = fromDateBox.getValue();

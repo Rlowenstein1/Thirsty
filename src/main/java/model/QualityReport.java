@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -319,5 +320,34 @@ public final class QualityReport extends DisplayableReport implements Comparable
     @Override
     public int compareTo(@NotNull QualityReport report) {
         return getDateTime().compareTo(report.getDateTime());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.dateTimeProperty);
+        hash = 67 * hash + Objects.hashCode(this.parentReportProperty);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final QualityReport other = (QualityReport) obj;
+        if (!Objects.equals(this.dateTimeProperty, other.dateTimeProperty)) {
+            return false;
+        }
+        if (!Objects.equals(this.parentReportProperty, other.parentReportProperty)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 import persistence.PersistenceInterface;
 import persistence.json.PersistentJsonFile;
@@ -71,7 +72,7 @@ public class SaveUserTester {
         manager.saveCredential(c);
         assertTrue("User should still be authenticated", persist.isUserAuthenticated(kenny.getUsername()));
         Credential cred = new Credential("Bob", "Lame");
-        assertFalse("User should not be authenticated", persist.authenticateUser(cred));
+        assertNull("User should not be authenticated", persist.authenticateUser(cred));
         assertTrue("User password should be updated", manager.matchCredential(c));
     }
     
