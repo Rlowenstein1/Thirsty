@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
  *
  * @author tybrown
  */
-public class DisplayableReport extends RecursiveTreeObject<DisplayableReport> {
+public abstract class DisplayableReport extends RecursiveTreeObject<DisplayableReport> {
     
     /**
      * Overrideable method to get the latitude property
@@ -33,6 +33,12 @@ public class DisplayableReport extends RecursiveTreeObject<DisplayableReport> {
         return (new SimpleDoubleProperty(Double.NaN));
     }
 
+    /**
+     * Overrideable method to get the report number property
+     * @return the report number property
+     */
+    public abstract int getParentReportNum();
+ 
     /**
      * Overrideable method to get the report number property
      * @return the report number property

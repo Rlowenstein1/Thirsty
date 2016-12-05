@@ -172,10 +172,42 @@ public class ThirstyServer {
                             }
                             break;
                         case SAVE_WATER_REPORT:
-                            Debug.debug("User wants to save a water report: %s", persist.fromJson(commandIn.getData(), WaterReport.class));
+                            WaterReport newReport = persist.fromJson(commandIn.getData(), WaterReport.class);
+                            Debug.debug("User wants to save a water report: %s", newReport);
+                            if (newReport != null) {
+                                newReport = persist.saveWaterReport(newReport);
+                                Worker w = commandW.getWorker();
+                                String data = null;
+                                if (newReport != null) {
+                                    data = persist.toJson(newReport);
+                                    w.sendCommand(new Command(Command.CommandType.SAVE_WATER_REPORT, data, w.getCredential(), true, true, null));
+                                    Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
+                                    for (Worker ww : workers) {
+                                        ww.sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, data, ww.getCredential()));
+                                    }
+                                } else {
+                                    w.sendCommand(new Command(Command.CommandType.SAVE_WATER_REPORT, data, w.getCredential(), true, false, "Failed to save water report!"));
+                                }
+                            }
                             break;
                         case SAVE_QUALITY_REPORT:
-                            Debug.debug("User wants to save a quality report: %s", persist.fromJson(commandIn.getData(), QualityReport.class));
+                            QualityReport newQualityReport = persist.fromJson(commandIn.getData(), QualityReport.class);
+                            Debug.debug("User wants to save a quality report: %s", newQualityReport);
+                            if (newQualityReport != null) {
+                                newQualityReport = persist.saveQualityReport(newQualityReport);
+                                Worker w = commandW.getWorker();
+                                String data = null;
+                                if (newQualityReport != null) {
+                                    data = persist.toJson(newQualityReport);
+                                    w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, true, null));
+                                    Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
+                                    for (Worker ww : workers) {
+                                        ww.sendCommand(new Command(Command.CommandType.LOAD_QUALITY_REPORT, data, ww.getCredential()));
+                                    }
+                                } else {
+                                    w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, false, "Failed to save water report!"));
+                                }
+                            }
                             break;
                         case SAVE_CREDENTIAL:
                             Credential newCredential = persist.fromJson(commandIn.getData(), Credential.class);
@@ -262,11 +294,13 @@ public class ThirstyServer {
                                     sendCommand(new Command(Command.CommandType.AUTHENTICATE, data, getCredential(), true, authenticated, message));
                                     List<WaterReport> reports = ReportManager.getWaterReportList();
                                     for (WaterReport wr : reports) {
+                                        /*
                                         WaterReport wrC = wr.cloneIt();
                                         for (QualityReport qrC : wrC.getQualityReportList()) {
                                             qrC.setParentReport(null);
                                         }
-                                        sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, persist.toJson(wrC), getCredential()));
+                                        */
+                                        sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, persist.toJson(wr), getCredential()));
                                     }
                                 }
                                 break;

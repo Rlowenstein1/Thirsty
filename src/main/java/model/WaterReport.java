@@ -322,7 +322,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * @param qualityReport the quality report to be added to the list
      */
     protected synchronized void addQualityReport(QualityReport qualityReport) {
-        qualityReport.setParentReport(this);
+        qualityReport.setParentReportNum(getReportNum());
         qualityReports.remove(qualityReport);
         qualityReports.add(qualityReport);
     }
@@ -501,5 +501,10 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int getParentReportNum() {
+        return (getReportNum());
     }
 }

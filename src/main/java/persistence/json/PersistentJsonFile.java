@@ -248,6 +248,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
         if (wr == null) {
             return (null);
         }
+        ReportManager.addWaterReport(wr);
         writeToFile(writerReports, toJson(wr) + "\n");
         //horrible, just appends the new report, which overwrites the old one when it gets loaded
         return (wr);
@@ -264,12 +265,25 @@ public class PersistentJsonFile extends PersistentJsonInterface {
 
     @Override
     public QualityReport saveQualityReport(QualityReport qr) {
-        saveWaterReport(qr.getParentReport());
+        if (qr == null) {
+            return (null);
+        }
+        WaterReport parent = ReportManager.filterWaterReportByNumber(qr.getParentReportNum());
+        if (parent == null) {
+            return (null);
+        }
+        ReportManager.addQualityReport(parent, qr);
+        saveWaterReport(parent);
         return (qr);
     }
 
     @Override
     public void deleteQualityReport(QualityReport qr) {
-        saveWaterReport(qr.getParentReport());
+        WaterReport parent = ReportManager.filterWaterReportByNumber(qr.getParentReportNum());
+        if (parent == null) {
+            return;
+        }
+        ReportManager.deleteWaterReport(parent);
+        saveWaterReport(parent);
     }
 }

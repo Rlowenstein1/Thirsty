@@ -32,7 +32,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
     @Expose
     private final DoubleProperty contaminantPPMProperty = new SimpleDoubleProperty();
     @Expose
-    private final ObjectProperty<WaterReport> parentReportProperty = new SimpleObjectProperty<>();
+    private final IntegerProperty parentReportNumProperty = new SimpleIntegerProperty();
 
     /**
      * Constructor for a new water source report.
@@ -45,8 +45,8 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param waterReport the availability report to add the quality report to
      */
     public QualityReport(int reportNum, String author, WaterSafety safety, double virusPPM,
-                         double contaminantPPM, WaterReport waterReport) {
-        this(LocalDateTime.now(), reportNum, author, safety, virusPPM, contaminantPPM, waterReport);
+                         double contaminantPPM, int waterReportNum) {
+        this(LocalDateTime.now(), reportNum, author, safety, virusPPM, contaminantPPM, waterReportNum);
     }
 
     /**
@@ -61,22 +61,14 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param waterReport the availability report to add the quality report to
      */
     public QualityReport(LocalDateTime dateTime, int reportNum, String author,
-                          WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
+                          WaterSafety safety, double virusPPM, double contaminantPPM, int waterReportNum) {
         this.setDateTime(dateTime);
         this.setReportNum(reportNum);
         this.setAuthor(author);
         this.setWaterSafety(safety);
         this.setVirusPPM(virusPPM);
         this.setContaminantPPM(contaminantPPM);
-        this.setParentReport(waterReport);
-    }
-
-    /**
-     * Gets this water report's number
-     * @return the number
-     */
-    public int getParentReportNum() {
-        return getParentReport().getReportNum();
+        this.setParentReportNum(waterReportNum);
     }
 
     /**
@@ -110,7 +102,11 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLongitudeProperty() {
-        return getParentReport().getLongitudeProperty();
+        WaterReport parent = ReportManager.filterWaterReportByNumber(getReportNum());
+        if (parent == null) {
+            return (null);
+        }
+        return (parent.getLongitudeProperty());
     }
 
     /**
@@ -119,7 +115,11 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLatitudeProperty() {
-        return getParentReport().getLatitudeProperty();
+        WaterReport parent = ReportManager.filterWaterReportByNumber(getReportNum());
+        if (parent == null) {
+            return (null);
+        }
+        return parent.getLatitudeProperty();
     }
 
 
@@ -252,24 +252,16 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Gets the water source report attached to this quality report
      * @return the water source report
      */
-    public WaterReport getParentReport() {
-        return parentReportProperty.get();
+    public int getParentReportNum() {
+        return parentReportNumProperty.get();
     }
 
     /**
      * Sets the water source report to a new one
      * @param wr the new water source report attached to this quality report
      */
-    public void setParentReport(WaterReport wr) {
-        parentReportProperty.set(wr);
-    }
-
-    /**
-     * Gets the water source report property
-     * @return the water source report property
-     */
-    public ObjectProperty<WaterReport> getParentReportProperty() {
-        return parentReportProperty;
+    public void setParentReportNum(int parentNum) {
+        parentReportNumProperty.set(parentNum);
     }
 
     /**
@@ -278,7 +270,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     public QualityReport cloneIt() {
         return (new QualityReport(getDateTime(), getReportNum(), getAuthor(), getWaterSafety(),
-                getVirusPPM(), getContaminantPPM(), getParentReport()));
+                getVirusPPM(), getContaminantPPM(), getParentReportNum()));
     }
 
     /**
@@ -288,13 +280,13 @@ public final class QualityReport extends DisplayableReport implements Comparable
     @Override
     public String toString() {
         return (String.format(
-              "Parent report #%s\n"
+              "Parent report #%d\n"
             + "Quality report number: %s\n"
             + "Creation date/time: %s\n"
             + "Safety: %s\n"
             + "Contaminant PPM: %s\n"
             + "Virus PPM: %s",
-                (getParentReport() == null) ? "<no parent>" : getParentReportNum(),
+            getParentReportNum(),
             getReportNum(),
             getDateTime(),
             getWaterSafety(),
@@ -318,7 +310,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.dateTimeProperty);
-        hash = 67 * hash + Objects.hashCode(this.parentReportProperty);
+        hash = 67 * hash + Objects.hashCode(this.parentReportNumProperty.get());
         return hash;
     }
 
@@ -337,7 +329,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
         if (!Objects.equals(this.dateTimeProperty, other.dateTimeProperty)) {
             return false;
         }
-        if (!Objects.equals(this.parentReportProperty, other.parentReportProperty)) {
+        if (!Objects.equals(this.parentReportNumProperty.get(), other.parentReportNumProperty.get())) {
             return false;
         }
         return true;

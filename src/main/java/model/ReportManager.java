@@ -72,7 +72,6 @@ public class ReportManager {
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
-        addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
         return (r);
     }
@@ -99,7 +98,6 @@ public class ReportManager {
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
-        addWaterReport(r);
         qualityReportNumberMap.put(r, 0);
         return (r);
     }
@@ -115,16 +113,14 @@ public class ReportManager {
      */
     public static QualityReport createWaterQualityReport(WaterReport waterReport, WaterSafety safety,
                 double vppm, double cppm, String author) {
-        Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
+        Integer qualityReportNum = qualityReportNumberMap.getOrDefault(waterReport, 0) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
-        QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
-        report.setParentReport(waterReport);
+        QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport.getReportNum());
         try {
             report = persist.saveQualityReport(report);
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
-        waterReport.addQualityReport(report);
         return (report);
     }
 
@@ -143,14 +139,12 @@ public class ReportManager {
                 double vppm, double cppm, String author) {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
-        QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
-        report.setParentReport(waterReport);
+        QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport.getReportNum());
         try {
             persist.saveQualityReport(report);
         } catch (IOException e) {
             Debug.debug("Error in saving water report");
         }
-        waterReport.addQualityReport(report);
         return (report);
     }
 
@@ -206,7 +200,7 @@ public class ReportManager {
         } catch (IOException e) {
             Debug.debug("Error deleting quality report");
         }
-        WaterReport parent = qualityReport.getParentReport();
+        WaterReport parent = filterWaterReportByNumber(qualityReport.getParentReportNum());
         if (parent != null) {
             parent.removeQualityReport(qualityReport);
         }

@@ -162,7 +162,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
 
                 Alert alert = new Alert(AlertType.CONFIRMATION,
                         String.format("Create new water availability report at\n%.5f, %.5f?", clickedLat, clickedLng),
-                        ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                        ButtonType.YES, ButtonType.NO);
                 Bounds screenBounds = mapView.localToScreen(mapView.getBoundsInLocal());
                 final double divide = 2.0;
                 alert.setY(screenBounds.getMinY() + (screenBounds.getHeight() / divide));

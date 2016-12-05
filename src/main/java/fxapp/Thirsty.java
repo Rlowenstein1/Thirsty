@@ -19,10 +19,11 @@ public class Thirsty extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MasterSingleton.initialize(persist);
         MasterSingleton.setMainScreen(stage);
-        MasterSingleton.showSplashScreen();
-        stage.show();
+        if (MasterSingleton.initialize(persist)) {
+            MasterSingleton.showSplashScreen();
+            stage.show();
+        }
     }
 
     /**

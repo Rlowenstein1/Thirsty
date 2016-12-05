@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 import lib.Debug;
 import model.User;
 import fxapp.Thirsty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import model.ReportManager;
 import model.UserManager;
 import persistence.PersistenceInterface;
@@ -49,15 +52,29 @@ public class MasterSingleton {
      * Initializes the master singleton. Should only be called once
      * @param persist The PersistenceInterface to perform persistence operations with
      */
-    public static void initialize(PersistenceInterface persist) {
+    public static boolean initialize(PersistenceInterface persist) {
         MasterSingleton.persist = persist;
         UserManager.initialize(persist);
         ReportManager.initialize(persist);
-        try {
-            persist.initialize();
-        } catch (IOException e) {
-            Debug.debug("IOexception! persistence failed");
+
+        boolean persistInit = false;
+        while (!persistInit) {
+            try {
+                persist.initialize();
+                persistInit = true;
+            } catch (IOException e) {
+                Debug.debug("Persistence init failed: %s", e.toString());
+                Alert alert = new Alert(AlertType.ERROR,
+                        String.format("Failed to connect to server:\n%s\n\nPress OK to try again,\nor Close to close the application!", e.getMessage()),
+                        ButtonType.OK, ButtonType.CLOSE);
+                alert.showAndWait();
+                
+                if (alert.getResult() == ButtonType.CLOSE) {
+                    return (false);
+                }
+            }
         }
+        return (true);
     }
 
     /**

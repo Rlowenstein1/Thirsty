@@ -80,8 +80,12 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
         if (sock != null && !sock.isClosed()) {
             sock.close();
         }
-        readerThread.interrupt();
-        commandThread.interrupt();
+        if (readerThread != null) {
+            readerThread.interrupt();
+        }
+        if (commandThread != null) {
+            commandThread.interrupt();
+        }
     }
 
     /**

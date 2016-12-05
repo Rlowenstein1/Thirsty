@@ -39,6 +39,7 @@ import javafx.util.StringConverter;
 import lib.Debug;
 import model.DisplayableReport;
 import model.QualityReport;
+import model.ReportManager;
 import model.User;
 import model.UserManager;
 import model.WaterCondition;
@@ -211,7 +212,8 @@ public class WaterReportScreenController implements Initializable {
         if (r == null) {
             return (currentReport);
         }
-        WaterReport wr;
+        WaterReport wr = ReportManager.filterWaterReportByNumber(r.getParentReportNum());
+        /*
         if (r instanceof QualityReport) {
             wr = ((QualityReport) r).getParentReport();
         } else if (r instanceof WaterReport) {
@@ -219,6 +221,7 @@ public class WaterReportScreenController implements Initializable {
         } else {
             throw (new InvalidParameterException(String.format("Unknown report type \"%s\"!", r.getClass().getName())));
         }
+        */
         return ((currentReport == null) ? wr : (currentReport.equals(wr) ? null : wr));
     }
 
