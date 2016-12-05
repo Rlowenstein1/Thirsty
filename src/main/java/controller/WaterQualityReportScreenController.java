@@ -171,7 +171,7 @@ public class WaterQualityReportScreenController implements Initializable {
         }
         
         QualityReport r = ReportManager.createWaterQualityReport(report, safetyComboBox.getValue(),
-                vppm, cppm, activeUser);
+                vppm, cppm, activeUser.getUsername());
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {

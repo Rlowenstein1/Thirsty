@@ -245,7 +245,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                             rr.getWaterType(),
                             rr.getWaterCondition(),
                             rr.getReportNum(),
-                            rr.getAuthor().getUsername(),
+                            rr.getAuthor(),
                             rr.getDateTime()
                     );
 
@@ -263,7 +263,7 @@ public class MapScreenController implements Initializable, MapComponentInitializ
                             qr.getVirusPPM(),
                             qr.getContaminantPPM(),
                             qr.getReportNum(),
-                            qr.getAuthor().getUsername(),
+                            qr.getAuthor(),
                             qr.getDateTime()
                         );
                     }

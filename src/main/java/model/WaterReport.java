@@ -15,6 +15,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +37,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
     @Expose
     private final ObjectProperty<WaterCondition> conditionProperty = new SimpleObjectProperty<>();
     @Expose
-    private final ObjectProperty<User> authorProperty = new SimpleObjectProperty<>();
+    private final StringProperty authorProperty = new SimpleStringProperty();
     @Expose
     private final SortedSet<QualityReport> qualityReports = Collections.synchronizedSortedSet(new TreeSet<QualityReport>());
 
@@ -51,7 +52,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * @param author the author of the report
      */
     public WaterReport(int reportNum, double latitude, double longitude, WaterType type,
-                WaterCondition condition, User author) {
+                WaterCondition condition, String author) {
         this(reportNum, LocalDateTime.now(), latitude, longitude, type, condition, author);
     }
 
@@ -67,7 +68,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * @param author the author of the report
      */
     public WaterReport(int reportNum, LocalDateTime dateTime, double latitude, double longitude,
-                       WaterType type, WaterCondition condition, User author) {
+                       WaterType type, WaterCondition condition, String author) {
         this.setDateTime(dateTime);
         this.setReportNum(reportNum);
         this.setLatitude(latitude);
@@ -292,7 +293,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Gets the water report's author
      * @return the author
      */
-    public User getAuthor() {
+    public String getAuthor() {
         return authorProperty.get();
     }
 
@@ -300,7 +301,7 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
      * Sets the author
      * @param user the user of the report
      */
-    private void setAuthor(User user) {
+    private void setAuthor(String user) {
         authorProperty.set(user);
     }
 
@@ -312,15 +313,6 @@ public final class WaterReport extends DisplayableReport implements Comparable<W
 
     @Override
     public StringProperty getAuthorUsernameProperty() {
-        return getAuthor().getUsernameProperty();
-    }
-
-
-    /**
-     * Gets the water report's author property
-     * @return the author property
-     */
-    public ObjectProperty<User> getAuthorProperty() {
         return authorProperty;
     }
 

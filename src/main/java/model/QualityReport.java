@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +24,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
     @Expose
     private final IntegerProperty reportNumProperty = new SimpleIntegerProperty();
     @Expose
-    private final ObjectProperty<User> authorProperty = new SimpleObjectProperty<>();
+    private final StringProperty authorProperty = new SimpleStringProperty();
     @Expose
     private final ObjectProperty<WaterSafety> safetyProperty = new SimpleObjectProperty<>();
     @Expose
@@ -43,7 +44,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(int reportNum, User author, WaterSafety safety, double virusPPM,
+    public QualityReport(int reportNum, String author, WaterSafety safety, double virusPPM,
                          double contaminantPPM, WaterReport waterReport) {
         this(LocalDateTime.now(), reportNum, author, safety, virusPPM, contaminantPPM, waterReport);
     }
@@ -59,7 +60,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * @param contaminantPPM the contaminant PPM
      * @param waterReport the availability report to add the quality report to
      */
-    public QualityReport(LocalDateTime dateTime, int reportNum, User author,
+    public QualityReport(LocalDateTime dateTime, int reportNum, String author,
                           WaterSafety safety, double virusPPM, double contaminantPPM, WaterReport waterReport) {
         this.setDateTime(dateTime);
         this.setReportNum(reportNum);
@@ -177,7 +178,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Gets the water report's author
      * @return the author
      */
-    public User getAuthor() {
+    public String getAuthor() {
         return authorProperty.get();
     }
 
@@ -185,7 +186,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Sets the author
      * @param user the user of the report
      */
-    private void setAuthor(User user) {
+    private void setAuthor(String user) {
         authorProperty.set(user);
     }
 
@@ -193,17 +194,8 @@ public final class QualityReport extends DisplayableReport implements Comparable
      * Gets the water report's author property
      * @return the author property
      */
-    public ObjectProperty<User> getAuthorProperty() {
+    public StringProperty getAuthorProperty() {
         return authorProperty;
-    }
-
-    /**
-     * Gets the water report's author property
-     * @return the author property
-     */
-    @Override
-    public StringProperty getAuthorUsernameProperty() {
-        return getAuthor().getUsernameProperty();
     }
 
     /**

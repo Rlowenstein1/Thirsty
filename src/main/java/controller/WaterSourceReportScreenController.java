@@ -148,7 +148,7 @@ public class WaterSourceReportScreenController implements Initializable {
         }
 
         WaterReport r = ReportManager.createWaterReport(latD, longD, typeComboBox.getValue(),
-                conditionComboBox.getValue(), activeUser);
+                conditionComboBox.getValue(), activeUser.getUsername());
         if (r == null) {
             submitErrorLabel.setText("Error during report creation!");
         } else {

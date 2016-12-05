@@ -61,7 +61,7 @@ public class ReportManager {
      * @return the status of the operation
      */
     public static WaterReport createWaterReport(double latitude, double longitude, WaterType type,
-                WaterCondition condition, User author) {
+                WaterCondition condition, String author) {
         reportNumber = reportNumber + 1;
         WaterReport r = new WaterReport(reportNumber, latitude, longitude, type, condition, author);
         try {
@@ -88,7 +88,7 @@ public class ReportManager {
      * @return The WaterReport added, or null if the report already exists
      */
     public static WaterReport createWaterReport(LocalDateTime dateTime, double latitude, double longitude,
-                WaterType type, WaterCondition condition, User author) {
+                WaterType type, WaterCondition condition, String author) {
         reportNumber = reportNumber + 1;
         WaterReport r = new WaterReport(reportNumber, dateTime, latitude, longitude, type, condition, author);
         try {
@@ -114,7 +114,7 @@ public class ReportManager {
      * @return the quality report added, or null if the report already exists
      */
     public static QualityReport createWaterQualityReport(WaterReport waterReport, WaterSafety safety,
-                double vppm, double cppm, User author) {
+                double vppm, double cppm, String author) {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(qualityReportNum, author, safety, vppm, cppm, waterReport);
@@ -140,7 +140,7 @@ public class ReportManager {
      */
     public static QualityReport createWaterQualityReport(LocalDateTime dateTime,
                                                          WaterReport waterReport, WaterSafety safety,
-                double vppm, double cppm, User author) {
+                double vppm, double cppm, String author) {
         Integer qualityReportNum = qualityReportNumberMap.get(waterReport) + 1;
         qualityReportNumberMap.put(waterReport, qualityReportNum);
         QualityReport report = new QualityReport(dateTime, qualityReportNum, author, safety, vppm, cppm, waterReport);
