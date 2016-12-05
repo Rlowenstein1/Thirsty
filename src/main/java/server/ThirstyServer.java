@@ -17,12 +17,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import lib.Debug;
 import model.Credential;
 import model.QualityReport;
+import model.ReportManager;
 import model.User;
 import model.WaterReport;
 import persistence.PersistenceInterface;
@@ -181,6 +183,8 @@ public class ThirstyServer {
                             if (newCredential != null) {
                                 persist.saveUserCredential(newCredential);
                                 Debug.debug("Credential saved!");
+                                Worker w = commandW.getWorker();
+                                w.sendCommand(new Command(Command.CommandType.SAVE_CREDENTIAL, null, w.getCredential(), true, true, null));
                             }
                             break;
                         case DELETE_USER:
@@ -256,6 +260,14 @@ public class ThirstyServer {
                                     }
                                     this.userCred = userCred;
                                     sendCommand(new Command(Command.CommandType.AUTHENTICATE, data, getCredential(), true, authenticated, message));
+                                    List<WaterReport> reports = ReportManager.getWaterReportList();
+                                    for (WaterReport wr : reports) {
+                                        WaterReport wrC = wr.cloneIt();
+                                        for (QualityReport qrC : wrC.getQualityReportList()) {
+                                            qrC.setParentReport(null);
+                                        }
+                                        sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, persist.toJson(wrC), getCredential()));
+                                    }
                                 }
                                 break;
                             case SAVE_USER:
