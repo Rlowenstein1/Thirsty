@@ -290,8 +290,9 @@ public final class User {
      * @return the clone
      */
     public User cloneIt() {
-        return (new User(username.get(), name.get(), title.get(), emailAddress.get(),
-                    level.get(), profilePicture.get()));
+        User res = new User(username.get(), name.get(), title.get(), emailAddress.get(), level.get(), profilePicture.get());
+        res.setLastCoords(lastCoordsLat, lastCoordsLng);
+        return (res);
     }
 
     @Override
@@ -316,6 +317,8 @@ public final class User {
                 + "Username: " + username.get() + "\n"
                 + "Title: " + title.get() + "\n"
                 + "Email address: " + emailAddress.get() + "\n"
-                + "Authorization level: " + level.get();
+                + "Authorization level: " + level.get() + "\n"
+                + "lastViewedLat: " + lastCoordsLat + "\n"
+                + "lastViewedLng: " + lastCoordsLng;
     }
 }

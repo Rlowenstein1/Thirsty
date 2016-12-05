@@ -81,7 +81,6 @@ public class UserManager {
             } catch (IOException e) {
                 Debug.debug("Error in updating user");
             }
-            addUser(user);
         }
     }
 
@@ -105,16 +104,17 @@ public class UserManager {
         } catch (IOException e) {
             Debug.debug("Error in saving user");
         }
-        addUser(u);
         saveCredential(c);
         try {
-            if (persist.authenticateUser(c) == null) {
+            u = persist.authenticateUser(c);
+            if (u == null) {
                 return null;
             }
         } catch (IOException e) {
             Debug.debug("Error in saving user credential");
             return null;
         }
+        addUser(u);
         return u;
     }
     

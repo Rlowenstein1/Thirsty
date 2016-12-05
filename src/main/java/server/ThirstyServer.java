@@ -7,6 +7,7 @@ package server;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import controller.MasterSingleton;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class ThirstyServer {
 
     private ServerSocket serverSocket;
 
-    private BlockingQueue<Command> inputCommands;
+    private BlockingQueue<WorkerCommand> inputCommands;
     private ConnectionHandler handler;
 
     public static void main(String[] args) {
@@ -75,6 +76,7 @@ public class ThirstyServer {
             inputCommands = new LinkedBlockingQueue<>();
             this.commandThread = new CommandThread(persist, workers);
             this.commandThread.start();
+            MasterSingleton.initialize(persist);
         }
 
         @Override
@@ -111,6 +113,24 @@ public class ThirstyServer {
 
     }
 
+    private class WorkerCommand {
+        private Worker worker;
+        private Command command;
+
+        public WorkerCommand(Worker worker, Command command) {
+            this.worker = worker;
+            this.command = command;
+        }
+
+        public Worker getWorker() {
+            return worker;
+        }
+
+        public Command getCommand() {
+            return command;
+        }
+    }
+
     private class CommandThread extends Thread {
         private PersistentJsonInterface persist;
         private Set<Worker> workers;
@@ -125,12 +145,29 @@ public class ThirstyServer {
             while (true) {
                 try {
                     Debug.debug("Taking from inputCommands...");
-                    Command commandIn = inputCommands.take();
+                    WorkerCommand commandW = inputCommands.take();
+                    Command commandIn = commandW.getCommand();
                     Debug.debug("Got a command from inputCommands: %s", commandIn);
                     //got a message from a client. push the message out to all other clients
                     switch (commandIn.getCommand()) {
                         case SAVE_USER:
-                            Debug.debug("User wants to save a user: %s", persist.fromJson(commandIn.getData(), User.class));
+                            User newUser = persist.fromJson(commandIn.getData(), User.class);
+                            Debug.debug("User wants to save a user: %s", newUser);
+                            if (newUser != null) {
+                                newUser = persist.saveUser(newUser);
+                                Worker w = commandW.getWorker();
+                                String data = null;
+                                if (newUser != null) {
+                                    data = persist.toJson(newUser);
+                                    w.sendCommand(new Command(Command.CommandType.SAVE_USER, data, w.getCredential(), true, true, null));
+                                    Debug.debug("User saved! Now let's let all other clients connected know about this user...");
+                                    for (Worker ww : workers) {
+                                        ww.sendCommand(new Command(Command.CommandType.LOAD_USER, data, ww.getCredential()));
+                                    }
+                                } else {
+                                    w.sendCommand(new Command(Command.CommandType.SAVE_USER, data, w.getCredential(), true, false, "Failed to save user!"));
+                                }
+                            }
                             break;
                         case SAVE_WATER_REPORT:
                             Debug.debug("User wants to save a water report: %s", persist.fromJson(commandIn.getData(), WaterReport.class));
@@ -139,7 +176,12 @@ public class ThirstyServer {
                             Debug.debug("User wants to save a quality report: %s", persist.fromJson(commandIn.getData(), QualityReport.class));
                             break;
                         case SAVE_CREDENTIAL:
-                            Debug.debug("User wants to save a credential: %s", persist.fromJson(commandIn.getData(), Credential.class));
+                            Credential newCredential = persist.fromJson(commandIn.getData(), Credential.class);
+                            Debug.debug("User wants to save a credential: %s", newCredential);
+                            if (newCredential != null) {
+                                persist.saveUserCredential(newCredential);
+                                Debug.debug("Credential saved!");
+                            }
                             break;
                         case DELETE_USER:
                             Debug.debug("User wants to delete a user: %s", persist.fromJson(commandIn.getData(), User.class));
@@ -148,46 +190,9 @@ public class ThirstyServer {
                             break;
                         case DELETE_QUALITY_REPORT:
                             break;
-                            
-                            /*
-                            case LOAD_USER:
-                            try {
-                            User u = fromJson(commandIn.getData(), User.class);
-                            addUser(u.cloneIt());
-                            } catch (JsonSyntaxException e) {
-                            Debug.debug("Failed to cast incoming data to user: %s", e.toString());
-                            }
-                            break;
-                            case LOAD_WATER_REPORT:
-                            try {
-                            WaterReport wr = fromJson(commandIn.getData(), WaterReport.class);
-                            addWaterReport(wr.cloneIt());
-                            Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                            MasterSingleton.updateReportScreen(); //can't do this from a non-FX thread
-                            }
-                            });
-                            } catch (JsonSyntaxException e) {
-                            Debug.debug("Failed to cast incoming data to water report: %s", e.toString());
-                            }
-                            break;
-                            case LOAD_QUALITY_REPORT:
-                            try {
-                            QualityReport qr = fromJson(commandIn.getData(), QualityReport.class);
-                            addQualityReport(qr.cloneIt());
-                            Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                            MasterSingleton.updateReportScreen(); //can't do this from a non-FX thread
-                            }
-                            });
-                            } catch (JsonSyntaxException e) {
-                            Debug.debug("Failed to cast incoming data to quality report: %s", e.toString());
-                            }
-                            break;
-                            */
                     }
+                } catch (IOException e) {
+                    Debug.debug("IOException: %s", e.toString());
                 } catch (InterruptedException e) {
                     Debug.debug("Interrupted: %s", e.toString());
                     break;
@@ -202,14 +207,17 @@ public class ThirstyServer {
         private PrintWriter out;
         private int id;
         private boolean authenticated = false;
+        private boolean creatingUser = false;
+        private String creatingUserName = null;
         private PersistentJsonInterface persist;
+        private Credential userCred;
 
         public Worker(Socket sock, int id, PersistentJsonInterface persist) {
             this.sock = sock;
             this.id = id;
             this.persist = persist;
         }
-
+        
         @Override
         public void run() {
             Debug.debug("Client connected from %s", sock.getRemoteSocketAddress().toString());
@@ -217,20 +225,101 @@ public class ThirstyServer {
                 try {
                     String mess = receiveMessage();
                     Debug.debug("client says: %s", mess);
+                    if (mess == null) {
+                        close();
+                        continue;
+                    }
                     Command command = persist.fromJson(mess, Command.class);
                     if (command.getCommand() == Command.CommandType.UNKNOWN) {
                         Debug.debug("Unknown command type!");
                         continue;
                     }
                     if (!authenticated) {
-                        if (command.getCommand() == Command.CommandType.AUTHENTICATE) {
-                            Debug.debug("User wants to authenticate with credential: %s", persist.fromJson(command.getData(), Credential.class));
-                            //do authentication
-                            authenticated = true;
+                        switch (command.getCommand()) {
+                            case AUTHENTICATE:
+                                if (creatingUser) {
+                                    break;
+                                }
+                                Credential userCred = persist.fromJson(command.getData(), Credential.class);
+                                Debug.debug("User wants to authenticate with credential: %s", userCred);
+                                if (userCred != null) {
+                                    //do authentication
+                                    User authedUser = persist.authenticateUser(userCred);
+                                    String data = null;
+                                    String message = null;
+                                    if (authedUser != null) {
+                                        data = persist.toJson(authedUser);
+                                        authenticated = true;
+                                    } else {
+                                        message = "Invalid username/password!";
+                                        userCred = null;
+                                    }
+                                    this.userCred = userCred;
+                                    sendCommand(new Command(Command.CommandType.AUTHENTICATE, data, getCredential(), true, authenticated, message));
+                                }
+                                break;
+                            case SAVE_USER:
+                                if (creatingUser) {
+                                    break;
+                                }
+                                User newUser = persist.fromJson(command.getData(), User.class);
+                                Debug.debug("User wants to create a new user: %s", newUser);
+                                if (newUser != null) {
+                                    String data = null;
+                                    String message = null;
+                                    String username = null;
+                                    if (persist.userExists(newUser.getUsername())) {
+                                        message = "User already exists!";
+                                        Debug.debug("%s", message);
+                                    } else {
+                                        Debug.debug("Saving user...");
+                                        newUser = persist.saveUser(newUser);
+                                        if (newUser != null) {
+                                            creatingUser = true;
+                                            Debug.debug("notifying command thread of new user: %s", newUser);
+                                            username = newUser.getUsername();
+                                            data = persist.toJson(newUser);
+                                            inputCommands.put(new WorkerCommand(this, new Command(Command.CommandType.SAVE_USER, data, getCredential())));
+                                        } else {
+                                            message = "Error while saving user!";
+                                            Debug.debug("%s", message);
+                                        }
+                                    }
+                                    creatingUserName = username;
+                                    sendCommand(new Command(Command.CommandType.SAVE_USER, data, null, true, creatingUser, message));
+                                }
+                                break;
+                            case SAVE_CREDENTIAL:
+                                if (!creatingUser) {
+                                    break;
+                                }
+                                Credential newCredential = persist.fromJson(command.getData(), Credential.class);
+                                Debug.debug("User wants to create a new credential: %s", newCredential);
+                                if (newCredential != null) {
+                                    String data = null;
+                                    String message = null;
+                                    String username = null;
+                                    if (creatingUserName.equals(newCredential.getUsername())) {
+                                        Debug.debug("notifying command thread of new credential...");
+                                        data = persist.toJson(newCredential);
+                                        inputCommands.put(new WorkerCommand(this, new Command(Command.CommandType.SAVE_CREDENTIAL, data, null)));
+                                    } else {
+                                        Debug.debug("User did not match previous! (\"%s\" != \"%s\")", creatingUserName, newCredential.getUsername());
+                                        message = "Username error!";
+                                    }
+                                    creatingUser = false;
+                                    creatingUserName = null;
+                                    sendCommand(new Command(Command.CommandType.SAVE_CREDENTIAL, data, null, true, data != null, message));
+                                }
+                                break;
                         }
-                    }
-                    if (authenticated) {
-                        inputCommands.put(command);
+                    } else {
+                        if (command.getCommand() == Command.CommandType.DEAUTHENTICATE) {
+                            authenticated = false;
+                            sendCommand(new Command(Command.CommandType.DEAUTHENTICATE, null, null, true, true, null));
+                        } else {
+                            inputCommands.put(new WorkerCommand(this, command));
+                        }
                     }
                 } catch (JsonParseException e) {
                     Debug.debug("Failed to decode json: %s", e.toString());
@@ -238,6 +327,11 @@ public class ThirstyServer {
                     Debug.debug("Worker encountered exception: %s", e.toString());
                 }
             }
+            Debug.debug("Client closed");
+        }
+
+        public Credential getCredential() {
+            return (userCred);
         }
 
         /**
@@ -315,7 +409,12 @@ public class ThirstyServer {
         public void sendMessage(String text) throws IOException {
             sendRaw(text + "\n\n");
         }
-        
+
+        private void sendCommand(Command c) throws IOException {
+            sendMessage(persist.toJson(c));
+        }
+
+
         /**
          * Override of autocloseable interface (lets the try-with-resources automatically close the socket when done)
          * @throws IOException if there was some problem during socket closing

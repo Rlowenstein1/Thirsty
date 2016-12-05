@@ -66,7 +66,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
      * @return list of objects of class c
      */
     private <T> List<T> loadAll(String filename, Class<T> c) {
-        Collection<T> res = new ArrayList<>();
+        List<T> res = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = rd.readLine()) != null) {
@@ -75,7 +75,7 @@ public class PersistentJsonFile extends PersistentJsonInterface {
                     res.add(t);
                 }
             }
-            return (List<T>) res;
+            return res;
         } catch (FileNotFoundException e) {
             Debug.debug("File does not exist: %s", filename);
             try {
@@ -199,11 +199,13 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     @Override
     public User saveUser(User u) {
         writeToFile(writerUsers, toJson(u) + "\n");
+        UserManager.addUser(u);
         return (u);
     }
 
     @Override
     public User authenticateUser(Credential c) {
+        Debug.debug("authenticating with %s: %b ? %s : null", c, authenticator.authenticate(c), UserManager.getUser(c.getUsername()));
         return (authenticator.authenticate(c) ? UserManager.getUser(c.getUsername()) : null);
     }
 
@@ -221,6 +223,11 @@ public class PersistentJsonFile extends PersistentJsonInterface {
     @Override
     public void deauthenticateUser(String username) {
         authenticator.logout(username);
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        return (UserManager.userExists(username) && credentialManager.userExists(username));
     }
 
     @Override

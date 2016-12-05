@@ -59,6 +59,13 @@ public interface PersistenceInterface {
     void saveUserCredential(Credential c) throws IOException;
 
     /**
+     * Checks the persistence layer to see if a user exists, and has a password
+     * @param username The username of the user to check
+     * @return true if the user exists, and has a password
+     */
+    boolean userExists(String username) throws IOException;
+
+    /**
      * Deletes this user from the underlying persistence implementer
      * @param username The username of the user to delete
      */

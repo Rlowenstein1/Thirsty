@@ -35,13 +35,15 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
 
     @Override
     public User authenticateUser(Credential c) throws IOException {
-        Command resp = sendCommandAndAwaitResponse(Command.CommandType.AUTHENTICATE, toJson(credential), null);
+        Command resp = sendCommandAndAwaitResponse(Command.CommandType.AUTHENTICATE, toJson(c), null);
         
         if (!resp.isSuccessful()) {
             Debug.debug("Unsuccessful authentication: %s", resp.getMessage());
             //maybe throw an exception so the message can be displayed to the user?
         } else {
             credential = resp.getCredential();
+            Debug.debug("user authenticated (raw): %s", fromJson(resp.getData(), User.class));
+            Debug.debug("user authenticated (clone): %s", fromJson(resp.getData(), User.class).cloneIt());
         }
         authed = resp.isSuccessful();
         return (resp.isSuccessful() ? fromJson(resp.getData(), User.class).cloneIt() : null);
@@ -71,7 +73,11 @@ public class PersistentJsonNetwork extends PersistentJsonNetworkInterface {
         sendCommandAndAwaitResponse(Command.CommandType.SAVE_CREDENTIAL, toJson(c), credential);
     }
 
-    @Override
+    public boolean userExists(String username) throws IOException {
+        // user manager should already be loaded with users
+        return UserManager.userExists(username);
+    }
+
     public User saveUser(User u) throws IOException {
         Command resp = sendCommandAndAwaitResponse(Command.CommandType.SAVE_USER, toJson(u), credential);
         if (resp.isSuccessful()) {
