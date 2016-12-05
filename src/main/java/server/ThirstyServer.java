@@ -164,7 +164,13 @@ public class ThirstyServer {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_USER, data, w.getCredential(), true, true, null));
                                     Debug.debug("User saved! Now let's let all other clients connected know about this user...");
                                     for (Worker ww : workers) {
-                                        ww.sendCommand(new Command(Command.CommandType.LOAD_USER, data, ww.getCredential()));
+                                        try {
+                                            ww.sendCommand(new Command(Command.CommandType.LOAD_USER, data, ww.getCredential()));
+                                        } catch (IOException e) {
+                                            Debug.debug("Client had an IOEXception: %s", e.toString());
+                                            ww.close();
+                                            workers.remove(ww);
+                                        }
                                     }
                                 } else {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_USER, data, w.getCredential(), true, false, "Failed to save user!"));
@@ -183,7 +189,13 @@ public class ThirstyServer {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_WATER_REPORT, data, w.getCredential(), true, true, null));
                                     Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
                                     for (Worker ww : workers) {
-                                        ww.sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, data, ww.getCredential()));
+                                        try {
+                                            ww.sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, data, ww.getCredential()));
+                                        } catch (IOException e) {
+                                            Debug.debug("Client had an IOEXception: %s", e.toString());
+                                            ww.close();
+                                            workers.remove(ww);
+                                        }
                                     }
                                 } else {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_WATER_REPORT, data, w.getCredential(), true, false, "Failed to save water report!"));
@@ -202,7 +214,13 @@ public class ThirstyServer {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, true, null));
                                     Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
                                     for (Worker ww : workers) {
-                                        ww.sendCommand(new Command(Command.CommandType.LOAD_QUALITY_REPORT, data, ww.getCredential()));
+                                        try {
+                                            ww.sendCommand(new Command(Command.CommandType.LOAD_QUALITY_REPORT, data, ww.getCredential()));
+                                        } catch (IOException e) {
+                                            Debug.debug("Client had an IOEXception: %s", e.toString());
+                                            ww.close();
+                                            workers.remove(ww);
+                                        }
                                     }
                                 } else {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, false, "Failed to save water report!"));
@@ -293,14 +311,16 @@ public class ThirstyServer {
                                     this.userCred = userCred;
                                     sendCommand(new Command(Command.CommandType.AUTHENTICATE, data, getCredential(), true, authenticated, message));
                                     List<WaterReport> reports = ReportManager.getWaterReportList();
-                                    for (WaterReport wr : reports) {
-                                        /*
-                                        WaterReport wrC = wr.cloneIt();
-                                        for (QualityReport qrC : wrC.getQualityReportList()) {
-                                            qrC.setParentReport(null);
+                                    if (authenticated) {
+                                        for (WaterReport wr : reports) {
+                                            /*
+                                            WaterReport wrC = wr.cloneIt();
+                                            for (QualityReport qrC : wrC.getQualityReportList()) {
+                                                qrC.setParentReport(null);
+                                            }
+                                            */
+                                            sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, persist.toJson(wr), getCredential()));
                                         }
-                                        */
-                                        sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, persist.toJson(wr), getCredential()));
                                     }
                                 }
                                 break;
@@ -317,6 +337,7 @@ public class ThirstyServer {
                                     if (persist.userExists(newUser.getUsername())) {
                                         message = "User already exists!";
                                         Debug.debug("%s", message);
+                                        sendCommand(new Command(Command.CommandType.SAVE_USER, data, null, true, creatingUser, message));
                                     } else {
                                         Debug.debug("Saving user...");
                                         newUser = persist.saveUser(newUser);
@@ -329,10 +350,10 @@ public class ThirstyServer {
                                         } else {
                                             message = "Error while saving user!";
                                             Debug.debug("%s", message);
+                                            sendCommand(new Command(Command.CommandType.SAVE_USER, data, null, true, creatingUser, message));
                                         }
                                     }
                                     creatingUserName = username;
-                                    sendCommand(new Command(Command.CommandType.SAVE_USER, data, null, true, creatingUser, message));
                                 }
                                 break;
                             case SAVE_CREDENTIAL:
@@ -352,10 +373,10 @@ public class ThirstyServer {
                                     } else {
                                         Debug.debug("User did not match previous! (\"%s\" != \"%s\")", creatingUserName, newCredential.getUsername());
                                         message = "Username error!";
+                                        sendCommand(new Command(Command.CommandType.SAVE_CREDENTIAL, data, null, true, false, message));
                                     }
                                     creatingUser = false;
                                     creatingUserName = null;
-                                    sendCommand(new Command(Command.CommandType.SAVE_CREDENTIAL, data, null, true, data != null, message));
                                 }
                                 break;
                         }
@@ -369,7 +390,13 @@ public class ThirstyServer {
                     }
                 } catch (JsonParseException e) {
                     Debug.debug("Failed to decode json: %s", e.toString());
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
+                    Debug.debug("Worker encountered exception: %s", e.toString());
+                    try {
+                        close();
+                    } catch (IOException ee) {
+                    }
+                } catch (InterruptedException e) {
                     Debug.debug("Worker encountered exception: %s", e.toString());
                 }
             }

@@ -174,6 +174,13 @@ public class ReportManager {
         }
         waterReports.remove(report);
         waterReports.add(report);
+        int maxQrn = 0;
+        for (QualityReport qr : report.getQualityReportList()) {
+            if (qr.getReportNum() > maxQrn) {
+                maxQrn = qr.getReportNum();
+            }
+        }
+        qualityReportNumberMap.put(report, maxQrn);
     }
 
     /**
