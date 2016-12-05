@@ -15,7 +15,7 @@ public class Thirsty extends Application {
 
 
     //private final PersistenceInterface persist = new PersistentJsonFile(PersistentJsonFile.DEFAULT_PATH);
-    private final PersistenceInterface persist = new PersistentJsonNetwork("localhost", 9988);
+    private final PersistenceInterface persist = new PersistentJsonNetwork("ttt222.org", 9988);
 
     @Override
     public void start(Stage stage) throws Exception {
