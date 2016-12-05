@@ -102,7 +102,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLongitudeProperty() {
-        WaterReport parent = ReportManager.filterWaterReportByNumber(getReportNum());
+        WaterReport parent = ReportManager.filterWaterReportByNumber(getParentReportNum());
         if (parent == null) {
             return (null);
         }
@@ -115,7 +115,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public DoubleProperty getLatitudeProperty() {
-        WaterReport parent = ReportManager.filterWaterReportByNumber(getReportNum());
+        WaterReport parent = ReportManager.filterWaterReportByNumber(getParentReportNum());
         if (parent == null) {
             return (null);
         }
