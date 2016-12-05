@@ -222,6 +222,11 @@ public abstract class PersistentJsonNetworkInterface extends PersistentJsonInter
             while (!sock.isClosed()) {
                 try {
                     String in = receiveMessage();
+                    if (in == null) {
+                        Debug.debug("Server closed the connection!");
+                        close();
+                        continue;
+                    }
                     inputMessages.put(in);
                     Debug.debug("Put into inputMessages: %s", in);
                 } catch (IOException | InterruptedException e) {

@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -163,14 +164,18 @@ public class ThirstyServer {
                                     data = persist.toJson(newUser);
                                     w.sendCommand(new Command(Command.CommandType.SAVE_USER, data, w.getCredential(), true, true, null));
                                     Debug.debug("User saved! Now let's let all other clients connected know about this user...");
+                                    List<Worker> removes = new ArrayList<>();
                                     for (Worker ww : workers) {
                                         try {
                                             ww.sendCommand(new Command(Command.CommandType.LOAD_USER, data, ww.getCredential()));
                                         } catch (IOException e) {
                                             Debug.debug("Client had an IOEXception: %s", e.toString());
                                             ww.close();
-                                            workers.remove(ww);
+                                            removes.add(ww);
                                         }
+                                    }
+                                    for (Worker ww : removes) {
+                                        workers.remove(ww);
                                     }
                                 } else {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_USER, data, w.getCredential(), true, false, "Failed to save user!"));
@@ -188,14 +193,18 @@ public class ThirstyServer {
                                     data = persist.toJson(newReport);
                                     w.sendCommand(new Command(Command.CommandType.SAVE_WATER_REPORT, data, w.getCredential(), true, true, null));
                                     Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
+                                    List<Worker> removes = new ArrayList<>();
                                     for (Worker ww : workers) {
                                         try {
                                             ww.sendCommand(new Command(Command.CommandType.LOAD_WATER_REPORT, data, ww.getCredential()));
                                         } catch (IOException e) {
                                             Debug.debug("Client had an IOEXception: %s", e.toString());
                                             ww.close();
-                                            workers.remove(ww);
+                                            removes.add(ww);
                                         }
+                                    }
+                                    for (Worker ww : removes) {
+                                        workers.remove(ww);
                                     }
                                 } else {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_WATER_REPORT, data, w.getCredential(), true, false, "Failed to save water report!"));
@@ -213,14 +222,18 @@ public class ThirstyServer {
                                     data = persist.toJson(newQualityReport);
                                     w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, true, null));
                                     Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
+                                    List<Worker> removes = new ArrayList<>();
                                     for (Worker ww : workers) {
                                         try {
                                             ww.sendCommand(new Command(Command.CommandType.LOAD_QUALITY_REPORT, data, ww.getCredential()));
                                         } catch (IOException e) {
                                             Debug.debug("Client had an IOEXception: %s", e.toString());
                                             ww.close();
-                                            workers.remove(ww);
+                                            removes.add(ww);
                                         }
+                                    }
+                                    for (Worker ww : removes) {
+                                        workers.remove(ww);
                                     }
                                 } else {
                                     w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, false, "Failed to save water report!"));
