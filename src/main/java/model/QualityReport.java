@@ -128,11 +128,7 @@ public final class QualityReport extends DisplayableReport implements Comparable
      */
     @Override
     public StringProperty getAuthorUsernameProperty() {
-        WaterReport parent = ReportManager.filterWaterReportByNumber(getReportNum());
-        if (parent == null) {
-            return (null);
-        }
-        return parent.getAuthorUsernameProperty();
+        return (authorProperty);
     }
 
 
