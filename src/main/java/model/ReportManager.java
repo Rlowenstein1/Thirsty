@@ -156,7 +156,7 @@ public class ReportManager {
         if (qualityReportNumberMap.containsKey(parent)) {
             Integer qualityReportNum = qualityReportNumberMap.get(parent) + 1;
             if (report.getReportNum() > qualityReportNum) {
-                qualityReportNumberMap.put(parent, qualityReportNum);
+                qualityReportNumberMap.put(parent, report.getReportNum());
             }
         } else {
             qualityReportNumberMap.put(parent, 1);

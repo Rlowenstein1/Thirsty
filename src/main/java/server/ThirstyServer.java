@@ -149,6 +149,7 @@ public class ThirstyServer {
                 try {
                     Debug.debug("Taking from inputCommands...");
                     WorkerCommand commandW = inputCommands.take();
+                    Worker w = commandW.getWorker();
                     Command commandIn = commandW.getCommand();
                     Debug.debug("Got a command from inputCommands: %s", commandIn);
                     //got a message from a client. push the message out to all other clients
@@ -158,7 +159,6 @@ public class ThirstyServer {
                             Debug.debug("User wants to save a user: %s", newUser);
                             if (newUser != null) {
                                 newUser = persist.saveUser(newUser);
-                                Worker w = commandW.getWorker();
                                 String data = null;
                                 if (newUser != null) {
                                     data = persist.toJson(newUser);
@@ -187,7 +187,6 @@ public class ThirstyServer {
                             Debug.debug("User wants to save a water report: %s", newReport);
                             if (newReport != null) {
                                 newReport = persist.saveWaterReport(newReport);
-                                Worker w = commandW.getWorker();
                                 String data = null;
                                 if (newReport != null) {
                                     data = persist.toJson(newReport);
@@ -216,12 +215,11 @@ public class ThirstyServer {
                             Debug.debug("User wants to save a quality report: %s", newQualityReport);
                             if (newQualityReport != null) {
                                 newQualityReport = persist.saveQualityReport(newQualityReport);
-                                Worker w = commandW.getWorker();
                                 String data = null;
                                 if (newQualityReport != null) {
                                     data = persist.toJson(newQualityReport);
                                     w.sendCommand(new Command(Command.CommandType.SAVE_QUALITY_REPORT, data, w.getCredential(), true, true, null));
-                                    Debug.debug("Report saved! Now let's let all other clients connected know about this user...");
+                                    Debug.debug("Report saved! Now let's let all other clients connected know about this new quality report...");
                                     List<Worker> removes = new ArrayList<>();
                                     for (Worker ww : workers) {
                                         try {
@@ -246,7 +244,6 @@ public class ThirstyServer {
                             if (newCredential != null) {
                                 persist.saveUserCredential(newCredential);
                                 Debug.debug("Credential saved!");
-                                Worker w = commandW.getWorker();
                                 w.sendCommand(new Command(Command.CommandType.SAVE_CREDENTIAL, null, w.getCredential(), true, true, null));
                             }
                             break;
@@ -257,6 +254,25 @@ public class ThirstyServer {
                             break;
                         case DELETE_QUALITY_REPORT:
                             break;
+                        case AUTHENTICATE:
+                            Credential userCred = persist.fromJson(commandIn.getData(), Credential.class);
+                            Debug.debug("User wants to authenticate with credential: %s", userCred);
+                            if (userCred != null) {
+                                //do authentication
+                                User authedUser = persist.authenticateUser(userCred);
+                                String data = null;
+                                String message = null;
+                                if (authedUser != null) {
+                                    data = persist.toJson(authedUser);
+                                    w.setCredential(userCred);
+                                } else {
+                                    message = "Invalid username/password!";
+                                    userCred = null;
+                                }
+                                w.sendCommand(new Command(Command.CommandType.AUTHENTICATE, data, w.getCredential(), true, authedUser != null, message));
+                            }
+                            break;
+
                     }
                 } catch (IOException e) {
                     Debug.debug("IOException: %s", e.toString());
@@ -418,6 +434,10 @@ public class ThirstyServer {
 
         public Credential getCredential() {
             return (userCred);
+        }
+
+        public void setCredential(Credential c) {
+            this.userCred = c;
         }
 
         /**
